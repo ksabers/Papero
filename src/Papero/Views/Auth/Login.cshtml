@@ -1,0 +1,42 @@
+﻿@model Papero.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+@section validazione {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@localizzatore["Credenziali"]</h3>
+            </div>
+            <div class="panel-body">
+                <form role="form" method="post" novalidate>
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    }
+               
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control" asp-for="Username" placeholder="@localizzatore["Utente"]" name="Username" autofocus>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" asp-for="Password" placeholder="@localizzatore["Password"]" name="Password" type="password" value="">
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="Persistente" type="checkbox" value="Persistente">@localizzatore["Persistente"]
+                            </label>
+                        </div>
+                        <input type="submit" value="@localizzatore["Login"]" class="btn btn-success" />
+                    </fieldset>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
