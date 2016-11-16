@@ -407,13 +407,14 @@ namespace Papero.Models
 
             modelBuilder.Entity<Famiglie>(entity =>
             {
-                entity.HasIndex(e => e.Famiglia)
+                entity.HasIndex(e => e.Nome)
                     .HasName("Famiglie$Famiglia")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Famiglia)
+                entity.Property(e => e.Nome).HasColumnName("Famiglia");
+                entity.Property(e => e.Nome)
                     .IsRequired()
                     .HasMaxLength(255);
 
@@ -423,7 +424,7 @@ namespace Papero.Models
 
             modelBuilder.Entity<Generi>(entity =>
             {
-                entity.HasIndex(e => e.Genere)
+                entity.HasIndex(e => e.Nome)
                     .HasName("Generi$Genere")
                     .IsUnique();
 
@@ -432,14 +433,15 @@ namespace Papero.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Genere)
+                entity.Property(e => e.Nome)
                     .IsRequired()
-                    .HasMaxLength(255);
+                    .HasMaxLength(255)
+                    .HasColumnName("Genere");
 
                 entity.Property(e => e.TribuId).HasColumnName("TribuID");
 
                 entity.HasOne(d => d.Tribu)
-                    .WithMany(p => p.Generi)
+                    .WithMany(p => p.Figli)
                     .HasForeignKey(d => d.TribuId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("Generi$TribuGeneri");
@@ -724,10 +726,10 @@ namespace Papero.Models
                 entity.HasIndex(e => e.FamigliaId)
                     .HasName("Sottofamiglie$FamiglieSottofamiglie");
 
-                entity.HasIndex(e => e.Sottofamiglia)
+                entity.HasIndex(e => e.Nome)
                     .HasName("Sottofamiglie$Sottofamiglia");
 
-                entity.HasIndex(e => new { e.FamigliaId, e.Sottofamiglia })
+                entity.HasIndex(e => new { e.FamigliaId, e.Nome })
                     .HasName("Sottofamiglie$UFamigliaSottofamiglia")
                     .IsUnique();
 
@@ -735,12 +737,13 @@ namespace Papero.Models
 
                 entity.Property(e => e.FamigliaId).HasColumnName("FamigliaID");
 
-                entity.Property(e => e.Sottofamiglia)
+                entity.Property(e => e.Nome)
                     .IsRequired()
-                    .HasMaxLength(255);
+                    .HasMaxLength(255)
+                    .HasColumnName("Sottofamiglia"); ;
 
                 entity.HasOne(d => d.Famiglia)
-                    .WithMany(p => p.Sottofamiglie)
+                    .WithMany(p => p.Figli)
                     .HasForeignKey(d => d.FamigliaId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("Sottofamiglie$FamiglieSottofamiglie");
@@ -748,7 +751,10 @@ namespace Papero.Models
 
             modelBuilder.Entity<Sottospecie>(entity =>
             {
-                entity.HasIndex(e => e.Sottospecie1)
+                entity.Property(e => e.Nome)
+                    .HasColumnName("Sottospecie");
+
+                entity.HasIndex(e => e.Nome)
                     .HasName("Sottospecie$Sottospecie");
 
                 entity.HasIndex(e => e.SpecieId)
@@ -757,7 +763,7 @@ namespace Papero.Models
                 entity.HasIndex(e => e.StatoConservazioneId)
                     .HasName("Sottospecie$StatiConservazioneSottospecie");
 
-                entity.HasIndex(e => new { e.SpecieId, e.Sottospecie1 })
+                entity.HasIndex(e => new { e.SpecieId, e.Nome })
                     .HasName("Sottospecie$USpecieSottospecie")
                     .IsUnique();
 
@@ -773,7 +779,7 @@ namespace Papero.Models
 
                 entity.Property(e => e.NomeItaliano).HasMaxLength(255);
 
-                entity.Property(e => e.Sottospecie1)
+                entity.Property(e => e.Nome)
                     .IsRequired()
                     .HasColumnName("Sottospecie")
                     .HasMaxLength(255);
@@ -784,7 +790,7 @@ namespace Papero.Models
                 entity.Property(e => e.StatoConservazioneId).HasColumnName("StatoConservazioneID");
 
                 entity.HasOne(d => d.Specie)
-                    .WithMany(p => p.Sottospecie)
+                    .WithMany(p => p.Figli)
                     .HasForeignKey(d => d.SpecieId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("Sottospecie$SpecieSottospecie");
@@ -800,10 +806,10 @@ namespace Papero.Models
                 entity.HasIndex(e => e.GenereId)
                     .HasName("Specie$GeneriSpecie");
 
-                entity.HasIndex(e => e.NomeSpecie)
+                entity.HasIndex(e => e.Nome)
                     .HasName("Specie$Specie");
 
-                entity.HasIndex(e => new { e.GenereId, e.NomeSpecie })
+                entity.HasIndex(e => new { e.GenereId, e.Nome })
                     .HasName("Specie$UGenereSpecie")
                     .IsUnique();
 
@@ -811,12 +817,13 @@ namespace Papero.Models
 
                 entity.Property(e => e.GenereId).HasColumnName("GenereID");
 
-                entity.Property(e => e.NomeSpecie)
+                entity.Property(e => e.Nome)
                     .IsRequired()
-                    .HasMaxLength(255);
+                    .HasMaxLength(255)
+                    .HasColumnName("NomeSpecie");
 
                 entity.HasOne(d => d.Genere)
-                    .WithMany(p => p.Specie)
+                    .WithMany(p => p.Figli)
                     .HasForeignKey(d => d.GenereId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("Specie$GeneriSpecie");
@@ -884,26 +891,27 @@ namespace Papero.Models
 
             modelBuilder.Entity<Tribu>(entity =>
             {
-                entity.HasIndex(e => e.NomeTribu)
+                entity.HasIndex(e => e.Nome)
                     .HasName("Tribu$Tribu");
 
                 entity.HasIndex(e => e.SottofamigliaId)
                     .HasName("Tribu$SottofamiglieTribu");
 
-                entity.HasIndex(e => new { e.SottofamigliaId, e.NomeTribu })
+                entity.HasIndex(e => new { e.SottofamigliaId, e.Nome })
                     .HasName("Tribu$USottofamigliaTribu")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.NomeTribu)
+                entity.Property(e => e.Nome)
                     .IsRequired()
-                    .HasMaxLength(255);
+                    .HasMaxLength(255)
+                    .HasColumnName("NomeTribu");
 
                 entity.Property(e => e.SottofamigliaId).HasColumnName("SottofamigliaID");
 
                 entity.HasOne(d => d.Sottofamiglia)
-                    .WithMany(p => p.Tribu)
+                    .WithMany(p => p.Figli)
                     .HasForeignKey(d => d.SottofamigliaId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("Tribu$SottofamiglieTribu");

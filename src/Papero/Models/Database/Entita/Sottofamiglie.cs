@@ -7,14 +7,14 @@ namespace Papero.Models
     {
         public Sottofamiglie()
         {
-            Tribu = new HashSet<Tribu>();
+            Figli = new HashSet<Tribu>();
         }
 
         public int Id { get; set; }
         public int FamigliaId { get; set; }
-        public string Sottofamiglia { get; set; }
+        public string Nome { get; set; }
 
-        public virtual ICollection<Tribu> Tribu { get; set; }
+        public virtual ICollection<Tribu> Figli { get; set; }
         public virtual Famiglie Famiglia { get; set; }
     }
 }

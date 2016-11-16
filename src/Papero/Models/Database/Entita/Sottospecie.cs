@@ -13,7 +13,7 @@ namespace Papero.Models
 
         public int Id { get; set; }
         public int SpecieId { get; set; }
-        public string Sottospecie1 { get; set; }
+        public string Nome { get; set; }
         public string AnnoClassificazione { get; set; }
         public bool? ClassificazioneOriginale { get; set; }
         public string NomeItaliano { get; set; }

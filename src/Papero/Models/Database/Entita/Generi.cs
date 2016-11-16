@@ -7,14 +7,14 @@ namespace Papero.Models
     {
         public Generi()
         {
-            Specie = new HashSet<Specie>();
+            Figli = new HashSet<Specie>();
         }
 
         public int Id { get; set; }
         public int TribuId { get; set; }
-        public string Genere { get; set; }
+        public string Nome { get; set; }
 
-        public virtual ICollection<Specie> Specie { get; set; }
+        public virtual ICollection<Specie> Figli { get; set; }
         public virtual Tribu Tribu { get; set; }
     }
 }

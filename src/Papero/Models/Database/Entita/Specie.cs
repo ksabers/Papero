@@ -7,14 +7,14 @@ namespace Papero.Models
     {
         public Specie()
         {
-            Sottospecie = new HashSet<Sottospecie>();
+            Figli = new HashSet<Sottospecie>();
         }
 
         public int Id { get; set; }
         public int GenereId { get; set; }
-        public string NomeSpecie { get; set; }
+        public string Nome { get; set; }
 
-        public virtual ICollection<Sottospecie> Sottospecie { get; set; }
+        public virtual ICollection<Sottospecie> Figli { get; set; }
         public virtual Generi Genere { get; set; }
     }
 }

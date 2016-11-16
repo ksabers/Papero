@@ -7,13 +7,13 @@ namespace Papero.Models
     {
         public Famiglie()
         {
-            Sottofamiglie = new HashSet<Sottofamiglie>();
+            Figli = new HashSet<Sottofamiglie>();
         }
 
         public int Id { get; set; }
-        public string Famiglia { get; set; }
+        public string Nome { get; set; }
         public bool? Passeriforme { get; set; }
 
-        public virtual ICollection<Sottofamiglie> Sottofamiglie { get; set; }
+        public virtual ICollection<Sottofamiglie> Figli { get; set; }
     }
 }

@@ -25,11 +25,11 @@ namespace Papero.Models
         {
             _log.LogInformation("Chiamata di _contesto.Famiglie.OrderBy(f  => f.Famiglia).ToList()");
             return _contesto.Famiglie
-                .Include(famiglia => famiglia.Sottofamiglie)
-                .ThenInclude(sottofamiglia => sottofamiglia.Tribu)
-                .ThenInclude(tribu => tribu.Generi)
-                .ThenInclude(genere => genere.Specie)
-                .ThenInclude(specie => specie.Sottospecie)
+                .Include(famiglia => famiglia.Figli)
+                .ThenInclude(sottofamiglia => sottofamiglia.Figli)
+                .ThenInclude(tribu => tribu.Figli)
+                .ThenInclude(genere => genere.Figli)
+                .ThenInclude(specie => specie.Figli)
                 .ToList();
         }
     }

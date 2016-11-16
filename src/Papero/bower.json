@@ -4,7 +4,6 @@
   "dependencies": {
     "underscore": "~1.8.3",
     "jquery": "2.2.3",
-    "brd-sb-admin-2": "3.3.7+1",
     "jquery-validation": "1.15.0",
     "jquery-validation-unobtrusive": "~3.2.6",
     "angular": "1.5.5",
