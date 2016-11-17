@@ -9,12 +9,12 @@
 
         $http.get("/api/esemplari")
             .then(function (response) {
-                $scope.esemplari = response.data;
+                //$scope.esemplari = response.data;
 
 
-                //$scope.esemplari = [
-                //      { "id": 1, "sottospecieId": 1791, "msng": 58364 }
-                //];
+                $scope.esemplari = [
+                      { "id": 1, "sottospecieId": 1791, "msng": 58364 }
+                ];
 
 
 

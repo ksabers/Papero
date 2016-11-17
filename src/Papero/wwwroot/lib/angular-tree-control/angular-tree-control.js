@@ -64,7 +64,7 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
 
     function ensureAllDefaultOptions($scope) {
         ensureDefault($scope.options, "multiSelection", false);
-        ensureDefault($scope.options, "nodeChildren", "children");
+        ensureDefault($scope.options, "nodeChildren", "figli");
         ensureDefault($scope.options, "dirSelectable", "true");
         ensureDefault($scope.options, "injectClasses", {});
         ensureDefault($scope.options.injectClasses, "ul", "");
