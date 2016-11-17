@@ -1,20 +1,17 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
     <title>Papero - @ViewBag.Title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" rel="stylesheet" >
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="~/lib/coreui/css/simple-line-icons.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/black/pace-theme-flash.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet" />
     <link href="~/lib/coreui/css/style.css" rel="stylesheet" />
 
     @RenderSection("css", false)
-
 
 </head>
 
@@ -22,68 +19,88 @@
 
     <header class="navbar">
         <div class="container-fluid">
-            <button class="navbar-toggler mobile-toggler hidden-lg-up" type="button">☰</button>
-            <div class="navbar-brand text-primary"><a class="nav-link navbar-toggler layout-toggler" href="#">☰</a>&nbsp;&nbsp;&nbsp;Papero&nbsp;&nbsp;&nbsp;</div>
+            <div class="navbar-brand text-primary">
+                <a class="nav-link navbar-toggler layout-toggler" href="#">☰</a>&nbsp;&nbsp;&nbsp;Papero&nbsp;&nbsp;&nbsp;
+            </div>
+            <ul class="nav navbar-nav pull-right hidden-md-down">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="hidden-md-down"><i class="fa fa-language fa-lg"></i> @localizzatore["Lingua"]</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item"
+                           asp-controller="Papero"
+                           asp-action="ImpostaLingua"
+                           asp-route-lingua="it"
+                           asp-route-indirizzoRitorno="@Context.Request.Path">
+                            <img src="~/img/flags/Italy.png" style="width: 20px;" /> @localizzatore["Italiano"]
+                        </a>
+                        <a class="dropdown-item"
+                           asp-controller="Papero"
+                           asp-action="ImpostaLingua"
+                           asp-route-lingua="en-US"
+                           asp-route-indirizzoRitorno="@Context.Request.Path">
+                            <img src="~/img/flags/United-Kingdom.png" style="width: 20px;" /> @localizzatore["Inglese"]
+                        </a>
+                    </div>
+                </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="hidden-md-down"><i class="fa fa-user fa-lg"></i> @User.Identity.Name</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class="fa fa-user fa-fw"></i> @localizzatore["Profilo Utente"]</a>
+                            <a class="dropdown-item" href="#"><i class="fa fa-gear fa-fw"></i> @localizzatore["Impostazioni"]</a>
+                            <a class="dropdown-item" asp-controller="Auth" asp-action="Logout"><i class="fa fa-sign-out fa-fw"></i> @localizzatore["Logout"]</a>
+                        </div>
+                    </li>
+                }
+            </ul>
         </div>
-
     </header>
 
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-sitemap fa-fw"></i> @localizzatore["Tassonomia"]</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-tags fa-fw"></i> @localizzatore["Esemplari"]</a>
+                </li>
+                <li class="nav-item nav-dropdown active">
+                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-vcard-o fa-fw"></i>@localizzatore["Anagrafiche"]<i class="fa arrow"></i></a>
+                    <ul class="nav-dropdown-items">
+                        <li><a class="nav-link text-right" href="#">Uno</a></li>
+                        <li><a class="nav-link text-right" href="#">Due</a></li>
+                        <li><a class="nav-link text-right" href="#">Tre</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
+    <footer class="footer">
+        <div class="text-center">&copy; 2016 @localizzatore["Museo di Storia Naturale 'Giacomo Doria' - Genova"]</div>
+    </footer>
 
+    <main class="main">
+        <div class="container-fluid">
 
-        <div class="sidebar">
-            <nav class="sidebar-nav">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-sitemap fa-fw"></i> @localizzatore["Tassonomia"]</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-tags fa-fw"></i> @localizzatore["Esemplari"]</a>
-                    </li>
-                    <li class="nav-item nav-dropdown active">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-vcard-o fa-fw"></i>@localizzatore["Anagrafiche"]<i class="fa arrow"></i></a>
-                        <ul class="nav-dropdown-items">
-                            <li><a class="nav-link text-right" href="#">Uno</a></li>
-                            <li><a class="nav-link text-right" href="#">Due</a></li>
-                            <li><a class="nav-link text-right" href="#">Tre</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
+            @RenderBody()
+
         </div>
+    </main>
 
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <script src="~/lib/coreui/js/app.js"></script>
 
+    @RenderSection("scripts", false)
 
-        <footer class="footer">
-            <div class="text-center">&copy; 2016 @localizzatore["Museo di Storia Naturale 'Giacomo Doria' - Genova"]</div>
-        </footer>
-
-
-
-        <!-- Main content -->
-        <main class="main">
-
-
-            <div class="container-fluid">
-
-
-                @RenderBody()
-
-            </div>
-
-        </main>
-
-
-
-
-
-
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <script src="~/lib/pace/pace.min.js"></script>
-        <script src="~/lib/coreui/js/app.js"></script>
-
-        @RenderSection("scripts", false)
 </body>
 
 </html>

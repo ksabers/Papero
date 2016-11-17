@@ -138,6 +138,9 @@
   <data name="Italiano" xml:space="preserve">
     <value>Italian</value>
   </data>
+  <data name="Lingua" xml:space="preserve">
+    <value>Language</value>
+  </data>
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
