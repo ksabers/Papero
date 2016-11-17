@@ -21,9 +21,17 @@ namespace Papero.Models
             _log = log;
         }
 
+        public IEnumerable<Esemplari> LeggiEsemplari()
+        {
+            _log.LogInformation("Chiamata di _contesto.Esemplari.ToList()");
+
+            return _contesto.Esemplari.ToList();
+        }
+
         public IEnumerable<Famiglie> LeggiFamiglie()
         {
-            _log.LogInformation("Chiamata di _contesto.Famiglie.OrderBy(f  => f.Famiglia).ToList()");
+            _log.LogInformation("Chiamata di _contesto.Famiglie.ToList() con Include e ThenInclude");
+
             return _contesto.Famiglie
                 .Include(famiglia => famiglia.Figli)
                 .ThenInclude(sottofamiglia => sottofamiglia.Figli)
