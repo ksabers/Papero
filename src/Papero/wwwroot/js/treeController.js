@@ -6,17 +6,23 @@
     angular.module("app-tree")
 	   .controller("treeController", treeController);
 
-    function treeController($scope, $http) {
+    function treeController($http) {
 
+        var vm = this;
+
+
+        vm.nodoSelezionato = function prova(node) {
+            alert(node.id);
+        }
 
         $http.get("/api/esemplari")
              .then(function (response) {
-                 $scope.esemplari = response.data;
+                 //$scope.esemplari = response.data;
 
 
-                 //$scope.esemplari = [
-                 //      { "id": 1, "sottospecieId": 1791, "msng": 58364 }
-                 //];
+                 vm.esemplari = [
+                       { "id": 1, "sottospecieId": 1791, "msng": 58364 }
+                 ];
 
 
 
@@ -26,7 +32,7 @@
         $http.get("/api/famiglie")
         .then(function (response) {
 
-            $scope.treeOptions = {
+            vm.treeOptions = {
                 dirSelectable: true,
                 injectClasses: {
                     ul: "a1",
@@ -40,7 +46,7 @@
                 }
             };
 
-            $scope.dataForTheTree = response.data;
+            vm.tassonomia = response.data;
 
         });
 

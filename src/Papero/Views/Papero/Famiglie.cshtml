@@ -39,20 +39,19 @@
 }
 
 
-<div class="row" ng-app="app-tree" ng-controller="treeController">
+<div class="row" ng-app="app-tree" ng-controller="treeController as vm">
     <div class="col-lg-3">
 
         <div class="panel panel-default" >
             <div class="panel-heading">Albero tassonomico</div>
             <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
 
-                <div treecontrol class="tree-boot"
-                     ng-cloak
-                     tree-model="dataForTheTree"
-                     on-selection="showSelected(node)"
-                     selected-node="node1">
+                <treecontrol class="tree-boot"
+                             ng-cloak
+                             tree-model="vm.tassonomia"
+                             on-selection="vm.nodoSelezionato(node)">
                     {{node.nome}}
-                </div>
+                </treecontrol>
 
             </div>
         </div>
