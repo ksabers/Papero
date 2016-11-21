@@ -18,6 +18,8 @@
             asp-fallback-test="window.angular"></script>
 
     <script src="~/lib/angular-tree-control/angular-tree-control.js"></script>
+    
+    <script src="~/js/app-tree.js"></script>
     <script src="~/js/treeController.js"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
@@ -44,10 +46,9 @@
             <div class="panel-heading">Albero tassonomico</div>
             <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
 
-                <div treecontrol class="tree-classic"
+                <div treecontrol class="tree-boot"
                      ng-cloak
                      tree-model="dataForTheTree"
-                     options="treeOptions"
                      on-selection="showSelected(node)"
                      selected-node="node1">
                     {{node.nome}}

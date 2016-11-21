@@ -1,31 +1,32 @@
-﻿//treeController.js
+﻿//treeController.js nuova versione
 
 (function () {
     "use strict";
 
-    var app = angular.module('app-tree', ['treeControl', 'datatables']);
+    angular.module("app-tree")
+	   .controller("treeController", treeController);
 
-    app.controller('treeController', function ($scope, $http) {
+    function treeController($scope, $http) {
+
 
         $http.get("/api/esemplari")
-            .then(function (response) {
-                //$scope.esemplari = response.data;
+             .then(function (response) {
+                 $scope.esemplari = response.data;
 
 
-                $scope.esemplari = [
-                      { "id": 1, "sottospecieId": 1791, "msng": 58364 }
-                ];
+                 //$scope.esemplari = [
+                 //      { "id": 1, "sottospecieId": 1791, "msng": 58364 }
+                 //];
 
 
 
 
-            });
+             });
 
         $http.get("/api/famiglie")
         .then(function (response) {
 
             $scope.treeOptions = {
-                nodeChildren: "figli",
                 dirSelectable: true,
                 injectClasses: {
                     ul: "a1",
@@ -38,9 +39,15 @@
                     labelSelected: "a8"
                 }
             };
-            
-             $scope.dataForTheTree = response.data;
+
+            $scope.dataForTheTree = response.data;
 
         });
-    });
+
+
+    }
+
+
+
+
 })();
