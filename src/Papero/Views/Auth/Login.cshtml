@@ -24,17 +24,25 @@
 
                     <fieldset>
                         <div class="form-group">
-                            <input class="form-control" asp-for="Username" placeholder="@localizzatore["Utente"]" name="Username" autofocus required>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input class="form-control" asp-for="Username" placeholder="@localizzatore["Utente"]" name="Username" autofocus required>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" asp-for="Password" placeholder="@localizzatore["Password"]" name="Password" type="password" value="" required>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                <input class="form-control" asp-for="Password" placeholder="@localizzatore["Password"]" name="Password" type="password" value="" required>
+                            </div>
                         </div>
-                        <div class="checkbox">
-                            <label>
-                                <input name="Persistente" asp-for="Persistente" type="checkbox">@localizzatore["Persistente"]
-                            </label>
+                        <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="Persistente" asp-for="Persistente" type="checkbox">@localizzatore["Persistente"]
+                                    </label>
+                                </div>
                         </div>
-                        <input id="btnSubmit" type="submit" value="@localizzatore["Login"]" class="btn btn-success"  />
+                                <input id="btnSubmit" type="submit" value="@localizzatore["Login"]" class="btn btn-success" />
                     </fieldset>
                 </form>
 
