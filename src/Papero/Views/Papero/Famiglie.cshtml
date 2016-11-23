@@ -49,6 +49,7 @@
                 <treecontrol class="tree-boot"
                              ng-cloak
                              tree-model="vm.tassonomia"
+                             options="vm.treeOptions"
                              on-selection="vm.nodoSelezionato(node)">
                     {{node.nome}}
                 </treecontrol>
@@ -59,10 +60,9 @@
 
 
     <div class="col-lg-9">
-
         <div class="panel panel-default">
             <div class="panel-heading">Esemplari</div>
-            <div class="panel-body">
+            <div class="panel-body" >
 
                 <table datatable="ng" class="table table-striped table-bordered table-hover" id="tabellaEsemplari">
                     <thead>
@@ -73,7 +73,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="esemplare in ::esemplari">
+                        <tr ng-repeat="esemplare in vm.esemplariSelezionati">
                             <td>{{esemplare.id}}</td>
                             <td>{{esemplare.sottospecieId}}</td>
                             <td>{{esemplare.msng}}</td>
@@ -84,3 +84,4 @@
             </div>
         </div>
     </div>
+</div>
