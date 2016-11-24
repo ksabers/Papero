@@ -1,4 +1,4 @@
-﻿//treeController.js funzionante
+﻿//treeController.js 
 
 (function () {
     "use strict";
@@ -6,17 +6,18 @@
     angular.module("app-tree")
 	   .controller("treeController", treeController);
 
-    function treeController($http) {
+    function treeController($http, DTOptionsBuilder) {
 
         var sottospecieSelezionate = [];  // Array delle foglie selezionate all'interno dell'albero
-        var elencoEsemplari = [];  // Elenco completo non filtrato degli esemplari 
+        var elencoEsemplari = [];         // Elenco completo non filtrato degli esemplari 
 
         var vm = this;
-        vm.testo1 = "";
-        vm.testo2 = "";
 
-        vm.tassonomia = [];  // Albero tassonomico
-        vm.esemplariSelezionati = [];  // Contenuto della tabella 
+        vm.tassonomia = [];            // Albero tassonomico
+        vm.esemplariSelezionati = [];  // Contenuto della tabella
+        vm.dtOptions = DTOptionsBuilder.newOptions()
+            .withLanguageSource(stringaLinguaggioDatatables);
+            
         vm.treeOptions = {
             allowDeselect: false,
             dirSelectable: true,
@@ -36,7 +37,6 @@
         vm.nodoSelezionato = function selezionaEsemplari(nodo) {
             var elencoFigli = [];
             function trovaFigli(nodo) {
-
                 if (!!nodo.figli) {
                     for (var figlio in nodo.figli) {
                         trovaFigli(nodo.figli[figlio]);
@@ -54,17 +54,10 @@
                 elencoFigli = trovaFigli(nodo);
             };
 
-            //alert(sottospecieSelezionate);
-
             sottospecieSelezionate = elencoFigli;
 
-            vm.testo1 = sottospecieSelezionate;
 
             vm.esemplariSelezionati = _.filter(elencoEsemplari, function (esemplare) { return sottospecieSelezionate.includes(esemplare.sottospecieId) });
-
-            //vm.testo2 = vm.esemplariSelezionati;
-
-            //vm.esemplariSelezionati = [{ "id": 1, "sottospecieId": 1791, "msng": 58364 }];
 
         }
 
@@ -73,22 +66,10 @@
                  elencoEsemplari = response.data;
              });
 
-
         $http.get("/api/famiglie")
             .then(function (response) {
-
                 vm.tassonomia = response.data;
             });
-
-
-
-
-
-
-
     }
-
-
-
 
 })();

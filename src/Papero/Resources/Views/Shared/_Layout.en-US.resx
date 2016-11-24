@@ -141,6 +141,9 @@
   <data name="Lingua" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="linguaggioDatatables" xml:space="preserve">
+    <value>//cdn.datatables.net/plug-ins/1.10.12/i18n/English.json</value>
+  </data>
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
