@@ -12,6 +12,9 @@
         var elencoEsemplari = [];  // Elenco completo non filtrato degli esemplari 
 
         var vm = this;
+        vm.testo1 = "";
+        vm.testo2 = "";
+
         vm.tassonomia = [];  // Albero tassonomico
         vm.esemplariSelezionati = [];  // Contenuto della tabella 
         vm.treeOptions = {
@@ -46,7 +49,7 @@
             }
 
             if (!!nodo.specieId) {
-                elencoFigli = nodo.id;
+                elencoFigli = $(nodo.id).toArray();
             } else {
                 elencoFigli = trovaFigli(nodo);
             };
@@ -55,7 +58,11 @@
 
             sottospecieSelezionate = elencoFigli;
 
-            vm.esemplariSelezionati = _.filter(elencoEsemplari, function (esemplare) { return esemplare.sottospecieId in sottospecieSelezionate; });
+            vm.testo1 = sottospecieSelezionate;
+
+            vm.esemplariSelezionati = _.filter(elencoEsemplari, function (esemplare) { return sottospecieSelezionate.includes(esemplare.sottospecieId) });
+
+            //vm.testo2 = vm.esemplariSelezionati;
 
             //vm.esemplariSelezionati = [{ "id": 1, "sottospecieId": 1791, "msng": 58364 }];
 
