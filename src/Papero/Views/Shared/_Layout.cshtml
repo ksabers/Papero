@@ -31,11 +31,21 @@
     <header class="navbar">
         <div class="container-fluid">
             <div class="navbar-brand text-primary">
-                <a class="nav-link navbar-toggler layout-toggler" href="#">☰</a>&nbsp;&nbsp;&nbsp;Papero&nbsp;&nbsp;&nbsp;
+                <a class="nav-link navbar-toggler layout-toggler" href="#">
+                    <span data-toggle="tooltip"
+                          data-placement="right"
+                          title="@localizzatore["Mostra/Nascondi Menu"]">☰</span>
+                </a><span>&nbsp;&nbsp;Papero&nbsp;&nbsp;<img src="~/img/papero_logo_piccolo.png" /></span>
             </div>
+
             <ul class="nav navbar-nav pull-right hidden-md-down">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle nav-link" 
+                       data-toggle="dropdown" 
+                       href="#" 
+                       role="button" 
+                       aria-haspopup="true" 
+                       aria-expanded="false">
                         <span class="hidden-md-down"><i class="fa fa-language fa-lg"></i> @localizzatore["Lingua"]</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -58,16 +68,33 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle nav-link" 
+                           data-toggle="dropdown" 
+                           href="#" 
+                           role="button" 
+                           aria-haspopup="true" 
+                           aria-expanded="false">
                             <span class="hidden-md-down"><i class="fa fa-user fa-lg"></i> @User.Identity.Name</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fa fa-user fa-fw"></i> @localizzatore["Profilo Utente"]</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-gear fa-fw"></i> @localizzatore["Impostazioni"]</a>
-                            <a class="dropdown-item" asp-controller="Auth" asp-action="Logout"><i class="fa fa-sign-out fa-fw"></i> @localizzatore["Logout"]</a>
+                            <a class="dropdown-item"
+                               asp-controller="Papero"
+                               asp-action="Contatti">
+                                <i class="fa fa-envelope fa-fw"></i> @localizzatore["Contatti"]
+                            </a>
+                            <a class="dropdown-item"
+                               asp-controller="Papero"
+                               asp-action="Info">
+                                <i class="fa fa-info-circle fa-fw"></i> @localizzatore["Info su Papero"]
+                            </a>
+                            <a class="dropdown-item"
+                               asp-controller="Auth"
+                               asp-action="Logout">
+                                <i class="fa fa-sign-out fa-fw"></i> @localizzatore["Logout"]
+                            </a>
                         </div>
                     </li>
-                }
+                 }
             </ul>
         </div>
     </header>
@@ -76,17 +103,29 @@
         <nav class="sidebar-nav">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-sitemap fa-fw"></i> @localizzatore["Tassonomia"]</a>
+                    <a class="nav-link" href="#">
+                        <i class="fa fa-sitemap fa-fw"></i> @localizzatore["Tassonomia"]
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-tags fa-fw"></i> @localizzatore["Esemplari"]</a>
+                    <a class="nav-link" href="#">
+                        <i class="fa fa-tags fa-fw"></i> @localizzatore["Esemplari"]
+                    </a>
                 </li>
                 <li class="nav-item nav-dropdown active">
-                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-vcard-o fa-fw"></i>@localizzatore["Anagrafiche"]<i class="fa arrow"></i></a>
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                        <i class="fa fa-vcard-o fa-fw"></i>@localizzatore["Anagrafiche"]<i class="fa arrow"></i>
+                    </a>
                     <ul class="nav-dropdown-items">
-                        <li><a class="nav-link text-right" href="#">Uno</a></li>
-                        <li><a class="nav-link text-right" href="#">Due</a></li>
-                        <li><a class="nav-link text-right" href="#">Tre</a></li>
+                        <li>
+                            <a class="nav-link text-right" href="#">Uno</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-right" href="#">Due</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-right" href="#">Tre</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -125,6 +164,12 @@
     <script src="~/lib/coreui/js/app.js"></script>
 
     @RenderSection("scripts", false)
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 
 </body>
 

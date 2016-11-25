@@ -156,4 +156,7 @@
   <data name="Tassonomia" xml:space="preserve">
     <value>Tassonomia</value>
   </data>
+  <data name="Mostra/Nascondi Menu" xml:space="preserve">
+    <value>Mostra/Nascondi Menu</value>
+  </data>
 </root>
