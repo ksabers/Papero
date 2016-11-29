@@ -40,5 +40,10 @@ namespace Papero.Models
                 .ThenInclude(specie => specie.Figli)
                 .ToList();
         }
+
+        public IEnumerable<Tassonomia> LeggiTassonomia()
+        {
+            return _contesto.Tassonomia.ToList();
+        }
     }
 }

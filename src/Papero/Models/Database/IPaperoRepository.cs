@@ -6,5 +6,7 @@ namespace Papero.Models
     {
         IEnumerable<Famiglie> LeggiFamiglie();
         IEnumerable<Esemplari> LeggiEsemplari();
+
+        IEnumerable<Tassonomia> LeggiTassonomia();
     }
 }
