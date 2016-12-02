@@ -4,9 +4,9 @@ namespace Papero.Models
 {
     public interface IPaperoRepository
     {
-        IEnumerable<Famiglie> LeggiFamiglie();
-        IEnumerable<Esemplari> LeggiEsemplari();
+        IEnumerable<Famiglie> LeggiAlbero();
+        IEnumerable<ElencoSinteticoEsemplari> LeggiElencoSinteticoEsemplari();
 
-        IEnumerable<Tassonomia> LeggiTassonomia();
+        //IEnumerable<Tassonomia> LeggiTassonomia();
     }
 }

@@ -21,14 +21,16 @@ namespace Papero.Models
             _log = log;
         }
 
-        public IEnumerable<Esemplari> LeggiEsemplari()
+        public IEnumerable<ElencoSinteticoEsemplari> LeggiElencoSinteticoEsemplari()
         {
             _log.LogInformation("Chiamata di _contesto.Esemplari.ToList()");
 
-            return _contesto.Esemplari.ToList();
+            return _contesto.ElencoSinteticoEsemplari.ToList();
         }
 
-        public IEnumerable<Famiglie> LeggiFamiglie()
+
+
+        public IEnumerable<Famiglie> LeggiAlbero()
         {
             _log.LogInformation("Chiamata di _contesto.Famiglie.ToList() con Include e ThenInclude");
 
@@ -41,9 +43,11 @@ namespace Papero.Models
                 .ToList();
         }
 
-        public IEnumerable<Tassonomia> LeggiTassonomia()
-        {
-            return _contesto.Tassonomia.ToList();
-        }
+        //public IEnumerable<Tassonomia> LeggiTassonomia()
+        //{
+        //    return _contesto.Tassonomia.ToList();
+        //}
+
+
     }
 }

@@ -40,16 +40,16 @@ namespace Papero.Controllers
 
         [Authorize]
 
-        public IActionResult Famiglie()
+        public IActionResult ElencoEsemplari()
         {
             try
             {
-                var data = _repository.LeggiFamiglie();
+                var data = _repository.LeggiAlbero();
                 return View(data);
             }
             catch (Exception eccezione)
             {
-                _logger.LogError($"Errore eseguendo LeggiFamiglie in PaperoController: {eccezione.Message}");
+                _logger.LogError($"Errore eseguendo LeggiAlbero in PaperoController: {eccezione.Message}");
                 return Redirect("/error");
             }
         }

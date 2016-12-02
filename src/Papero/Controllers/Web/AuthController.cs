@@ -26,7 +26,7 @@ namespace Papero.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Famiglie", "Papero");
+                return RedirectToAction("ElencoEsemplari", "Papero");
             }
             return View();
         }
@@ -42,7 +42,7 @@ namespace Papero.Controllers
                 {
                     if (string.IsNullOrWhiteSpace(URLdiRitorno))
                     {
-                        return RedirectToAction("Famiglie", "Papero");
+                        return RedirectToAction("ElencoEsemplari", "Papero");
                     }
                     else
                     {
