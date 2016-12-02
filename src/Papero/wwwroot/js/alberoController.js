@@ -14,6 +14,7 @@
 
         vm.datiAlbero = [];            // Albero tassonomico
         vm.esemplariSelezionati = [];  // Contenuto della tabella
+        vm.numeroSpecie = 0;
         vm.opzioniTabella = DTOptionsBuilder.newOptions()      // Opzioni di visualizzazione della angular datatable
             .withLanguageSource(stringaLinguaggioDatatables);  // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
                                                                // (come da specifiche delle angular datatables)
@@ -54,6 +55,8 @@
             } else {
                 elencoFigli = trovaFigli(nodo);       // altrimenti si traversa l'albero ricorsivamente
             };
+
+            vm.numeroSpecie = elencoFigli.length;
 
          // La tabella esemplari viene riempita con gli esemplari i cui sottospecieID compaiono nell'elenco selezionato nell'albero. 
             vm.esemplariSelezionati = _.filter(elencoEsemplari, function (esemplare) { return elencoFigli.includes(esemplare.sottospecieId) });

@@ -46,8 +46,8 @@
 <div class="row" ng-app="albero-app" ng-controller="alberoController as vm">
     <div class="col-lg-3">
 
-        <div class="panel panel-default">
-            <div class="panel-heading">Albero tassonomico</div>
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h3 class="panel-title">@localizzatore["Albero tassonomico"]</h3>@localizzatore["Specie selezionate:"] <span class="badge" ng-cloak>{{vm.numeroSpecie}}</span></div>
             <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
 
                 <treecontrol class="tree-boot"
@@ -64,15 +64,15 @@
 
 
     <div class="col-lg-9">
-        <div class="panel panel-default">
-            <div class="panel-heading">Esemplari</div>
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h3 class="panel-title">@localizzatore["Esemplari"]</h3></div>
             <div class="panel-body">
 
                 <table datatable="ng" class="table table-striped table-bordered table-hover" id="tabellaEsemplari" dt-options="vm.opzioniTabella">
                     <thead>
                         <tr>
-                            <th>MSNG</th>
-                            <th>Nome Scientifico</th>
+                            <th>@localizzatore["MSNG"]</th>
+                            <th>@localizzatore["Nome Scientifico"]</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -80,7 +80,7 @@
                         <tr ng-repeat="esemplare in vm.esemplariSelezionati">
                             <td>{{esemplare.msng}}</td>
                             <td>{{esemplare.genere + " " + esemplare.specie + " " + (esemplare.sottospecie == "-" ? "" : esemplare.sottospecie) + " " + esemplare.elencoAutori}}</td>
-                            <td style="text-align:center"><a href="#" class="btn btn-sm btn-primary">Dettagli</a></td>
+                            <td style="text-align:center"><a href="#" class="btn btn-sm btn-primary">@localizzatore["Dettagli"]</a></td>
                         </tr>
                     </tbody>
                 </table>
