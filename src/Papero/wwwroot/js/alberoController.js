@@ -4,7 +4,7 @@
     "use strict";
 
     angular.module("albero-app")
-	   .controller("alberoController", alberoController);
+        .controller("alberoController", alberoController);
 
     function alberoController($http, DTOptionsBuilder) {
 
@@ -55,13 +55,13 @@
                 elencoFigli = $(nodo.id).toArray();   // deve essere restituita solo lei, ma in forma di array (altrimenti "elencoFigli.includes" qui sotto non funzionerebbe)
             } else {
                 elencoFigli = trovaFigli(nodo);       // altrimenti si traversa l'albero ricorsivamente
-            };
+            }
 
             vm.numeroSpecie = elencoFigli.length;  // Le foglie selezionate vengono contate per mostrarle in cima all'albero
 
-         // La tabella esemplari viene riempita con gli esemplari i cui sottospecieID compaiono nell'elenco selezionato nell'albero. 
-            vm.esemplariSelezionati = _.filter(elencoEsemplari, function (esemplare) { return elencoFigli.includes(esemplare.sottospecieId) });
-        }
+            // La tabella esemplari viene riempita con gli esemplari i cui sottospecieID compaiono nell'elenco selezionato nell'albero. 
+            vm.esemplariSelezionati = _.filter(elencoEsemplari, function (esemplare) { return elencoFigli.includes(esemplare.sottospecieId); });
+        };
 
         $http.get("/api/esemplari")
              .then(function (response) {
