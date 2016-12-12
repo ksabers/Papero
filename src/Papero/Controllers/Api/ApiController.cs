@@ -29,10 +29,10 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiElencoSinteticoEsemplari());
         }
 
-        //[HttpGet("api/tassonomia")]
-        //public IActionResult GetTassonomia()
-        //{
-        //    return Ok(_repository.LeggiTassonomia());
-        //}
+        [HttpGet("api/test/{idEsemplare}")]
+        public IActionResult GetTest(int idEsemplare)
+        {
+            return Ok(_repository.LeggiEsemplare(idEsemplare));
+        }
     }
 }

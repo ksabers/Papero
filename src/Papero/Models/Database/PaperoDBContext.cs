@@ -16,11 +16,6 @@ namespace Papero.Models
 
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<Tassonomia>(entity => {
-            //    entity.ToTable("V_Tassonomia");
-            //    entity.HasKey(e => e.SottospecieId);
-            //});
-
             modelBuilder.Entity<ElencoSinteticoEsemplari>(entity => {
                 entity.ToTable("V_ElencoSinteticoEsemplari");
                 entity.HasKey(e => e.Id);
@@ -1004,7 +999,6 @@ namespace Papero.Models
             });
         }
 
-        //public virtual DbSet<Tassonomia> Tassonomia { get; set; }
         public virtual DbSet<ElencoSinteticoEsemplari> ElencoSinteticoEsemplari { get; set; }
         public virtual DbSet<Aberrazioni> Aberrazioni { get; set; }
         public virtual DbSet<Armadi> Armadi { get; set; }

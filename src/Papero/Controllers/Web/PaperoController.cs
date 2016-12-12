@@ -54,6 +54,12 @@ namespace Papero.Controllers
             }
         }
 
+        public IActionResult DettaglioEsemplare(int idEsemplare)
+        {
+            var data = _repository.LeggiElencoSinteticoEsemplari(idEsemplare);
+            return View(data);
+        }
+
 
         public IActionResult Info()  // Pagina statica di informazioni sull'applicazione: restituisce semplicemente la sua vista
         {
