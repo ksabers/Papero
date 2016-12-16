@@ -2,15 +2,126 @@
     ViewBag.Title = localizzatore["Dettaglio Esemplare"];
 }
 
+@section css {
+    <style type="text/css">
+        dt {
+            font-weight: normal;
+        }
+
+        dd {
+            font-weight: bold;
+        }
+
+        .dl-horizontal dt {
+            white-space: normal;
+        }
+    </style>
+}
+
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="input-group input-group-lg">
 
+                            <input style="min-width:110px;" class="form-control" type="text" id="inputLarge" value="12345">
+                            <span class="input-group-btn">
+                                <button class="btn btn-success" type="button">MSNG</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <h4>Passerottus passerottus (Linneus, 1789)</h4>
+                    </div>
+                    <div class="col-lg-4">
+                        <dl class="dl-horizontal text-white">
+                            <dt>Nome Italiano:</dt>
+                            <dd>Passerotto Comune</dd>
+                            <dt>Nome Inglese:</dt>
+                            <dd>Common Passer</dd>
+                            <dt>Stato di Conservazione:</dt>
+                            <dd>Endangered (EN)</dd>
+                        </dl>
+                    </div>
+                    
+                </div>
             </div>
             <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
-                <h1>@ViewBag.nomeScientifico</h1>
+                <div class="row">
+
+                    <dl class="col-lg-3 dl-horizontal text-primary">
+                        <dt>NCU:</dt>
+                        <dd>12345</dd>
+                        <dt>Lettera:</dt>
+                        <dd>ABCDE</dd>
+                        <dt>Numero:</dt>
+                        <dd>456</dd>
+                        <dt>Sesso:</dt>
+                        <dd>Femmina</dd>
+                        <dt>Tipo:</dt>
+                        <dd>Metatypus</dd>
+                    </dl>
+
+                    <dl class="col-lg-3 dl-horizontal text-primary">
+                        <dt>Data di Preparazione</dt>
+                        <dd>20160523</dd>
+                        <dt>Modo di Preparazione:</dt>
+                        <dd>Pelle</dd>
+                        <dt>Note di Preparazione:</dt>
+                        <dd><textarea rows="4" readonly style="resize:none; border:none;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</textarea></dd>
+                    </dl>
+
+                    <dl class="col-lg-3 dl-horizontal text-primary">
+                        <dt>Data di Cattura:</dt>
+                        <dd>20160523</dd>
+                        <dt>Data Corretta:</dt>
+                        <dd>20160326</dd>
+                        <dt>Avuto da:</dt>
+                        <dd>Mario Rossi</dd>
+                        <dt>Legit:</dt>
+                        <dd>Pino Bianchi</dd>
+                        <dt>Tipo Acquisizione:</dt>
+                        <dd>Scambio</dd>
+                        <dt>Località di Cattura:</dt>
+                        <dd>Genova Sampierdarena</dd>
+                    </dl>
+
+                    <dl class="col-lg-3 dl-horizontal text-primary">
+                        <dt>Data di Determinazione:</dt>
+                        <dd>20160523</dd>
+                        <dt>Determinatori:</dt>
+                        <dd>
+                            <ul class="list-unstyled">
+                                <li>Mario Rossi</li>
+                                <li>Pino Bianchi</li>
+                                <li>Giovanni Verdi</li>
+                            </ul>
+                        </dd>
+                        <dt>Vecchie Determinazioni:</dt>
+                        <dd style="max-height:150px;overflow-y:auto;">
+                            <ul class="list-unstyled">
+                                <li>
+                                    Passerottus Vecchiostyles
+                                    <ol>
+                                        <li>Mario Rossi</li>
+                                        <li>Pino Bianchi</li>
+                                        <li>Giovanni Verdi</li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    Paperus Piccolus
+                                    <ol>
+                                        <li>Mario Rossi</li>
+                                        <li>Pino Bianchi</li>
+                                        <li>Giovanni Verdi</li>
+                                    </ol>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
             </div>
         </div>
     </div>
-</div>
