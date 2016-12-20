@@ -28,14 +28,14 @@ namespace Papero.Models
             return _contesto.ElencoSinteticoEsemplari.ToList();
         }
 
-        public IEnumerable<ElencoSinteticoEsemplari> LeggiElencoSinteticoEsemplari(int idEsemplare)
-        {
-            _log.LogInformation("Chiamata di _contesto.Esemplari.ToList()");
+        //public IEnumerable<ElencoSinteticoEsemplari> LeggiElencoSinteticoEsemplari(int idEsemplare)
+        //{
+        //    _log.LogInformation("Chiamata di _contesto.Esemplari.ToList()");
 
-            return _contesto.ElencoSinteticoEsemplari
-                .Where(esemplare => esemplare.Id == idEsemplare)
-                .ToList();
-        }
+        //    return _contesto.ElencoSinteticoEsemplari
+        //        .Where(esemplare => esemplare.Id == idEsemplare)
+        //        .ToList();
+        //}
 
 
         public IEnumerable<Famiglie> LeggiAlbero()
@@ -51,13 +51,14 @@ namespace Papero.Models
                 .ToList();
         }
 
-        public IEnumerable<Esemplari> LeggiEsemplare(int esemplareId)
+        public Esemplari LeggiEsemplare(int idEsemplare)
         {
             return _contesto.Esemplari
-                .Where(esemplare => esemplare.Id == esemplareId)
-                .Include(esemplare => esemplare.Sesso);
-
-
+                .Where(esemplare => esemplare.Id == idEsemplare)
+                .Include(esemplare => esemplare.Sesso)
+                .Include(esemplare => esemplare.Tipo)
+                .Include(esemplare => esemplare.Aberrazione)
+                .FirstOrDefault();
         }
     }
 }

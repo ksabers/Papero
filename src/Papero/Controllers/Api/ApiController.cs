@@ -29,8 +29,8 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiElencoSinteticoEsemplari());
         }
 
-        [HttpGet("api/test/{idEsemplare}")]
-        public IActionResult GetTest(int idEsemplare)
+        [HttpGet("api/esemplare/{idEsemplare}")]
+        public IActionResult GetEsemplare(int idEsemplare)
         {
             return Ok(_repository.LeggiEsemplare(idEsemplare));
         }

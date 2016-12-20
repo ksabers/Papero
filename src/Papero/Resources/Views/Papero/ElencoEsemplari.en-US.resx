@@ -117,7 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Albero tassonomico" xml:space="preserve">
+    <value>Taxonomical Tree</value>
+  </data>
+  <data name="Dettagli" xml:space="preserve">
+    <value>Details</value>
+  </data>
   <data name="Elenco Esemplari" xml:space="preserve">
     <value>List of Specimens</value>
+  </data>
+  <data name="Esemplari" xml:space="preserve">
+    <value>Specimens</value>
+  </data>
+  <data name="MSNG" xml:space="preserve">
+    <value>MSNG</value>
+  </data>
+  <data name="Nome Scientifico" xml:space="preserve">
+    <value>Scientific Name</value>
+  </data>
+  <data name="Specie selezionate" xml:space="preserve">
+    <value>Selected Species</value>
   </data>
 </root>

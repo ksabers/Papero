@@ -22,7 +22,7 @@
 
     <script src="~/lib/angular-tree-control/angular-tree-control.js"></script>
 
-    <script src="~/js/albero-app.js"></script>
+    <script src="~/js/papero-app.js"></script>
     <script src="~/js/alberoController.js"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
@@ -43,11 +43,11 @@
 }
 
 
-<div class="row" ng-app="albero-app" ng-controller="alberoController as vm">
+<div class="row" ng-app="papero-app" ng-controller="alberoController as vm">
     <div class="col-lg-3">
 
         <div class="panel panel-primary">
-            <div class="panel-heading"><h3 class="panel-title">@localizzatore["Albero tassonomico"]</h3>@localizzatore["Specie selezionate:"] <span class="badge" ng-cloak>{{vm.numeroSpecie}}</span></div>
+            <div class="panel-heading"><h3 class="panel-title">@localizzatore["Albero tassonomico"]</h3>@localizzatore["Specie selezionate"]: <span class="badge" ng-cloak>{{vm.numeroSpecie}}</span></div>
             <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
 
                 <treecontrol class="tree-boot"

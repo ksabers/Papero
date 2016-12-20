@@ -16,6 +16,8 @@ using Papero.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Papero.ViewModels;
+using AutoMapper;
 
 namespace Papero.Controllers
 {
@@ -40,23 +42,15 @@ namespace Papero.Controllers
 
         [Authorize]
 
-        public IActionResult ElencoEsemplari()
-        {
-            try
-            {
-                var data = _repository.LeggiAlbero();
-                return View(data);
-            }
-            catch (Exception eccezione)
-            {
-                _logger.LogError($"Errore eseguendo LeggiAlbero in PaperoController: {eccezione.Message}");
-                return Redirect("/error");
-            }
+        public IActionResult ElencoEsemplari()  // Pagina di navigazione con l'albero tassonomico e la tabella degli esemplari. Tutte le richieste al DB sono fatte da Angular
+        {                                       // lato client tramite API, quindi lato server ci si limita a farsi restituire la vista vuota
+            return View();
         }
 
-        public IActionResult DettaglioEsemplare(int idEsemplare)
+        public IActionResult DettaglioEsemplare(int id)
         {
-            var data = _repository.LeggiElencoSinteticoEsemplari(idEsemplare);
+            var data = _repository.LeggiEsemplare(id);
+
             return View(data);
         }
 

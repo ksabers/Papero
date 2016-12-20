@@ -18,6 +18,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+using Papero.ViewModels;
 
 namespace Papero
 {
@@ -118,6 +120,11 @@ namespace Papero
             // Le opzioni di localizzazione vengono utilizzate ad ogni richiesta dell'applicazione. Questo consente di variare la lingua "al volo" con la dropdown in _Layout.cshtml
             var opzioniLocalizzazione = applicazione.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             applicazione.UseRequestLocalization(opzioniLocalizzazione.Value);
+
+            Mapper.Initialize(config => 
+            {
+                config.CreateMap<Esemplari, DettaglioEsemplareViewModel>();
+            });
 
             if (ambiente.IsDevelopment())                       // Se siamo in ambiente di sviluppo...
             {

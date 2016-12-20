@@ -3,7 +3,7 @@
 (function () {
     "use strict";
 
-    angular.module("albero-app")
+    angular.module("papero-app")
         .controller("alberoController", alberoController);
 
     function alberoController($http, DTOptionsBuilder) {
