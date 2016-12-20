@@ -54,6 +54,12 @@ namespace Papero.Controllers
             return View(data);
         }
 
+        public IActionResult DettaglioEsemplareByMSNG(int MSNG)
+        {
+            var data = _repository.LeggiEsemplare(MSNG);
+
+            return View("DettaglioEsemplare", data);
+        }
 
         public IActionResult Info()  // Pagina statica di informazioni sull'applicazione: restituisce semplicemente la sua vista
         {

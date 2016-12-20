@@ -28,17 +28,20 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-lg-2">
-                        <form asp-controller="Papero"
-                              asp-action="DettaglioEsemplareByMSNG">
-                            <div class="form-group">
-                                <div class="input-group input-group-lg">
-                                    <input type="text" class="form-control form-control-lg">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-success btn-lg" type="submit">@localizzatore["MSNG"]</button>
-                                    </span>
-                                 </div>
-                             </div>
-                         </form>
+                        <div class="input-group input-group-lg">
+
+
+                            <input style="min-width:110px;" class="form-control" type="text" id="MSNG" name="MSNG" value="@Model.Msng">
+                            <span class="input-group-btn">
+                                <input class="btn btn-success"
+                                       type="submit"
+                                       asp-controller="Papero"
+                                       asp-action="DettaglioEsemplareByMSNG" value="@localizzatore["MSNG"]">
+
+                            </span>
+
+
+                        </div>
                     </div>
                     <div class="col-lg-6">
                         <h4>Passerottus passerottus comunis (Linneus, 1789)</h4>
