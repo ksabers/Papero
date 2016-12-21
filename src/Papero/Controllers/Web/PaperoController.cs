@@ -63,7 +63,11 @@ namespace Papero.Controllers
             ViewBag.sigla = datiEsemplare.Sigla;
 
             var modello = _repository.LeggiEsemplare(id);                               // Legge tutti i dati dell'esemplare e li trasmette alla vista
-            return View(modello);
+
+
+            var vista = Mapper.Map<DettaglioEsemplareViewModel>(modello);
+
+            return View(vista);
         }
 
         public IActionResult DettaglioEsemplareByMSNG(int MSNG)    // Gestisce la pressione del pulsante MSNG nella pagina di dettaglio: ricava l'id esemplare a partire 
