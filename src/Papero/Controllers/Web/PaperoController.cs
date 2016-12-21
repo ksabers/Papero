@@ -47,19 +47,31 @@ namespace Papero.Controllers
             return View();
         }
 
-        public IActionResult DettaglioEsemplare(int id)
+        public IActionResult DettaglioEsemplare(int id)  // Pagina di dettaglio con tutti i dati del singolo esemplare. E' gestita in modo tradizionale client/server senza
+                                                         // chiamate Angular
         {
-            var data = _repository.LeggiEsemplare(id);
+            var datiEsemplare = _repository.LeggiSingoloEsemplareDaElencoSintetico(id); // Legge i dati generici della sottospecie da scrivere nell'intestazione: 
+                                                                                        // nomi e stato di conservazione
 
-            return View(data);
+            ViewBag.genere = datiEsemplare.Genere;                                      // Per comodità vengono trasmessi alla vista tramite ViewBag e non tramite modello
+            ViewBag.specie = datiEsemplare.Specie;
+            ViewBag.sottospecie = datiEsemplare.Sottospecie;
+            ViewBag.elencoAutori = datiEsemplare.ElencoAutori;
+            ViewBag.nomeItaliano = datiEsemplare.NomeItaliano;
+            ViewBag.nomeInglese = datiEsemplare.NomeInglese;
+            ViewBag.statoConservazione = datiEsemplare.StatoConservazione;
+            ViewBag.sigla = datiEsemplare.Sigla;
+
+            var modello = _repository.LeggiEsemplare(id);                               // Legge tutti i dati dell'esemplare e li trasmette alla vista
+            return View(modello);
         }
 
-        public IActionResult DettaglioEsemplareByMSNG(int MSNG)
-        {
-            var data = _repository.LeggiEsemplare(MSNG);
+        public IActionResult DettaglioEsemplareByMSNG(int MSNG)    // Gestisce la pressione del pulsante MSNG nella pagina di dettaglio: ricava l'id esemplare a partire 
+        {                                                          // dall'MSNG e richiama la action di dettaglio passandole l'id esemplare
+            var idEsemplare = _repository.EsemplareIdDaMSNG(MSNG);
+            return RedirectToAction("DettaglioEsemplare", new { id = idEsemplare });  // Con questa sintassi passiamo il parametro alla action come se avessimo scritto
+        }                                                                             // DettaglioEsemplare/id
 
-            return View("DettaglioEsemplare", data);
-        }
 
         public IActionResult Info()  // Pagina statica di informazioni sull'applicazione: restituisce semplicemente la sua vista
         {

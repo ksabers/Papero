@@ -318,4 +318,7 @@
   <data name="Vecchie Determinazioni" xml:space="preserve">
     <value>Old Determinations</value>
   </data>
+  <data name="Collocazione" xml:space="preserve">
+    <value>Position</value>
+  </data>
 </root>

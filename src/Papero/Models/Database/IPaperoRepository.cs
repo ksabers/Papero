@@ -6,7 +6,9 @@ namespace Papero.Models
     {
         IEnumerable<Famiglie> LeggiAlbero();
         IEnumerable<ElencoSinteticoEsemplari> LeggiElencoSinteticoEsemplari();
-        //IEnumerable<ElencoSinteticoEsemplari> LeggiElencoSinteticoEsemplari(int idEsemplare);
+
+        ElencoSinteticoEsemplari LeggiSingoloEsemplareDaElencoSintetico(int idEsemplare);
         Esemplari LeggiEsemplare(int esemplareId);
+        int EsemplareIdDaMSNG(int MSNG);
     }
 }

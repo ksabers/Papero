@@ -20,6 +20,10 @@ namespace Papero.Models
         public string Specie { get; set; }
         public int SottospecieId { get; set; }
         public string Sottospecie { get; set; }
+        public string NomeItaliano { get; set; }
+        public string NomeInglese { get; set; }
+        public string StatoConservazione { get; set; }
+        public string Sigla { get; set; }
 
         public bool? ClassificazioneOriginale { get; set; }
         public string AnnoClassificazione { get; set; }

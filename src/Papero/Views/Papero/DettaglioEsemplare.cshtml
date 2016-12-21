@@ -32,7 +32,7 @@
                               asp-action="DettaglioEsemplareByMSNG">
                             <div class="form-group">
                                 <div class="input-group input-group-lg">
-                                    <input type="text" class="form-control form-control-lg">
+                                    <input type="text" class="form-control form-control-lg" id="msng" name="msng" value="@Model.Msng">
                                     <span class="input-group-btn">
                                         <button class="btn btn-success btn-lg" type="submit">@localizzatore["MSNG"]</button>
                                     </span>
@@ -41,16 +41,16 @@
                          </form>
                     </div>
                     <div class="col-lg-6">
-                        <h4>Passerottus passerottus comunis (Linneus, 1789)</h4>
+                        <h4>@(ViewBag.genere + " " + ViewBag.specie + " " + (ViewBag.sottospecie == "-" ? "" : ViewBag.sottospecie) + " " + ViewBag.elencoAutori)</h4>
                     </div>
                     <div class="col-lg-4">
                         <dl class="dl-horizontal text-white">
                             <dt>@localizzatore["Nome Italiano"]:</dt>
-                            <dd>Passerotto Comune</dd>
+                            <dd>@ViewBag.nomeItaliano</dd>
                             <dt>@localizzatore["Nome Inglese"]:</dt>
-                            <dd>Common Passer</dd>
+                            <dd>@ViewBag.nomeInglese</dd>
                             <dt>@localizzatore["Stato di Conservazione"]:</dt>
-                            <dd>Endangered (EN)</dd>
+                            <dd>@(string.IsNullOrWhiteSpace(ViewBag.statoConservazione) ? "" : ViewBag.statoConservazione + " (" + ViewBag.sigla + ")")</dd>
                         </dl>
                     </div>
 
@@ -89,6 +89,8 @@
                         </dd>
                         <dt>@localizzatore["Modo di Preparazione"]:</dt>
                         <dd>Pelle</dd>
+                        <dt>@localizzatore["Collocazione"]:</dt>
+                        <dd>collocazione</dd>
                         <dt>@localizzatore["Note di Preparazione"]:</dt>
                         <dd><textarea rows="4" readonly style="resize:none; border:none;">@Model.NotePreparazione</textarea></dd>
                     </dl>
