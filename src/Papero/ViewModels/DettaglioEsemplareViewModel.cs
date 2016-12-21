@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Papero.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Papero.ViewModels
 {
@@ -11,6 +12,9 @@ namespace Papero.ViewModels
     {
         public int Id { get; set; }
         public int SottospecieId { get; set; }
+
+        [Required]
+        [RegularExpression("([1-9][0-9]*)")]
         public int Msng { get; set; }
         public int? Ncu { get; set; }
         public int? SessoId { get; set; }

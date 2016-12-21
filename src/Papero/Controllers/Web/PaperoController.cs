@@ -72,7 +72,10 @@ namespace Papero.Controllers
 
         public IActionResult DettaglioEsemplareByMSNG(int MSNG)    // Gestisce la pressione del pulsante MSNG nella pagina di dettaglio: ricava l'id esemplare a partire 
         {                                                          // dall'MSNG e richiama la action di dettaglio passandole l'id esemplare
-            var idEsemplare = _repository.EsemplareIdDaMSNG(MSNG);
+
+                var idEsemplare = _repository.EsemplareIdDaMSNG(MSNG);
+
+            
             return RedirectToAction("DettaglioEsemplare", new { id = idEsemplare });  // Con questa sintassi passiamo il parametro alla action come se avessimo scritto
         }                                                                             // DettaglioEsemplare/id
 
