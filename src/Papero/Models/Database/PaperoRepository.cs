@@ -56,7 +56,13 @@ namespace Papero.Models
                 .Include(esemplare => esemplare.Tipo)
                 .Include(esemplare => esemplare.Aberrazione)
                 .Include(esemplare => esemplare.Preparazioni)
-                .First();
+                .Include(esemplare => esemplare.AvutoDa)
+                .Include(esemplare => esemplare.Legit)
+                .Include(esemplare => esemplare.TipoAcquisizione)
+                .Include(esemplare => esemplare.Collezione)
+                .Include(esemplare => esemplare.Spedizione)
+                .Include(esemplare => esemplare.LocalitaCattura)
+                .FirstOrDefault();
         }
 
         public int EsemplareIdDaMSNG(int MSNG)

@@ -101,19 +101,19 @@
                         <dt>@localizzatore["Data Corretta"]:</dt>
                         <dd>@Model.DataCatturaCorretta</dd>
                         <dt>@localizzatore["Avuto da"]:</dt>
-                        <dd>Mario Rossi</dd>
+                        <dd>test</dd>
                         <dt>@localizzatore["Legit"]:</dt>
-                        <dd>Pino Bianchi</dd>
+                        <dd>test</dd>
                         <dt>@localizzatore["Tipo Acquisizione"]:</dt>
-                        <dd>Scambio</dd>
+                        <dd>@Model.TipoAcquisizione.TipoAcquisizione</dd>
                         <dt>@localizzatore["Data Acquisizione"]:</dt>
-                        <dd>20160326</dd>
+                        <dd>@Model.DataAcquisizione</dd>
                         <dt>@localizzatore["Località di Cattura"]:</dt>
-                        <dd>Genova Sampierdarena</dd>
+                        <dd>@Model.LocalitaCattura.NomeLocalita</dd>
                         <dt>@localizzatore["Collezione"]:</dt>
-                        <dd>Angelo Borgo</dd>
+                        <dd>@Model.Collezione.Collezione</dd>
                         <dt>@localizzatore["Spedizione"]:</dt>
-                        <dd>Borneo 1873</dd>
+                        <dd>@Model.Spedizione.Spedizione</dd>
                     </dl>
 
                     <dl class="col-lg-3 dl-horizontal text-primary">
@@ -216,8 +216,14 @@
                     </dl>
                     <dl class="col-lg-9 dl-horizontal text-primary">
                         <dt>@localizzatore["Note"]:</dt>
-                        <dd><textarea rows="4" cols="80" width="100%" readonly style="resize:none; border:none;">@Model.Note</textarea></dd>
-                    </dl>
+                        <dd>
+                            <textarea rows="4"
+                                      cols="80"
+                                      width="100%"
+                                      readonly
+                                      style="resize:none; border:none;">@Model.Note</textarea>
+                            </dd>
+                        </dl>
 
                 </div>
 
