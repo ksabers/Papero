@@ -1,20 +1,22 @@
-﻿@model Papero.ViewModels.DettaglioEsemplareViewModel
+﻿@*
+DettaglioEsemplare
+Vista che mostra la scheda di dettaglio del singolo esemplare
+*@
+
+@model Papero.ViewModels.DettaglioEsemplareViewModel  
+
 @{
     ViewBag.Title = localizzatore["Dettaglio Esemplare"];
 }
-
-
 
 @section css {
     <style type="text/css">
         dt {
             font-weight: normal;
         }
-
         dd {
             font-weight: bold;
         }
-
         .dl-horizontal dt {
             white-space: normal;
         }
@@ -45,6 +47,7 @@
                             </div>
                         </form>
                     </div>
+
 @if (ViewBag.trovato)
 {
                     <div class="col-lg-6">

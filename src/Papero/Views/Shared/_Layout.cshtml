@@ -40,11 +40,11 @@
 
             <ul class="nav navbar-nav pull-right hidden-md-down">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle nav-link" 
-                       data-toggle="dropdown" 
-                       href="#" 
-                       role="button" 
-                       aria-haspopup="true" 
+                    <a class="nav-link dropdown-toggle nav-link"
+                       data-toggle="dropdown"
+                       href="#"
+                       role="button"
+                       aria-haspopup="true"
                        aria-expanded="false">
                         <span class="hidden-md-down"><i class="fa fa-language fa-lg"></i> @localizzatore["Lingua"]</span>
                     </a>
@@ -68,11 +68,11 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle nav-link" 
-                           data-toggle="dropdown" 
-                           href="#" 
-                           role="button" 
-                           aria-haspopup="true" 
+                        <a class="nav-link dropdown-toggle nav-link"
+                           data-toggle="dropdown"
+                           href="#"
+                           role="button"
+                           aria-haspopup="true"
                            aria-expanded="false">
                             <span class="hidden-md-down"><i class="fa fa-user fa-lg"></i> @User.Identity.Name</span>
                         </a>
@@ -136,8 +136,8 @@
         <div class="text-center">&copy; 2016 @localizzatore["Museo di Storia Naturale 'Giacomo Doria' - Genova"]</div>
     </footer>
 
-    <main class="main">
-        <div class="container-fluid">
+    <main class="main"
+        <div class="container-fluid" >
 
             @RenderBody()
 
