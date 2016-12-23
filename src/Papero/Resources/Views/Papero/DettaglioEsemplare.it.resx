@@ -321,4 +321,7 @@
   <data name="Collocazione" xml:space="preserve">
     <value>Collocazione</value>
   </data>
+  <data name="Codice MSNG non presente!" xml:space="preserve">
+    <value>Codice MSNG non presente!</value>
+  </data>
 </root>
