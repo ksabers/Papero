@@ -21,9 +21,14 @@
     </style>
 }
 
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
 
 <div class="row">
     <div class="col-lg-12">
+
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="row">
@@ -32,14 +37,16 @@
                               asp-action="DettaglioEsemplareByMSNG">
                             <div class="form-group">
                                 <div class="input-group input-group-lg">
-                                    <input type="text" class="form-control form-control-lg" id="msng" name="msng" value="@Model.Msng">
+                                    <input type="text" class="form-control form-control-lg" asp-for="Msng">
                                     <span class="input-group-btn">
                                         <button class="btn btn-success btn-lg" type="submit">@localizzatore["MSNG"]</button>
                                     </span>
-                                 </div>
-                             </div>
-                         </form>
+                                </div>
+                            </div>
+                        </form>
                     </div>
+@if (ViewBag.trovato)
+{
                     <div class="col-lg-6">
                         <h4>@(ViewBag.genere + " " + ViewBag.specie + " " + (ViewBag.sottospecie == "-" ? "" : ViewBag.sottospecie) + " " + ViewBag.elencoAutori)</h4>
                     </div>
@@ -53,10 +60,20 @@
                             <dd>@(string.IsNullOrWhiteSpace(ViewBag.statoConservazione) ? "" : ViewBag.statoConservazione + " (" + ViewBag.sigla + ")")</dd>
                         </dl>
                     </div>
-
+}
+else
+{
+                    <div class="col-lg-10">
+                        <h4>Codice MSNG non presente</h4>
+                    </div>
+}
                 </div>
             </div>
+
+@if (ViewBag.trovato)
+{
             <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
+
                 <div class="row">
 
                     <dl class="col-lg-3 dl-horizontal text-primary">
@@ -221,13 +238,16 @@
                                       cols="80"
                                       width="100%"
                                       readonly
-                                      style="resize:none; border:none;">@Model.Note</textarea>
-                            </dd>
-                        </dl>
+                                      style="resize:none; border:none;">
+                                @Model.Note
+                            </textarea>
+                        </dd>
+                    </dl>
 
                 </div>
 
             </div>
+}
         </div>
     </div>
 </div>

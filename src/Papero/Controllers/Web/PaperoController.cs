@@ -50,23 +50,35 @@ namespace Papero.Controllers
         public IActionResult DettaglioEsemplare(int id)  // Pagina di dettaglio con tutti i dati del singolo esemplare. E' gestita in modo tradizionale client/server senza
                                                          // chiamate Angular
         {
-            var datiEsemplare = _repository.LeggiSingoloEsemplareDaElencoSintetico(id); // Legge i dati generici della sottospecie da scrivere nell'intestazione: 
-                                                                                        // nomi e stato di conservazione
+            if (id != -1)
+            {
+                var datiEsemplare = _repository.LeggiSingoloEsemplareDaElencoSintetico(id); // Legge i dati generici della sottospecie da scrivere nell'intestazione: 
+                                                                                            // nomi e stato di conservazione
 
-            ViewBag.genere = datiEsemplare.Genere;                                      // Per comodità vengono trasmessi alla vista tramite ViewBag e non tramite modello
-            ViewBag.specie = datiEsemplare.Specie;                                      // TODO: verificare se si può migliorare il ViewModel includendo anche questi campi
-            ViewBag.sottospecie = datiEsemplare.Sottospecie;
-            ViewBag.elencoAutori = datiEsemplare.ElencoAutori;
-            ViewBag.nomeItaliano = datiEsemplare.NomeItaliano;
-            ViewBag.nomeInglese = datiEsemplare.NomeInglese;
-            ViewBag.statoConservazione = datiEsemplare.StatoConservazione;
-            ViewBag.sigla = datiEsemplare.Sigla;
+                ViewBag.genere = datiEsemplare.Genere;                                      // Per comodità vengono trasmessi alla vista tramite ViewBag e non tramite modello
+                ViewBag.specie = datiEsemplare.Specie;                                      // TODO: verificare se si può migliorare il ViewModel includendo anche questi campi
+                ViewBag.sottospecie = datiEsemplare.Sottospecie;
+                ViewBag.elencoAutori = datiEsemplare.ElencoAutori;
+                ViewBag.nomeItaliano = datiEsemplare.NomeItaliano;
+                ViewBag.nomeInglese = datiEsemplare.NomeInglese;
+                ViewBag.statoConservazione = datiEsemplare.StatoConservazione;
+                ViewBag.sigla = datiEsemplare.Sigla;
+                ViewBag.trovato = true;
 
-            var modello = _repository.LeggiEsemplare(id);   // Legge tutti i dati dell'esemplare
+                var modello = _repository.LeggiEsemplare(id);   // Legge tutti i dati dell'esemplare
 
-            var vista = Mapper.Map<DettaglioEsemplareViewModel>(modello);  // Mappa i dati dell'esemplare sul ViewModel che usiamo per comunicare con la vista
+                var vista = Mapper.Map<DettaglioEsemplareViewModel>(modello);  // Mappa i dati dell'esemplare sul ViewModel che usiamo per comunicare con la vista
 
-            return View(vista);        // Restituisce la vista di dettaglio passandole il ViewModel riempito di dati                                          
+                return View(vista);        // Restituisce la vista di dettaglio passandole il ViewModel riempito di dati   
+            }
+            else
+            {
+                ViewBag.trovato = false;
+                ModelState.Clear();
+                return View();
+            }
+
+                                        
         }
 
         public IActionResult DettaglioEsemplareByMSNG(int MSNG)    // Gestisce la pressione del pulsante MSNG nella pagina di dettaglio: 
