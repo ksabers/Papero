@@ -88,6 +88,37 @@ namespace Papero.Models
                     .HasConstraintName("Cassetti$ArmadiCassetti");
             });
 
+
+
+            modelBuilder.Entity<Vassoi>(entity =>
+            {
+                entity.HasIndex(e => e.CassettoId)
+                    .HasName("Vassoi$CassettoID");
+
+                entity.HasIndex(e => e.Vassoio)
+                    .HasName("Vassoi$Vassoio");
+
+                entity.HasIndex(e => new { e.CassettoId, e.Vassoio })
+                    .HasName("Vassoi$UCassettoVassoio")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CassettoId).HasColumnName("CassettoID");
+
+                entity.Property(e => e.Vassoio)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.HasOne(d => d.Cassetto)
+                    .WithMany(p => p.Vassoi)
+                    .HasForeignKey(d => d.CassettoId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("Vassoi$CassettiVassoi");
+            });
+
+
+
             modelBuilder.Entity<Citta>(entity =>
             {
                 entity.HasIndex(e => e.CodiceIstat)
@@ -342,6 +373,8 @@ namespace Papero.Models
 
                 entity.Property(e => e.SessoId).HasColumnName("SessoID");
 
+                entity.Property(e => e.Scheda).HasColumnName("Scheda");
+
                 entity.Property(e => e.SottospecieId).HasColumnName("SottospecieID");
 
                 entity.Property(e => e.SpedizioneId).HasColumnName("SpedizioneID");
@@ -518,7 +551,7 @@ namespace Papero.Models
 
             modelBuilder.Entity<Preparati>(entity =>
             {
-                entity.HasIndex(e => e.CassettoId)
+                entity.HasIndex(e => e.VassoioId)
                     .HasName("Preparati$PosizioneID");
 
                 entity.HasIndex(e => e.EsemplareId)
@@ -537,7 +570,7 @@ namespace Papero.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.CassettoId).HasColumnName("CassettoID");
+                entity.Property(e => e.VassoioId).HasColumnName("VassoioID");
 
                 entity.Property(e => e.EsemplareId)
                     .IsRequired()
@@ -549,10 +582,10 @@ namespace Papero.Models
                     .IsRequired()
                     .HasColumnName("ParteID");
 
-                entity.HasOne(d => d.Cassetto)
+                entity.HasOne(d => d.Vassoio)
                     .WithMany(p => p.Preparati)
-                    .HasForeignKey(d => d.CassettoId)
-                    .HasConstraintName("Preparati$CassettiPreparati");
+                    .HasForeignKey(d => d.VassoioId)
+                    .HasConstraintName("Preparati$VassoiPreparati");
 
                 entity.HasOne(d => d.Esemplare)
                     .WithMany(p => p.Preparati)

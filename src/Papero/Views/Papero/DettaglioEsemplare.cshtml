@@ -54,15 +54,19 @@ Vista che mostra la scheda di dettaglio del singolo esemplare
                         <h4>@(ViewBag.genere + " " + ViewBag.specie + " " + (ViewBag.sottospecie == "-" ? "" : ViewBag.sottospecie) + " " + ViewBag.elencoAutori)</h4>
                     </div>
                     <div class="col-lg-4">
-                        <dl class="dl-horizontal text-white">
-                            <dt>@localizzatore["Nome Italiano"]:</dt>
-                            <dd>@ViewBag.nomeItaliano</dd>
-                            <dt>@localizzatore["Nome Inglese"]:</dt>
-                            <dd>@ViewBag.nomeInglese</dd>
-                            <dt>@localizzatore["Stato di Conservazione"]:</dt>
-                            <dd>@(string.IsNullOrWhiteSpace(ViewBag.statoConservazione) ? "" : ViewBag.statoConservazione + " (" + ViewBag.sigla + ")")</dd>
-                        </dl>
-                    </div>
+                        
+                            <dl class="dl-horizontal text-white">
+                                <dt>@localizzatore["Nome Italiano"]:</dt>
+                                <dd>@ViewBag.nomeItaliano</dd>
+                                <dt>@localizzatore["Nome Inglese"]:</dt>
+                                <dd>@ViewBag.nomeInglese</dd>
+                                <dt>@localizzatore["Stato di Conservazione"]:</dt>
+                                <dd>@(string.IsNullOrWhiteSpace(ViewBag.statoConservazione) ? "" : ViewBag.statoConservazione + " (" + ViewBag.sigla + ")")</dd>
+                            </dl>
+                        
+
+                            
+                        </div>
 }
 else
 {

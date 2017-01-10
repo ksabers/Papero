@@ -17,6 +17,7 @@ namespace Papero.Models
         public int SottospecieId { get; set; }
         public int Msng { get; set; }
         public int? Ncu { get; set; }
+        public int? Scheda { get; set; }
         public int? SessoId { get; set; }
         public string LetteraEsemplare { get; set; }
         public string NumeroEsemplare { get; set; }
