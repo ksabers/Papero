@@ -1,9 +1,12 @@
 ﻿@*
-DettaglioEsemplare
-Vista che mostra la scheda di dettaglio del singolo esemplare
+    DettaglioEsemplare
+    Vista che mostra la scheda di dettaglio del singolo esemplare
 *@
 
-@model Papero.ViewModels.DettaglioEsemplareViewModel  
+@using Papero.Funzioni
+
+
+@model Papero.ViewModels.DettaglioEsemplareViewModel
 
 @{
     ViewBag.Title = localizzatore["Dettaglio Esemplare"];
@@ -14,9 +17,11 @@ Vista che mostra la scheda di dettaglio del singolo esemplare
         dt {
             font-weight: normal;
         }
+
         dd {
             font-weight: bold;
         }
+
         .dl-horizontal dt {
             white-space: normal;
         }
@@ -48,230 +53,267 @@ Vista che mostra la scheda di dettaglio del singolo esemplare
                         </form>
                     </div>
 
-@if (ViewBag.trovato)
-{
-                    <div class="col-lg-4">
-                        <h4>@(Model.Sottospecie.Specie.Genere.Nome + " " + Model.Sottospecie.Specie.Nome + " " + (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome) + " " + ViewBag.elencoAutori)</h4>
-                    </div>
-                    <div class="col-lg-2">
-                        <dl class="dl-horizontal text-white">
-                            <dt>@localizzatore["Famiglia"]:</dt>
-                            <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Famiglia.Nome</dd>
-                            <dt>@localizzatore["Sottofamiglia"]:</dt>
-                            <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Nome</dd>
-                            <dt>@localizzatore["Tribu"]:</dt>
-                            <dd>@Model.Sottospecie.Specie.Genere.Tribu.Nome</dd>
-                        </dl>
-                    </div>
-                    <div class="col-lg-4">
+                    @* Il render della pagina viene effettuato solo se l'ID passato è valido *@
+                    @if (ViewBag.trovato)
+                    {
+                        <div class="col-lg-4">
+                            <h4>
+                                @(Model.Sottospecie.Specie.Genere.Nome +
+                                  " " +
+                                  Model.Sottospecie.Specie.Nome +
+                                  " " +
+                                  (Model.Sottospecie.Nome == "-" ?
+                                   "" :
+                                   Model.Sottospecie.Nome) + " " + @funzioni.elencoAutori(Model.Sottospecie.Classificazioni, (bool)Model.Sottospecie.ClassificazioneOriginale, Model.Sottospecie.AnnoClassificazione))
+                            </h4>
+
+                        </div>
+                        <div class="col-lg-2">
+                            <dl class="dl-horizontal text-white">
+                                <dt>@localizzatore["Famiglia"]:</dt>
+                                <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Famiglia.Nome</dd>
+                                <dt>@localizzatore["Sottofamiglia"]:</dt>
+                                <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Nome</dd>
+                                <dt>@localizzatore["Tribu"]:</dt>
+                                <dd>@Model.Sottospecie.Specie.Genere.Tribu.Nome</dd>
+                            </dl>
+                        </div>
+                        <div class="col-lg-4">
                             <dl class="dl-horizontal text-white">
                                 <dt>@localizzatore["Nome Italiano"]:</dt>
-                                <dd>@ViewBag.nomeItaliano</dd>
+                                <dd>@Model.Sottospecie.NomeItaliano</dd>
                                 <dt>@localizzatore["Nome Inglese"]:</dt>
-                                <dd>@ViewBag.nomeInglese</dd>
+                                <dd>@Model.Sottospecie.NomeInglese</dd>
                                 <dt>@localizzatore["Stato di Conservazione"]:</dt>
-                                <dd>@(string.IsNullOrWhiteSpace(ViewBag.statoConservazione) ? "" : ViewBag.statoConservazione + " (" + ViewBag.sigla + ")")</dd>
+                                <dd>
+                                    @(string.IsNullOrWhiteSpace(Model.Sottospecie.StatoConservazione.StatoConservazione) || Model.Sottospecie.StatoConservazione.StatoConservazione == "-"
+                                    ? ""
+                                    : Model.Sottospecie.StatoConservazione.StatoConservazione + " (" + Model.Sottospecie.StatoConservazione.Sigla + ")")
+                                </dd>
                             </dl>
-                    </div>
-}
-else
-{
-                    <div class="col-lg-10">
-                        <h4>@localizzatore["Codice MSNG non presente!"]</h4>
-                    </div>
-}
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-lg-10">
+                            <h4>@localizzatore["Codice MSNG non presente!"]</h4>
+                        </div>
+                    }
                 </div>
             </div>
 
-@if (ViewBag.trovato)
-{
-            <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
+            @if (ViewBag.trovato)
+            {
+                <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
 
-                <div class="row">
+                    <div class="row">
 
-                    <dl class="col-lg-3 dl-horizontal text-primary">
-                        <dt>@localizzatore["NCU"]:</dt>
-                        <dd>@Model.Ncu</dd>
-                        <dt>@localizzatore["Lettera"]:</dt>
-                        <dd>@Model.LetteraEsemplare</dd>
-                        <dt>@localizzatore["Numero"]:</dt>
-                        <dd>@Model.NumeroEsemplare</dd>
-                        <dt>@localizzatore["Scheda"]:</dt>
-                        <dd>@Model.Scheda</dd>
-                        <dt>@localizzatore["Presenza"]:</dt>
-                        <dd>@((bool)Model.Presenza ? localizzatore["Sì"] : localizzatore["No"])</dd>
-                        <dt>@localizzatore["Sesso"]:</dt>
-                        <dd>@localizzatore[Model.Sesso.Sesso]</dd>
-                        <dt>@localizzatore["Tipo"]:</dt>
-                        <dd>@Model.Tipo.Tipo</dd>
-                        <dt>@localizzatore["Aberrazione"]:</dt>
-                        <dd>@localizzatore[Model.Aberrazione.Aberrazione]</dd>
-                    </dl>
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["NCU"]:</dt>
+                            <dd>@Model.Ncu</dd>
+                            <dt>@localizzatore["Lettera"]:</dt>
+                            <dd>@Model.LetteraEsemplare</dd>
+                            <dt>@localizzatore["Numero"]:</dt>
+                            <dd>@Model.NumeroEsemplare</dd>
+                            <dt>@localizzatore["Scheda"]:</dt>
+                            <dd>@Model.Scheda</dd>
+                            <dt>@localizzatore["Presenza"]:</dt>
+                            <dd>@((bool)Model.Presenza ? localizzatore["Sì"] : localizzatore["No"])</dd>
+                            <dt>@localizzatore["Sesso"]:</dt>
+                            <dd>@localizzatore[Model.Sesso.Sesso]</dd>
+                            <dt>@localizzatore["Tipo"]:</dt>
+                            <dd>@Model.Tipo.Tipo</dd>
+                            <dt>@localizzatore["Aberrazione"]:</dt>
+                            <dd>@localizzatore[Model.Aberrazione.Aberrazione]</dd>
+                        </dl>
 
-                    <dl class="col-lg-3 dl-horizontal text-primary">
-                        <dt>@localizzatore["Data di Preparazione"]:</dt>
-                        <dd>@Model.DataPreparazione</dd>
-                        <dt>@localizzatore["Preparatori"]:</dt>
-                        <dd>
-                            <ul class="list-unstyled">
-                                @foreach (var preparatore in Model.Preparazioni.OrderBy(prep => prep.Ordinamento))
-                                {
-                                    <li>@(preparatore.Preparatore.Nome + " " + preparatore.Preparatore.Cognome)</li>
-                                }
-                            </ul>
-                        </dd>
-                        <dt>@localizzatore["Modo di Preparazione"]:</dt>
-                        <dd>Pelle</dd>
-                        <dt>@localizzatore["Collocazione"]:</dt>
-                        <dd>collocazione</dd>
-                        <dt>@localizzatore["Note di Preparazione"]:</dt>
-                        <dd><textarea rows="4" readonly style="resize:none; border:none;">@Model.NotePreparazione</textarea></dd>
-                    </dl>
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["Data di Preparazione"]:</dt>
+                            <dd>@Model.DataPreparazione</dd>
+                            <dt>@localizzatore["Preparatori"]:</dt>
+                            <dd>
+                                <ul class="list-unstyled">
+                                    @foreach (var preparatore in Model.Preparazioni.OrderBy(preparatore => preparatore.Ordinamento))
+                                    {
+                                        <li>@(preparatore.Preparatore.Nome + " " + preparatore.Preparatore.Cognome)</li>
+                                    }
+                                </ul>
+                            </dd>
+                            <dt>@localizzatore["Modo di Preparazione"]:</dt>
+                            <dd>Pelle</dd>
+                            <dt>@localizzatore["Collocazione"]:</dt>
+                            <dd>collocazione</dd>
+                            <dt>@localizzatore["Note di Preparazione"]:</dt>
+                            <dd><textarea rows="4" readonly style="resize:none; border:none;">@Model.NotePreparazione</textarea></dd>
+                        </dl>
 
-                    <dl class="col-lg-3 dl-horizontal text-primary">
-                        <dt>@localizzatore["Data di Cattura"]:</dt>
-                        <dd>@Model.DataCattura</dd>
-                        <dt>@localizzatore["Data Corretta"]:</dt>
-                        <dd>@Model.DataCatturaCorretta</dd>
-                        <dt>@localizzatore["Avuto da"]:</dt>
-                        <dd>@Model.AvutoDa.Raccoglitore</dd>
-                        <dt>@localizzatore["Legit"]:</dt>
-                        <dd>@Model.Legit.Raccoglitore</dd>
-                        <dt>@localizzatore["Tipo Acquisizione"]:</dt>
-                        <dd>@Model.TipoAcquisizione.TipoAcquisizione</dd>
-                        <dt>@localizzatore["Data Acquisizione"]:</dt>
-                        <dd>@Model.DataAcquisizione</dd>
-                        <dt>@localizzatore["Località di Cattura"]:</dt>
-                        <dd>
-                            @{
-                                if (Model.LocalitaCattura.Citta.Provincia.Regione.Nazione.Nazione != "-")
-                                {
-                                    @Model.LocalitaCattura.Citta.Provincia.Regione.Nazione.Nazione
-                                }
-                                else
-                                {
-                                    @("-");
-                                }
-                            }
-                        </dd>
-                        <dd>@Model.LocalitaCattura.NomeLocalita</dd>
-                        <dt>@localizzatore["Collezione"]:</dt>
-                        <dd>@Model.Collezione.Collezione</dd>
-                        <dt>@localizzatore["Spedizione"]:</dt>
-                        <dd>@Model.Spedizione.Spedizione</dd>
-                    </dl>
-
-                    <dl class="col-lg-3 dl-horizontal text-primary">
-                        <dt>@localizzatore["Data di Determinazione"]:</dt>
-                        <dd>@Model.DataDeterminazione</dd>
-                        <dt>@localizzatore["Determinatori"]:</dt>
-                        <dd>
-                            <ul class="list-unstyled">
-                                @foreach (var determinatore in Model.Determinazioni.OrderBy(det => det.Ordinamento))
-                                {
-                                    <li>@(determinatore.Determinatore.Nome + " " + determinatore.Determinatore.Cognome)</li>
-                                }
-                            </ul>
-                     
-                        </dd>
-                        <dt>@localizzatore["Vecchie Determinazioni"]:</dt>
-                        <dd style="max-height:150px;overflow-y:auto;">
-                            <ul class="list-unstyled">
-                                @foreach (var determinazione in Model.VecchieDeterminazioni.OrderBy(det => det.Ordinamento))
-                                {
-                                    <li>@(determinazione.VecchiaDeterminazione)</li>
-                                    <ol>
-                                        @foreach (var vecchioDeterminatore in determinazione.VecchiDeterminatori.OrderBy(det => det.Ordinamento))
-                                        {
-                                            <li>@(vecchioDeterminatore.Determinatore.Nome + " " + vecchioDeterminatore.Determinatore.Cognome)</li>
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["Data di Cattura"]:</dt>
+                            <dd>@Model.DataCattura</dd>
+                            <dt>@localizzatore["Data Corretta"]:</dt>
+                            <dd>@Model.DataCatturaCorretta</dd>
+                            <dt>@localizzatore["Avuto da"]:</dt>
+                            <dd>@Model.AvutoDa.Raccoglitore</dd>
+                            <dt>@localizzatore["Legit"]:</dt>
+                            <dd>@Model.Legit.Raccoglitore</dd>
+                            <dt>@localizzatore["Tipo Acquisizione"]:</dt>
+                            <dd>@Model.TipoAcquisizione.TipoAcquisizione</dd>
+                            <dt>@localizzatore["Data Acquisizione"]:</dt>
+                            <dd>@Model.DataAcquisizione</dd>
+                            <dt>@localizzatore["Località di Cattura"]:</dt>
+                            <dd data-toggle="popover"
+                                data-html="true"
+                                data-placement="auto"
+                                tabindex="0"
+                                data-trigger="focus"
+                                style="outline:none;cursor:pointer"
+                                data-content="@localizzatore["Nazione"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Regione.Nazione.Nazione)</b><br>
+                                          @localizzatore["Regione"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Regione.Regione)</b><br>
+                                          @localizzatore["Provincia"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Provincia)</b><br>
+                                          @localizzatore["Città"]: <b>@(Model.LocalitaCattura.Citta.NomeCitta)</b>">
+                                        @{
+                                            if (Model.LocalitaCattura.Citta.Provincia.Regione.Regione == "-")
+                                            {
+                                                @Model.LocalitaCattura.Citta.Provincia.Regione.Nazione.Nazione
+                                            }
+                                            else if (Model.LocalitaCattura.Citta.Provincia.Provincia == "-")
+                                            {
+                                                @Model.LocalitaCattura.Citta.Provincia.Regione.Regione
+                                            }
+                                            else if (Model.LocalitaCattura.Citta.NomeCitta == "-")
+                                            {
+                                                @Model.LocalitaCattura.Citta.Provincia.Provincia
+                                            }
+                                            else if (Model.LocalitaCattura.NomeLocalita == "-")
+                                            {
+                                                @Model.LocalitaCattura.Citta.Provincia
+                                            }
+                                            else
+                                            {
+                                                @Model.LocalitaCattura.NomeLocalita
+                                            }
                                         }
-                                    </ol>
-                                }
-                            </ul>
                         </dd>
-                    </dl>
+                            <dt>@localizzatore["Collezione"]:</dt>
+                            <dd>@Model.Collezione.Collezione</dd>
+                            <dt>@localizzatore["Spedizione"]:</dt>
+                            <dd>@Model.Spedizione.Spedizione</dd>
+                        </dl>
+
+
+
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["Data di Determinazione"]:</dt>
+                            <dd>@Model.DataDeterminazione</dd>
+                            <dt>@localizzatore["Determinatori"]:</dt>
+                            <dd>
+                                <ul class="list-unstyled">
+                                    @foreach (var determinatore in Model.Determinazioni.OrderBy(det => det.Ordinamento))
+                                    {
+                                        <li>@(determinatore.Determinatore.Nome + " " + determinatore.Determinatore.Cognome)</li>
+                                    }
+                                </ul>
+
+                            </dd>
+                            <dt>@localizzatore["Vecchie Determinazioni"]:</dt>
+                            <dd style="max-height:150px;overflow-y:auto;">
+                                <ul class="list-unstyled">
+                                    @foreach (var determinazione in Model.VecchieDeterminazioni.OrderBy(det => det.Ordinamento))
+                                    {
+                                        <li>@(determinazione.VecchiaDeterminazione)</li>
+                                        <ol>
+                                            @foreach (var vecchioDeterminatore in determinazione.VecchiDeterminatori.OrderBy(det => det.Ordinamento))
+                                            {
+                                                <li>@(vecchioDeterminatore.Determinatore.Nome + " " + vecchioDeterminatore.Determinatore.Cognome)</li>
+                                            }
+                                        </ol>
+                                    }
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>
+
+                    <div class="row">
+
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["Contenuto Stomaco"]:</dt>
+                            <dd>@Model.ContenutoStomaco</dd>
+                            <dt>@localizzatore["Contenuto Ingluvie"]:</dt>
+                            <dd>@Model.ContenutoIngluvie</dd>
+                            <dt>@localizzatore["Inanellato"]:</dt>
+                            <dd>@((bool)Model.Inanellato ? localizzatore["Sì"] : localizzatore["No"])</dd>
+                            <dt>@localizzatore["Dati Anello"]:</dt>
+                            <dd>@Model.DatiAnello</dd>
+                        </dl>
+
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["Formula Alare E"]:</dt>
+                            <dd>@Model.FormulaAlareE</dd>
+                            <dt>@localizzatore["Formula Alare WP"]:</dt>
+                            <dd>@Model.FormulaAlareWp</dd>
+                            <dt>@localizzatore["Formula Alare 2"]:</dt>
+                            <dd>@Model.FormulaAlare2</dd>
+                            <dt>@localizzatore["Timoniere Esterne"]:</dt>
+                            <dd>@Model.TimoniereEsterne</dd>
+                            <dt>@localizzatore["Timoniere Centrali"]:</dt>
+                            <dd>@Model.TimoniereCentrali</dd>
+                        </dl>
+
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["Colore Zampe"]:</dt>
+                            <dd>@Model.ColoreZampe</dd>
+                            <dt>@localizzatore["Tarso"]:</dt>
+                            <dd>@Model.Tarso</dd>
+                            <dt>@localizzatore["Remigante 3"]:</dt>
+                            <dd>@Model.Remigante3</dd>
+                            <dt>@localizzatore["Ala"]:</dt>
+                            <dd>@Model.Ala</dd>
+                            <dt>@localizzatore["Colore Becco"]:</dt>
+                            <dd>@Model.ColoreBecco</dd>
+                            <dt>@localizzatore["Culmine"]:</dt>
+                            <dd>@Model.Culmine</dd>
+                        </dl>
+
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["Becco-Cranio"]:</dt>
+                            <dd>@Model.BeccoCranio</dd>
+                            <dt>@localizzatore["Colore Iride"]:</dt>
+                            <dd>@Model.ColoreIride</dd>
+                            <dt>@localizzatore["Dimensione Occhio"]:</dt>
+                            <dd>@Model.DimensioneOcchio</dd>
+                            <dt>@localizzatore["Apertura Alare"]:</dt>
+                            <dd>@Model.AperturaAlare</dd>
+                            <dt>@localizzatore["Lunghezza Totale"]:</dt>
+                            <dd>@Model.LunghezzaTotale</dd>
+                            <dt>@localizzatore["Peso"]:</dt>
+                            <dd>@Model.Peso</dd>
+                        </dl>
+
+                    </div>
+
+                    <div class="row">
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["Bibliografia"]:</dt>
+                            <dd>@Model.Bibliografia</dd>
+                        </dl>
+                        <dl class="col-lg-9 dl-horizontal text-primary">
+                            <dt>@localizzatore["Note"]:</dt>
+                            <dd>
+                                <textarea rows="4"
+                                          cols="80"
+                                          width="100%"
+                                          readonly
+                                          style="resize:none; border:none;">
+                                    @Model.Note
+                                </textarea>
+                            </dd>
+                        </dl>
+
+                    </div>
+
                 </div>
-
-                <div class="row">
-
-                    <dl class="col-lg-3 dl-horizontal text-primary">
-                        <dt>@localizzatore["Contenuto Stomaco"]:</dt>
-                        <dd>@Model.ContenutoStomaco</dd>
-                        <dt>@localizzatore["Contenuto Ingluvie"]:</dt>
-                        <dd>@Model.ContenutoIngluvie</dd>
-                        <dt>@localizzatore["Inanellato"]:</dt>
-                        <dd>@((bool)Model.Inanellato ? localizzatore["Sì"] : localizzatore["No"])</dd>
-                        <dt>@localizzatore["Dati Anello"]:</dt>
-                        <dd>@Model.DatiAnello</dd>
-                    </dl>
-
-                    <dl class="col-lg-3 dl-horizontal text-primary">
-                        <dt>@localizzatore["Formula Alare E"]:</dt>
-                        <dd>@Model.FormulaAlareE</dd>
-                        <dt>@localizzatore["Formula Alare WP"]:</dt>
-                        <dd>@Model.FormulaAlareWp</dd>
-                        <dt>@localizzatore["Formula Alare 2"]:</dt>
-                        <dd>@Model.FormulaAlare2</dd>
-                        <dt>@localizzatore["Timoniere Esterne"]:</dt>
-                        <dd>@Model.TimoniereEsterne</dd>
-                        <dt>@localizzatore["Timoniere Centrali"]:</dt>
-                        <dd>@Model.TimoniereCentrali</dd>
-                    </dl>
-
-                    <dl class="col-lg-3 dl-horizontal text-primary">
-                        <dt>@localizzatore["Colore Zampe"]:</dt>
-                        <dd>@Model.ColoreZampe</dd>
-                        <dt>@localizzatore["Tarso"]:</dt>
-                        <dd>@Model.Tarso</dd>
-                        <dt>@localizzatore["Remigante 3"]:</dt>
-                        <dd>@Model.Remigante3</dd>
-                        <dt>@localizzatore["Ala"]:</dt>
-                        <dd>@Model.Ala</dd>
-                        <dt>@localizzatore["Colore Becco"]:</dt>
-                        <dd>@Model.ColoreBecco</dd>
-                        <dt>@localizzatore["Culmine"]:</dt>
-                        <dd>@Model.Culmine</dd>
-                    </dl>
-
-                    <dl class="col-lg-3 dl-horizontal text-primary">
-                        <dt>@localizzatore["Becco-Cranio"]:</dt>
-                        <dd>@Model.BeccoCranio</dd>
-                        <dt>@localizzatore["Colore Iride"]:</dt>
-                        <dd>@Model.ColoreIride</dd>
-                        <dt>@localizzatore["Dimensione Occhio"]:</dt>
-                        <dd>@Model.DimensioneOcchio</dd>
-                        <dt>@localizzatore["Apertura Alare"]:</dt>
-                        <dd>@Model.AperturaAlare</dd>
-                        <dt>@localizzatore["Lunghezza Totale"]:</dt>
-                        <dd>@Model.LunghezzaTotale</dd>
-                        <dt>@localizzatore["Peso"]:</dt>
-                        <dd>@Model.Peso</dd>
-                    </dl>
-
-                </div>
-
-                <div class="row">
-                    <dl class="col-lg-3 dl-horizontal text-primary">
-                        <dt>@localizzatore["Bibliografia"]:</dt>
-                        <dd>@Model.Bibliografia</dd>
-                    </dl>
-                    <dl class="col-lg-9 dl-horizontal text-primary">
-                        <dt>@localizzatore["Note"]:</dt>
-                        <dd>
-                            <textarea rows="4"
-                                      cols="80"
-                                      width="100%"
-                                      readonly
-                                      style="resize:none; border:none;">
-                                @Model.Note
-                            </textarea>
-                        </dd>
-                    </dl>
-
-                </div>
-
-            </div>
-}
+    }
         </div>
     </div>
 </div>

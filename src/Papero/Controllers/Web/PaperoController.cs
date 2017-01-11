@@ -50,22 +50,15 @@ namespace Papero.Controllers
         public IActionResult DettaglioEsemplare(int id)  // Pagina di dettaglio con tutti i dati del singolo esemplare. E' gestita in modo tradizionale client/server senza
                                                          // chiamate Angular
         {
-            if (id != -1)
+            if (id != -1)  // Se è stato passato un ID valido, carica i dati. ID = -1 significa "non trovato" e si verifica quando viene cercato un MSNG inesistente
             {
-                var datiEsemplare = _repository.LeggiSingoloEsemplareDaElencoSintetico(id); // Legge i dati generici della sottospecie da scrivere nell'intestazione: 
+                //var datiEsemplare = _repository.LeggiSingoloEsemplareDaElencoSintetico(id); // Legge i dati generici della sottospecie da scrivere nell'intestazione: 
                                                                                             // nomi e stato di conservazione
 
                 //ViewBag.famiglia = datiEsemplare.Famiglia;              // Per comodità vengono trasmessi alla vista tramite ViewBag e non tramite modello
                 //ViewBag.sottofamiglia = datiEsemplare.Sottofamiglia;    // TODO: verificare se si può migliorare il ViewModel includendo anche questi campi
-                //ViewBag.tribu = datiEsemplare.Tribu;
-                //ViewBag.genere = datiEsemplare.Genere;                                      
-                //ViewBag.specie = datiEsemplare.Specie;
-                //ViewBag.sottospecie = datiEsemplare.Sottospecie;
-                ViewBag.elencoAutori = datiEsemplare.ElencoAutori;
-                ViewBag.nomeItaliano = datiEsemplare.NomeItaliano;
-                ViewBag.nomeInglese = datiEsemplare.NomeInglese;
-                ViewBag.statoConservazione = datiEsemplare.StatoConservazione;
-                ViewBag.sigla = datiEsemplare.Sigla;
+
+                //ViewBag.elencoAutori = datiEsemplare.ElencoAutori;
                 ViewBag.trovato = true;
 
                 var modello = _repository.LeggiEsemplare(id);   // Legge tutti i dati dell'esemplare
@@ -74,7 +67,7 @@ namespace Papero.Controllers
 
                 return View(vista);        // Restituisce la vista di dettaglio passandole il ViewModel riempito di dati   
             }
-            else
+            else   // Se l'ID non è valido, viene comunicato alla vista che l'MSNG cercato non esiste
             {
                 ViewBag.trovato = false;
                 ModelState.Clear();

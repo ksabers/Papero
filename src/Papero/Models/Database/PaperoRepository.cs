@@ -50,31 +50,47 @@ namespace Papero.Models
 
         public Esemplari LeggiEsemplare(int idEsemplare)
         {
-            return _contesto.Esemplari
-                .Where(esemplare => esemplare.Id == idEsemplare)
-                .Include(esemplare => esemplare.Sottospecie)
-                    .ThenInclude(esemplare => esemplare.Specie)
-                    .ThenInclude(esemplare => esemplare.Genere)
-                    .ThenInclude(esemplare => esemplare.Tribu)
-                    .ThenInclude(esemplare => esemplare.Sottofamiglia)
-                    .ThenInclude(esemplare => esemplare.Famiglia)
-                .Include(esemplare => esemplare.Sesso)
-                .Include(esemplare => esemplare.Tipo)
-                .Include(esemplare => esemplare.Aberrazione)
-                .Include(esemplare => esemplare.Preparazioni).ThenInclude(prep => prep.Preparatore)
-                .Include(esemplare => esemplare.AvutoDa)
-                .Include(esemplare => esemplare.Legit)
-                .Include(esemplare => esemplare.TipoAcquisizione)
-                .Include(esemplare => esemplare.Collezione)
-                .Include(esemplare => esemplare.Spedizione)
-                .Include(esemplare => esemplare.LocalitaCattura)
-                    .ThenInclude(localita => localita.Citta)
-                    .ThenInclude(citta => citta.Provincia)
-                    .ThenInclude(provincia => provincia.Regione)
-                    .ThenInclude(regione => regione.Nazione)
-                .Include(esemplare => esemplare.Determinazioni).ThenInclude(det => det.Determinatore)
-                .Include(esemplare => esemplare.VecchieDeterminazioni).ThenInclude(det => det.VecchiDeterminatori).ThenInclude(det2 => det2.Determinatore)
-                .FirstOrDefault();
+            try
+            {
+                return _contesto.Esemplari
+                    .Where(esemplare => esemplare.Id == idEsemplare)
+                    .Include(esemplare => esemplare.Sottospecie)
+                        .ThenInclude(sottospecie => sottospecie.Specie)
+                            .ThenInclude(specie => specie.Genere)
+                                .ThenInclude(genere => genere.Tribu)
+                                    .ThenInclude(tribu => tribu.Sottofamiglia)
+                                        .ThenInclude(sottofamiglia => sottofamiglia.Famiglia)
+                    .Include(esemplare => esemplare.Sottospecie)
+                        .ThenInclude(sottospecie => sottospecie.StatoConservazione)
+                    .Include(esemplare => esemplare.Sesso)
+                    .Include(esemplare => esemplare.Tipo)
+                    .Include(esemplare => esemplare.Aberrazione)
+                    .Include(esemplare => esemplare.Preparazioni)
+                        .ThenInclude(preparazione => preparazione.Preparatore)
+                    .Include(esemplare => esemplare.AvutoDa)
+                    .Include(esemplare => esemplare.Legit)
+                    .Include(esemplare => esemplare.TipoAcquisizione)
+                    .Include(esemplare => esemplare.Collezione)
+                    .Include(esemplare => esemplare.Spedizione)
+                    .Include(esemplare => esemplare.LocalitaCattura)
+                        .ThenInclude(localita => localita.Citta)
+                            .ThenInclude(citta => citta.Provincia)
+                                .ThenInclude(provincia => provincia.Regione)
+                                    .ThenInclude(regione => regione.Nazione)
+                    .Include(esemplare => esemplare.Determinazioni)
+                        .ThenInclude(determinazione => determinazione.Determinatore)
+                    .Include(esemplare => esemplare.VecchieDeterminazioni)
+                        .ThenInclude(vecchiaDeterminazione => vecchiaDeterminazione.VecchiDeterminatori)
+                            .ThenInclude(vecchioDeterminatore => vecchioDeterminatore.Determinatore)
+                    .Include(esemplare => esemplare.Sottospecie.Classificazioni)
+                        .ThenInclude(classificazione => classificazione.Classificatore)
+                    .FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return new Esemplari { Id = -1 } ;
+            }
+
         }
 
         public int EsemplareIdDaMSNG(int MSNG)

@@ -336,4 +336,16 @@
   <data name="Tribu" xml:space="preserve">
     <value>Tribù</value>
   </data>
+  <data name="Città" xml:space="preserve">
+    <value>Città</value>
+  </data>
+  <data name="Nazione" xml:space="preserve">
+    <value>Nazione</value>
+  </data>
+  <data name="Provincia" xml:space="preserve">
+    <value>Provincia</value>
+  </data>
+  <data name="Regione" xml:space="preserve">
+    <value>Regione</value>
+  </data>
 </root>
