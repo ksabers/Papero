@@ -52,16 +52,28 @@ namespace Papero.Models
         {
             return _contesto.Esemplari
                 .Where(esemplare => esemplare.Id == idEsemplare)
+                .Include(esemplare => esemplare.Sottospecie)
+                    .ThenInclude(esemplare => esemplare.Specie)
+                    .ThenInclude(esemplare => esemplare.Genere)
+                    .ThenInclude(esemplare => esemplare.Tribu)
+                    .ThenInclude(esemplare => esemplare.Sottofamiglia)
+                    .ThenInclude(esemplare => esemplare.Famiglia)
                 .Include(esemplare => esemplare.Sesso)
                 .Include(esemplare => esemplare.Tipo)
                 .Include(esemplare => esemplare.Aberrazione)
-                .Include(esemplare => esemplare.Preparazioni)
+                .Include(esemplare => esemplare.Preparazioni).ThenInclude(prep => prep.Preparatore)
                 .Include(esemplare => esemplare.AvutoDa)
                 .Include(esemplare => esemplare.Legit)
                 .Include(esemplare => esemplare.TipoAcquisizione)
                 .Include(esemplare => esemplare.Collezione)
                 .Include(esemplare => esemplare.Spedizione)
                 .Include(esemplare => esemplare.LocalitaCattura)
+                    .ThenInclude(localita => localita.Citta)
+                    .ThenInclude(citta => citta.Provincia)
+                    .ThenInclude(provincia => provincia.Regione)
+                    .ThenInclude(regione => regione.Nazione)
+                .Include(esemplare => esemplare.Determinazioni).ThenInclude(det => det.Determinatore)
+                .Include(esemplare => esemplare.VecchieDeterminazioni).ThenInclude(det => det.VecchiDeterminatori).ThenInclude(det2 => det2.Determinatore)
                 .FirstOrDefault();
         }
 

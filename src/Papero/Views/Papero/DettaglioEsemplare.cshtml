@@ -50,11 +50,20 @@ Vista che mostra la scheda di dettaglio del singolo esemplare
 
 @if (ViewBag.trovato)
 {
-                    <div class="col-lg-6">
-                        <h4>@(ViewBag.genere + " " + ViewBag.specie + " " + (ViewBag.sottospecie == "-" ? "" : ViewBag.sottospecie) + " " + ViewBag.elencoAutori)</h4>
+                    <div class="col-lg-4">
+                        <h4>@(Model.Sottospecie.Specie.Genere.Nome + " " + Model.Sottospecie.Specie.Nome + " " + (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome) + " " + ViewBag.elencoAutori)</h4>
+                    </div>
+                    <div class="col-lg-2">
+                        <dl class="dl-horizontal text-white">
+                            <dt>@localizzatore["Famiglia"]:</dt>
+                            <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Famiglia.Nome</dd>
+                            <dt>@localizzatore["Sottofamiglia"]:</dt>
+                            <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Nome</dd>
+                            <dt>@localizzatore["Tribu"]:</dt>
+                            <dd>@Model.Sottospecie.Specie.Genere.Tribu.Nome</dd>
+                        </dl>
                     </div>
                     <div class="col-lg-4">
-                        
                             <dl class="dl-horizontal text-white">
                                 <dt>@localizzatore["Nome Italiano"]:</dt>
                                 <dd>@ViewBag.nomeItaliano</dd>
@@ -63,10 +72,7 @@ Vista che mostra la scheda di dettaglio del singolo esemplare
                                 <dt>@localizzatore["Stato di Conservazione"]:</dt>
                                 <dd>@(string.IsNullOrWhiteSpace(ViewBag.statoConservazione) ? "" : ViewBag.statoConservazione + " (" + ViewBag.sigla + ")")</dd>
                             </dl>
-                        
-
-                            
-                        </div>
+                    </div>
 }
 else
 {
@@ -90,6 +96,8 @@ else
                         <dd>@Model.LetteraEsemplare</dd>
                         <dt>@localizzatore["Numero"]:</dt>
                         <dd>@Model.NumeroEsemplare</dd>
+                        <dt>@localizzatore["Scheda"]:</dt>
+                        <dd>@Model.Scheda</dd>
                         <dt>@localizzatore["Presenza"]:</dt>
                         <dd>@((bool)Model.Presenza ? localizzatore["Sì"] : localizzatore["No"])</dd>
                         <dt>@localizzatore["Sesso"]:</dt>
@@ -106,9 +114,10 @@ else
                         <dt>@localizzatore["Preparatori"]:</dt>
                         <dd>
                             <ul class="list-unstyled">
-                                <li>Mario Rossi</li>
-                                <li>Pino Bianchi</li>
-                                <li>Giovanni Verdi</li>
+                                @foreach (var preparatore in Model.Preparazioni.OrderBy(prep => prep.Ordinamento))
+                                {
+                                    <li>@(preparatore.Preparatore.Nome + " " + preparatore.Preparatore.Cognome)</li>
+                                }
                             </ul>
                         </dd>
                         <dt>@localizzatore["Modo di Preparazione"]:</dt>
@@ -125,14 +134,26 @@ else
                         <dt>@localizzatore["Data Corretta"]:</dt>
                         <dd>@Model.DataCatturaCorretta</dd>
                         <dt>@localizzatore["Avuto da"]:</dt>
-                        <dd>test</dd>
+                        <dd>@Model.AvutoDa.Raccoglitore</dd>
                         <dt>@localizzatore["Legit"]:</dt>
-                        <dd>test</dd>
+                        <dd>@Model.Legit.Raccoglitore</dd>
                         <dt>@localizzatore["Tipo Acquisizione"]:</dt>
                         <dd>@Model.TipoAcquisizione.TipoAcquisizione</dd>
                         <dt>@localizzatore["Data Acquisizione"]:</dt>
                         <dd>@Model.DataAcquisizione</dd>
                         <dt>@localizzatore["Località di Cattura"]:</dt>
+                        <dd>
+                            @{
+                                if (Model.LocalitaCattura.Citta.Provincia.Regione.Nazione.Nazione != "-")
+                                {
+                                    @Model.LocalitaCattura.Citta.Provincia.Regione.Nazione.Nazione
+                                }
+                                else
+                                {
+                                    @("-");
+                                }
+                            }
+                        </dd>
                         <dd>@Model.LocalitaCattura.NomeLocalita</dd>
                         <dt>@localizzatore["Collezione"]:</dt>
                         <dd>@Model.Collezione.Collezione</dd>
@@ -146,30 +167,26 @@ else
                         <dt>@localizzatore["Determinatori"]:</dt>
                         <dd>
                             <ul class="list-unstyled">
-                                <li>Mario Rossi</li>
-                                <li>Pino Bianchi</li>
-                                <li>Giovanni Verdi</li>
+                                @foreach (var determinatore in Model.Determinazioni.OrderBy(det => det.Ordinamento))
+                                {
+                                    <li>@(determinatore.Determinatore.Nome + " " + determinatore.Determinatore.Cognome)</li>
+                                }
                             </ul>
+                     
                         </dd>
                         <dt>@localizzatore["Vecchie Determinazioni"]:</dt>
                         <dd style="max-height:150px;overflow-y:auto;">
                             <ul class="list-unstyled">
-                                <li>
-                                    Passerottus Vecchiostyles
+                                @foreach (var determinazione in Model.VecchieDeterminazioni.OrderBy(det => det.Ordinamento))
+                                {
+                                    <li>@(determinazione.VecchiaDeterminazione)</li>
                                     <ol>
-                                        <li>Mario Rossi</li>
-                                        <li>Pino Bianchi</li>
-                                        <li>Giovanni Verdi</li>
+                                        @foreach (var vecchioDeterminatore in determinazione.VecchiDeterminatori.OrderBy(det => det.Ordinamento))
+                                        {
+                                            <li>@(vecchioDeterminatore.Determinatore.Nome + " " + vecchioDeterminatore.Determinatore.Cognome)</li>
+                                        }
                                     </ol>
-                                </li>
-                                <li>
-                                    Paperus Piccolus
-                                    <ol>
-                                        <li>Mario Rossi</li>
-                                        <li>Pino Bianchi</li>
-                                        <li>Giovanni Verdi</li>
-                                    </ol>
-                                </li>
+                                }
                             </ul>
                         </dd>
                     </dl>
@@ -183,7 +200,7 @@ else
                         <dt>@localizzatore["Contenuto Ingluvie"]:</dt>
                         <dd>@Model.ContenutoIngluvie</dd>
                         <dt>@localizzatore["Inanellato"]:</dt>
-                        <dd>@((bool)Model.Inanellato ? "Sì" : "No")</dd>
+                        <dd>@((bool)Model.Inanellato ? localizzatore["Sì"] : localizzatore["No"])</dd>
                         <dt>@localizzatore["Dati Anello"]:</dt>
                         <dd>@Model.DatiAnello</dd>
                     </dl>

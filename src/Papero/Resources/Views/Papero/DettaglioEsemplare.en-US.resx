@@ -324,4 +324,16 @@
   <data name="Codice MSNG non presente!" xml:space="preserve">
     <value>MSNG code not found!</value>
   </data>
+  <data name="Famiglia" xml:space="preserve">
+    <value>Family</value>
+  </data>
+  <data name="Scheda" xml:space="preserve">
+    <value>Card</value>
+  </data>
+  <data name="Sottofamiglia" xml:space="preserve">
+    <value>Subfamily</value>
+  </data>
+  <data name="Tribu" xml:space="preserve">
+    <value>Tribe</value>
+  </data>
 </root>

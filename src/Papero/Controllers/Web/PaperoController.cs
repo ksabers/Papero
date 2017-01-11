@@ -55,9 +55,12 @@ namespace Papero.Controllers
                 var datiEsemplare = _repository.LeggiSingoloEsemplareDaElencoSintetico(id); // Legge i dati generici della sottospecie da scrivere nell'intestazione: 
                                                                                             // nomi e stato di conservazione
 
-                ViewBag.genere = datiEsemplare.Genere;                                      // Per comodità vengono trasmessi alla vista tramite ViewBag e non tramite modello
-                ViewBag.specie = datiEsemplare.Specie;                                      // TODO: verificare se si può migliorare il ViewModel includendo anche questi campi
-                ViewBag.sottospecie = datiEsemplare.Sottospecie;
+                //ViewBag.famiglia = datiEsemplare.Famiglia;              // Per comodità vengono trasmessi alla vista tramite ViewBag e non tramite modello
+                //ViewBag.sottofamiglia = datiEsemplare.Sottofamiglia;    // TODO: verificare se si può migliorare il ViewModel includendo anche questi campi
+                //ViewBag.tribu = datiEsemplare.Tribu;
+                //ViewBag.genere = datiEsemplare.Genere;                                      
+                //ViewBag.specie = datiEsemplare.Specie;
+                //ViewBag.sottospecie = datiEsemplare.Sottospecie;
                 ViewBag.elencoAutori = datiEsemplare.ElencoAutori;
                 ViewBag.nomeItaliano = datiEsemplare.NomeItaliano;
                 ViewBag.nomeInglese = datiEsemplare.NomeInglese;

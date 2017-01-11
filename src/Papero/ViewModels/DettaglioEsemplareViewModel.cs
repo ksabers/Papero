@@ -17,6 +17,7 @@ namespace Papero.ViewModels
         [RegularExpression("([1-9][0-9]*)")]
         public int Msng { get; set; }
         public int? Ncu { get; set; }
+        public int? Scheda { get; set; }
         public int? SessoId { get; set; }
         public string LetteraEsemplare { get; set; }
         public string NumeroEsemplare { get; set; }
