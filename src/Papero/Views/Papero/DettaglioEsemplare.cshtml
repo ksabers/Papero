@@ -5,26 +5,21 @@
 
 @using Papero.Funzioni
 
-
 @model Papero.ViewModels.DettaglioEsemplareViewModel
 
 @{
     ViewBag.Title = localizzatore["Dettaglio Esemplare"];
 }
 
+@*
+Questo css online serve per invertire il modo in cui dt e dd mostrano il loro contenuto. I dt diventano testo normale
+mentre i dd diventano testo in grassetto.    
+*@
 @section css {
     <style type="text/css">
-        dt {
-            font-weight: normal;
-        }
-
-        dd {
-            font-weight: bold;
-        }
-
-        .dl-horizontal dt {
-            white-space: normal;
-        }
+        dt { font-weight: normal; }
+        dd { font-weight: bold; }
+        .dl-horizontal dt {  white-space: normal; }
     </style>
 }
 
@@ -53,7 +48,9 @@
                         </form>
                     </div>
 
-                    @* Il render della pagina viene effettuato solo se l'ID passato è valido *@
+@*
+                    Il render della pagina viene effettuato solo se l'ID passato è valido. In caso contrario viene visualizzato un messaggio di errore.
+*@
                     @if (ViewBag.trovato)
                     {
                         <div class="col-lg-4">
@@ -66,8 +63,8 @@
                                    "" :
                                    Model.Sottospecie.Nome) + " " + @funzioni.elencoAutori(Model.Sottospecie.Classificazioni, (bool)Model.Sottospecie.ClassificazioneOriginale, Model.Sottospecie.AnnoClassificazione))
                             </h4>
-
                         </div>
+
                         <div class="col-lg-2">
                             <dl class="dl-horizontal text-white">
                                 <dt>@localizzatore["Famiglia"]:</dt>
@@ -78,6 +75,7 @@
                                 <dd>@Model.Sottospecie.Specie.Genere.Tribu.Nome</dd>
                             </dl>
                         </div>
+
                         <div class="col-lg-4">
                             <dl class="dl-horizontal text-white">
                                 <dt>@localizzatore["Nome Italiano"]:</dt>
@@ -91,7 +89,6 @@
                                     : Model.Sottospecie.StatoConservazione.StatoConservazione + " (" + Model.Sottospecie.StatoConservazione.Sigla + ")")
                                 </dd>
                             </dl>
-
                         </div>
                     }
                     else
@@ -130,7 +127,7 @@
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             <dt>@localizzatore["Data di Preparazione"]:</dt>
-                            <dd>@Model.DataPreparazione</dd>
+                            <dd>@funzioni.leggiData(Model.DataPreparazione)</dd>
                             <dt>@localizzatore["Preparatori"]:</dt>
                             <dd>
                                 <ul class="list-unstyled">
@@ -141,16 +138,21 @@
                                 </ul>
                             </dd>
                             <dt>@localizzatore["Modo di Preparazione"]:</dt>
-                            <dd>Pelle</dd>
-                            <dt>@localizzatore["Collocazione"]:</dt>
-                            <dd>collocazione</dd>
+                            <dd>
+                                <ul class="list-unstyled">
+                                    @foreach (var preparato in Model.Preparati.OrderBy(preparato => preparato.Ordinamento))
+                                    {
+                                        <li>@(preparato.Parte.Parte + " (" + preparato.Vassoio.Cassetto.Armadio.Sala.Sala + ", " + preparato.Vassoio.Cassetto.Armadio.Armadio + ", " + preparato.Vassoio.Cassetto.Cassetto + ", " + preparato.Vassoio.Vassoio + ")")</li>
+                                    }
+                                </ul>
+                            </dd>
                             <dt>@localizzatore["Note di Preparazione"]:</dt>
                             <dd><textarea rows="4" readonly style="resize:none; border:none;">@Model.NotePreparazione</textarea></dd>
                         </dl>
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             <dt>@localizzatore["Data di Cattura"]:</dt>
-                            <dd>@Model.DataCattura</dd>
+                            <dd>@funzioni.leggiData(Model.DataCattura)</dd>
                             <dt>@localizzatore["Data Corretta"]:</dt>
                             <dd>@Model.DataCatturaCorretta</dd>
                             <dt>@localizzatore["Avuto da"]:</dt>
@@ -160,14 +162,21 @@
                             <dt>@localizzatore["Tipo Acquisizione"]:</dt>
                             <dd>@Model.TipoAcquisizione.TipoAcquisizione</dd>
                             <dt>@localizzatore["Data Acquisizione"]:</dt>
-                            <dd>@Model.DataAcquisizione</dd>
+                            <dd>@funzioni.leggiData(Model.DataAcquisizione)</dd>
                             <dt>@localizzatore["Località di Cattura"]:</dt>
+
+@*
+                            I parametri del dd servono per far comparire il popover di localizzazione geografica cliccando sulla località. tabindex=0 è un workaround per un bug di Bootstrap
+                            altrimenti data-trigger=focus non funzionebbe. Mettere tabindex obbliga anche ad aggiungere style=outline:none altrimenti si vedrebbe
+                            una antiestetica cornice attorno all'elemento. data-html=true è importante perché c'è codice html all'interno del data-content.
+                            La serie di if-elseif visualizza il primo elemento "non-trattino" nella localizzazione geografica (il più dettagliato).
+*@
                             <dd data-toggle="popover"
                                 data-html="true"
                                 data-placement="auto"
                                 tabindex="0"
                                 data-trigger="focus"
-                                style="outline:none;cursor:pointer"
+                                style="outline:none;cursor:pointer;"
                                 data-content="@localizzatore["Nazione"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Regione.Nazione.Nazione)</b><br>
                                           @localizzatore["Regione"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Regione.Regione)</b><br>
                                           @localizzatore["Provincia"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Provincia)</b><br>
@@ -205,7 +214,7 @@
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             <dt>@localizzatore["Data di Determinazione"]:</dt>
-                            <dd>@Model.DataDeterminazione</dd>
+                            <dd>@funzioni.leggiData(Model.DataDeterminazione)</dd>
                             <dt>@localizzatore["Determinatori"]:</dt>
                             <dd>
                                 <ul class="list-unstyled">
@@ -293,10 +302,12 @@
                     </div>
 
                     <div class="row">
+
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             <dt>@localizzatore["Bibliografia"]:</dt>
                             <dd>@Model.Bibliografia</dd>
                         </dl>
+
                         <dl class="col-lg-9 dl-horizontal text-primary">
                             <dt>@localizzatore["Note"]:</dt>
                             <dd>
@@ -311,7 +322,6 @@
                         </dl>
 
                     </div>
-
                 </div>
     }
         </div>

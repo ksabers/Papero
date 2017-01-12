@@ -34,6 +34,14 @@ namespace Papero.Models
                 .Single(esemplare => esemplare.Id == idEsemplare);
         }
 
+        public IEnumerable<Esemplari> ElencoEsemplari()
+        {
+            return _contesto.Esemplari
+                .Include(esemplare => esemplare.Sottospecie)
+                        .ThenInclude(sottospecie => sottospecie.Specie)
+                            .ThenInclude(specie => specie.Genere);
+        }
+
 
         public IEnumerable<Famiglie> LeggiAlbero()
         {
@@ -84,6 +92,13 @@ namespace Papero.Models
                             .ThenInclude(vecchioDeterminatore => vecchioDeterminatore.Determinatore)
                     .Include(esemplare => esemplare.Sottospecie.Classificazioni)
                         .ThenInclude(classificazione => classificazione.Classificatore)
+                    .Include(esemplare => esemplare.Preparati)
+                        .ThenInclude(preparato => preparato.Parte)
+                    .Include(esemplare => esemplare.Preparati)
+                        .ThenInclude(preparato => preparato.Vassoio)
+                            .ThenInclude(vassoio => vassoio.Cassetto)
+                                .ThenInclude(cassetto => cassetto.Armadio)
+                                    .ThenInclude(armadio => armadio.Sala)
                     .FirstOrDefault();
             }
             catch (Exception)
