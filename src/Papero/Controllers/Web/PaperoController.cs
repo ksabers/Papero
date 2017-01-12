@@ -41,6 +41,7 @@ namespace Papero.Controllers
         }
 
         [Authorize]
+
         public IActionResult ElencoEsemplari()  // Pagina di navigazione con l'albero tassonomico e la tabella degli esemplari. Tutte le richieste al DB sono fatte da Angular
         {                                       // lato client tramite API, quindi lato server ci si limita a farsi restituire la vista vuota
             return View();
@@ -51,9 +52,17 @@ namespace Papero.Controllers
         {
             if (id != -1)  // Se è stato passato un ID valido, carica i dati. ID = -1 significa "non trovato" e si verifica quando viene cercato un MSNG inesistente
             {
+                //var datiEsemplare = _repository.LeggiSingoloEsemplareDaElencoSintetico(id); // Legge i dati generici della sottospecie da scrivere nell'intestazione: 
+                                                                                            // nomi e stato di conservazione
 
-                ViewBag.trovato = true;                                        // Flag che dice alla vista che l'ID è valido
-                var modello = _repository.LeggiEsemplare(id);                  // Legge tutti i dati dell'esemplare
+                //ViewBag.famiglia = datiEsemplare.Famiglia;              // Per comodità vengono trasmessi alla vista tramite ViewBag e non tramite modello
+                //ViewBag.sottofamiglia = datiEsemplare.Sottofamiglia;    // TODO: verificare se si può migliorare il ViewModel includendo anche questi campi
+
+                //ViewBag.elencoAutori = datiEsemplare.ElencoAutori;
+                ViewBag.trovato = true;
+
+                var modello = _repository.LeggiEsemplare(id);   // Legge tutti i dati dell'esemplare
+
                 var vista = Mapper.Map<DettaglioEsemplareViewModel>(modello);  // Mappa i dati dell'esemplare sul ViewModel che usiamo per comunicare con la vista
 
                 return View(vista);        // Restituisce la vista di dettaglio passandole il ViewModel riempito di dati   

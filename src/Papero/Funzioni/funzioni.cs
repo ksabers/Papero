@@ -8,6 +8,10 @@ namespace Papero.Funzioni
 {
     public static class funzioni
     {
+          public static int ritornaUno()
+        {
+            return 1;
+        }
 
         public static string elencoAutori(ICollection<Classificazioni> classificazione, bool classificazioneOriginale, string annoClassificazione)
         {
@@ -43,18 +47,6 @@ namespace Papero.Funzioni
                 elenco = "(" + elenco + ")";
             }
             return elenco;
-        }
-
-        public static string leggiData(string dataIngresso)
-        {
-            if (string.IsNullOrWhiteSpace(dataIngresso))
-            {
-                return "-";
-            }
-            else
-            {
-                return dataIngresso;
-            }
         }
     }
 }
