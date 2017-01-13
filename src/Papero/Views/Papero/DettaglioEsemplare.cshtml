@@ -12,23 +12,39 @@
 }
 
 @*
-Questo css online serve per invertire il modo in cui dt e dd mostrano il loro contenuto. I dt diventano testo normale
-mentre i dd diventano testo in grassetto.    
+    Questo css online serve per invertire il modo in cui dt e dd mostrano il loro contenuto. I dt diventano testo normale
+    mentre i dd diventano testo in grassetto.
 *@
 @section css {
     <style type="text/css">
-        dt { font-weight: normal; }
-        dd { font-weight: bold; }
-        .dl-horizontal dt {  white-space: normal; }
+        dt {
+            font-weight: normal;
+        }
+
+        dd {
+            font-weight: bold;
+        }
+
+        .dl-horizontal dt {
+            white-space: normal;
+        }
     </style>
 }
 
 @section scripts {
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"
+            asp-fallback-src="~/lib/angular/angular.min.js"
+            asp-fallback-test="window.angular"></script>
+
+    <script src="~/js/papero-app.js"></script>
+    <script src="~/js/modaleNomiController.js"></script>
+
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }
 
-<div class="row">
+<div class="row" ng-app="papero-app">
     <div class="col-lg-12">
 
         <div class="panel panel-primary">
@@ -48,9 +64,9 @@ mentre i dd diventano testo in grassetto.
                         </form>
                     </div>
 
-@*
-                    Il render della pagina viene effettuato solo se l'ID passato è valido. In caso contrario viene visualizzato un messaggio di errore.
-*@
+                    @*
+                        Il render della pagina viene effettuato solo se l'ID passato è valido. In caso contrario viene visualizzato un messaggio di errore.
+                    *@
                     @if (ViewBag.trovato)
                     {
                         <div class="col-lg-4">
@@ -66,29 +82,94 @@ mentre i dd diventano testo in grassetto.
                         </div>
 
                         <div class="col-lg-2">
-                            <dl class="dl-horizontal text-white">
-                                <dt>@localizzatore["Famiglia"]:</dt>
-                                <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Famiglia.Nome</dd>
-                                <dt>@localizzatore["Sottofamiglia"]:</dt>
-                                <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Nome</dd>
-                                <dt>@localizzatore["Tribu"]:</dt>
-                                <dd>@Model.Sottospecie.Specie.Genere.Tribu.Nome</dd>
-                            </dl>
+                            <div class="card card-outline-primary">
+                                <dl class="dl-horizontal text-white">
+
+                                    <dt>@localizzatore["Famiglia"]:</dt>
+                                    <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Famiglia.Nome</dd>
+                                    <dt>@localizzatore["Sottofamiglia"]:</dt>
+                                    <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Nome</dd>
+                                    <dt>@localizzatore["Tribu"]:</dt>
+                                    <dd>@Model.Sottospecie.Specie.Genere.Tribu.Nome</dd>
+                                </dl>
+                            </div>
                         </div>
 
-                        <div class="col-lg-4">
-                            <dl class="dl-horizontal text-white">
-                                <dt>@localizzatore["Nome Italiano"]:</dt>
-                                <dd>@Model.Sottospecie.NomeItaliano</dd>
-                                <dt>@localizzatore["Nome Inglese"]:</dt>
-                                <dd>@Model.Sottospecie.NomeInglese</dd>
-                                <dt>@localizzatore["Stato di Conservazione"]:</dt>
-                                <dd>
-                                    @(string.IsNullOrWhiteSpace(Model.Sottospecie.StatoConservazione.StatoConservazione) || Model.Sottospecie.StatoConservazione.StatoConservazione == "-"
+                        <div class="col-lg-4" ng-controller="modaleNomiController as vm">
+
+                            <div class="modal fade" id="modaleNomi" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">{{vm.pippo}}@localizzatore["Inserire i nuovi valori"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                                                </div>
+                                                <div class="panel-body">
+
+                                                    <form class="form-horizontal">
+                                                        <fieldset>
+                                                            @*<legend>Legend</legend>*@
+                                                            <div class="form-group">
+                                                                <label for="nomeItaliano" class="col-lg-2 control-label text-primary">@localizzatore["Nome Italiano"]:</label>
+                                                                <div class="col-lg-10">
+                                                                    <input type="text" class="form-control" id="nomeItaliano" value="@Model.Sottospecie.NomeItaliano">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="nomeInglese" class="col-lg-2 control-label text-primary">@localizzatore["Nome Inglese"]:</label>
+                                                                <div class="col-lg-10">
+                                                                    <input type="text" class="form-control" id="nomeInglese" value="@Model.Sottospecie.NomeInglese">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="statiConservazione" class="col-lg-2 control-label text-primary">@localizzatore["Stato di Conservazione"]:</label>
+                                                                <div class="col-lg-10">
+                                                                    <select class="form-control" id="statiConservazione">
+                                                                        <option ng-repeat="statoConservazione in vm.elencoStatiConservazione" value="{{statoConservazione.id}}">{{statoConservazione.statoConservazione}} - {{statoConservazione.sigla}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-lg-12">
+                                                                    <div class="pull-right">
+                                                                        <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
+                                                                        <button type="submit" class="btn btn-success">@localizzatore["Inserisci"]</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card card-outline-primary">
+                                <dl class="dl-horizontal text-white">
+                                    <dt>
+                                        @if (User.IsInRole("Amministratore"))
+                                        {
+                                            <i role="button" class="fa fa-pencil fa-pull-left fa-fw" data-toggle="modal" data-target="#modaleNomi" ng-click="vm.apriModale()"></i>
+                                        }
+
+
+                                        @localizzatore["Nome Italiano"]:
+                                    </dt>
+                                    <dd>@Model.Sottospecie.NomeItaliano</dd>
+                                    <dt>@localizzatore["Nome Inglese"]:</dt>
+                                    <dd>@Model.Sottospecie.NomeInglese</dd>
+                                    <dt>@localizzatore["Stato di Conservazione"]:</dt>
+                                    <dd>
+                                        @(string.IsNullOrWhiteSpace(Model.Sottospecie.StatoConservazione.StatoConservazione) || Model.Sottospecie.StatoConservazione.StatoConservazione == "-"
                                     ? ""
                                     : Model.Sottospecie.StatoConservazione.StatoConservazione + " (" + Model.Sottospecie.StatoConservazione.Sigla + ")")
-                                </dd>
-                            </dl>
+                                    </dd>
+                                </dl>
+                            </div>
                         </div>
                     }
                     else
@@ -165,12 +246,12 @@ mentre i dd diventano testo in grassetto.
                             <dd>@funzioni.leggiData(Model.DataAcquisizione)</dd>
                             <dt>@localizzatore["Località di Cattura"]:</dt>
 
-@*
-                            I parametri del dd servono per far comparire il popover di localizzazione geografica cliccando sulla località. tabindex=0 è un workaround per un bug di Bootstrap
-                            altrimenti data-trigger=focus non funzionebbe. Mettere tabindex obbliga anche ad aggiungere style=outline:none altrimenti si vedrebbe
-                            una antiestetica cornice attorno all'elemento. data-html=true è importante perché c'è codice html all'interno del data-content.
-                            La serie di if-elseif visualizza il primo elemento "non-trattino" nella localizzazione geografica (il più dettagliato).
-*@
+                            @*
+                                I parametri del dd servono per far comparire il popover di localizzazione geografica cliccando sulla località. tabindex=0 è un workaround per un bug di Bootstrap
+                                altrimenti data-trigger=focus non funzionebbe. Mettere tabindex obbliga anche ad aggiungere style=outline:none altrimenti si vedrebbe
+                                una antiestetica cornice attorno all'elemento. data-html=true è importante perché c'è codice html all'interno del data-content.
+                                La serie di if-elseif visualizza il primo elemento "non-trattino" nella localizzazione geografica (il più dettagliato).
+                            *@
                             <dd data-toggle="popover"
                                 data-html="true"
                                 data-placement="auto"
@@ -231,12 +312,12 @@ mentre i dd diventano testo in grassetto.
                                     @foreach (var determinazione in Model.VecchieDeterminazioni.OrderBy(det => det.Ordinamento))
                                     {
                                         <li>@(determinazione.VecchiaDeterminazione)</li>
-                                        <ol>
-                                            @foreach (var vecchioDeterminatore in determinazione.VecchiDeterminatori.OrderBy(det => det.Ordinamento))
-                                            {
-                                                <li>@(vecchioDeterminatore.Determinatore.Nome + " " + vecchioDeterminatore.Determinatore.Cognome)</li>
-                                            }
-                                        </ol>
+                                                <ol>
+                                                    @foreach (var vecchioDeterminatore in determinazione.VecchiDeterminatori.OrderBy(det => det.Ordinamento))
+                                                    {
+                                                        <li>@(vecchioDeterminatore.Determinatore.Nome + " " + vecchioDeterminatore.Determinatore.Cognome)</li>
+                                                    }
+                                                </ol>
                                     }
                                 </ul>
                             </dd>

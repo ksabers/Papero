@@ -348,4 +348,13 @@
   <data name="Regione" xml:space="preserve">
     <value>Region</value>
   </data>
+  <data name="Annulla" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Inserire i nuovi valori" xml:space="preserve">
+    <value>Insert new values</value>
+  </data>
+  <data name="Inserisci" xml:space="preserve">
+    <value>Submit</value>
+  </data>
 </root>

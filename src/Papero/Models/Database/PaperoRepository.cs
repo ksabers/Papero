@@ -34,13 +34,13 @@ namespace Papero.Models
                 .Single(esemplare => esemplare.Id == idEsemplare);
         }
 
-        public IEnumerable<Esemplari> ElencoEsemplari()
-        {
-            return _contesto.Esemplari
-                .Include(esemplare => esemplare.Sottospecie)
-                        .ThenInclude(sottospecie => sottospecie.Specie)
-                            .ThenInclude(specie => specie.Genere);
-        }
+        //public IEnumerable<Esemplari> ElencoEsemplari()
+        //{
+        //    return _contesto.Esemplari
+        //        .Include(esemplare => esemplare.Sottospecie)
+        //                .ThenInclude(sottospecie => sottospecie.Specie)
+        //                    .ThenInclude(specie => specie.Genere);
+        //}
 
 
         public IEnumerable<Famiglie> LeggiAlbero()
@@ -123,6 +123,11 @@ namespace Papero.Models
 
  
 
+        }
+
+        public IEnumerable<StatiConservazione> LeggiStatiConservazione()
+        {
+            return _contesto.StatiConservazione.ToList();
         }
     }
 }

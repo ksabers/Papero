@@ -34,5 +34,11 @@ namespace Papero.Controllers
         {
             return Ok(_repository.LeggiEsemplare(idEsemplare));
         }
+
+        [HttpGet("api/staticonservazione")]
+        public IActionResult GetStatiConservazione()
+        {
+            return Ok(_repository.LeggiStatiConservazione());
+        }
     }
 }
