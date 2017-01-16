@@ -104,7 +104,7 @@
 
                                             <div class="panel panel-primary">
                                                 <div class="panel-heading">
-                                                    <h3 class="panel-title">{{vm.pippo}}@localizzatore["Inserire i nuovi valori"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                                                    <h3 class="panel-title">@localizzatore["Inserire i nuovi valori"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
                                                 </div>
                                                 <div class="panel-body">
 
@@ -126,8 +126,11 @@
                                                             <div class="form-group">
                                                                 <label for="statiConservazione" class="col-lg-2 control-label text-primary">@localizzatore["Stato di Conservazione"]:</label>
                                                                 <div class="col-lg-10">
-                                                                    <select class="form-control" id="statiConservazione">
-                                                                        <option ng-repeat="statoConservazione in vm.elencoStatiConservazione" value="{{statoConservazione.id}}">{{statoConservazione.statoConservazione}} - {{statoConservazione.sigla}}</option>
+                                                                    <input type="hidden" id="statoConservazioneDB" value="@Model.Sottospecie.StatoConservazioneId" />
+                                                                    <select id="statiConservazione"
+                                                                            class="form-control"  
+                                                                            ng-model="vm.statoConservazioneSelezionato" 
+                                                                            ng-options="statoConservazione.id as statoConservazione.statoConservazione for statoConservazione in vm.elencoStatiConservazione">
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -135,7 +138,7 @@
                                                                 <div class="col-lg-12">
                                                                     <div class="pull-right">
                                                                         <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
-                                                                        <button type="submit" class="btn btn-success">@localizzatore["Inserisci"]</button>
+                                                                        <button type="submit" class="btn btn-success" ng-click="vm.salvaModaleNomi()" data-dismiss="modal">@localizzatore["Inserisci"]</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -153,7 +156,7 @@
                                     <dt>
                                         @if (User.IsInRole("Amministratore"))
                                         {
-                                            <i role="button" class="fa fa-pencil fa-pull-left fa-fw" data-toggle="modal" data-target="#modaleNomi" ng-click="vm.apriModale()"></i>
+                                            <i role="button" class="fa fa-pencil fa-pull-left fa-fw" data-toggle="modal" data-target="#modaleNomi" ng-click="vm.apriModaleNomi()"></i>
                                         }
 
 

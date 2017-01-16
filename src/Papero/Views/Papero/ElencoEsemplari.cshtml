@@ -2,6 +2,7 @@
     ViewBag.Title = localizzatore["Elenco Esemplari"];
 }
 
+@using Papero.Funzioni
 
 @section css {
 
@@ -79,7 +80,7 @@
                     <tbody>
                         <tr ng-repeat="esemplare in vm.esemplariSelezionati">
                             <td>{{esemplare.msng}}</td>
-                            <td>{{esemplare.genere + " " + esemplare.specie + " " + (esemplare.sottospecie == "-" ? "" : esemplare.sottospecie) + " " + esemplare.elencoAutori}}</td>
+                            <td>{{esemplare.genere + " " + esemplare.specie + " " + (esemplare.sottospecie == "-" ? "" : esemplare.sottospecie) + " "}}</td>
                             <td style="text-align:center"><a ng-href="DettaglioEsemplare/{{esemplare.id}}" class="btn btn-sm btn-primary">@localizzatore["Dettagli"]</a></td>
                         </tr>
                     </tbody>

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Papero.Funzioni;
 using Papero.Models;
+using Papero.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +23,39 @@ namespace Papero.Models
             _log = log;
         }
 
-        public IEnumerable<ElencoSinteticoEsemplari> LeggiElencoSinteticoEsemplari()
+        //public IEnumerable<ElencoSinteticoEsemplari> LeggiElencoSinteticoEsemplari()
+        //{
+        //    _log.LogInformation("Chiamata di _contesto.Esemplari.ToList()");
+
+        //    return _contesto.ElencoSinteticoEsemplari.ToList();
+
+        //}
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoSinteticoEsemplari()
         {
             _log.LogInformation("Chiamata di _contesto.Esemplari.ToList()");
 
-            return _contesto.ElencoSinteticoEsemplari.ToList();
+            //return _contesto.ElencoSinteticoEsemplari.ToList();
+            //var classificazioni = this.LeggiClassificazioni();
+
+
+            return _contesto.Esemplari
+                .Include(esemplare => esemplare.Sottospecie)
+                        .ThenInclude(sottospecie => sottospecie.Specie)
+                            .ThenInclude(specie => specie.Genere)                    
+                .Select(es => new ElencoEsemplariViewModel
+                {
+                    Id = es.Id,
+                    Msng = es.Msng,
+                    SottospecieId = es.SottospecieId,
+                    Genere = es.Sottospecie.Specie.Genere.Nome,
+                    Specie = es.Sottospecie.Specie.Nome,
+                    Sottospecie = es.Sottospecie.Nome
+                });
+
+            //Classificazione = classificazioni.Where(o => o.SottospecieId == es.SottospecieId)
+
+            //return temp;
         }
 
         public ElencoSinteticoEsemplari LeggiSingoloEsemplareDaElencoSintetico (int idEsemplare)
@@ -127,7 +157,25 @@ namespace Papero.Models
 
         public IEnumerable<StatiConservazione> LeggiStatiConservazione()
         {
-            return _contesto.StatiConservazione.ToList();
+            return _contesto.StatiConservazione
+                .OrderBy(statoConservazione => statoConservazione.StatoConservazione)
+                .ToList();
+        }
+
+        public IEnumerable<Classificazioni> LeggiClassificazioni()
+        {
+            return _contesto.Classificazioni
+                    .Include(classificazione => classificazione.Classificatore)
+                .ToList();
+        }
+
+        public void AggiornaNomeItaliano(int idSottospecie, string nomeItaliano)
+        {
+
+        }
+        public async Task<bool> SalvaModifiche()
+        {
+            return (await _contesto.SaveChangesAsync()) > 0;
         }
     }
 }

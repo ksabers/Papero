@@ -19,8 +19,8 @@ namespace Papero.Models
         public string NomeItaliano { get; set; }
         public string NomeInglese { get; set; }
         public int? StatoConservazioneId { get; set; }
-
         public virtual ICollection<Classificazioni> Classificazioni { get; set; }
+
         public virtual ICollection<Esemplari> Esemplari { get; set; }
         public virtual Specie Specie { get; set; }
         public virtual StatiConservazione StatoConservazione { get; set; }

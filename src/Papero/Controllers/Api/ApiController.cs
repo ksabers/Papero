@@ -40,5 +40,17 @@ namespace Papero.Controllers
         {
             return Ok(_repository.LeggiStatiConservazione());
         }
+
+        [HttpPut("api/aggiornaNomeItaliano/{idSottospecie}/{nomeItaliano}")]
+        public async Task<IActionResult> PutNomeItaliano(int idSottospecie, string nomeItaliano)
+        {
+            _repository.AggiornaNomeItaliano(idSottospecie, nomeItaliano);
+
+            if (await _repository.SalvaModifiche())
+            {
+                return Created("api/trips/{theTrip.Name}","");
+            }
+            return BadRequest("Failed to save the trip");
+        }
     }
 }

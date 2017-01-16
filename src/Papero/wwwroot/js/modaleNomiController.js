@@ -11,13 +11,20 @@
         var vm = this;
 
         vm.elencoStatiConservazione = [];
+        vm.statoConservazioneSelezionato = null;
 
-        vm.apriModale = function caricaStatiConservazione() {
+        vm.apriModaleNomi = function caricaStatiConservazione() {
             $http.get("/api/staticonservazione")
              .then(function (response) {
-                vm.elencoStatiConservazione = response.data;
+                 vm.elencoStatiConservazione = response.data;              
+                 vm.statoConservazioneSelezionato = parseInt(statoConservazioneDB.value);
             });
 
+        }
+
+        vm.salvaModaleNomi = function salvaNomiEStatiConservazione() {
+            alert("salvataggio");
+            location.reload(true);
         }
     }
 
