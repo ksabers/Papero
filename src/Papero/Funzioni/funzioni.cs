@@ -13,24 +13,28 @@ namespace Papero.Funzioni
         {
             var elenco = "";
             var lunghezza = classificazione.Count;
+            var sequenza = 1;
 
             foreach (var classificatore in classificazione.OrderBy(ord => ord.Ordinamento))
             {
-                if (classificatore.Ordinamento < lunghezza - 1)
+                if (sequenza < lunghezza - 1)
                 {
                     elenco = elenco + classificatore.Classificatore.Classificatore + ", ";
+                    sequenza += 1;
                     continue;
                 }
                     
-                if (classificatore.Ordinamento == lunghezza - 1)
+                if (sequenza == lunghezza - 1)
                 {
                     elenco = elenco + classificatore.Classificatore.Classificatore + " & ";
+                    sequenza += 1;
                     continue;
                 }
                     
-                if (classificatore.Ordinamento == lunghezza)
+                if (sequenza == lunghezza)
                 {
                     elenco = elenco + classificatore.Classificatore.Classificatore;
+                    sequenza += 1;
                     break;
                 }
                     

@@ -9,13 +9,11 @@ namespace Papero.Models
     public interface IPaperoRepository
     {
         IEnumerable<Famiglie> LeggiAlbero();
-        IEnumerable<ElencoEsemplariViewModel> LeggiElencoSinteticoEsemplari();
-        ElencoSinteticoEsemplari LeggiSingoloEsemplareDaElencoSintetico(int idEsemplare);
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplari();
         Esemplari LeggiEsemplare(int esemplareId);
         int EsemplareIdDaMSNG(int MSNG);
         IEnumerable<StatiConservazione> LeggiStatiConservazione();
-
-        void AggiornaNomeItaliano(int idSottospecie, string putNomeItaliano);
+        void AggiornaNomiEStato(int idSottospecie, Sottospecie sottospecie);
         Task<bool> SalvaModifiche();
 
     }

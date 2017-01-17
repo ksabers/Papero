@@ -26,7 +26,7 @@ namespace Papero.Controllers
         [HttpGet("api/esemplari")]
         public IActionResult GetElencoSinteticoEsemplari()
         {
-            return Ok(_repository.LeggiElencoSinteticoEsemplari());
+            return Ok(_repository.LeggiElencoEsemplari());
         }
 
         [HttpGet("api/esemplare/{idEsemplare}")]
@@ -41,10 +41,12 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiStatiConservazione());
         }
 
-        [HttpPut("api/aggiornaNomeItaliano/{idSottospecie}/{nomeItaliano}")]
-        public async Task<IActionResult> PutNomeItaliano(int idSottospecie, string nomeItaliano)
+        [HttpPut("api/aggiornanomiestato/{idSottospecie}")]
+        public async Task<IActionResult> PutNomiEStato([FromBody]int idSottospecie)
         {
-            _repository.AggiornaNomeItaliano(idSottospecie, nomeItaliano);
+            var sottospecie = new Sottospecie();
+
+            _repository.AggiornaNomiEStato(idSottospecie, sottospecie);
 
             if (await _repository.SalvaModifiche())
             {

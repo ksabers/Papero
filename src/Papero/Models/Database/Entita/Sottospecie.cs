@@ -18,6 +18,7 @@ namespace Papero.Models
         public bool? ClassificazioneOriginale { get; set; }
         public string NomeItaliano { get; set; }
         public string NomeInglese { get; set; }
+        public string ElencoAutori { get; set; }
         public int? StatoConservazioneId { get; set; }
         public virtual ICollection<Classificazioni> Classificazioni { get; set; }
 

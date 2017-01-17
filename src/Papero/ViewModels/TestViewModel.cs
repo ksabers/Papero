@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Papero.ViewModels
 {
-    public class ElencoEsemplariViewModel
+    public class TestViewModel
     {
-        public int Id { get; set; }
+        public int EsemplareId { get; set; }
 
         public int Msng { get; set; }
 
@@ -19,7 +19,6 @@ namespace Papero.ViewModels
         public string Genere { get; set; }
         public string Specie { get; set; }
         public string Sottospecie { get; set; }
-        public string ElencoAutori { get; set; }
-
+        public  ICollection<Classificazioni> Classificazione { get; set; }
     }
 }

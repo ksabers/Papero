@@ -23,26 +23,15 @@ namespace Papero.Models
             _log = log;
         }
 
-        //public IEnumerable<ElencoSinteticoEsemplari> LeggiElencoSinteticoEsemplari()
-        //{
-        //    _log.LogInformation("Chiamata di _contesto.Esemplari.ToList()");
 
-        //    return _contesto.ElencoSinteticoEsemplari.ToList();
-
-        //}
-
-        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoSinteticoEsemplari()
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplari()
         {
             _log.LogInformation("Chiamata di _contesto.Esemplari.ToList()");
-
-            //return _contesto.ElencoSinteticoEsemplari.ToList();
-            //var classificazioni = this.LeggiClassificazioni();
-
 
             return _contesto.Esemplari
                 .Include(esemplare => esemplare.Sottospecie)
                         .ThenInclude(sottospecie => sottospecie.Specie)
-                            .ThenInclude(specie => specie.Genere)                    
+                            .ThenInclude(specie => specie.Genere)
                 .Select(es => new ElencoEsemplariViewModel
                 {
                     Id = es.Id,
@@ -50,27 +39,10 @@ namespace Papero.Models
                     SottospecieId = es.SottospecieId,
                     Genere = es.Sottospecie.Specie.Genere.Nome,
                     Specie = es.Sottospecie.Specie.Nome,
-                    Sottospecie = es.Sottospecie.Nome
+                    Sottospecie = es.Sottospecie.Nome,
+                    ElencoAutori = es.Sottospecie.ElencoAutori
                 });
-
-            //Classificazione = classificazioni.Where(o => o.SottospecieId == es.SottospecieId)
-
-            //return temp;
         }
-
-        public ElencoSinteticoEsemplari LeggiSingoloEsemplareDaElencoSintetico (int idEsemplare)
-        {
-            return _contesto.ElencoSinteticoEsemplari
-                .Single(esemplare => esemplare.Id == idEsemplare);
-        }
-
-        //public IEnumerable<Esemplari> ElencoEsemplari()
-        //{
-        //    return _contesto.Esemplari
-        //        .Include(esemplare => esemplare.Sottospecie)
-        //                .ThenInclude(sottospecie => sottospecie.Specie)
-        //                    .ThenInclude(specie => specie.Genere);
-        //}
 
 
         public IEnumerable<Famiglie> LeggiAlbero()
@@ -142,7 +114,7 @@ namespace Papero.Models
         {
             try
             {
-                return _contesto.ElencoSinteticoEsemplari
+                return _contesto.Esemplari
                     .Single(esemplare => esemplare.Msng == MSNG)
                     .Id;
             }
@@ -162,14 +134,8 @@ namespace Papero.Models
                 .ToList();
         }
 
-        public IEnumerable<Classificazioni> LeggiClassificazioni()
-        {
-            return _contesto.Classificazioni
-                    .Include(classificazione => classificazione.Classificatore)
-                .ToList();
-        }
 
-        public void AggiornaNomeItaliano(int idSottospecie, string nomeItaliano)
+        public void AggiornaNomiEStato(int idSottospecie, Sottospecie sottospecie)
         {
 
         }

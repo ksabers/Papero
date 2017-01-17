@@ -16,18 +16,11 @@
     mentre i dd diventano testo in grassetto.
 *@
 @section css {
+
     <style type="text/css">
-        dt {
-            font-weight: normal;
-        }
-
-        dd {
-            font-weight: bold;
-        }
-
-        .dl-horizontal dt {
-            white-space: normal;
-        }
+        dt { font-weight: normal; }
+        dd { font-weight: bold; }
+        .dl-horizontal dt { white-space: normal; }
     </style>
 }
 
@@ -75,10 +68,11 @@
                                   " " +
                                   Model.Sottospecie.Specie.Nome +
                                   " " +
-                                  (Model.Sottospecie.Nome == "-" ?
-                                   "" :
-                                   Model.Sottospecie.Nome) + " " + @funzioni.elencoAutori(Model.Sottospecie.Classificazioni, (bool)Model.Sottospecie.ClassificazioneOriginale, Model.Sottospecie.AnnoClassificazione))
+                                  (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome) +
+                                  " " +
+                                  Model.Sottospecie.ElencoAutori)
                             </h4>
+
                         </div>
 
                         <div class="col-lg-2">
@@ -126,19 +120,22 @@
                                                             <div class="form-group">
                                                                 <label for="statiConservazione" class="col-lg-2 control-label text-primary">@localizzatore["Stato di Conservazione"]:</label>
                                                                 <div class="col-lg-10">
+                                                                @*
+                                                                    Questo input nascosto serve per memorizzare il valore dello stato di conservazione così come arriva dal modello.
+                                                                    In seguito, se viene aperta #modaleNomi, viene utilizzato per impostare il valore della select.
+                                                                *@
                                                                     <input type="hidden" id="statoConservazioneDB" value="@Model.Sottospecie.StatoConservazioneId" />
                                                                     <select id="statiConservazione"
-                                                                            class="form-control"  
-                                                                            ng-model="vm.statoConservazioneSelezionato" 
-                                                                            ng-options="statoConservazione.id as statoConservazione.statoConservazione for statoConservazione in vm.elencoStatiConservazione">
-                                                                    </select>
+                                                                            class="form-control"
+                                                                            ng-model="vm.statoConservazioneSelezionato"
+                                                                            ng-options="statoConservazione.id as statoConservazione.statoConservazione for statoConservazione in vm.elencoStatiConservazione"></select>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-12">
                                                                     <div class="pull-right">
                                                                         <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
-                                                                        <button type="submit" class="btn btn-success" ng-click="vm.salvaModaleNomi()" data-dismiss="modal">@localizzatore["Inserisci"]</button>
+                                                                        <button type="submit" class="btn btn-success" ng-click="vm.salvaModaleNomi(@Model.Sottospecie.Id)" data-dismiss="modal">@localizzatore["Inserisci"]</button>
                                                                     </div>
                                                                 </div>
                                                             </div>

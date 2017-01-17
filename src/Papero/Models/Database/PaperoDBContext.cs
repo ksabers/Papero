@@ -16,10 +16,10 @@ namespace Papero.Models
 
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ElencoSinteticoEsemplari>(entity => {
-                entity.ToTable("V_ElencoSinteticoEsemplari");
-                entity.HasKey(e => e.Id);
-            });
+            //modelBuilder.Entity<ElencoSinteticoEsemplari>(entity => {
+            //    entity.ToTable("V_ElencoSinteticoEsemplari");
+            //    entity.HasKey(e => e.Id);
+            //});
 
             modelBuilder.Entity<Aberrazioni>(entity =>
             {
@@ -815,6 +815,8 @@ namespace Papero.Models
 
                 entity.Property(e => e.NomeInglese).HasMaxLength(255);
 
+                entity.Property(e => e.ElencoAutori).HasMaxLength(255);
+
                 entity.Property(e => e.NomeItaliano).HasMaxLength(255);
 
                 entity.Property(e => e.Nome)
@@ -1032,7 +1034,7 @@ namespace Papero.Models
             });
         }
 
-        public virtual DbSet<ElencoSinteticoEsemplari> ElencoSinteticoEsemplari { get; set; }
+        //public virtual DbSet<ElencoSinteticoEsemplari> ElencoSinteticoEsemplari { get; set; }
         public virtual DbSet<Aberrazioni> Aberrazioni { get; set; }
         public virtual DbSet<Armadi> Armadi { get; set; }
         public virtual DbSet<Cassetti> Cassetti { get; set; }
