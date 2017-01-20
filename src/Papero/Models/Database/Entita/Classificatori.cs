@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Papero.Models
 {
-    public partial class Classificatori
+    public partial class ElencoClassificatoriViewModel
     {
-        public Classificatori()
+        public ElencoClassificatoriViewModel()
         {
             Classificazioni = new HashSet<Classificazioni>();
         }

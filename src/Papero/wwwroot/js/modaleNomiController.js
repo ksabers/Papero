@@ -13,6 +13,7 @@
         vm.elencoStatiConservazione = [];
         vm.statoConservazioneSelezionato = null;
 
+
         vm.apriModaleNomi = function caricaStatiConservazione() {
             $http.get("/api/staticonservazione")
              .then(function (response) {

@@ -13,8 +13,10 @@ namespace Papero.Models
         Esemplari LeggiEsemplare(int esemplareId);
         int EsemplareIdDaMSNG(int MSNG);
         IEnumerable<StatiConservazione> LeggiStatiConservazione();
+        IEnumerable<ElencoClassificatoriViewModel> LeggiClassificazioni(int idSottospecie);
+        IEnumerable<ElencoClassificatoriViewModel> LeggiClassificatori();
         void AggiornaNomiEStato(int idSottospecie, Sottospecie sottospecie);
         Task<bool> SalvaModifiche();
-
+        
     }
 }

@@ -41,6 +41,18 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiStatiConservazione());
         }
 
+        [HttpGet("api/classificazioni/{idSottospecie}")]
+        public IActionResult GetClassificazioni(int idSottospecie)
+        {
+            return Ok(_repository.LeggiClassificazioni(idSottospecie));
+        }
+
+        [HttpGet("api/classificatori")]
+        public IActionResult GetClassificatori()
+        {
+            return Ok(_repository.LeggiClassificatori());
+        }
+
         [HttpPut("api/aggiornanomiestato/{idSottospecie}")]
         public async Task<IActionResult> PutNomiEStato([FromBody]int idSottospecie)
         {

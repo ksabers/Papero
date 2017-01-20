@@ -17,6 +17,11 @@
 *@
 @section css {
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/angular-tree-control/0.2.28/css/tree-control.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/angular-tree-control/0.2.28/css/tree-control-attribute.css" rel="stylesheet" />
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.css" />
+
     <style type="text/css">
         dt { font-weight: normal; }
         dd { font-weight: bold; }
@@ -30,11 +35,29 @@
             asp-fallback-src="~/lib/angular/angular.min.js"
             asp-fallback-test="window.angular"></script>
 
+<script src="~/lib/angular-tree-control/angular-tree-control.js"></script>
+
     <script src="~/js/papero-app.js"></script>
     <script src="~/js/modaleNomiController.js"></script>
+    <script src="~/js/modaleElencoAutoriController.js"></script>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.5/angular-datatables.min.js"></script>
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+@*<script>
+        $(document).ready(function () {
+
+            $('#tabellaElencoAutori').DataTable({
+                responsive: true,
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.10.12/i18n/Italian.json"
+                }
+            });
+        });
+</script>*@
 }
 
 <div class="row" ng-app="papero-app">
@@ -62,7 +85,98 @@
                     *@
                     @if (ViewBag.trovato)
                     {
-                        <div class="col-lg-4">
+                        <div class="col-lg-4" ng-controller="modaleElencoAutoriController as vm">
+
+                            <input type="hidden" id="inputIdSottospecie" value="@Model.Sottospecie.Id" />
+
+
+                            <div class="modal fade" id="modaleElencoAutori" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">@localizzatore["Inserire i nuovi valori"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                                                </div>
+                                                <div class="panel-body text-primary">
+
+                                                    <form class="form-horizontal">
+                                                        <fieldset>
+                                                            <div class="form-group">
+                                                                @(Model.Sottospecie.Specie.Genere.Nome +
+                                                                  " " +
+                                                                  Model.Sottospecie.Specie.Nome +
+                                                                  " " +
+                                                                  (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome))
+                                                                <br />
+                                                                {{vm.stringaElencoAutori}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputAnnoClassificazione" class="col-lg-2 col-lg-offset-3 control-label text-primary">Anno classificazione:</label>
+                                                                <div class="col-lg-3">
+                                                                    <input type="text" class="form-control" id="inputAnnoClassificazione" ng-model="vm.annoClassificazione" value="@Model.Sottospecie.AnnoClassificazione">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="inputClassificazioneOriginale" class="col-lg-2 col-lg-offset-3 control-label text-primary">Classificazione Originale:</label>
+                                                                <div class="col-lg-3">
+                                                                    <input type="checkbox" class="form-control" id="inputClassificazioneOriginale" ng-model="vm.classificazioneOriginale" checked="@Model.Sottospecie.ClassificazioneOriginale"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="dropdownAutori" class="col-lg-2 col-lg-offset-3 control-label text-primary">Autore:</label>
+                                                                <div class="col-lg-3">
+                                                                    <select id = "dropdownAutori"
+                                                                            class="form-control"
+                                                                            ng-model="vm.autoreSelezionato"
+                                                                            ng-options="autore.classificatore for autore in vm.datiDropdownAutori track by autore.id"></select>
+                                                                </div>
+                                                                <div class="col-lg-1">
+                                                                    <i role="button" ng-click="vm.aggiungiAutore()" class="fa fa-plus-square fa-2x text-success"></i>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <div class="col-lg-offset-3 col-lg-6">
+
+                                                                            <table datatable = "ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaElencoAutori" dt-options="vm.opzioniTabellaElencoAutori">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                       
+                                                                                        <th>Autore</th>
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr ng-repeat="autore in vm.datiTabellaAutori">
+                                                                                        
+                                                                                        <td>{{autore.classificatore}} <i role="button" ng-click="vm.rimuoviAutore(vm.autoreSelezionato.id)" class="fa fa-minus-square fa-pull-right fa-2x text-danger"></i></td>
+
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                    </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-lg-12">
+                                                                    <div class="pull-right">
+                                                                        <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
+                                                                        <button type="submit" class="btn btn-success" ng-click="vm.salvaModaleElencoAutori(@Model.Sottospecie.Id)" data-dismiss="modal">@localizzatore["Inserisci"]</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                             <h4>
                                 @(Model.Sottospecie.Specie.Genere.Nome +
                                   " " +
@@ -71,10 +185,14 @@
                                   (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome) +
                                   " " +
                                   Model.Sottospecie.ElencoAutori)
+
+                                @if (User.IsInRole("Amministratore"))
+                                {
+                                    <i role="button" class="fa fa-pencil text-muted" data-toggle="modal" data-target="#modaleElencoAutori" ng-click="vm.apriModaleElencoAutori(@Model.Sottospecie.Id)"></i>
+                                }
                             </h4>
-
                         </div>
-
+                        
                         <div class="col-lg-2">
                             <div class="card card-outline-primary">
                                 <dl class="dl-horizontal text-white">
@@ -153,7 +271,7 @@
                                     <dt>
                                         @if (User.IsInRole("Amministratore"))
                                         {
-                                            <i role="button" class="fa fa-pencil fa-pull-left fa-fw" data-toggle="modal" data-target="#modaleNomi" ng-click="vm.apriModaleNomi()"></i>
+                                            <i role="button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleNomi" ng-click="vm.apriModaleNomi()"></i>
                                         }
 
 

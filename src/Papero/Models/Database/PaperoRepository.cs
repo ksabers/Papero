@@ -134,6 +134,32 @@ namespace Papero.Models
                 .ToList();
         }
 
+        public IEnumerable<ElencoClassificatoriViewModel> LeggiClassificazioni(int idSottospecie)
+        {
+            return _contesto.Classificazioni
+                .Where(classificazione => classificazione.SottospecieId == idSottospecie)
+                .Include(classificazione => classificazione.Classificatore)
+                .OrderBy(classificazione => classificazione.Ordinamento)
+                .Select(cl => new ElencoClassificatoriViewModel
+                {
+                    Id = cl.ClassificatoreId,
+                    Classificatore = cl.Classificatore.Classificatore
+                })
+                .ToList();
+        }
+
+        public IEnumerable<ElencoClassificatoriViewModel> LeggiClassificatori()
+        {
+            return _contesto.Classificatori
+                    .OrderBy(classificatore => classificatore.Classificatore)
+                    .Select(cl => new ElencoClassificatoriViewModel
+                    {
+                        Id = cl.Id,
+                        Classificatore = cl.Classificatore
+                    })
+                    .ToList();
+        }
+        
 
         public void AggiornaNomiEStato(int idSottospecie, Sottospecie sottospecie)
         {

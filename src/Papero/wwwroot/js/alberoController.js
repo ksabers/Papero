@@ -3,10 +3,11 @@
 (function () {
     "use strict";
 
-    angular.module("papero-app", ['treeControl', 'datatables'])
+    angular.module("papero-app")
         .controller("alberoController", alberoController);
 
     function alberoController($http, DTOptionsBuilder) {
+
 
         var elencoEsemplari = [];         // Elenco completo non filtrato degli esemplari 
 

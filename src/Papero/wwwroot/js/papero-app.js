@@ -3,7 +3,7 @@
 (function () {
     "use strict";
 
-    angular.module("papero-app", [])
+    angular.module("papero-app", ['treeControl', 'datatables'])
 
 
 })();

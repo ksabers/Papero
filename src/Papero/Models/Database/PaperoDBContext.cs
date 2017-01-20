@@ -155,7 +155,7 @@ namespace Papero.Models
                     .HasConstraintName("Citta$ProvinceComuniItalia");
             });
 
-            modelBuilder.Entity<Classificatori>(entity =>
+            modelBuilder.Entity<ElencoClassificatoriViewModel>(entity =>
             {
                 entity.HasIndex(e => e.Classificatore)
                     .HasName("Classificatori$Classificatore")
@@ -1039,7 +1039,7 @@ namespace Papero.Models
         public virtual DbSet<Armadi> Armadi { get; set; }
         public virtual DbSet<Cassetti> Cassetti { get; set; }
         public virtual DbSet<Citta> Citta { get; set; }
-        public virtual DbSet<Classificatori> Classificatori { get; set; }
+        public virtual DbSet<ElencoClassificatoriViewModel> Classificatori { get; set; }
         public virtual DbSet<Classificazioni> Classificazioni { get; set; }
         public virtual DbSet<Collezioni> Collezioni { get; set; }
         public virtual DbSet<Determinatori> Determinatori { get; set; }
