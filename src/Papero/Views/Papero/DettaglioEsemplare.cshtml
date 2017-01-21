@@ -47,17 +47,6 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
-@*<script>
-        $(document).ready(function () {
-
-            $('#tabellaElencoAutori').DataTable({
-                responsive: true,
-                language: {
-                    url: "//cdn.datatables.net/plug-ins/1.10.12/i18n/Italian.json"
-                }
-            });
-        });
-</script>*@
 }
 
 <div class="row" ng-app="papero-app">
@@ -182,9 +171,9 @@
                                   " " +
                                   Model.Sottospecie.Specie.Nome +
                                   " " +
-                                  (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome) +
-                                  " " +
-                                  Model.Sottospecie.ElencoAutori)
+                                  (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome)) <br />
+                                  
+                                  @Model.Sottospecie.ElencoAutori
 
                                 @if (User.IsInRole("Amministratore"))
                                 {

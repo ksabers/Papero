@@ -38,14 +38,14 @@
             for (var i = 0; i < vm.datiTabellaAutori.length; i++)           // Riempimento dell'array di servizio
                 arrayAutori.push(vm.datiTabellaAutori[i].id);
 
-            alert("arrayAutori 1: " + arrayAutori);
+            //alert("arrayAutori 1: " + arrayAutori);
 
             vm.datiDropdownAutori = _.filter(elencoAutori, function (autore) { return !arrayAutori.includes(autore.id) });
         };
 
         vm.aggiungiAutore = function aggiungiAutore() {
 
-            alert("AggiungiAutore:" + vm.autoreSelezionato.id);
+            //alert("AggiungiAutore:" + vm.autoreSelezionato.id);
             vm.datiTabellaAutori.push(vm.autoreSelezionato);
 
         };

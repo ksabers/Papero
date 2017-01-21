@@ -21,11 +21,14 @@
             vm.nomeItaliano = $("#nomeItalianoDD").text();
             vm.nomeInglese = $("#nomeIngleseDD").text();
 
+
             $http.get("/api/staticonservazione")
              .then(function (response) {
                  vm.elencoStatiConservazione = response.data;              
-                 vm.statoConservazioneSelezionato = parseInt(statoConservazioneDB.value);
-            });
+
+             });
+
+            vm.statoConservazioneSelezionato = parseInt(statoConservazioneDB.value);
 
         }
 
