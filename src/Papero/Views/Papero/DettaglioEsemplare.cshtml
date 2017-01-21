@@ -226,13 +226,13 @@
                                                             <div class="form-group">
                                                                 <label for="nomeItaliano" class="col-lg-2 control-label text-primary">@localizzatore["Nome Italiano"]:</label>
                                                                 <div class="col-lg-10">
-                                                                    <input type="text" class="form-control" id="nomeItaliano" value="@Model.Sottospecie.NomeItaliano">
+                                                                    <input type="text" class="form-control" id="nomeItaliano" value="@Model.Sottospecie.NomeItaliano" ng-model="vm.nomeItaliano">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="nomeInglese" class="col-lg-2 control-label text-primary">@localizzatore["Nome Inglese"]:</label>
                                                                 <div class="col-lg-10">
-                                                                    <input type="text" class="form-control" id="nomeInglese" value="@Model.Sottospecie.NomeInglese">
+                                                                    <input type="text" class="form-control" id="nomeInglese" value="@Model.Sottospecie.NomeInglese" ng-model="vm.nomeInglese">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
@@ -277,9 +277,9 @@
 
                                         @localizzatore["Nome Italiano"]:
                                     </dt>
-                                    <dd>@Model.Sottospecie.NomeItaliano</dd>
+                                    <dd id="nomeItalianoDD">@Model.Sottospecie.NomeItaliano</dd>
                                     <dt>@localizzatore["Nome Inglese"]:</dt>
-                                    <dd>@Model.Sottospecie.NomeInglese</dd>
+                                    <dd id="nomeIngleseDD">@Model.Sottospecie.NomeInglese</dd>
                                     <dt>@localizzatore["Stato di Conservazione"]:</dt>
                                     <dd>
                                         @(string.IsNullOrWhiteSpace(Model.Sottospecie.StatoConservazione.StatoConservazione) || Model.Sottospecie.StatoConservazione.StatoConservazione == "-"
