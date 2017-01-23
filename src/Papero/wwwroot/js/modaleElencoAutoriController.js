@@ -18,6 +18,13 @@
         vm.autoreSelezionato = null;
         vm.stringaElencoAutori = "pippo";
         vm.annoClassificazione = inputAnnoClassificazione.value;
+       
+        vm.istanzaTabella = function istanza(dtInstance) {
+            dtInstance.DataTable.on('row-reorder', function () {
+                alert("ciao");
+            });
+        };
+
         
 
         vm.opzioniTabellaElencoAutori = DTOptionsBuilder.newOptions()      // Opzioni di visualizzazione della angular datatable
@@ -29,7 +36,9 @@
             .withLanguageSource(stringaLinguaggioDatatables);   // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
                                                                 // (come da specifiche delle angular datatables)
                                                                 // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
-                                                                           
+          
+        
+
 
         vm.apriModaleElencoAutori = function apriModaleElencoAutori(idSottospecie) {
 
