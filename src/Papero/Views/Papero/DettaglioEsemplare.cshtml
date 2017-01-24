@@ -129,18 +129,26 @@
                                                             <div class="form-group">
                                                                 <div class="col-lg-offset-3 col-lg-6">
 
-                                                                            <table datatable="ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaElencoAutori" dt-options="vm.opzioniTabellaElencoAutori" dt-instance="vm.istanzaTabella">
+                                                                            <table datatable="ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaElencoAutori" dt-options="vm.opzioniTabellaElencoAutori">
                                                                                 <thead>
                                                                                     <tr>
                                                                                        
                                                                                         <th>Autore</th>
+                                                                                        <th width="100px"></th>
 
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
                                                                                     <tr ng-repeat="autore in vm.datiTabellaAutori">
                                                                                         
-                                                                                        <td>{{autore.classificatore}} <i role="button" ng-click="vm.rimuoviAutore(vm.autoreSelezionato.id)" class="fa fa-minus-square fa-pull-right fa-2x text-danger"></i></td>
+                                                                                        <td>{{autore.classificatore}}</td>
+                                                                                        <td>
+                                                                                            <div class="btn-group fa-pull-right">
+                                                                                                <i role="button" ng-show="!$first" ng-click="vm.spostaSu(autore)" class="fa fa-arrow-up fa-2x  text-success"></i>
+                                                                                                <i role="button" ng-show="!$last" ng-click="vm.spostaGiu(autore)" class="fa fa-arrow-down fa-2x text-success"></i>
+                                                                                                <i role="button" ng-click="vm.rimuoviAutore(autore)" class="fa fa-minus-square fa-2x text-danger"></i>
+                                                                                            </div>
+                                                                                        </td>
 
                                                                                     </tr>
                                                                                 </tbody>
