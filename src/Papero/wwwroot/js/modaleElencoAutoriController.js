@@ -17,18 +17,20 @@
         vm.autoreSelezionato = null;
         vm.stringaElencoAutori = "";       
         vm.annoClassificazione = inputAnnoClassificazione.value;
+        vm.classificazioneOriginale = inputClassificazioneOriginale.checked;
 
         vm.opzioniTabellaElencoAutori = DTOptionsBuilder.newOptions()      // Opzioni di visualizzazione della angular datatable
             .withOption('searching', false)
             .withOption('paging', false)
             .withOption('info', false)
             .withOption('ordering', false)
+            .withOption('scrollY', "300px")
+            .withOption('scrollCollapse', true)
             .withLanguageSource(stringaLinguaggioDatatables);   // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
                                                                 // (come da specifiche delle angular datatables)
                                                                 // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
-          
-        
-        function aggiornaElencoAutori() {
+
+        vm.aggiornaElencoAutori = function aggiornaElencoAutori() {
             var elenco = "";
             var lunghezza = vm.datiTabellaAutori.length;
             var sequenza = 1;
@@ -50,8 +52,49 @@
                     break;
                 };
             }
+
+            if (!vm.classificazioneOriginale) {
+                elenco = "(" + elenco + ")";
+            }
+
             vm.stringaElencoAutori = elenco;
-        }
+        };
+
+
+        vm.spostaSu = function spostaSuArray(indice) {
+            var arrayRiordinato = [];
+            var arrayPrimaParte = [];
+            var arraySecondaParte = [];
+            var elementoDaSpostare = vm.datiTabellaAutori[indice];
+            var elementoPrecedente = vm.datiTabellaAutori[indice - 1];
+
+            arrayPrimaParte = _.dropRight(vm.datiTabellaAutori, vm.datiTabellaAutori.length - indice + 1);
+            arraySecondaParte = _.drop(vm.datiTabellaAutori, indice + 1);
+            arrayRiordinato = arrayRiordinato.concat(arrayPrimaParte, elementoDaSpostare, elementoPrecedente, arraySecondaParte);
+
+            vm.datiTabellaAutori = arrayRiordinato;
+            vm.aggiornaElencoAutori();
+
+        };
+
+        vm.spostaGiu = function spostaGiuArray(indice) {
+            var arrayRiordinato = [];
+            var arrayPrimaParte = [];
+            var arraySecondaParte = [];
+            var elementoDaSpostare = vm.datiTabellaAutori[indice];
+            var elementoSuccessivo = vm.datiTabellaAutori[indice+1];
+
+            arrayPrimaParte = _.dropRight(vm.datiTabellaAutori, vm.datiTabellaAutori.length - indice);
+            arraySecondaParte = _.drop(vm.datiTabellaAutori, indice + 2);
+
+            arrayRiordinato = arrayRiordinato.concat(arrayPrimaParte, elementoSuccessivo, elementoDaSpostare, arraySecondaParte);
+
+            vm.datiTabellaAutori = arrayRiordinato;
+            vm.aggiornaElencoAutori();
+
+        };
+        
+
 
         function aggiornaDropdownAutori() {
             var arrayAutori = [];   // Array di servizio che serve per tenere l'elenco degli id degli autori selezionati nella tabella. Viene usato per filtrare la dropdown
@@ -75,7 +118,7 @@
 
             
             aggiornaDropdownAutori();
-            aggiornaElencoAutori();
+            vm.aggiornaElencoAutori();
             vm.autoreSelezionato = vm.datiDropdownAutori[0];
 
         };
@@ -83,14 +126,14 @@
         vm.aggiungiAutore = function aggiungiAutore() {
             vm.datiTabellaAutori.push(vm.autoreSelezionato);
             aggiornaDropdownAutori();
-            aggiornaElencoAutori();
+            vm.aggiornaElencoAutori();
             vm.autoreSelezionato = vm.datiDropdownAutori[0];
         };
 
         vm.rimuoviAutore = function rimuoviAutore(autoreSelezionato) {
             vm.datiTabellaAutori = _.remove(vm.datiTabellaAutori, function (autore) { return autore.id != autoreSelezionato.id });
             aggiornaDropdownAutori();
-            aggiornaElencoAutori();
+            vm.aggiornaElencoAutori();
             vm.autoreSelezionato = vm.datiDropdownAutori[0];
         };
 

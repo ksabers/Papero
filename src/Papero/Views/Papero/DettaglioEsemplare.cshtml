@@ -110,13 +110,13 @@
                                                             <div class="form-group">
                                                                 <label for="inputClassificazioneOriginale" class="col-lg-2 col-lg-offset-3 control-label text-primary">Classificazione Originale:</label>
                                                                 <div class="col-lg-3">
-                                                                    <input type="checkbox" class="form-control" id="inputClassificazioneOriginale" ng-model="vm.classificazioneOriginale" checked="@Model.Sottospecie.ClassificazioneOriginale"/>
+                                                                    <input type="checkbox" class="form-control" id="inputClassificazioneOriginale" ng-change="vm.aggiornaElencoAutori()" ng-model="vm.classificazioneOriginale" checked="@Model.Sottospecie.ClassificazioneOriginale"/>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="dropdownAutori" class="col-lg-2 col-lg-offset-3 control-label text-primary">Autore:</label>
                                                                 <div class="col-lg-3">
-                                                                    <select id = "dropdownAutori"
+                                                                    <select id="dropdownAutori"
                                                                             class="form-control"
                                                                             ng-model="vm.autoreSelezionato"
                                                                             ng-options="autore.classificatore for autore in vm.datiDropdownAutori track by autore.id"></select>
@@ -132,7 +132,7 @@
                                                                             <table datatable="ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaElencoAutori" dt-options="vm.opzioniTabellaElencoAutori">
                                                                                 <thead>
                                                                                     <tr>
-                                                                                       
+                                                                                        <th>Ordinamento</th>
                                                                                         <th>Autore</th>
                                                                                         <th width="100px"></th>
 
@@ -140,12 +140,12 @@
                                                                                 </thead>
                                                                                 <tbody>
                                                                                     <tr ng-repeat="autore in vm.datiTabellaAutori">
-                                                                                        
+                                                                                        <td>{{$index+1}}</td>
                                                                                         <td>{{autore.classificatore}}</td>
                                                                                         <td>
                                                                                             <div class="btn-group fa-pull-right">
-                                                                                                <i role="button" ng-show="!$first" ng-click="vm.spostaSu(autore)" class="fa fa-arrow-up fa-2x  text-success"></i>
-                                                                                                <i role="button" ng-show="!$last" ng-click="vm.spostaGiu(autore)" class="fa fa-arrow-down fa-2x text-success"></i>
+                                                                                                <i role="button" ng-show="!$first" ng-click="vm.spostaSu($index)" class="fa fa-arrow-up fa-2x  text-success"></i>
+                                                                                                <i role="button" ng-show="!$last" ng-click="vm.spostaGiu($index)" class="fa fa-arrow-down fa-2x text-success"></i>
                                                                                                 <i role="button" ng-click="vm.rimuoviAutore(autore)" class="fa fa-minus-square fa-2x text-danger"></i>
                                                                                             </div>
                                                                                         </td>
