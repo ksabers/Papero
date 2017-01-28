@@ -159,9 +159,21 @@ namespace Papero.Models
                     })
                     .ToList();
         }
-        
 
-        public void AggiornaNomiEStato(int idSottospecie, Sottospecie sottospecie)
+        public IEnumerable<Sottospecie> LeggiSottospecie()
+        {
+            return _contesto.Sottospecie
+                .ToList();
+        }
+
+        public Sottospecie LeggiSottospecie(int idSottospecie)
+        {
+            return _contesto.Sottospecie
+                .Single(sottospecie => sottospecie.Id == idSottospecie);
+        }
+
+
+        public void AggiornaNomiEStato(int idSottospecie)
         {
 
         }

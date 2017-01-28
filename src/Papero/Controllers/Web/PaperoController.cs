@@ -46,6 +46,7 @@ namespace Papero.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult DettaglioEsemplare(int id)  // Pagina di dettaglio con tutti i dati del singolo esemplare. E' gestita in modo tradizionale client/server senza
                                                          // chiamate Angular
         {
@@ -68,6 +69,8 @@ namespace Papero.Controllers
                                         
         }
 
+        [Authorize]
+        [HttpPost]
         public IActionResult DettaglioEsemplareByMSNG(int MSNG)    // Gestisce la pressione del pulsante MSNG nella pagina di dettaglio: 
         {                                                          // 
 
@@ -76,6 +79,23 @@ namespace Papero.Controllers
             return RedirectToAction("DettaglioEsemplare", new { id = idEsemplare });  // Con questa sintassi passiamo il parametro alla action come se avessimo scritto
         }                                                                             // "DettaglioEsemplare/id"
 
+
+
+        [HttpPost]
+        public async Task<IActionResult> AggiornaNomi(int Id, int sottospecieId, string nomeItaliano, string nomeInglese, int statoConservazione)
+        {
+            var sottospecieDaModificare = _repository.LeggiSottospecie(sottospecieId);
+
+            sottospecieDaModificare.NomeItaliano = nomeItaliano;
+            sottospecieDaModificare.NomeInglese = nomeInglese;
+            sottospecieDaModificare.StatoConservazioneId = statoConservazione;
+
+            if (await _repository.SalvaModifiche())
+            {
+                return RedirectToAction("DettaglioEsemplare", new { id = Id });
+            }
+                return RedirectToAction("DettaglioEsemplare", new { id = Id });
+        }
 
         public IActionResult Info()  // Pagina statica di informazioni sull'applicazione: restituisce semplicemente la sua vista
         {

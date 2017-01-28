@@ -134,7 +134,7 @@
                                                                                     <tr>
                                                                                         <th>Ordinamento</th>
                                                                                         <th>Autore</th>
-                                                                                        <th width="100px"></th>
+                                                                                        <th></th>
 
                                                                                     </tr>
                                                                                 </thead>
@@ -142,7 +142,7 @@
                                                                                     <tr ng-repeat="autore in vm.datiTabellaAutori">
                                                                                         <td>{{$index+1}}</td>
                                                                                         <td>{{autore.classificatore}}</td>
-                                                                                        <td>
+                                                                                        <td >
                                                                                             <div class="btn-group fa-pull-right">
                                                                                                 <i role="button" ng-show="!$first" ng-click="vm.spostaSu($index)" class="fa fa-arrow-up fa-2x  text-success"></i>
                                                                                                 <i role="button" ng-show="!$last" ng-click="vm.spostaGiu($index)" class="fa fa-arrow-down fa-2x text-success"></i>
@@ -217,19 +217,22 @@
                                                 </div>
                                                 <div class="panel-body">
 
-                                                    <form class="form-horizontal">
+                                                    <form class="form-horizontal" 
+                                                          asp-controller="Papero" 
+                                                          asp-action="AggiornaNomi">
                                                         <fieldset>
-                                                            @*<legend>Legend</legend>*@
+                                                            <input type="hidden" id="sottospeciehidden" asp-for="SottospecieId" value="@Model.Sottospecie.Id"/>
+                                                            <input type="hidden" id="esemplarehidden" asp-for="Id" value="@Model.Id"/>
                                                             <div class="form-group">
                                                                 <label for="nomeItaliano" class="col-lg-2 control-label text-primary">@localizzatore["Nome Italiano"]:</label>
                                                                 <div class="col-lg-10">
-                                                                    <input type="text" class="form-control" id="nomeItaliano" value="@Model.Sottospecie.NomeItaliano" ng-model="vm.nomeItaliano">
+                                                                    <input type="text" class="form-control" asp-for="Sottospecie.NomeItaliano" id="nomeItaliano" name="nomeItaliano" value="@Model.Sottospecie.NomeItaliano" ng-model="vm.nomeItaliano">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="nomeInglese" class="col-lg-2 control-label text-primary">@localizzatore["Nome Inglese"]:</label>
                                                                 <div class="col-lg-10">
-                                                                    <input type="text" class="form-control" id="nomeInglese" value="@Model.Sottospecie.NomeInglese" ng-model="vm.nomeInglese">
+                                                                    <input type="text" class="form-control" asp-for="Sottospecie.NomeInglese" id="nomeInglese" name="nomeInglese" value="@Model.Sottospecie.NomeInglese" ng-model="vm.nomeInglese">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
@@ -240,17 +243,20 @@
                                                                     In seguito, se viene aperta #modaleNomi, viene utilizzato per impostare il valore della select.
                                                                 *@
                                                                     <input type="hidden" id="statoConservazioneDB" value="@Model.Sottospecie.StatoConservazioneId" />
-                                                                    <select id="statiConservazione"
+
+                                                                    <select id="statiConservazione"                                                                            
+                                                                            name="statoConservazione"
                                                                             class="form-control"
-                                                                            ng-model="vm.statoConservazioneSelezionato"
-                                                                            ng-options="statoConservazione.id as statoConservazione.statoConservazione for statoConservazione in vm.elencoStatiConservazione"></select>
+                                                                            ng-model="vm.statoConservazioneSelezionato">
+                                                                        <option ng-repeat="statoConservazione in vm.elencoStatiConservazione" ng-selected="statoConservazione.id == statoConservazioneDB.value" value="{{statoConservazione.id}}">{{statoConservazione.statoConservazione}}</option>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-12">
                                                                     <div class="pull-right">
                                                                         <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
-                                                                        <button type="submit" class="btn btn-success" ng-click="vm.salvaModaleNomi(@Model.Sottospecie.Id)" data-dismiss="modal">@localizzatore["Inserisci"]</button>
+                                                                        <button type="submit" class="btn btn-success" >@localizzatore["Inserisci"]</button>
                                                                     </div>
                                                                 </div>
                                                             </div>

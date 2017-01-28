@@ -58,7 +58,7 @@ namespace Papero.Controllers
         {
             var sottospecie = new Sottospecie();
 
-            _repository.AggiornaNomiEStato(idSottospecie, sottospecie);
+            _repository.AggiornaNomiEStato(idSottospecie);
 
             if (await _repository.SalvaModifiche())
             {

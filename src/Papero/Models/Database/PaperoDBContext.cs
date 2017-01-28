@@ -179,11 +179,15 @@ namespace Papero.Models
                 entity.HasIndex(e => e.SottospecieId)
                     .HasName("Classificazioni$SottospecieID");
 
+                entity.HasKey(e => new { e.SottospecieId, e.ClassificatoreId, e.Ordinamento });  // Aggiunta manualmente perché questa tabella non ha una chiave primaria. Senza
+                                                                                                 // questa riga l'Entity Framework non parte nemmeno. Nelle altre tabelle è implicita
+                                                                                                 // perché tutte hanno una colonna che si chiama "ID"
+
                 entity.HasIndex(e => new { e.SottospecieId, e.ClassificatoreId, e.Ordinamento })
                     .HasName("Classificazioni$USottospecieClassificatore")
                     .IsUnique();
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                //entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.ClassificatoreId).HasColumnName("ClassificatoreID");
 

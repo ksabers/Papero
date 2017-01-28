@@ -5,7 +5,7 @@ namespace Papero.Models
 {
     public partial class Classificazioni
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public int SottospecieId { get; set; }
         public int ClassificatoreId { get; set; }
         public int Ordinamento { get; set; }

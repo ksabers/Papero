@@ -15,7 +15,9 @@ namespace Papero.Models
         IEnumerable<StatiConservazione> LeggiStatiConservazione();
         IEnumerable<ElencoClassificatoriViewModel> LeggiClassificazioni(int idSottospecie);
         IEnumerable<ElencoClassificatoriViewModel> LeggiClassificatori();
-        void AggiornaNomiEStato(int idSottospecie, Sottospecie sottospecie);
+        void AggiornaNomiEStato(int idSottospecie);
+        IEnumerable<Sottospecie> LeggiSottospecie();
+        Sottospecie LeggiSottospecie(int idSottospecie);
         Task<bool> SalvaModifiche();
         
     }
