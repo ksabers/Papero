@@ -17,7 +17,6 @@
         vm.stringaElencoAutori = "";       
         vm.annoClassificazione = inputAnnoClassificazione.value;
         vm.classificazioneOriginale = inputClassificazioneOriginale.checked;
-        vm.tabellaSerializzata = "";
         
         vm.opzioniTabellaElencoAutori = DTOptionsBuilder.newOptions()      // Opzioni di visualizzazione della angular datatable
             .withOption('searching', false)
@@ -30,6 +29,7 @@
 
         vm.aggiornaElencoAutori = function aggiornaElencoAutori() {
             var elenco = "";
+            var serializzazione = "";
             var lunghezza = vm.datiTabellaAutori.length;
             var sequenza = 1;
 
@@ -60,11 +60,16 @@
             }
 
             vm.stringaElencoAutori = elenco;
-            vm.tabellaSerializzata = "";
+            serializzazione = "";
             for (var i = 0; i < lunghezza; i++) {
-                vm.tabellaSerializzata += vm.datiTabellaAutori[i].id + ",";
+                serializzazione += vm.datiTabellaAutori[i].id + ",";
             };
-            vm.tabellaSerializzata = "[" + vm.tabellaSerializzata.substring(0, vm.tabellaSerializzata.length - 1) + "]";
+            serializzazione = "[" + serializzazione.substring(0, serializzazione.length - 1) + "]";
+
+            $("#parametroElencoAutori").val(elenco);
+            $("#tabellaElencoAutoriSerializzata").val(serializzazione);
+
+            //alert($("#parametroElencoAutori").val());
         };
 
         vm.spostaSu = function spostaSuArray(indice) {

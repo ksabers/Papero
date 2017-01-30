@@ -81,6 +81,7 @@ namespace Papero.Controllers
 
 
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AggiornaNomi(int Id, int sottospecieId, string nomeItaliano, string nomeInglese, int statoConservazione)
         {
@@ -95,6 +96,17 @@ namespace Papero.Controllers
                 return RedirectToAction("DettaglioEsemplare", new { id = Id });
             }
                 return RedirectToAction("DettaglioEsemplare", new { id = Id });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AggiornaAutori(int Id, int sottospecieId, string parametroElencoAutori, int inputAnnoClassificazione, string tabellaElencoAutoriSerializzata)
+        {
+            if (await _repository.SalvaModifiche())
+            {
+                return RedirectToAction("DettaglioEsemplare", new { id = Id });
+            }
+            return RedirectToAction("DettaglioEsemplare", new { id = Id });
         }
 
         public IActionResult Info()  // Pagina statica di informazioni sull'applicazione: restituisce semplicemente la sua vista
