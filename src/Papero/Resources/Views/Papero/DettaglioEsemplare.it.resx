@@ -357,4 +357,13 @@
   <data name="Inserisci" xml:space="preserve">
     <value>Inserisci</value>
   </data>
+  <data name="Anno Classificazione" xml:space="preserve">
+    <value>Anno Classificazione</value>
+  </data>
+  <data name="Classificatore" xml:space="preserve">
+    <value>Classificatore</value>
+  </data>
+  <data name="Classificazione Originale" xml:space="preserve">
+    <value>Classificazione Originale</value>
+  </data>
 </root>

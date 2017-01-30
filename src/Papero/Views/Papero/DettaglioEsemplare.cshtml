@@ -90,52 +90,58 @@
                                                 </div>
                                                 <div class="panel-body text-primary">
 
-                                                    <form class="form-horizontal">
+                                                    <form class="form-horizontal" id="formElencoAutori" name="formElencoAutori">
                                                         <fieldset>
-                                                            <div class="form-group">
-                                                                @(Model.Sottospecie.Specie.Genere.Nome +
+                                                            <div class="form-group  text-center">
+                                                                <h3>
+                                                                    <span class="text-muted">
+                                                                        @(Model.Sottospecie.Specie.Genere.Nome +
                                                                   " " +
                                                                   Model.Sottospecie.Specie.Nome +
                                                                   " " +
                                                                   (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome))
+                                                                </span>
                                                                 <br />
-                                                                {{vm.stringaElencoAutori}}
+                                                                    <span class="text-primary">{{vm.stringaElencoAutori}}</span>
+                                                                </h3>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputAnnoClassificazione" class="col-lg-2 col-lg-offset-3 control-label text-primary">Anno classificazione:</label>
-                                                                <div class="col-lg-3">
-                                                                    <input type="text" class="form-control" id="inputAnnoClassificazione" ng-model="vm.annoClassificazione" value="@Model.Sottospecie.AnnoClassificazione">
+                                                                <label for="inputAnnoClassificazione" class="col-lg-3 col-lg-offset-2 control-label text-primary">@localizzatore["Anno Classificazione"]:</label>
+                                                                <div class="col-lg-2">
+                                                                    <input type="hidden" id="annoClassificazioneDB" name="annoClassificazioneDB" value="@Model.Sottospecie.AnnoClassificazione" />
+                                                                    <input type="number" min="1700" max="2100" class="form-control" id="inputAnnoClassificazione" ng-model="vm.annoClassificazione" value="@Model.Sottospecie.AnnoClassificazione" ng-change="vm.aggiornaElencoAutori()" required>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="inputClassificazioneOriginale" class="col-lg-2 col-lg-offset-3 control-label text-primary">Classificazione Originale:</label>
-                                                                <div class="col-lg-3">
-                                                                    <input type="checkbox" class="form-control" id="inputClassificazioneOriginale" ng-change="vm.aggiornaElencoAutori()" ng-model="vm.classificazioneOriginale" checked="@Model.Sottospecie.ClassificazioneOriginale"/>
+                                                                <label for="inputClassificazioneOriginale" class="col-lg-3 col-lg-offset-2 control-label text-primary">@localizzatore["Classificazione Originale"]:</label>
+                                                                <div class="col-lg-1">
+                                                                    <input type = "hidden" id="classificazioneOriginaleDB" name="classificazioneOriginaleDB" value="@((bool)Model.Sottospecie.ClassificazioneOriginale ? "true" : "false")" />
+                                                                    <input type = "checkbox" class="form-control" id="inputClassificazioneOriginale" ng-change="vm.aggiornaElencoAutori()" ng-model="vm.classificazioneOriginale" checked="@Model.Sottospecie.ClassificazioneOriginale"/>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="dropdownAutori" class="col-lg-2 col-lg-offset-3 control-label text-primary">Autore:</label>
-                                                                <div class="col-lg-3">
-                                                                    <select id="dropdownAutori"
+                                                                <label for="dropdownAutori" class="col-lg-3 col-lg-offset-2 control-label text-primary">@localizzatore["Classificatore"]:</label>
+                                                                <div class="col-lg-4">
+                                                                    <select id = "dropdownAutori"
                                                                             class="form-control"
                                                                             ng-model="vm.autoreSelezionato"
                                                                             ng-options="autore.classificatore for autore in vm.datiDropdownAutori track by autore.id"></select>
                                                                 </div>
                                                                 <div class="col-lg-1">
-                                                                    <i role="button" ng-click="vm.aggiungiAutore()" class="fa fa-plus-square fa-2x text-success"></i>
+                                                                    <i role = "button" ng-click="vm.aggiungiAutore()" class="fa fa-plus-square fa-2x text-success"></i>
                                                                 </div>
                                                             </div>
 
                                                             <div class="form-group">
-                                                                <div class="col-lg-offset-3 col-lg-6">
-
-                                                                            <table datatable="ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaElencoAutori" dt-options="vm.opzioniTabellaElencoAutori">
+                                                                <div class="col-lg-offset-2 col-lg-8">
+                                                                    <div style = "overflow-y:auto; overflow-x:hidden; max-height:300px;" >
+                                                                            <input type="hidden" id="tabellaElencoAutoriSerializzata" name="tabellaElencoAutoriSerializzata" ng-model="vm.tabellaSerializzata" />
+                                                                            <table datatable = "ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaElencoAutori" dt-options="vm.opzioniTabellaElencoAutori">
                                                                                 <thead>
                                                                                     <tr>
-                                                                                        <th>Ordinamento</th>
-                                                                                        <th>Autore</th>
+                                                                                        <th>@localizzatore["Ordinamento"]</th>
+                                                                                        <th>@localizzatore["Classificatore"]</th>
                                                                                         <th></th>
-
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
@@ -144,22 +150,23 @@
                                                                                         <td>{{autore.classificatore}}</td>
                                                                                         <td >
                                                                                             <div class="btn-group fa-pull-right">
-                                                                                                <i role="button" ng-show="!$first" ng-click="vm.spostaSu($index)" class="fa fa-arrow-up fa-2x  text-success"></i>
-                                                                                                <i role="button" ng-show="!$last" ng-click="vm.spostaGiu($index)" class="fa fa-arrow-down fa-2x text-success"></i>
-                                                                                                <i role="button" ng-click="vm.rimuoviAutore(autore)" class="fa fa-minus-square fa-2x text-danger"></i>
+                                                                                                <i role = "button" ng-show="!$first" ng-click="vm.spostaSu($index)" class="fa fa-arrow-up fa-2x  text-success"></i>
+                                                                                                <i role = "button" ng-show="!$last" ng-click="vm.spostaGiu($index)" class="fa fa-arrow-down fa-2x text-success"></i>
+                                                                                                <i role = "button" ng-click="vm.rimuoviAutore(autore)" class="fa fa-minus-square fa-2x text-danger"></i>
                                                                                             </div>
                                                                                         </td>
 
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
+                                                                        </div>
                                                                     </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-12">
                                                                     <div class="pull-right">
-                                                                        <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
-                                                                        <button type="submit" class="btn btn-success" ng-click="vm.salvaModaleElencoAutori(@Model.Sottospecie.Id)" data-dismiss="modal">@localizzatore["Inserisci"]</button>
+                                                                        <button type = "reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
+                                                                        <button type = "submit" class="btn btn-success" ng-click="vm.salvaModaleElencoAutori(@Model.Sottospecie.Id)" data-dismiss="modal" ng-disabled="formElencoAutori.$invalid">@localizzatore["Inserisci"]</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -180,16 +187,16 @@
                                   Model.Sottospecie.Specie.Nome +
                                   " " +
                                   (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome)) <br />
-                                  
+
                                   @Model.Sottospecie.ElencoAutori
 
-                                @if (User.IsInRole("Amministratore"))
+                                @if(User.IsInRole("Amministratore"))
                                 {
-                                    <i role="button" class="fa fa-pencil text-muted" data-toggle="modal" data-target="#modaleElencoAutori" ng-click="vm.apriModaleElencoAutori(@Model.Sottospecie.Id)"></i>
+                                    <i role = "button" class="fa fa-pencil text-muted" data-toggle="modal" data-target="#modaleElencoAutori" ng-click="vm.apriModaleElencoAutori(@Model.Sottospecie.Id)"></i>
                                 }
                             </h4>
                         </div>
-                        
+
                         <div class="col-lg-2">
                             <div class="card card-outline-primary">
                                 <dl class="dl-horizontal text-white">
@@ -213,26 +220,26 @@
 
                                             <div class="panel panel-primary">
                                                 <div class="panel-heading">
-                                                    <h3 class="panel-title">@localizzatore["Inserire i nuovi valori"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                                                    <h3 class="panel-title">@localizzatore["Inserire i nuovi valori"]:<i role = "button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
                                                 </div>
                                                 <div class="panel-body">
 
-                                                    <form class="form-horizontal" 
-                                                          asp-controller="Papero" 
+                                                    <form class="form-horizontal"
+                                                          asp-controller="Papero"
                                                           asp-action="AggiornaNomi">
                                                         <fieldset>
-                                                            <input type="hidden" id="sottospeciehidden" asp-for="SottospecieId" value="@Model.Sottospecie.Id"/>
-                                                            <input type="hidden" id="esemplarehidden" asp-for="Id" value="@Model.Id"/>
+                                                            <input type = "hidden" id="sottospeciehidden" asp-for="SottospecieId" value="@Model.Sottospecie.Id"/>
+                                                            <input type = "hidden" id="esemplarehidden" asp-for="Id" value="@Model.Id"/>
                                                             <div class="form-group">
                                                                 <label for="nomeItaliano" class="col-lg-2 control-label text-primary">@localizzatore["Nome Italiano"]:</label>
                                                                 <div class="col-lg-10">
-                                                                    <input type="text" class="form-control" asp-for="Sottospecie.NomeItaliano" id="nomeItaliano" name="nomeItaliano" value="@Model.Sottospecie.NomeItaliano" ng-model="vm.nomeItaliano">
+                                                                    <input type = "text" class="form-control" asp-for="Sottospecie.NomeItaliano" id="nomeItaliano" name="nomeItaliano" value="@Model.Sottospecie.NomeItaliano" ng-model="vm.nomeItaliano">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="nomeInglese" class="col-lg-2 control-label text-primary">@localizzatore["Nome Inglese"]:</label>
                                                                 <div class="col-lg-10">
-                                                                    <input type="text" class="form-control" asp-for="Sottospecie.NomeInglese" id="nomeInglese" name="nomeInglese" value="@Model.Sottospecie.NomeInglese" ng-model="vm.nomeInglese">
+                                                                    <input type = "text" class="form-control" asp-for="Sottospecie.NomeInglese" id="nomeInglese" name="nomeInglese" value="@Model.Sottospecie.NomeInglese" ng-model="vm.nomeInglese">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">

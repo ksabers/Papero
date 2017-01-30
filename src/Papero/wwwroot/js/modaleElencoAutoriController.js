@@ -10,7 +10,6 @@
 
         var elencoAutori = [];
 
-
         var vm = this;
         vm.datiTabellaAutori = [];
         vm.datiDropdownAutori = [];
@@ -18,14 +17,13 @@
         vm.stringaElencoAutori = "";       
         vm.annoClassificazione = inputAnnoClassificazione.value;
         vm.classificazioneOriginale = inputClassificazioneOriginale.checked;
-
+        vm.tabellaSerializzata = "";
+        
         vm.opzioniTabellaElencoAutori = DTOptionsBuilder.newOptions()      // Opzioni di visualizzazione della angular datatable
             .withOption('searching', false)
             .withOption('paging', false)
             .withOption('info', false)
             .withOption('ordering', false)
-            .withOption('scrollY', "300px")
-            .withOption('scrollCollapse', true)
             .withLanguageSource(stringaLinguaggioDatatables);   // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
                                                                 // (come da specifiche delle angular datatables)
                                                                 // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
@@ -52,14 +50,22 @@
                     break;
                 };
             }
+            
+            if (vm.annoClassificazione != null)
+                elenco = elenco + ", " + vm.annoClassificazione.toString();
+            
 
             if (!vm.classificazioneOriginale) {
                 elenco = "(" + elenco + ")";
             }
 
             vm.stringaElencoAutori = elenco;
+            vm.tabellaSerializzata = "";
+            for (var i = 0; i < lunghezza; i++) {
+                vm.tabellaSerializzata += vm.datiTabellaAutori[i].id + ",";
+            };
+            vm.tabellaSerializzata = "[" + vm.tabellaSerializzata.substring(0, vm.tabellaSerializzata.length - 1) + "]";
         };
-
 
         vm.spostaSu = function spostaSuArray(indice) {
             var arrayRiordinato = [];
@@ -74,7 +80,6 @@
 
             vm.datiTabellaAutori = arrayRiordinato;
             vm.aggiornaElencoAutori();
-
         };
 
         vm.spostaGiu = function spostaGiuArray(indice) {
@@ -91,36 +96,25 @@
 
             vm.datiTabellaAutori = arrayRiordinato;
             vm.aggiornaElencoAutori();
-
         };
         
 
-
         function aggiornaDropdownAutori() {
             var arrayAutori = [];   // Array di servizio che serve per tenere l'elenco degli id degli autori selezionati nella tabella. Viene usato per filtrare la dropdown
-            // togliendo gli autori già presenti nella tabella.
+                                    // togliendo gli autori già presenti nella tabella.
 
             for (var i = 0; i < vm.datiTabellaAutori.length; i++)           // Riempimento dell'array di servizio
                 arrayAutori.push(vm.datiTabellaAutori[i].id);
 
             vm.datiDropdownAutori = _.filter(elencoAutori, function (autore) { return !arrayAutori.includes(autore.id) });
-
         };
 
         vm.apriModaleElencoAutori = function apriModaleElencoAutori(idSottospecie) {
-            
-            
-            //$http.get("/api/classificazioni/" + inputIdSottospecie.value)
-            //    .then(function (response) {
-            //        vm.datiTabellaAutori = response.data;
- 
-            //});
-
-            
+            vm.annoClassificazione = parseInt($("#annoClassificazioneDB").val());
+            vm.classificazioneOriginale = ($("#classificazioneOriginaleDB").val() == "true" ? true : false);
             aggiornaDropdownAutori();
             vm.aggiornaElencoAutori();
             vm.autoreSelezionato = vm.datiDropdownAutori[0];
-
         };
 
         vm.aggiungiAutore = function aggiungiAutore() {
@@ -141,15 +135,12 @@
         $http.get("/api/classificatori")
             .then(function (response) {
                 elencoAutori = response.data;
-                
-                //vm.autoreSelezionato = elencoAutori[0];
         });
 
         $http.get("/api/classificazioni/" + inputIdSottospecie.value)
             .then(function (response) {
                 vm.datiTabellaAutori = response.data;
         });
-
     }
 
 })();
