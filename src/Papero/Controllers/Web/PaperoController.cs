@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Papero.ViewModels;
 using AutoMapper;
+using Newtonsoft.Json;
 
 namespace Papero.Controllers
 {
@@ -100,8 +101,41 @@ namespace Papero.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AggiornaAutori(int Id, int sottospecieId, string parametroElencoAutori, int inputAnnoClassificazione, string tabellaElencoAutoriSerializzata)
+        public async Task<IActionResult> AggiornaAutori(int Id, int sottospecieId, string parametroElencoAutori, int inputAnnoClassificazione, string tabellaElencoAutoriSerializzata, string inputClassificazioneOriginale)
         {
+            var sottospecieDaModificare = _repository.LeggiSottospecie(sottospecieId);
+            var classificazioniDaEliminare = sottospecieDaModificare.Classificazioni;
+            
+            var ordinamento = 1;
+
+            //var arrayAutori = tabellaElencoAutoriSerializzata.Select(s => int.Parse(s.ToString())).ToArray();
+
+            //string[] arrayAutori = new string[0];
+
+            var arrayAutori = JsonConvert.DeserializeObject<int[]>(tabellaElencoAutoriSerializzata);
+
+            sottospecieDaModificare.ElencoAutori = parametroElencoAutori;
+            sottospecieDaModificare.AnnoClassificazione = inputAnnoClassificazione.ToString();
+            sottospecieDaModificare.ClassificazioneOriginale = inputClassificazioneOriginale == "on" ? true : false;
+
+            //foreach (var classificazione in classificazioniDaEliminare)
+            //{
+            //    sottospecieDaModificare.Classificazioni.Remove(classificazione);
+            //}
+
+            _repository.CancellaClassificazioni(sottospecieId);
+
+            foreach (var autore in arrayAutori)
+            {
+                var classificazioneDaAggiungere = new Classificazioni();
+                classificazioneDaAggiungere.SottospecieId = sottospecieId;
+                classificazioneDaAggiungere.ClassificatoreId = autore;
+                classificazioneDaAggiungere.Ordinamento = ordinamento;
+                ordinamento += 1;
+                sottospecieDaModificare.Classificazioni.Add(classificazioneDaAggiungere);
+            }
+            
+
             if (await _repository.SalvaModifiche())
             {
                 return RedirectToAction("DettaglioEsemplare", new { id = Id });

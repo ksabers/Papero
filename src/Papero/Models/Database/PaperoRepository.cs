@@ -169,13 +169,15 @@ namespace Papero.Models
         public Sottospecie LeggiSottospecie(int idSottospecie)
         {
             return _contesto.Sottospecie
+                .Include(sottospecie => sottospecie.Classificazioni)
                 .Single(sottospecie => sottospecie.Id == idSottospecie);
         }
 
-
-        public void AggiornaNomiEStato(int idSottospecie)
+        public void CancellaClassificazioni(int idSottospecie)
         {
-
+             _contesto.Classificazioni
+                .RemoveRange(_contesto.Classificazioni.Where(cl => cl.SottospecieId == idSottospecie));
+             _contesto.SaveChanges();
         }
         public async Task<bool> SalvaModifiche()
         {

@@ -53,18 +53,5 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiClassificatori());
         }
 
-        [HttpPut("api/aggiornanomiestato/{idSottospecie}")]
-        public async Task<IActionResult> PutNomiEStato([FromBody]int idSottospecie)
-        {
-            var sottospecie = new Sottospecie();
-
-            _repository.AggiornaNomiEStato(idSottospecie);
-
-            if (await _repository.SalvaModifiche())
-            {
-                return Created("api/trips/{theTrip.Name}","");
-            }
-            return BadRequest("Failed to save the trip");
-        }
     }
 }

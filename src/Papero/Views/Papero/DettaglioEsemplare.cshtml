@@ -96,8 +96,8 @@
                                                           asp-controller="Papero"
                                                           asp-action="AggiornaAutori">
                                                         <fieldset>
-                                                            <input type="hidden" id="sottospeciehidden2" asp-for="SottospecieId" value="@Model.Sottospecie.Id" />
-                                                            <input type="hidden" id="esemplarehidden2" asp-for="Id" value="@Model.Id" />
+                                                            <input type="hidden" id="sottospeciehiddenElencoAutori" asp-for="SottospecieId" value="@Model.Sottospecie.Id" />
+                                                            <input type="hidden" id="esemplarehiddenElencoAutori" asp-for="Id" value="@Model.Id" />
                                                             <input type="hidden" id="parametroElencoAutori" name="parametroElencoAutori" />
                                                             <div class="form-group text-center">
                                                                 <h3>
@@ -135,7 +135,8 @@
                                                                            value="@((bool)Model.Sottospecie.ClassificazioneOriginale ? "true" : "false")" />
                                                                     <input type="checkbox" 
                                                                            class="form-control" 
-                                                                           id="inputClassificazioneOriginale" 
+                                                                           id="inputClassificazioneOriginale"
+                                                                           name="inputClassificazioneOriginale"
                                                                            ng-change="vm.aggiornaElencoAutori()" 
                                                                            ng-model="vm.classificazioneOriginale" 
                                                                            checked="@Model.Sottospecie.ClassificazioneOriginale"/>
