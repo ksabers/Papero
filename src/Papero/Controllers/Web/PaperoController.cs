@@ -108,29 +108,20 @@ namespace Papero.Controllers
             
             var ordinamento = 1;
 
-            //var arrayAutori = tabellaElencoAutoriSerializzata.Select(s => int.Parse(s.ToString())).ToArray();
-
-            //string[] arrayAutori = new string[0];
-
             var arrayAutori = JsonConvert.DeserializeObject<int[]>(tabellaElencoAutoriSerializzata);
 
             sottospecieDaModificare.ElencoAutori = parametroElencoAutori;
             sottospecieDaModificare.AnnoClassificazione = inputAnnoClassificazione.ToString();
             sottospecieDaModificare.ClassificazioneOriginale = inputClassificazioneOriginale == "on" ? true : false;
 
-            //foreach (var classificazione in classificazioniDaEliminare)
-            //{
-            //    sottospecieDaModificare.Classificazioni.Remove(classificazione);
-            //}
-
             _repository.CancellaClassificazioni(sottospecieId);
 
             foreach (var autore in arrayAutori)
             {
                 var classificazioneDaAggiungere = new Classificazioni();
-                classificazioneDaAggiungere.SottospecieId = sottospecieId;
-                classificazioneDaAggiungere.ClassificatoreId = autore;
-                classificazioneDaAggiungere.Ordinamento = ordinamento;
+                    classificazioneDaAggiungere.SottospecieId = sottospecieId;
+                    classificazioneDaAggiungere.ClassificatoreId = autore;
+                    classificazioneDaAggiungere.Ordinamento = ordinamento;
                 ordinamento += 1;
                 sottospecieDaModificare.Classificazioni.Add(classificazioneDaAggiungere);
             }

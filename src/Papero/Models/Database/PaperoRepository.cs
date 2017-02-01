@@ -179,6 +179,48 @@ namespace Papero.Models
                 .RemoveRange(_contesto.Classificazioni.Where(cl => cl.SottospecieId == idSottospecie));
              _contesto.SaveChanges();
         }
+
+        public IEnumerable<PartiPreparate> LeggiPartiPreparate()
+        {
+            return _contesto.PartiPreparate
+                .OrderBy(parte => parte.Parte)
+                .ToList();
+        }
+
+        public IEnumerable<Preparati> LeggiPreparati()
+        {
+            return _contesto.Preparati
+                .Include(preparato => preparato.Parte)
+                .Include(preparato => preparato.Vassoio)
+                    .ThenInclude(vassoio => vassoio.Cassetto)
+                        .ThenInclude(cassetto => cassetto.Armadio)
+                            .ThenInclude(armadio => armadio.Sala)
+                .OrderBy(preparato => preparato.Ordinamento)
+                .ToList();
+        }
+
+        public IEnumerable<Preparati> LeggiPreparati(int idEsemplare)
+        {
+            return _contesto.Preparati
+                .Where(preparato => preparato.EsemplareId == idEsemplare)
+                    .Include(preparato => preparato.Parte)
+                    .Include(preparato => preparato.Vassoio)
+                        .ThenInclude(vassoio => vassoio.Cassetto)
+                            .ThenInclude(cassetto => cassetto.Armadio)
+                                .ThenInclude(armadio => armadio.Sala)
+                .OrderBy(preparato => preparato.Ordinamento)
+                .ToList();
+        }
+
+        public IEnumerable<Sale> LeggiSale()
+        {
+            return _contesto.Sale
+                .Include(sala => sala.Armadi)
+                    .ThenInclude(armadio => armadio.Cassetti)
+                        .ThenInclude(cassetto => cassetto.Vassoi)
+                .OrderBy(sala => sala.Sala)
+                .ToList();
+        }
         public async Task<bool> SalvaModifiche()
         {
             return (await _contesto.SaveChangesAsync()) > 0;

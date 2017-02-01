@@ -53,5 +53,29 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiClassificatori());
         }
 
+        [HttpGet("api/partipreparate")]
+        public IActionResult GetPartiPreparate()
+        {
+            return Ok(_repository.LeggiPartiPreparate());
+        }
+
+        [HttpGet("api/preparati")]
+        public IActionResult GetPreparati()
+        {
+            return Ok(_repository.LeggiPreparati());
+        }
+
+        [HttpGet("api/preparati/{idEsemplare}")]
+        public IActionResult GetPreparati(int idEsemplare)
+        {
+            return Ok(_repository.LeggiPreparati(idEsemplare));
+        }
+
+        [HttpGet("api/sale")]
+        public IActionResult GetSale()
+        {
+            return Ok(_repository.LeggiSale());
+        }
+
     }
 }

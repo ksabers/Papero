@@ -40,6 +40,7 @@
     <script src="~/js/papero-app.js"></script>
     <script src="~/js/modaleNomiController.js"></script>
     <script src="~/js/modaleElencoAutoriController.js"></script>
+    <script src="~/js/modaleModiPreparazioneController.js"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.5/angular-datatables.min.js"></script>
@@ -77,6 +78,7 @@
                         <div class="col-lg-4" ng-controller="modaleElencoAutoriController as vm">
 
                             <input type="hidden" id="inputIdSottospecie" value="@Model.Sottospecie.Id" />
+                            <input type="hidden" id="inputIdEsemplare" value="@Model.Id" />
 
 
                             <div class="modal fade" id="modaleElencoAutori" role="dialog">
@@ -157,7 +159,7 @@
 
                                                             <div class="form-group">
                                                                 <div class="col-lg-offset-2 col-lg-8">
-                                                                    <div style = "overflow-y:auto; overflow-x:hidden; max-height:300px;" >
+                                                                    <div style="overflow-y:auto; overflow-x:hidden; max-height:300px;" >
                                                                             <input type="hidden" id="tabellaElencoAutoriSerializzata" name="tabellaElencoAutoriSerializzata"/>
                                                                             <table datatable="ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaElencoAutori" dt-options="vm.opzioniTabellaElencoAutori">
                                                                                 <thead>
@@ -305,8 +307,6 @@
                                         {
                                             <i role="button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleNomi" ng-click="vm.apriModaleNomi()"></i>
                                         }
-
-
                                         @localizzatore["Nome Italiano"]:
                                     </dt>
                                     <dd id="nomeItalianoDD">@Model.Sottospecie.NomeItaliano</dd>
@@ -368,15 +368,108 @@
                                     }
                                 </ul>
                             </dd>
-                            <dt>@localizzatore["Modo di Preparazione"]:</dt>
-                            <dd>
-                                <ul class="list-unstyled">
-                                    @foreach (var preparato in Model.Preparati.OrderBy(preparato => preparato.Ordinamento))
+                            <div class="card card-outline-secondary" ng-controller="modaleModiPreparazioneController as vm">
+
+                                <div class="modal fade" id="modaleModiPreparazione" role="dialog">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="panel panel-primary">
+                                                    <div class="panel-heading">
+                                                        <h3 class="panel-title">@localizzatore["Inserire i nuovi valori"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                                                    </div>
+                                                    <div class="panel-body">
+
+                                                        <form class="form-horizontal"
+                                                              asp-controller="Papero"
+                                                              asp-action="AggiornaModiPreparazione">
+                                                            <fieldset>
+                                                                <div class="form-group">
+                                                                    <table datatable="ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaModiPreparazione" dt-options="vm.opzioniTabellaModiPreparazione">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Modo di Preparazione<br />
+                                                                                        <select id="modiPreparazione"
+                                                                                                name="modiPreparazione"
+                                                                                                class="form-control"
+                                                                                                ng-model="vm.modoPreparazioneSelezionato"
+                                                                                                ng-options="preparazione as preparazione.parte for preparazione in vm.dropdownModiPreparazione track by preparazione.id">
+                                                                                            @*<option ng-repeat="preparazione in vm.dropdownModiPreparazione" value="{{preparazione.id}}">{{preparazione.parte}}</option>*@
+                                                                                        </select>
+                                                                                </th>
+                                                                                <th>Sala<br />
+                                                                                    <select class="form-control" 
+                                                                                            id="dropdownSala" 
+                                                                                            name="dropdownSala" 
+                                                                                            ng-model="vm.salaSelezionata"
+                                                                                            ng-options="sala as sala.sala for sala in vm.dropdownSale track by sala.id">
+                                                                                        @*<option ng-repeat="sala in vm.dropdownSale" value="{{sala.id}}">{{sala.sala}}</option>*@
+                                                                                    </select>
+                                                                                </th>
+                                                                                <th>Armadio<br />
+                                                                                    <select class="form-control">
+                                                                                        <option value="pippo">pluto</option>
+                                                                                    </select>
+                                                                                </th>
+                                                                                <th>Vassoio<br />
+                                                                                    <select class="form-control">
+                                                                                        <option value="pippo">pluto</option>
+                                                                                    </select>
+                                                                                </th>
+                                                                                <th>Cassetto<br />
+                                                                                    <select class="form-control">
+                                                                                        <option value="pippo">pluto</option>
+                                                                                    </select>
+                                                                                </th>
+                                                                                <th><i role="button" ng-click="vm.aggiungiPreparazione()" class="fa fa-plus-square fa-2x text-success"></i></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr ng-repeat="preparazione in vm.datiTabellaModiPreparazione">
+                                                                                <td>{{preparazione.parte.parte}}</td>
+                                                                                <td>{{preparazione.vassoio.cassetto.armadio.sala.sala}}</td>
+                                                                                <td>{{preparazione.vassoio.cassetto.armadio.armadio}}</td>
+                                                                                <td>{{preparazione.vassoio.cassetto.cassetto}}</td>
+                                                                                <td>{{preparazione.vassoio.vassoio}}</td>
+                                                                                <td></td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="pull-right">
+                                                                            <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
+                                                                            <button type="submit" class="btn btn-success">@localizzatore["Inserisci"]</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <dt>
+                                    @if (User.IsInRole("Amministratore"))
                                     {
-                                        <li>@(preparato.Parte.Parte + " (" + preparato.Vassoio.Cassetto.Armadio.Sala.Sala + ", " + preparato.Vassoio.Cassetto.Armadio.Armadio + ", " + preparato.Vassoio.Cassetto.Cassetto + ", " + preparato.Vassoio.Vassoio + ")")</li>
+                                        <i role="button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleModiPreparazione" ng-click="vm.apriModaleModiPreparazione()"></i>
                                     }
-                                </ul>
-                            </dd>
+                                    @localizzatore["Modo di Preparazione"]:
+                                </dt>
+                                <dd>
+                                    <ul class="list-unstyled">
+                                        @foreach (var preparato in Model.Preparati.OrderBy(preparato => preparato.Ordinamento))
+                                        {
+                                            <li>@(preparato.Parte.Parte + " (" + preparato.Vassoio.Cassetto.Armadio.Sala.Sala + ", " + preparato.Vassoio.Cassetto.Armadio.Armadio + ", " + preparato.Vassoio.Cassetto.Cassetto + ", " + preparato.Vassoio.Vassoio + ")")</li>
+                                        }
+                                    </ul>
+                                </dd>
+                            </div>
                             <dt>@localizzatore["Note di Preparazione"]:</dt>
                             <dd><textarea rows="4" readonly style="resize:none; border:none;">@Model.NotePreparazione</textarea></dd>
                         </dl>
@@ -554,7 +647,7 @@
 
                     </div>
                 </div>
-    }
+            }
         </div>
     </div>
 </div>

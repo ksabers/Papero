@@ -16,6 +16,12 @@ namespace Papero.Models
         IEnumerable<ElencoClassificatoriViewModel> LeggiClassificazioni(int idSottospecie);
         IEnumerable<ElencoClassificatoriViewModel> LeggiClassificatori();
         IEnumerable<Sottospecie> LeggiSottospecie();
+
+        IEnumerable<PartiPreparate> LeggiPartiPreparate();
+        IEnumerable<Preparati> LeggiPreparati();
+        IEnumerable<Preparati> LeggiPreparati(int idEsemplare);
+        IEnumerable<Sale> LeggiSale();
+
         void CancellaClassificazioni(int idSottospecie);
         Sottospecie LeggiSottospecie(int idSottospecie);
         Task<bool> SalvaModifiche();
