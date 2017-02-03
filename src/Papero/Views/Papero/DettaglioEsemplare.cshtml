@@ -48,8 +48,16 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
-}
+    <script>
+        $('#modaleElencoAutori').on('hidden.bs.modal', function () {
+            location.reload(true);
+        });
+        $('#modaleModiPreparazione').on('hidden.bs.modal', function () {
+            location.reload(true);
+        });
+    </script>
 
+ }
 <div class="row" ng-app="papero-app">
     <div class="col-lg-12">
 
@@ -190,7 +198,7 @@
                                                                 <div class="col-lg-12">
                                                                     <div class="pull-right">
                                                                         <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
-                                                                        <button type="submit" class="btn btn-success" ng-disabled="formElencoAutori.$invalid">@localizzatore["Inserisci"]</button>
+                                                                        <button type="submit" id="submitElencoAutori" class="btn btn-success" ng-disabled="formElencoAutori.$invalid || vm.invalido">@localizzatore["Inserisci"]</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -388,40 +396,49 @@
                                                                     <table datatable="ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaModiPreparazione" dt-options="vm.opzioniTabellaModiPreparazione">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th>Modo di Preparazione<br />
+                                                                                <th>@localizzatore["Preparazione"]<br />
                                                                                         <select id="modiPreparazione"
                                                                                                 name="modiPreparazione"
                                                                                                 class="form-control"
                                                                                                 ng-model="vm.modoPreparazioneSelezionato"
                                                                                                 ng-options="preparazione as preparazione.parte for preparazione in vm.dropdownModiPreparazione track by preparazione.id">
-                                                                                            @*<option ng-repeat="preparazione in vm.dropdownModiPreparazione" value="{{preparazione.id}}">{{preparazione.parte}}</option>*@
                                                                                         </select>
                                                                                 </th>
-                                                                                <th>Sala<br />
-                                                                                    <select class="form-control" 
-                                                                                            id="dropdownSala" 
-                                                                                            name="dropdownSala" 
+                                                                                <th>@localizzatore["Sala"]<br />
+                                                                                    <select class="form-control"
+                                                                                            id="dropdownSala"
+                                                                                            name="dropdownSala"
                                                                                             ng-model="vm.salaSelezionata"
+                                                                                            ng-change="vm.aggiornaDropdownArmadi()"
                                                                                             ng-options="sala as sala.sala for sala in vm.dropdownSale track by sala.id">
-                                                                                        @*<option ng-repeat="sala in vm.dropdownSale" value="{{sala.id}}">{{sala.sala}}</option>*@
                                                                                     </select>
                                                                                 </th>
-                                                                                <th>Armadio<br />
-                                                                                    <select class="form-control">
-                                                                                        <option value="pippo">pluto</option>
+                                                                                <th>@localizzatore["Armadio"]<br />
+                                                                                    <select class="form-control"
+                                                                                            id="dropdownArmadio"
+                                                                                            name="dropdownArmadio"
+                                                                                            ng-model="vm.armadioSelezionato"
+                                                                                            ng-change="vm.aggiornaDropdownCassetti()"
+                                                                                            ng-options="armadio as armadio.armadio for armadio in vm.dropdownArmadi track by armadio.id">
                                                                                     </select>
                                                                                 </th>
-                                                                                <th>Vassoio<br />
-                                                                                    <select class="form-control">
-                                                                                        <option value="pippo">pluto</option>
+                                                                                <th>@localizzatore["Cassetto"]<br />
+                                                                                    <select class="form-control"
+                                                                                            id="dropdownCassetto"
+                                                                                            name="dropdownCassetto"
+                                                                                            ng-model="vm.cassettoSelezionato"
+                                                                                            ng-change="vm.aggiornaDropdownVassoi()"
+                                                                                            ng-options="cassetto as cassetto.cassetto for cassetto in vm.dropdownCassetti track by cassetto.id">
                                                                                     </select>
                                                                                 </th>
-                                                                                <th>Cassetto<br />
-                                                                                    <select class="form-control">
-                                                                                        <option value="pippo">pluto</option>
-                                                                                    </select>
+                                                                                <th>@localizzatore["Vassoio"]<br />
+                                                                                    <select class="form-control"
+                                                                                            id="dropdownVassoio"
+                                                                                            name="dropdownVassoio"
+                                                                                            ng-model="vm.vassoioSelezionato"
+                                                                                            ng-options="vassoio as vassoio.vassoio for vassoio in vm.dropdownVassoi track by vassoio.id"></select>
                                                                                 </th>
-                                                                                <th><i role="button" ng-click="vm.aggiungiPreparazione()" class="fa fa-plus-square fa-2x text-success"></i></th>
+                                                                                <th class="text-center"><i role="button" ng-click="vm.aggiungiPreparazione()" class="fa fa-plus-square fa-2x text-success"></i></th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -431,7 +448,13 @@
                                                                                 <td>{{preparazione.vassoio.cassetto.armadio.armadio}}</td>
                                                                                 <td>{{preparazione.vassoio.cassetto.cassetto}}</td>
                                                                                 <td>{{preparazione.vassoio.vassoio}}</td>
-                                                                                <td></td>
+                                                                                <td>
+                                                                                    <div class="btn-group fa-pull-right">
+                                                                                        <i role="button" ng-show="!$first" ng-click="vm.spostaSu($index)" class="fa fa-arrow-up fa-2x text-success"></i>
+                                                                                        <i role="button" ng-show="!$last" ng-click="vm.spostaGiu($index)" class="fa fa-arrow-down fa-2x text-success"></i>
+                                                                                        <i role="button" ng-click="vm.rimuoviPreparazione(preparazione)" class="fa fa-minus-square fa-2x text-danger"></i>
+                                                                                    </div>
+                                                                                </td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
@@ -455,15 +478,15 @@
 
 
                                 <dt>
-                                    @if (User.IsInRole("Amministratore"))
+                                    @if(User.IsInRole("Amministratore"))
                                     {
-                                        <i role="button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleModiPreparazione" ng-click="vm.apriModaleModiPreparazione()"></i>
+                                        <i role = "button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleModiPreparazione" ng-click="vm.apriModaleModiPreparazione()"></i>
                                     }
                                     @localizzatore["Modo di Preparazione"]:
                                 </dt>
                                 <dd>
                                     <ul class="list-unstyled">
-                                        @foreach (var preparato in Model.Preparati.OrderBy(preparato => preparato.Ordinamento))
+                                        @foreach(var preparato in Model.Preparati.OrderBy(preparato => preparato.Ordinamento))
                                         {
                                             <li>@(preparato.Parte.Parte + " (" + preparato.Vassoio.Cassetto.Armadio.Sala.Sala + ", " + preparato.Vassoio.Cassetto.Armadio.Armadio + ", " + preparato.Vassoio.Cassetto.Cassetto + ", " + preparato.Vassoio.Vassoio + ")")</li>
                                         }
@@ -471,7 +494,7 @@
                                 </dd>
                             </div>
                             <dt>@localizzatore["Note di Preparazione"]:</dt>
-                            <dd><textarea rows="4" readonly style="resize:none; border:none;">@Model.NotePreparazione</textarea></dd>
+                            <dd><textarea rows = "4" readonly style="resize:none; border:none;">@Model.NotePreparazione</textarea></dd>
                         </dl>
 
                         <dl class="col-lg-3 dl-horizontal text-primary">

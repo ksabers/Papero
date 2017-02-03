@@ -221,6 +221,30 @@ namespace Papero.Models
                 .OrderBy(sala => sala.Sala)
                 .ToList();
         }
+
+        public IEnumerable<Armadi> LeggiArmadi()
+        {
+            return _contesto.Armadi
+                .Include(armadio => armadio.Cassetti)
+                    .ThenInclude(cassetto => cassetto.Vassoi)
+                .OrderBy(armadio => armadio.Armadio)
+                .ToList();
+        }
+
+        public IEnumerable<Cassetti> LeggiCassetti()
+        {
+            return _contesto.Cassetti
+                .Include(cassetto => cassetto.Vassoi)
+                .OrderBy(cassetto => cassetto.Cassetto)
+                .ToList();
+        }
+
+        public IEnumerable<Vassoi> LeggiVassoi()
+        {
+            return _contesto.Vassoi
+                .OrderBy(vassoio => vassoio.Vassoio)
+                .ToList();
+        }
         public async Task<bool> SalvaModifiche()
         {
             return (await _contesto.SaveChangesAsync()) > 0;

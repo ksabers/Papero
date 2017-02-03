@@ -244,7 +244,7 @@
     <value>Melanico parziale</value>
   </data>
   <data name="Modo di Preparazione" xml:space="preserve">
-    <value>Modo di Preparazione e Collocazione</value>
+    <value>Modo di Preparazione</value>
   </data>
   <data name="MSNG" xml:space="preserve">
     <value>MSNG</value>
@@ -365,5 +365,20 @@
   </data>
   <data name="Classificazione Originale" xml:space="preserve">
     <value>Classificazione Originale</value>
+  </data>
+  <data name="Armadio" xml:space="preserve">
+    <value>Armadio</value>
+  </data>
+  <data name="Cassetto" xml:space="preserve">
+    <value>Cassetto</value>
+  </data>
+  <data name="Modo di Preparazione e Collocazione" xml:space="preserve">
+    <value>Modo di Preparazione e Collocazione</value>
+  </data>
+  <data name="Sala" xml:space="preserve">
+    <value>Sala</value>
+  </data>
+  <data name="Vassoio" xml:space="preserve">
+    <value>Vassoio</value>
   </data>
 </root>

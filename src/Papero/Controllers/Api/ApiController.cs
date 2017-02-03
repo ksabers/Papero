@@ -77,5 +77,23 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiSale());
         }
 
+        [HttpGet("api/armadi")]
+        public IActionResult GetArmadi()
+        {
+            return Ok(_repository.LeggiArmadi());
+        }
+
+        [HttpGet("api/cassetti")]
+        public IActionResult GetCassetti()
+        {
+            return Ok(_repository.LeggiCassetti());
+        }
+
+        [HttpGet("api/vassoi")]
+        public IActionResult GetVassoi()
+        {
+            return Ok(_repository.LeggiVassoi());
+        }
+
     }
 }

@@ -243,7 +243,7 @@
   <data name="Melanico parziale" xml:space="preserve">
     <value>Partially Melanistic</value>
   </data>
-  <data name="Modo di Preparazione" xml:space="preserve">
+  <data name="Modo di Preparazione e Collocazione" xml:space="preserve">
     <value>Preparation Method and Position</value>
   </data>
   <data name="MSNG" xml:space="preserve">
@@ -365,5 +365,20 @@
   </data>
   <data name="Classificazione Originale" xml:space="preserve">
     <value>Original Classification</value>
+  </data>
+  <data name="Armadio" xml:space="preserve">
+    <value>Cabinet</value>
+  </data>
+  <data name="Cassetto" xml:space="preserve">
+    <value>Drawer</value>
+  </data>
+  <data name="Modo di Preparazione" xml:space="preserve">
+    <value>Preparation Method</value>
+  </data>
+  <data name="Sala" xml:space="preserve">
+    <value>Room</value>
+  </data>
+  <data name="Vassoio" xml:space="preserve">
+    <value>Tray</value>
   </data>
 </root>

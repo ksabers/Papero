@@ -1073,6 +1073,8 @@ namespace Papero.Models
         public virtual DbSet<Tipi> Tipi { get; set; }
         public virtual DbSet<TipiAcquisizione> TipiAcquisizione { get; set; }
         public virtual DbSet<Tribu> Tribu { get; set; }
+
+        public virtual DbSet<Vassoi> Vassoi { get; set; }
         public virtual DbSet<VecchiDeterminatori> VecchiDeterminatori { get; set; }
         public virtual DbSet<VecchieDeterminazioni> VecchieDeterminazioni { get; set; }
     }

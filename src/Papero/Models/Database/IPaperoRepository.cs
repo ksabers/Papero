@@ -21,6 +21,9 @@ namespace Papero.Models
         IEnumerable<Preparati> LeggiPreparati();
         IEnumerable<Preparati> LeggiPreparati(int idEsemplare);
         IEnumerable<Sale> LeggiSale();
+        IEnumerable<Armadi> LeggiArmadi();
+        IEnumerable<Cassetti> LeggiCassetti();
+        IEnumerable<Vassoi> LeggiVassoi();
 
         void CancellaClassificazioni(int idSottospecie);
         Sottospecie LeggiSottospecie(int idSottospecie);

@@ -9,6 +9,7 @@
     function modaleElencoAutoriController($http, DTOptionsBuilder) {
 
         var elencoAutori = [];
+       
 
         var vm = this;
         vm.datiTabellaAutori = [];
@@ -17,6 +18,7 @@
         vm.stringaElencoAutori = "";       
         vm.annoClassificazione = inputAnnoClassificazione.value;
         vm.classificazioneOriginale = inputClassificazioneOriginale.checked;
+        vm.invalido = false;
         
         vm.opzioniTabellaElencoAutori = DTOptionsBuilder.newOptions()      // Opzioni di visualizzazione della angular datatable
             .withOption('searching', false)
@@ -112,6 +114,7 @@
                 arrayAutori.push(vm.datiTabellaAutori[i].id);
 
             vm.datiDropdownAutori = _.filter(elencoAutori, function (autore) { return !arrayAutori.includes(autore.id) });
+            vm.invalido = vm.datiTabellaAutori.length == 0;
         };
 
         vm.apriModaleElencoAutori = function apriModaleElencoAutori(idSottospecie) {
