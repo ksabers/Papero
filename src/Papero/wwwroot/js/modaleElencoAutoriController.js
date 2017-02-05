@@ -10,7 +10,6 @@
 
         var elencoAutori = [];
        
-
         var vm = this;
         vm.datiTabellaAutori = [];
         vm.datiDropdownAutori = [];
@@ -56,10 +55,13 @@
             if (vm.annoClassificazione != null)
                 elenco = elenco + ", " + vm.annoClassificazione.toString();
             
-
             if (!vm.classificazioneOriginale) {
                 elenco = "(" + elenco + ")";
             }
+
+            if (lunghezza == 0) {
+                elenco = "-"
+            };
 
             vm.stringaElencoAutori = elenco;
             serializzazione = "";
@@ -70,8 +72,6 @@
 
             $("#parametroElencoAutori").val(elenco);
             $("#tabellaElencoAutoriSerializzata").val(serializzazione);
-
-            //alert($("#parametroElencoAutori").val());
         };
 
         vm.spostaSu = function spostaSuArray(indice) {

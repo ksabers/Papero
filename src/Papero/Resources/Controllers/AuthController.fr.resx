@@ -117,49 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafiche" xml:space="preserve">
-    <value>Anagrafiche</value>
-  </data>
-  <data name="Contatti" xml:space="preserve">
-    <value>Contatti</value>
-  </data>
-  <data name="Esemplari" xml:space="preserve">
-    <value>Esemplari</value>
-  </data>
-  <data name="Impostazioni" xml:space="preserve">
-    <value>Impostazioni</value>
-  </data>
-  <data name="Info su Papero" xml:space="preserve">
-    <value>Info su Papero</value>
-  </data>
-  <data name="Inglese" xml:space="preserve">
-    <value>Inglese</value>
-  </data>
-  <data name="Italiano" xml:space="preserve">
-    <value>Italiano</value>
-  </data>
-  <data name="Lingua" xml:space="preserve">
-    <value>Lingua</value>
-  </data>
-  <data name="linguaggioDatatables" xml:space="preserve">
-    <value>//cdn.datatables.net/plug-ins/1.10.12/i18n/Italian.json</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
-  </data>
-  <data name="Museo di Storia Naturale 'Giacomo Doria' - Genova" xml:space="preserve">
-    <value>Museo di Storia Naturale 'Giacomo Doria' - Genova</value>
-  </data>
-  <data name="Profilo Utente" xml:space="preserve">
-    <value>Profilo Utente</value>
-  </data>
-  <data name="Tassonomia" xml:space="preserve">
-    <value>Tassonomia</value>
-  </data>
-  <data name="Mostra/Nascondi Menu" xml:space="preserve">
-    <value>Mostra/Nascondi Menu</value>
-  </data>
-  <data name="Francese" xml:space="preserve">
-    <value>Francese</value>
+  <data name="errorelogin" xml:space="preserve">
+    <value>Identifiant ou mot de passe invalide</value>
   </data>
 </root>

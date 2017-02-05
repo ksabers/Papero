@@ -65,9 +65,7 @@ namespace Papero.Controllers
                 ViewBag.trovato = false;
                 ModelState.Clear();
                 return View();
-            }
-
-                                        
+            }                                        
         }
 
         [Authorize]
@@ -79,8 +77,6 @@ namespace Papero.Controllers
 
             return RedirectToAction("DettaglioEsemplare", new { id = idEsemplare });  // Con questa sintassi passiamo il parametro alla action come se avessimo scritto
         }                                                                             // "DettaglioEsemplare/id"
-
-
 
         [Authorize]
         [HttpPost]
@@ -101,7 +97,12 @@ namespace Papero.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AggiornaAutori(int Id, int sottospecieId, string parametroElencoAutori, int inputAnnoClassificazione, string tabellaElencoAutoriSerializzata, string inputClassificazioneOriginale)
+        public async Task<IActionResult> AggiornaAutori(int Id,                                  //  Id dell'esemplare
+                                                        int sottospecieId,                       //  Id della sottospecie
+                                                        string parametroElencoAutori,            //  Elenco autori come stringa, compreso di parentesi e anno classificazione
+                                                        int inputAnnoClassificazione,            //  Anno classificazione da solo come intero
+                                                        string tabellaElencoAutoriSerializzata,  //  Serie di id degli autori, separati da virgole
+                                                        string inputClassificazioneOriginale)    //  Decodifica della checkbox di class. originale: "on" significa true, altrimenti false
         {
             var sottospecieDaModificare = _repository.LeggiSottospecie(sottospecieId);
             var classificazioniDaEliminare = sottospecieDaModificare.Classificazioni;
@@ -131,6 +132,18 @@ namespace Papero.Controllers
             {
                 return RedirectToAction("DettaglioEsemplare", new { id = Id });
             }
+            return RedirectToAction("DettaglioEsemplare", new { id = Id });
+        }
+
+        public async Task<IActionResult> AggiornaModiPreparazione(int Id,                                     //  Id dell'esemplare
+                                                                  string tabellaElencoPreparatiSerializzata)  //  Serie di id dei preparati, separati da virgole
+        {
+            var esemplareDaModificare = _repository.LeggiEsemplare(Id);
+            var preparatiDaCancellare = esemplareDaModificare.Preparati;
+            var ordinamento = 1;
+            var arraypreparati = JsonConvert.DeserializeObject<int[]>(tabellaElencoPreparatiSerializzata);
+
+
             return RedirectToAction("DettaglioEsemplare", new { id = Id });
         }
 

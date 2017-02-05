@@ -117,49 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafiche" xml:space="preserve">
-    <value>Anagrafiche</value>
+  <data name="Albero tassonomico" xml:space="preserve">
+    <value>Arbre taxonomique</value>
   </data>
-  <data name="Contatti" xml:space="preserve">
-    <value>Contatti</value>
+  <data name="Dettagli" xml:space="preserve">
+    <value>Détails</value>
+  </data>
+  <data name="Elenco Esemplari" xml:space="preserve">
+    <value>Liste des spécimens</value>
   </data>
   <data name="Esemplari" xml:space="preserve">
-    <value>Esemplari</value>
+    <value>Spécimens</value>
   </data>
-  <data name="Impostazioni" xml:space="preserve">
-    <value>Impostazioni</value>
+  <data name="MSNG" xml:space="preserve">
+    <value>MSNG</value>
   </data>
-  <data name="Info su Papero" xml:space="preserve">
-    <value>Info su Papero</value>
+  <data name="Nome Scientifico" xml:space="preserve">
+    <value>Nom scientifique</value>
   </data>
-  <data name="Inglese" xml:space="preserve">
-    <value>Inglese</value>
-  </data>
-  <data name="Italiano" xml:space="preserve">
-    <value>Italiano</value>
-  </data>
-  <data name="Lingua" xml:space="preserve">
-    <value>Lingua</value>
-  </data>
-  <data name="linguaggioDatatables" xml:space="preserve">
-    <value>//cdn.datatables.net/plug-ins/1.10.12/i18n/Italian.json</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
-  </data>
-  <data name="Museo di Storia Naturale 'Giacomo Doria' - Genova" xml:space="preserve">
-    <value>Museo di Storia Naturale 'Giacomo Doria' - Genova</value>
-  </data>
-  <data name="Profilo Utente" xml:space="preserve">
-    <value>Profilo Utente</value>
-  </data>
-  <data name="Tassonomia" xml:space="preserve">
-    <value>Tassonomia</value>
-  </data>
-  <data name="Mostra/Nascondi Menu" xml:space="preserve">
-    <value>Mostra/Nascondi Menu</value>
-  </data>
-  <data name="Francese" xml:space="preserve">
-    <value>Francese</value>
+  <data name="Specie selezionate" xml:space="preserve">
+    <value>Espèces sélectionnées</value>
   </data>
 </root>

@@ -34,9 +34,10 @@
 
         function aggiornaDropdownModiPreparazione() {
 
-
             var arrayModi = [];   // Array di servizio che serve per tenere l'elenco degli id dei modi di preparazione selezionati nella tabella. Viene usato per filtrare la dropdown
-                                  // togliendo i modi già presenti nella tabella.
+                                  // togliendo i modi già presenti nella tabella
+
+            var serializzazione = "";
 
             for (var i = 0; i < vm.datiTabellaModiPreparazione.length; i++)           // Riempimento dell'array di servizio
                 arrayModi.push(vm.datiTabellaModiPreparazione[i].parteId);
