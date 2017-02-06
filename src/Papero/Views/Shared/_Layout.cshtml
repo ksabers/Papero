@@ -63,6 +63,13 @@
                            asp-route-indirizzoRitorno="@Context.Request.Path">
                             <img src="~/img/flags/United-Kingdom.png" style="width: 20px;" /> @localizzatore["Inglese"]
                         </a>
+                        <a class="dropdown-item"
+                           asp-controller="Papero"
+                           asp-action="ImpostaLingua"
+                           asp-route-lingua="fr"
+                           asp-route-indirizzoRitorno="@Context.Request.Path">
+                            <img src="~/img/flags/France.png" style="width: 20px;" /> @localizzatore["Francese"]
+                        </a>
                     </div>
                 </li>
                 @if (User.Identity.IsAuthenticated)

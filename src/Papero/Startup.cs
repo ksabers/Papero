@@ -97,10 +97,11 @@ namespace Papero
 
             servizi.Configure<RequestLocalizationOptions>(opzioni =>  // Configurazione della localizzazione
             {
-                var lingueSupportate = new[]  // Elenco delle lingue supportate. Per aggiungere una lingua, aggiungere un new CultureInfo("") con il codice della lingua (es. "fr")
+                var lingueSupportate = new[]  // Elenco delle lingue supportate. Per aggiungere una lingua, aggiungere un new CultureInfo("") con il codice della lingua (es. "de")
                 {                             // e poi ovviamente aggiungere tutti i file di risorse. Va aggiornata anche la dropdown in _Layout.cshtml
                     new CultureInfo("it"),
-                    new CultureInfo("en-US")
+                    new CultureInfo("en-US"),
+                    new CultureInfo("fr")
                 };
 
                 opzioni.DefaultRequestCulture = new RequestCulture(culture: "it", uiCulture: "it");  // Lingua di default dell'applicazione. Deve ovviamente essere una di quelle

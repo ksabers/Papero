@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Aberrazione" xml:space="preserve">
+    <value>Aberration</value>
+  </data>
+  <data name="Ala" xml:space="preserve">
+    <value>Aile</value>
+  </data>
+  <data name="Albino" xml:space="preserve">
+    <value>Albinos</value>
+  </data>
+  <data name="Altre colorazioni" xml:space="preserve">
+    <value>Autres colorations</value>
+  </data>
+  <data name="Apertura Alare" xml:space="preserve">
+    <value>Envergure</value>
+  </data>
+  <data name="Avuto da" xml:space="preserve">
+    <value>Obtenu de</value>
+  </data>
+  <data name="Becco-Cranio" xml:space="preserve">
+    <value>Bec-Crâne</value>
+  </data>
+  <data name="Bibliografia" xml:space="preserve">
+    <value>Bibliographie</value>
+  </data>
+  <data name="Collezione" xml:space="preserve">
+    <value>Collection</value>
+  </data>
+  <data name="Colore Becco" xml:space="preserve">
+    <value>Couleur du Bec</value>
+  </data>
+  <data name="Colore Iride" xml:space="preserve">
+    <value>Couleur de l'Iris</value>
+  </data>
+  <data name="Colore Zampe" xml:space="preserve">
+    <value>Couleur des Pattes</value>
+  </data>
+  <data name="Contenuto Ingluvie" xml:space="preserve">
+    <value>Contenu de l'Ingluvies</value>
+  </data>
+  <data name="Contenuto Stomaco" xml:space="preserve">
+    <value>Contenu de l'Estomac</value>
+  </data>
+  <data name="Culmine" xml:space="preserve">
+    <value>Culmen</value>
+  </data>
+  <data name="Data Acquisizione" xml:space="preserve">
+    <value>Date d'acquisition</value>
+  </data>
+  <data name="Data Corretta" xml:space="preserve">
+    <value>Date Correcte</value>
+  </data>
+  <data name="Data di Cattura" xml:space="preserve">
+    <value>Date de Capture</value>
+  </data>
+  <data name="Data di Determinazione" xml:space="preserve">
+    <value>Date de Détermination</value>
+  </data>
+  <data name="Data di Preparazione" xml:space="preserve">
+    <value>Date de Préparation</value>
+  </data>
+  <data name="Dati Anello" xml:space="preserve">
+    <value>Données de la Bague</value>
+  </data>
+  <data name="Determinatori" xml:space="preserve">
+    <value>Déterminants</value>
+  </data>
+  <data name="Dettaglio Esemplare" xml:space="preserve">
+    <value>Detail du Spécimen</value>
+  </data>
+  <data name="Dimensione Occhio" xml:space="preserve">
+    <value>Taille de l'œil</value>
+  </data>
+  <data name="Eritrico" xml:space="preserve">
+    <value>Eritrique</value>
+  </data>
+  <data name="Eritrico parziale" xml:space="preserve">
+    <value>Partiellement eritrique</value>
+  </data>
+  <data name="Femmina" xml:space="preserve">
+    <value>Femelle</value>
+  </data>
+  <data name="Formula Alare 2" xml:space="preserve">
+    <value>Formule de l'aile 2</value>
+  </data>
+  <data name="Formula Alare E" xml:space="preserve">
+    <value>Formule de l'aile E</value>
+  </data>
+  <data name="Formula Alare WP" xml:space="preserve">
+    <value>Formule de l'aile WP</value>
+  </data>
+  <data name="Inanellato" xml:space="preserve">
+    <value>Avec Bagle</value>
+  </data>
+  <data name="Indeterminato" xml:space="preserve">
+    <value>Non spécifié</value>
+  </data>
+  <data name="Isabellino" xml:space="preserve">
+    <value>Isabelline</value>
+  </data>
+  <data name="Legit" xml:space="preserve">
+    <value>Legit</value>
+  </data>
+  <data name="Lettera" xml:space="preserve">
+    <value>Lettre</value>
+  </data>
+  <data name="Leucistico" xml:space="preserve">
+    <value>Leucistique</value>
+  </data>
+  <data name="Leucistico parziale" xml:space="preserve">
+    <value>Partiallement leucistique</value>
+  </data>
+  <data name="Località di Cattura" xml:space="preserve">
+    <value>Lieux de Capture</value>
+  </data>
+  <data name="Lunghezza Totale" xml:space="preserve">
+    <value>Longueur totale</value>
+  </data>
+  <data name="Maschio" xml:space="preserve">
+    <value>Mâle</value>
+  </data>
+  <data name="Melanico" xml:space="preserve">
+    <value>Mélanique</value>
+  </data>
+  <data name="Melanico parziale" xml:space="preserve">
+    <value>Partiellement mélanique</value>
+  </data>
+  <data name="Modo di Preparazione e Collocazione" xml:space="preserve">
+    <value>Mode de préparation et Position</value>
+  </data>
+  <data name="MSNG" xml:space="preserve">
+    <value>MSNG</value>
+  </data>
+  <data name="NCU" xml:space="preserve">
+    <value>NCU</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="Nome Inglese" xml:space="preserve">
+    <value>Nom anglais</value>
+  </data>
+  <data name="Nome Italiano" xml:space="preserve">
+    <value>Nom italien</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="Note di Preparazione" xml:space="preserve">
+    <value>Notes de préparation</value>
+  </data>
+  <data name="Numero" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Peso" xml:space="preserve">
+    <value>Poids</value>
+  </data>
+  <data name="Preparatori" xml:space="preserve">
+    <value>Préparateurs</value>
+  </data>
+  <data name="Presenza" xml:space="preserve">
+    <value>Présence</value>
+  </data>
+  <data name="Prob. Femmina" xml:space="preserve">
+    <value>Probablement Femelle</value>
+  </data>
+  <data name="Prob. Maschio" xml:space="preserve">
+    <value>Probablement Mâle</value>
+  </data>
+  <data name="Remigante 3" xml:space="preserve">
+    <value>Rémige 3</value>
+  </data>
+  <data name="Sesso" xml:space="preserve">
+    <value>Sexe</value>
+  </data>
+  <data name="Spedizione" xml:space="preserve">
+    <value>Expédition</value>
+  </data>
+  <data name="Stato di Conservazione" xml:space="preserve">
+    <value>État de conservation</value>
+  </data>
+  <data name="Sì" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="Tarso" xml:space="preserve">
+    <value>Tarse</value>
+  </data>
+  <data name="Timoniere Centrali" xml:space="preserve">
+    <value>Center Flight Feathers</value>
+  </data>
+  <data name="Timoniere Esterne" xml:space="preserve">
+    <value>External Flight Feathers</value>
+  </data>
+  <data name="Tipo" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Tipo Acquisizione" xml:space="preserve">
+    <value>Type d'acquisition</value>
+  </data>
+  <data name="Vecchie Determinazioni" xml:space="preserve">
+    <value>Vieux déterminations</value>
+  </data>
+  <data name="Collocazione" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="Codice MSNG non presente!" xml:space="preserve">
+    <value>Code MSNG introuvable!</value>
+  </data>
+  <data name="Famiglia" xml:space="preserve">
+    <value>Famille</value>
+  </data>
+  <data name="Scheda" xml:space="preserve">
+    <value>Fiche</value>
+  </data>
+  <data name="Sottofamiglia" xml:space="preserve">
+    <value>Sous-famille</value>
+  </data>
+  <data name="Tribu" xml:space="preserve">
+    <value>Tribu</value>
+  </data>
+  <data name="Città" xml:space="preserve">
+    <value>Ville</value>
+  </data>
+  <data name="Nazione" xml:space="preserve">
+    <value>Nation</value>
+  </data>
+  <data name="Provincia" xml:space="preserve">
+    <value>Province</value>
+  </data>
+  <data name="Regione" xml:space="preserve">
+    <value>Région</value>
+  </data>
+  <data name="Annulla" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="Inserire i nuovi valori" xml:space="preserve">
+    <value>Insérer de nouvelles valeurs</value>
+  </data>
+  <data name="Inserisci" xml:space="preserve">
+    <value>Appliquer</value>
+  </data>
+  <data name="Anno Classificazione" xml:space="preserve">
+    <value>Année de classification</value>
+  </data>
+  <data name="Classificatore" xml:space="preserve">
+    <value>Classificateur</value>
+  </data>
+  <data name="Classificazione Originale" xml:space="preserve">
+    <value>Classification Initiale</value>
+  </data>
+  <data name="Armadio" xml:space="preserve">
+    <value>Armoire</value>
+  </data>
+  <data name="Cassetto" xml:space="preserve">
+    <value>Tiroir</value>
+  </data>
+  <data name="Modo di Preparazione" xml:space="preserve">
+    <value>Mode de préparation</value>
+  </data>
+  <data name="Sala" xml:space="preserve">
+    <value>Salle</value>
+  </data>
+  <data name="Vassoio" xml:space="preserve">
+    <value>Plateau</value>
+  </data>
+</root>
