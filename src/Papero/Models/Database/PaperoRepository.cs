@@ -176,8 +176,15 @@ namespace Papero.Models
         public void CancellaClassificazioni(int idSottospecie)
         {
              _contesto.Classificazioni
-                .RemoveRange(_contesto.Classificazioni.Where(cl => cl.SottospecieId == idSottospecie));
+                .RemoveRange(_contesto.Classificazioni.Where(classificazione => classificazione.SottospecieId == idSottospecie));
              _contesto.SaveChanges();
+        }
+
+        public void cancellaPreparati(int idEsemplare)
+        {
+            _contesto.Preparati
+                .RemoveRange(_contesto.Preparati.Where(preparato => preparato.EsemplareId == idEsemplare));
+            _contesto.SaveChanges();
         }
 
         public IEnumerable<PartiPreparate> LeggiPartiPreparate()

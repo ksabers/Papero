@@ -32,18 +32,28 @@
         vm.armadioSelezionato = null;
         vm.vassoioSelezionato = null;
 
+        function aggiornaSerializzazione() {
+            var serializzazione = "";
+
+            for (var i = 0; i < vm.datiTabellaModiPreparazione.length; i++) {
+                serializzazione = serializzazione + "[" + vm.datiTabellaModiPreparazione[i].parte.id + "," + vm.datiTabellaModiPreparazione[i].vassoio.id + "],";
+            };
+            serializzazione = "[" + serializzazione.substring(0, serializzazione.length - 1) + "]";
+            $("#tabellaElencoPreparatiSerializzata").val(serializzazione);
+        };
+
         function aggiornaDropdownModiPreparazione() {
 
             var arrayModi = [];   // Array di servizio che serve per tenere l'elenco degli id dei modi di preparazione selezionati nella tabella. Viene usato per filtrare la dropdown
                                   // togliendo i modi già presenti nella tabella
 
-            var serializzazione = "";
 
             for (var i = 0; i < vm.datiTabellaModiPreparazione.length; i++)           // Riempimento dell'array di servizio
                 arrayModi.push(vm.datiTabellaModiPreparazione[i].parteId);
 
             vm.dropdownModiPreparazione = _.filter(elencoModiPreparazione, function (preparazione) { return !arrayModi.includes(preparazione.id) });
             vm.modoPreparazioneSelezionato = vm.dropdownModiPreparazione[0];
+            aggiornaSerializzazione();
         };
 
         vm.aggiornaDropdownArmadi = function aggiornaDropdownArmadi() {
@@ -82,6 +92,7 @@
             arrayRiordinato = arrayRiordinato.concat(arrayPrimaParte, elementoDaSpostare, elementoPrecedente, arraySecondaParte);
 
             vm.datiTabellaModiPreparazione = arrayRiordinato;
+            aggiornaSerializzazione();
         };
 
         vm.spostaGiu = function spostaGiuArray(indice) {
@@ -97,6 +108,7 @@
             arrayRiordinato = arrayRiordinato.concat(arrayPrimaParte, elementoSuccessivo, elementoDaSpostare, arraySecondaParte);
 
             vm.datiTabellaModiPreparazione = arrayRiordinato;
+            aggiornaSerializzazione();
         };
 
         vm.aggiungiPreparazione = function aggiungiPreparazione() {

@@ -13,12 +13,11 @@
           asp-fallback-test-property="position" 
           asp-fallback-test-value="absolute"
           rel="stylesheet" >
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
-          asp-fallback-href="~/lib/font-awesome/css/font-awesome.min.css"
-          asp-fallback-test-class="sr-only" 
-          asp-fallback-test-property="position" 
-          asp-fallback-test-value="absolute"
-          rel="stylesheet" />
+    <script src="https://use.fontawesome.com/6cbc9821e8.js"
+            asp-fallback-href="~/lib/font-awesome/css/font-awesome.min.css"
+            asp-fallback-test-class="sr-only" 
+            asp-fallback-test-property="position" 
+            asp-fallback-test-value="absolute"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/black/pace-theme-flash.css" rel="stylesheet"/>
     <link href="~/lib/coreui/css/style.css" rel="stylesheet" />
 
@@ -34,7 +33,7 @@
                 <a class="nav-link navbar-toggler layout-toggler" href="#">
                     <span data-toggle="tooltip"
                           data-placement="right"
-                          title="@localizzatore["Mostra/Nascondi Menu"]">☰</span>
+                          title="@localizzatore["Mostra/Nascondi Menu"]"><i class="fa fa-bars"></i></span>
                 </a><span>&nbsp;&nbsp;Papero&nbsp;&nbsp;<img src="~/img/papero_logo_piccolo.png" /></span>
             </div>
 
@@ -140,11 +139,11 @@
     </div>
 
     <footer class="footer">
-        <div class="text-center">&copy; 2016 @localizzatore["Museo di Storia Naturale 'Giacomo Doria' - Genova"]</div>
+        <div class="text-center">&copy; 2016-@(DateTime.Now.Year.ToString()) @localizzatore["Museo di Storia Naturale 'Giacomo Doria' - Genova"]</div>
     </footer>
 
     <main class="main"
-        <div class="container-fluid" >
+        <div class="container-fluid">
 
             @RenderBody()
 

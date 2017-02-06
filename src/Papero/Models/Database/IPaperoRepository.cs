@@ -28,6 +28,6 @@ namespace Papero.Models
         void CancellaClassificazioni(int idSottospecie);
         Sottospecie LeggiSottospecie(int idSottospecie);
         Task<bool> SalvaModifiche();
-        
+        void cancellaPreparati(int idEsemplare);
     }
 }

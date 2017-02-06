@@ -132,19 +132,35 @@ namespace Papero.Controllers
             {
                 return RedirectToAction("DettaglioEsemplare", new { id = Id });
             }
-            return RedirectToAction("DettaglioEsemplare", new { id = Id });
+            return RedirectToAction("DettaglioEsemplare", new { id = Id });  //TODO andare a pagina di errore
         }
 
         public async Task<IActionResult> AggiornaModiPreparazione(int Id,                                     //  Id dell'esemplare
-                                                                  string tabellaElencoPreparatiSerializzata)  //  Serie di id dei preparati, separati da virgole
+                                                                  string tabellaElencoPreparatiSerializzata)  //  Array di array [parte,vassoio] dei preparati
         {
             var esemplareDaModificare = _repository.LeggiEsemplare(Id);
             var preparatiDaCancellare = esemplareDaModificare.Preparati;
             var ordinamento = 1;
-            var arraypreparati = JsonConvert.DeserializeObject<int[]>(tabellaElencoPreparatiSerializzata);
+            var arrayPreparati = JsonConvert.DeserializeObject<int[][]>(tabellaElencoPreparatiSerializzata);
 
+            _repository.cancellaPreparati(Id);
 
-            return RedirectToAction("DettaglioEsemplare", new { id = Id });
+            foreach (var preparato in arrayPreparati)
+            {
+                var preparatoDaAggiungere = new Preparati();
+                    preparatoDaAggiungere.EsemplareId = Id;
+                    preparatoDaAggiungere.ParteId = preparato[0];
+                    preparatoDaAggiungere.VassoioId = preparato[1];
+                    preparatoDaAggiungere.Ordinamento = ordinamento;
+                ordinamento += 1;
+                esemplareDaModificare.Preparati.Add(preparatoDaAggiungere);
+            }
+
+            if (await _repository.SalvaModifiche())
+            {
+                return RedirectToAction("DettaglioEsemplare", new { id = Id });
+            }
+            return RedirectToAction("DettaglioEsemplare", new { id = Id });  //TODO andare a pagina di errore
         }
 
         public IActionResult Info()  // Pagina statica di informazioni sull'applicazione: restituisce semplicemente la sua vista

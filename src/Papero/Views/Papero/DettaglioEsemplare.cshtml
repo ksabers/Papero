@@ -221,8 +221,6 @@
                                 </div>
                             </div>
 
-
-
                             <h4>
                                 @(Model.Sottospecie.Specie.Genere.Nome +
                                   " " +
@@ -230,22 +228,22 @@
                                   " " +
                                   (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome))
                                 @switch (Model.Sesso.Id)
-                                            {
-                                                case 2: <text>&nbsp;</text><i class="fa fa-mars"></i>
-                                                    break;
-                                                case 3: <text>&nbsp</text><i class="fa fa-venus"></i>
-                                                    break;
-                                                case 1001:<text>&nbsp;?</text><i class="fa fa-mars"></i>
-                                                    break;
-                                                case 1002:<text>&nbsp;?</text><i class="fa fa-venus"></i>
-                                                    break;
-                                           }
+                                    {
+                                        case 2: <text>&nbsp;</text><i class="fa fa-mars"></i>
+                                            break;
+                                        case 3: <text>&nbsp;</text><i class="fa fa-venus"></i>
+                                            break;
+                                        case 1001:<text>&nbsp;?</text><i class="fa fa-mars"></i>
+                                            break;
+                                        case 1002:<text>&nbsp;?</text><i class="fa fa-venus"></i>
+                                            break;
+                                    }
                                 <br />
                                 @Model.Sottospecie.ElencoAutori
 
                                 @if (User.IsInRole("Amministratore"))
                                 {
-                                    <i role="button" class="fa fa-pencil text-muted" data-toggle="modal" data-target="#modaleElencoAutori" ng-click="vm.apriModaleElencoAutori(@Model.Sottospecie.Id)"></i>
+                                    <text>&nbsp;</text><i role="button" class="fa fa-pencil text-muted" data-toggle="modal" data-target="#modaleElencoAutori" ng-click="vm.apriModaleElencoAutori(@Model.Sottospecie.Id)"></i>
                                 }
                             </h4>
                         </div>
@@ -412,10 +410,11 @@
                                                               asp-controller="Papero"
                                                               asp-action="AggiornaModiPreparazione">
                                                             <fieldset>
+                                                                <input type="hidden" id="esemplarehiddenElencoPreparati" asp-for="Id" value="@Model.Id" />
+                                                                <input type="hidden" id="tabellaElencoPreparatiSerializzata" name="tabellaElencoPreparatiSerializzata" />
                                                                 <div class="form-group">
                                                                     <div class="col-lg-12">
                                                                         <div style="overflow-y:auto; overflow-x:hidden; max-height:300px;">
-                                                                            <input type="hidden" id="tabellaElencoPreparatiSerializzata" name="tabellaElencoPreparatiSerializzata" />
                                                                             <table datatable="ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaModiPreparazione" dt-options="vm.opzioniTabellaModiPreparazione">
                                                                                 <thead>
                                                                                     <tr>
