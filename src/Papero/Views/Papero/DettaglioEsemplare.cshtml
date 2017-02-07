@@ -113,7 +113,7 @@
                                                     <form class="form-horizontal" 
                                                           id="formElencoAutori" 
                                                           name="formElencoAutori"
-                                                          asp-controller="Papero"
+                                                          asp-controller="UpdateDettaglioEsemplare"
                                                           asp-action="AggiornaAutori">
                                                         <fieldset>
                                                             <input type="hidden" id="sottospeciehiddenElencoAutori" asp-for="SottospecieId" value="@Model.Sottospecie.Id" />
@@ -275,7 +275,7 @@
                                                 <div class="panel-body">
 
                                                     <form class="form-horizontal"
-                                                          asp-controller="Papero"
+                                                          asp-controller="UpdateDettaglioEsemplare"
                                                           asp-action="AggiornaNomi">
                                                         <fieldset>
                                                             <input type="hidden" id="sottospeciehidden" asp-for="SottospecieId" value="@Model.Sottospecie.Id"/>
@@ -366,21 +366,42 @@
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             <dt>@localizzatore["NCU"]:</dt>
                             <dd>@Model.Ncu</dd>
+                            <dt>
+                                <a asp-controller="UpdateDettaglioEsemplare" asp-action="TogglePresenza" asp-route-id="@Model.Id" style="text-decoration:none">
+                                    @if (User.IsInRole("Amministratore"))
+                                    {
+                                        @if ((bool)Model.Presenza)
+                                        {
+                                            <i role="button" class="fa fa-toggle-off text-muted"></i>
+                                        }
+                                        else
+                                        {
+                                            <i role="button" class="fa fa-toggle-on text-muted"></i>
+                                        }
+                                    }
+                                </a>&nbsp;@localizzatore["Presenza"]:
+                            </dt>
+                            <dd>@((bool)Model.Presenza ? localizzatore["Sì"] : localizzatore["No"])</dd>
+                            <dt>@localizzatore["Sesso"]:</dt>
+                            <dd>@localizzatore[Model.Sesso.Sesso]</dd>
                             <dt>@localizzatore["Lettera"]:</dt>
                             <dd>@Model.LetteraEsemplare</dd>
                             <dt>@localizzatore["Numero"]:</dt>
                             <dd>@Model.NumeroEsemplare</dd>
-                            <dt>@localizzatore["Scheda"]:</dt>
-                            <dd>@Model.Scheda</dd>
-                            <dt>@localizzatore["Presenza"]:</dt>
-                            <dd>@((bool)Model.Presenza ? localizzatore["Sì"] : localizzatore["No"])</dd>
-                            <dt>@localizzatore["Sesso"]:</dt>
-                            <dd>@localizzatore[Model.Sesso.Sesso]</dd>
                             <dt>@localizzatore["Tipo"]:</dt>
                             <dd>@Model.Tipo.Tipo</dd>
+                            <dt>@localizzatore["Scheda"]:</dt>
+                            <dd>@Model.Scheda</dd>
+
+
+
                             <dt>@localizzatore["Aberrazione"]:</dt>
                             <dd>@localizzatore[Model.Aberrazione.Aberrazione]</dd>
                         </dl>
+
+
+
+
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             <dt>@localizzatore["Data di Preparazione"]:</dt>
@@ -407,7 +428,7 @@
                                                     <div class="panel-body">
 
                                                         <form class="form-horizontal"
-                                                              asp-controller="Papero"
+                                                              asp-controller="UpdateDettaglioEsemplare"
                                                               asp-action="AggiornaModiPreparazione">
                                                             <fieldset>
                                                                 <input type="hidden" id="esemplarehiddenElencoPreparati" asp-for="Id" value="@Model.Id" />

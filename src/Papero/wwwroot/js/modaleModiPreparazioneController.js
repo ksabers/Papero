@@ -1,4 +1,6 @@
-﻿//modaleModiPreparazioneController.js 
+﻿//  modaleModiPreparazioneController.js
+
+//  Controller Angular che gestisce la finestra modale di edit dei modi di preparazione e posizioni
 
 (function () {
     "use strict";
@@ -32,7 +34,7 @@
         vm.armadioSelezionato = null;
         vm.vassoioSelezionato = null;
 
-        function aggiornaSerializzazione() {
+        function aggiornaSerializzazione() {           //  Crea una stringa che rappresenta le coppie "id parte preparata, id vassoio" in forma di array serializzato
             var serializzazione = "";
 
             for (var i = 0; i < vm.datiTabellaModiPreparazione.length; i++) {
@@ -42,7 +44,7 @@
             $("#tabellaElencoPreparatiSerializzata").val(serializzazione);
         };
 
-        function aggiornaDropdownModiPreparazione() {
+        function aggiornaDropdownModiPreparazione() {   // Riempie la dropdown dei modi di preprazione togliendo i modi già presenti nella tabella
 
             var arrayModi = [];   // Array di servizio che serve per tenere l'elenco degli id dei modi di preparazione selezionati nella tabella. Viene usato per filtrare la dropdown
                                   // togliendo i modi già presenti nella tabella
@@ -113,7 +115,7 @@
 
         vm.aggiungiPreparazione = function aggiungiPreparazione() {
 
-            var preparazioneDaInserire = 
+            var preparazioneDaInserire =         //  Collection che rappresenta una singola riga da inserire nella tabella
                 {
                     "esemplareId": inputIdEsemplare.value,
                     "parteId": vm.modoPreparazioneSelezionato.id,
@@ -140,7 +142,7 @@
                     }
                 };
 
-            vm.datiTabellaModiPreparazione.push(preparazioneDaInserire);
+            vm.datiTabellaModiPreparazione.push(preparazioneDaInserire);  // Inserimento della nuova riga in fondo alla tabella
             aggiornaDropdownModiPreparazione();
         };
 

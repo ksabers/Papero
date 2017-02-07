@@ -1,4 +1,5 @@
 ﻿//  PaperoController.cs
+//
 //  Controller principale dell'applicazione
 //  Gestisce le azioni principali selezionabili nei menu
 //  (tranne login e logout che sono gestite da AuthController.cs)
@@ -15,10 +16,8 @@ using Microsoft.AspNetCore.Http;
 using Papero.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Papero.ViewModels;
 using AutoMapper;
-using Newtonsoft.Json;
 
 namespace Papero.Controllers
 {
@@ -77,91 +76,6 @@ namespace Papero.Controllers
 
             return RedirectToAction("DettaglioEsemplare", new { id = idEsemplare });  // Con questa sintassi passiamo il parametro alla action come se avessimo scritto
         }                                                                             // "DettaglioEsemplare/id"
-
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> AggiornaNomi(int Id, int sottospecieId, string nomeItaliano, string nomeInglese, int statoConservazione)
-        {
-            var sottospecieDaModificare = _repository.LeggiSottospecie(sottospecieId);
-
-            sottospecieDaModificare.NomeItaliano = nomeItaliano;
-            sottospecieDaModificare.NomeInglese = nomeInglese;
-            sottospecieDaModificare.StatoConservazioneId = statoConservazione;
-
-            if (await _repository.SalvaModifiche())
-            {
-                return RedirectToAction("DettaglioEsemplare", new { id = Id });
-            }
-                return RedirectToAction("DettaglioEsemplare", new { id = Id });
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> AggiornaAutori(int Id,                                  //  Id dell'esemplare
-                                                        int sottospecieId,                       //  Id della sottospecie
-                                                        string parametroElencoAutori,            //  Elenco autori come stringa, compreso di parentesi e anno classificazione
-                                                        int inputAnnoClassificazione,            //  Anno classificazione da solo come intero
-                                                        string tabellaElencoAutoriSerializzata,  //  Serie di id degli autori, separati da virgole
-                                                        string inputClassificazioneOriginale)    //  Decodifica della checkbox di class. originale: "on" significa true, altrimenti false
-        {
-            var sottospecieDaModificare = _repository.LeggiSottospecie(sottospecieId);
-            var classificazioniDaEliminare = sottospecieDaModificare.Classificazioni;
-            
-            var ordinamento = 1;
-
-            var arrayAutori = JsonConvert.DeserializeObject<int[]>(tabellaElencoAutoriSerializzata);
-
-            sottospecieDaModificare.ElencoAutori = parametroElencoAutori;
-            sottospecieDaModificare.AnnoClassificazione = inputAnnoClassificazione.ToString();
-            sottospecieDaModificare.ClassificazioneOriginale = inputClassificazioneOriginale == "on" ? true : false;
-
-            _repository.CancellaClassificazioni(sottospecieId);
-
-            foreach (var autore in arrayAutori)
-            {
-                var classificazioneDaAggiungere = new Classificazioni();
-                    classificazioneDaAggiungere.SottospecieId = sottospecieId;
-                    classificazioneDaAggiungere.ClassificatoreId = autore;
-                    classificazioneDaAggiungere.Ordinamento = ordinamento;
-                ordinamento += 1;
-                sottospecieDaModificare.Classificazioni.Add(classificazioneDaAggiungere);
-            }
-            
-
-            if (await _repository.SalvaModifiche())
-            {
-                return RedirectToAction("DettaglioEsemplare", new { id = Id });
-            }
-            return RedirectToAction("DettaglioEsemplare", new { id = Id });  //TODO andare a pagina di errore
-        }
-
-        public async Task<IActionResult> AggiornaModiPreparazione(int Id,                                     //  Id dell'esemplare
-                                                                  string tabellaElencoPreparatiSerializzata)  //  Array di array [parte,vassoio] dei preparati
-        {
-            var esemplareDaModificare = _repository.LeggiEsemplare(Id);
-            var preparatiDaCancellare = esemplareDaModificare.Preparati;
-            var ordinamento = 1;
-            var arrayPreparati = JsonConvert.DeserializeObject<int[][]>(tabellaElencoPreparatiSerializzata);
-
-            _repository.cancellaPreparati(Id);
-
-            foreach (var preparato in arrayPreparati)
-            {
-                var preparatoDaAggiungere = new Preparati();
-                    preparatoDaAggiungere.EsemplareId = Id;
-                    preparatoDaAggiungere.ParteId = preparato[0];
-                    preparatoDaAggiungere.VassoioId = preparato[1];
-                    preparatoDaAggiungere.Ordinamento = ordinamento;
-                ordinamento += 1;
-                esemplareDaModificare.Preparati.Add(preparatoDaAggiungere);
-            }
-
-            if (await _repository.SalvaModifiche())
-            {
-                return RedirectToAction("DettaglioEsemplare", new { id = Id });
-            }
-            return RedirectToAction("DettaglioEsemplare", new { id = Id });  //TODO andare a pagina di errore
-        }
 
         public IActionResult Info()  // Pagina statica di informazioni sull'applicazione: restituisce semplicemente la sua vista
         {
