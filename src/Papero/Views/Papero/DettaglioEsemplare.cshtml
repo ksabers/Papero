@@ -359,7 +359,7 @@
 
             @if (ViewBag.trovato)
             {
-                <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
+                <div class="panel-body" style="max-height: 80vh; overflow-y: hidden">
 
                     <div class="row">
 
@@ -390,8 +390,7 @@
                             <dd>@Model.NumeroEsemplare</dd>
                             <dt>@localizzatore["Tipo"]:</dt>
                             <dd>@Model.Tipo.Tipo</dd>
-                            <dt>@localizzatore["Scheda"]:</dt>
-                            <dd>@Model.Scheda</dd>
+
 
 
 
@@ -399,13 +398,104 @@
                             <dd>@localizzatore[Model.Aberrazione.Aberrazione]</dd>
                         </dl>
 
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["Località di Cattura"]:</dt>
 
+                            @*
+            I parametri del dd servono per far comparire il popover di localizzazione geografica cliccando sulla località. tabindex=0 è un workaround per un bug di Bootstrap
+            altrimenti data-trigger=focus non funzionebbe. Mettere tabindex obbliga anche ad aggiungere style=outline:none altrimenti si vedrebbe
+            una antiestetica cornice attorno all'elemento. data-html=true è importante perché c'è codice html all'interno del data-content.
+            La serie di if-elseif visualizza il primo elemento "non-trattino" nella localizzazione geografica (il più dettagliato).
+                            *@
+                            <dd data-toggle="popover"
+                                data-html="true"
+                                data-placement="bottom"
+                                tabindex="0"
+                                data-trigger="focus"
+                                style="outline:none;cursor:pointer;"
+                                data-content="@localizzatore["Nazione"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Regione.Nazione.Nazione)</b><br>
+                                          @localizzatore["Regione"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Regione.Regione)</b><br>
+                                          @localizzatore["Provincia"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Provincia)</b><br>
+                                          @localizzatore["Città"]: <b>@(Model.LocalitaCattura.Citta.NomeCitta)</b>">
+                                        @{
+                                            if (Model.LocalitaCattura.Citta.Provincia.Regione.Regione == "-")
+                                            {
+                                                @Model.LocalitaCattura.Citta.Provincia.Regione.Nazione.Nazione
+                                            }
+                                            else if (Model.LocalitaCattura.Citta.Provincia.Provincia == "-")
+                                            {
+                                                @Model.LocalitaCattura.Citta.Provincia.Regione.Regione
+                                            }
+                                            else if (Model.LocalitaCattura.Citta.NomeCitta == "-")
+                                            {
+                                                @Model.LocalitaCattura.Citta.Provincia.Provincia
+                                            }
+                                            else if (Model.LocalitaCattura.NomeLocalita == "-")
+                                            {
+                                                @Model.LocalitaCattura.Citta.Provincia
+                                            }
+                                            else
+                                            {
+                                                @Model.LocalitaCattura.NomeLocalita
+                                            }
+                                        }
+                            </dd>
+                            <dt>@localizzatore["Data di Cattura"]:</dt>
+                            <dd>@funzioni.leggiData(Model.DataCattura)</dd>
+                            <dt>@localizzatore["Data Corretta"]:</dt>
+                            <dd>@Model.DataCatturaCorretta</dd>
+                            <dt>@localizzatore["Tipo Acquisizione"]:</dt>
+                            <dd>@Model.TipoAcquisizione.TipoAcquisizione</dd>
+                            <dt>@localizzatore["Data Acquisizione"]:</dt>
+                            <dd>@funzioni.leggiData(Model.DataAcquisizione)</dd>
+                            <dt>@localizzatore["Collezione"]:</dt>
+                            <dd>@Model.Collezione.Collezione</dd>
+                            <dt>@localizzatore["Spedizione"]:</dt>
+                            <dd>@Model.Spedizione.Spedizione</dd>
+                            <dt>@localizzatore["Avuto da"]:</dt>
+                            <dd>@Model.AvutoDa.Raccoglitore</dd>
+                            <dt>@localizzatore["Legit"]:</dt>
+                            <dd>@Model.Legit.Raccoglitore</dd>
+
+                        </dl>
+
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["Data di Determinazione"]:</dt>
+                            <dd>@funzioni.leggiData(Model.DataDeterminazione)</dd>
+                            <dt>@localizzatore["Determinatori"]:</dt>
+                            <dd>
+                                <ul class="list-unstyled">
+                                    @foreach (var determinatore in Model.Determinazioni.OrderBy(det => det.Ordinamento))
+                                    {
+                                        <li>@(determinatore.Determinatore.Nome + " " + determinatore.Determinatore.Cognome)</li>
+                                    }
+                                </ul>
+
+                            </dd>
+                            <dt>@localizzatore["Vecchie Determinazioni"]:</dt>
+                            <dd style="max-height:150px;overflow-y:auto;">
+                                <ul class="list-unstyled">
+                                    @foreach (var determinazione in Model.VecchieDeterminazioni.OrderBy(det => det.Ordinamento))
+                                    {
+                                        <li>@(determinazione.VecchiaDeterminazione)</li>
+                                        <ol>
+                                            @foreach (var vecchioDeterminatore in determinazione.VecchiDeterminatori.OrderBy(det => det.Ordinamento))
+                                            {
+                                                <li>@(vecchioDeterminatore.Determinatore.Nome + " " + vecchioDeterminatore.Determinatore.Cognome)</li>
+                                            }
+                                        </ol>
+                                    }
+                                </ul>
+                            </dd>
+                        </dl>
 
 
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             <dt>@localizzatore["Data di Preparazione"]:</dt>
                             <dd>@funzioni.leggiData(Model.DataPreparazione)</dd>
+                            <dt>@localizzatore["Scheda"]:</dt>
+                            <dd>@Model.Scheda</dd>
                             <dt>@localizzatore["Preparatori"]:</dt>
                             <dd>
                                 <ul class="list-unstyled">
@@ -501,7 +591,7 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>
-                                                                            </table>                                                                         
+                                                                            </table>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -524,15 +614,15 @@
 
 
                                 <dt>
-                                    @if(User.IsInRole("Amministratore"))
+                                    @if (User.IsInRole("Amministratore"))
                                     {
-                                        <i role = "button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleModiPreparazione" ng-click="vm.apriModaleModiPreparazione()"></i>
+                                        <i role="button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleModiPreparazione" ng-click="vm.apriModaleModiPreparazione()"></i>
                                     }
                                     @localizzatore["Modo di Preparazione e Collocazione"]:
                                 </dt>
                                 <dd>
                                     <ul class="list-unstyled">
-                                        @foreach(var preparato in Model.Preparati.OrderBy(preparato => preparato.Ordinamento))
+                                        @foreach (var preparato in Model.Preparati.OrderBy(preparato => preparato.Ordinamento))
                                         {
                                             <li>@(preparato.Parte.Parte + " (" + preparato.Vassoio.Cassetto.Armadio.Sala.Sala + ", " + preparato.Vassoio.Cassetto.Armadio.Armadio + ", " + preparato.Vassoio.Cassetto.Cassetto + ", " + preparato.Vassoio.Vassoio + ")")</li>
                                         }
@@ -540,156 +630,87 @@
                                 </dd>
                             </div>
                             <dt>@localizzatore["Note di Preparazione"]:</dt>
-                            <dd><textarea rows = "4" readonly style="resize:none; border:none;">@Model.NotePreparazione</textarea></dd>
-                        </dl>
-
-                        <dl class="col-lg-3 dl-horizontal text-primary">
-                            <dt>@localizzatore["Data di Cattura"]:</dt>
-                            <dd>@funzioni.leggiData(Model.DataCattura)</dd>
-                            <dt>@localizzatore["Data Corretta"]:</dt>
-                            <dd>@Model.DataCatturaCorretta</dd>
-                            <dt>@localizzatore["Avuto da"]:</dt>
-                            <dd>@Model.AvutoDa.Raccoglitore</dd>
-                            <dt>@localizzatore["Legit"]:</dt>
-                            <dd>@Model.Legit.Raccoglitore</dd>
-                            <dt>@localizzatore["Tipo Acquisizione"]:</dt>
-                            <dd>@Model.TipoAcquisizione.TipoAcquisizione</dd>
-                            <dt>@localizzatore["Data Acquisizione"]:</dt>
-                            <dd>@funzioni.leggiData(Model.DataAcquisizione)</dd>
-                            <dt>@localizzatore["Località di Cattura"]:</dt>
-
-                            @*
-                                I parametri del dd servono per far comparire il popover di localizzazione geografica cliccando sulla località. tabindex=0 è un workaround per un bug di Bootstrap
-                                altrimenti data-trigger=focus non funzionebbe. Mettere tabindex obbliga anche ad aggiungere style=outline:none altrimenti si vedrebbe
-                                una antiestetica cornice attorno all'elemento. data-html=true è importante perché c'è codice html all'interno del data-content.
-                                La serie di if-elseif visualizza il primo elemento "non-trattino" nella localizzazione geografica (il più dettagliato).
-                            *@
-                            <dd data-toggle="popover"
-                                data-html="true"
-                                data-placement="auto"
-                                tabindex="0"
-                                data-trigger="focus"
-                                style="outline:none;cursor:pointer;"
-                                data-content="@localizzatore["Nazione"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Regione.Nazione.Nazione)</b><br>
-                                          @localizzatore["Regione"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Regione.Regione)</b><br>
-                                          @localizzatore["Provincia"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Provincia)</b><br>
-                                          @localizzatore["Città"]: <b>@(Model.LocalitaCattura.Citta.NomeCitta)</b>">
-                                        @{
-                                            if (Model.LocalitaCattura.Citta.Provincia.Regione.Regione == "-")
-                                            {
-                                                @Model.LocalitaCattura.Citta.Provincia.Regione.Nazione.Nazione
-                                            }
-                                            else if (Model.LocalitaCattura.Citta.Provincia.Provincia == "-")
-                                            {
-                                                @Model.LocalitaCattura.Citta.Provincia.Regione.Regione
-                                            }
-                                            else if (Model.LocalitaCattura.Citta.NomeCitta == "-")
-                                            {
-                                                @Model.LocalitaCattura.Citta.Provincia.Provincia
-                                            }
-                                            else if (Model.LocalitaCattura.NomeLocalita == "-")
-                                            {
-                                                @Model.LocalitaCattura.Citta.Provincia
-                                            }
-                                            else
-                                            {
-                                                @Model.LocalitaCattura.NomeLocalita
-                                            }
-                                        }
-                        </dd>
-                            <dt>@localizzatore["Collezione"]:</dt>
-                            <dd>@Model.Collezione.Collezione</dd>
-                            <dt>@localizzatore["Spedizione"]:</dt>
-                            <dd>@Model.Spedizione.Spedizione</dd>
-                        </dl>
-
-
-
-                        <dl class="col-lg-3 dl-horizontal text-primary">
-                            <dt>@localizzatore["Data di Determinazione"]:</dt>
-                            <dd>@funzioni.leggiData(Model.DataDeterminazione)</dd>
-                            <dt>@localizzatore["Determinatori"]:</dt>
                             <dd>
-                                <ul class="list-unstyled">
-                                    @foreach (var determinatore in Model.Determinazioni.OrderBy(det => det.Ordinamento))
-                                    {
-                                        <li>@(determinatore.Determinatore.Nome + " " + determinatore.Determinatore.Cognome)</li>
-                                    }
-                                </ul>
-
-                            </dd>
-                            <dt>@localizzatore["Vecchie Determinazioni"]:</dt>
-                            <dd style="max-height:150px;overflow-y:auto;">
-                                <ul class="list-unstyled">
-                                    @foreach (var determinazione in Model.VecchieDeterminazioni.OrderBy(det => det.Ordinamento))
-                                    {
-                                        <li>@(determinazione.VecchiaDeterminazione)</li>
-                                                <ol>
-                                                    @foreach (var vecchioDeterminatore in determinazione.VecchiDeterminatori.OrderBy(det => det.Ordinamento))
-                                                    {
-                                                        <li>@(vecchioDeterminatore.Determinatore.Nome + " " + vecchioDeterminatore.Determinatore.Cognome)</li>
-                                                    }
-                                                </ol>
-                                    }
-                                </ul>
+                                <textarea rows="3" readonly style="resize:none; border:none;">@Model.NotePreparazione</textarea>
                             </dd>
                         </dl>
+
+
+
+
+
+
                     </div>
 
                     <div class="row">
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
-                            <dt>@localizzatore["Contenuto Stomaco"]:</dt>
-                            <dd>@Model.ContenutoStomaco</dd>
-                            <dt>@localizzatore["Contenuto Ingluvie"]:</dt>
-                            <dd>@Model.ContenutoIngluvie</dd>
-                            <dt>@localizzatore["Inanellato"]:</dt>
-                            <dd>@((bool)Model.Inanellato ? localizzatore["Sì"] : localizzatore["No"])</dd>
-                            <dt>@localizzatore["Dati Anello"]:</dt>
-                            <dd>@Model.DatiAnello</dd>
+                            <dt>@localizzatore["Peso"]:</dt>
+                            <dd>@Model.Peso</dd>
+                            <dt>@localizzatore["Lunghezza Totale"]:</dt>
+                            <dd>@Model.LunghezzaTotale</dd>
+                            <dt>@localizzatore["Apertura Alare"]:</dt>
+                            <dd>@Model.AperturaAlare</dd>
+                            <dt>@localizzatore["Becco-Cranio"]:</dt>
+                            <dd>@Model.BeccoCranio</dd>
+                            <dt>@localizzatore["Culmine"]:</dt>
+                            <dd>@Model.Culmine</dd>
+
+
+
                         </dl>
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["Colore Becco"]:</dt>
+                            <dd>@Model.ColoreBecco</dd>
+                            <dt>@localizzatore["Ala"]:</dt>
+                            <dd>@Model.Ala</dd>
+                            <dt>@localizzatore["Remigante 3"]:</dt>
+                            <dd>@Model.Remigante3</dd>
+                            <dt>@localizzatore["Tarso"]:</dt>
+                            <dd>@Model.Tarso</dd>
+                            <dt>@localizzatore["Colore Zampe"]:</dt>
+                            <dd>@Model.ColoreZampe</dd>
+
+
+                        </dl>
+
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["Timoniere Centrali"]:</dt>
+                            <dd>@Model.TimoniereCentrali</dd>
+                            <dt>@localizzatore["Timoniere Esterne"]:</dt>
+                            <dd>@Model.TimoniereEsterne</dd>
+                            <dt>@localizzatore["Dimensione Occhio"]:</dt>
+                            <dd>@Model.DimensioneOcchio</dd>
+                            <dt>@localizzatore["Colore Iride"]:</dt>
+                            <dd>@Model.ColoreIride</dd>
+
+
+
+
+
+
+                        </dl>
+
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+
+
                             <dt>@localizzatore["Formula Alare E"]:</dt>
                             <dd>@Model.FormulaAlareE</dd>
                             <dt>@localizzatore["Formula Alare WP"]:</dt>
                             <dd>@Model.FormulaAlareWp</dd>
                             <dt>@localizzatore["Formula Alare 2"]:</dt>
                             <dd>@Model.FormulaAlare2</dd>
-                            <dt>@localizzatore["Timoniere Esterne"]:</dt>
-                            <dd>@Model.TimoniereEsterne</dd>
-                            <dt>@localizzatore["Timoniere Centrali"]:</dt>
-                            <dd>@Model.TimoniereCentrali</dd>
-                        </dl>
+                            <dt>@localizzatore["Inanellato"]:</dt>
+                            <dd>@((bool)Model.Inanellato ? localizzatore["Sì"] : localizzatore["No"])</dd>
+                            <dt>@localizzatore["Dati Anello"]:</dt>
+                            <dd>@Model.DatiAnello</dd>
+                            <dt>@localizzatore["Contenuto Ingluvie"]:</dt>
+                            <dd>@Model.ContenutoIngluvie</dd>
+                            <dt>@localizzatore["Contenuto Stomaco"]:</dt>
+                            <dd>@Model.ContenutoStomaco</dd>
 
-                        <dl class="col-lg-3 dl-horizontal text-primary">
-                            <dt>@localizzatore["Colore Zampe"]:</dt>
-                            <dd>@Model.ColoreZampe</dd>
-                            <dt>@localizzatore["Tarso"]:</dt>
-                            <dd>@Model.Tarso</dd>
-                            <dt>@localizzatore["Remigante 3"]:</dt>
-                            <dd>@Model.Remigante3</dd>
-                            <dt>@localizzatore["Ala"]:</dt>
-                            <dd>@Model.Ala</dd>
-                            <dt>@localizzatore["Colore Becco"]:</dt>
-                            <dd>@Model.ColoreBecco</dd>
-                            <dt>@localizzatore["Culmine"]:</dt>
-                            <dd>@Model.Culmine</dd>
-                        </dl>
 
-                        <dl class="col-lg-3 dl-horizontal text-primary">
-                            <dt>@localizzatore["Becco-Cranio"]:</dt>
-                            <dd>@Model.BeccoCranio</dd>
-                            <dt>@localizzatore["Colore Iride"]:</dt>
-                            <dd>@Model.ColoreIride</dd>
-                            <dt>@localizzatore["Dimensione Occhio"]:</dt>
-                            <dd>@Model.DimensioneOcchio</dd>
-                            <dt>@localizzatore["Apertura Alare"]:</dt>
-                            <dd>@Model.AperturaAlare</dd>
-                            <dt>@localizzatore["Lunghezza Totale"]:</dt>
-                            <dd>@Model.LunghezzaTotale</dd>
-                            <dt>@localizzatore["Peso"]:</dt>
-                            <dd>@Model.Peso</dd>
                         </dl>
 
                     </div>
