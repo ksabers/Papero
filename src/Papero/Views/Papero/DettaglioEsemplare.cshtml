@@ -51,6 +51,7 @@
     <script src="~/js/modaleNomiController.js"></script>
     <script src="~/js/modaleElencoAutoriController.js"></script>
     <script src="~/js/modaleModiPreparazioneController.js"></script>
+    <script src="~/js/pulsanteMSNGController.js"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.5/angular-datatables.min.js"></script>
@@ -74,14 +75,16 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-lg-2">
+                    <div class="col-lg-2" ng-controller="pulsanteMSNGController as vm">
                         <form asp-controller="Papero"
-                              asp-action="DettaglioEsemplareByMSNG">
+                              asp-action="DettaglioEsemplareByMSNG"
+                              id="formMSNG"
+                              name="formMSNG">
                             <div class="form-group">
                                 <div class="input-group input-group-lg">
-                                    <input type="text" class="form-control form-control-lg" asp-for="Msng">
+                                    <input type="text" pattern="([1-9][0-9]*)" id="inputMSNG" name="inputMSNG" ng-model="vm.MSNG" ng-change="vm.controllaMSNG()" value="@Model.Msng" class="form-control form-control-lg" asp-for="Msng" required>
                                     <span class="input-group-btn">
-                                        <button class="btn btn-success btn-lg" type="submit">@localizzatore["MSNG"]</button>
+                                        <button class="btn btn-success btn-lg" type="submit" ng-disabled="vm.controllaMSNG()">@localizzatore["MSNG"]</button>
                                     </span>
                                 </div>
                             </div>
@@ -249,7 +252,7 @@
                         </div>
 
                         <div class="col-lg-2">
-                            <div class="card card-outline-primary">
+                            @*<div class="card card-outline-primary">*@
                                 <dl class="dl-horizontal text-white">
                                     <dt>@localizzatore["Famiglia"]:</dt>
                                     <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Famiglia.Nome</dd>
@@ -258,7 +261,7 @@
                                     <dt>@localizzatore["Tribu"]:</dt>
                                     <dd>@Model.Sottospecie.Specie.Genere.Tribu.Nome</dd>
                                 </dl>
-                            </div>
+                            @*</div>*@
                         </div>
 
                         <div class="col-lg-4" ng-controller="modaleNomiController as vm">
@@ -390,10 +393,6 @@
                             <dd>@Model.NumeroEsemplare</dd>
                             <dt>@localizzatore["Tipo"]:</dt>
                             <dd>@Model.Tipo.Tipo</dd>
-
-
-
-
                             <dt>@localizzatore["Aberrazione"]:</dt>
                             <dd>@localizzatore[Model.Aberrazione.Aberrazione]</dd>
                         </dl>
@@ -612,7 +611,6 @@
                                     </div>
                                 </div>
 
-
                                 <dt>
                                     @if (User.IsInRole("Amministratore"))
                                     {
@@ -635,17 +633,247 @@
                             </dd>
                         </dl>
 
-
-
-
-
-
                     </div>
 
                     <div class="row">
 
+
+
+                        <div class="modal fade" id="modaleMorfologia" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">@localizzatore["Inserire i nuovi valori"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                                            </div>
+                                            <div class="panel-body">
+
+                                                <form class="form-horizontal"
+                                                      asp-controller="UpdateDettaglioEsemplare"
+                                                      asp-action="AggiornaMorfologia">
+                                                    <fieldset>
+
+
+
+                                                        <ul class="nav nav-tabs">
+                                                            <li class="active"><a href="#tabmisure" data-toggle="tab">@localizzatore["Misure generali"]</a></li>
+                                                            <li class=""><a href="#tabbecco" data-toggle="tab">@localizzatore["Becco"]</a></li>
+                                                            <li class=""><a href="#tabocchio" data-toggle="tab">@localizzatore["Occhio"]</a></li>
+                                                            <li class=""><a href="#tabali" data-toggle="tab">@localizzatore["Ali"]</a></li>
+                                                            <li class=""><a href="#tabzampe" data-toggle="tab">@localizzatore["Zampe"]</a></li>
+                                                            <li class=""><a href="#tabanello" data-toggle="tab">@localizzatore["Anello"]</a></li>
+                                                            <li class=""><a href="#tabcontenuti" data-toggle="tab">@localizzatore["Contenuti"]</a></li>
+                                                        </ul>
+                                                        <div id="myTabContent" class="tab-content">
+
+                                                            <div class="tab-pane fade active in col-lg-offset-3" id="tabmisure">
+                                                                <div class="form-group">
+                                                                    <label for="inputPeso" class="col-lg-3 control-label">@localizzatore["Peso"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="number" class="form-control" id="inputPeso">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputLunghezzaTotale" class="col-lg-3 control-label">@localizzatore["Lunghezza Totale"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="number" class="form-control" id="inputLunghezzaTotale">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputBeccoCranio" class="col-lg-3 control-label">@localizzatore["Becco-Cranio"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="number" class="form-control" id="inputBeccoCranio">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputCulmine" class="col-lg-3 control-label">@localizzatore["Culmine"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="number" class="form-control" id="inputCulmine">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane fade col-lg-offset-3" id="tabbecco">
+                                                                <div class="form-group">
+                                                                    <label for="inputColoreBecco" class="col-lg-3 control-label">@localizzatore["Colore Becco"]:</label>
+                                                                    <div class="col-lg-4">
+                                                                        <input type="text" class="form-control" id="inputColoreBecco">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane fade col-lg-offset-2" id="tabocchio">
+                                                                <div class="form-group">
+                                                                    <label for="inputDimensioneOcchio" class="col-lg-4 control-label">@localizzatore["Dimensione Occhio"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="number" class="form-control" id="inputDimensioneOcchio">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputColoreIride" class="col-lg-4 control-label">@localizzatore["Colore Iride"]:</label>
+                                                                    <div class="col-lg-4">
+                                                                        <input type="text" class="form-control" id="inputColoreIride">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane fade col-lg-offset-2" id="tabali">
+
+                                                                <div class="form-group">
+                                                                    <label for="inputAperturaAlare" class="col-lg-4 control-label">@localizzatore["Apertura Alare"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="number" class="form-control" id="inputAperturaAlare">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputTimoniereCentrali" class="col-lg-4 control-label">@localizzatore["Timoniere Centrali"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="number" class="form-control" id="inputTimoniereCentrali">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputTimoniereEsterne" class="col-lg-4 control-label">@localizzatore["Timoniere Esterne"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="number" class="form-control" id="inputTimoniereEsterne">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputRemigante3" class="col-lg-4 control-label">@localizzatore["Remigante 3"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="number" class="form-control" id="inputRemigante3">
+                                                                    </div>
+                                                                </div>
+                                                               
+                                                                <div class="form-group">
+                                                                    <label for="inputFormulaAlareE" class="col-lg-4 control-label">@localizzatore["Formula Alare E"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="number" class="form-control" id="inputFormulaAlareE">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputFormulaAlareWP" class="col-lg-4 control-label">@localizzatore["Formula Alare WP"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="number" class="form-control" id="inputFormulaAlareWP">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputFormulaAlare2" class="col-lg-4 control-label">@localizzatore["Formula Alare 2"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="number" class="form-control" id="inputFormulaAlare2">
+                                                                    </div>
+                                                                </div>
+                                                                        
+
+                                                                    
+                                                                        
+                                                                    
+                                                            </div>
+
+
+                                                            
+
+                                                            <div class="tab-pane fade col-lg-offset-3" id="tabzampe">
+                                                                <div class="form-group">
+                                                                    <label for="inputTarso" class="col-lg-3 control-label">@localizzatore["Tarso"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="number" class="form-control" id="inputTarso">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputColoreZampe" class="col-lg-3 control-label">@localizzatore["Colore Zampe"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="text" class="form-control" id="inputColoreZampe">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane fade col-lg-offset-2" id="tabanello">
+                                                                <div class="form-group">
+                                                                    <label class="col-lg-4 control-label">@localizzatore["Inanellato"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="inputInanellato" id="inputInanellatoSi" value="true" checked="">
+                                                                                @localizzatore["Sì"]
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="inputInanellato" id="inputInanellatoNo" value="false">
+                                                                                @localizzatore["No"]
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputDatiAnello" class="col-lg-4 control-label">@localizzatore["Dati Anello"]:</label>
+                                                                    <div class="col-lg-4">
+                                                                        <input type="text" class="form-control" id="inputDatiAnello">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane fade col-lg-offset-2" id="tabcontenuti">
+                                                                <div class="form-group">
+                                                                    <label for="inputContenutoIngluvie" class="col-lg-4 control-label">@localizzatore["Contenuto Ingluvie"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="text" class="form-control" id="inputContenutoIngluvie">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputContenutoStomaco" class="col-lg-4 control-label">@localizzatore["Contenuto Stomaco"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input type="text" class="form-control" id="inputContenutoStomaco">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <br />
+
+                                                        <div class="form-group">
+                                                            <div class="col-lg-12">
+                                                                <div class="pull-right">
+                                                                    <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
+                                                                    <button type="submit" class="btn btn-success">@localizzatore["Inserisci"]</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
                         <dl class="col-lg-3 dl-horizontal text-primary">
-                            <dt>@localizzatore["Peso"]:</dt>
+                            <dt><i role="button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleMorfologia"></i>
+                                @localizzatore["Peso"]:
+                            </dt>
                             <dd>@Model.Peso</dd>
                             <dt>@localizzatore["Lunghezza Totale"]:</dt>
                             <dd>@Model.LunghezzaTotale</dd>
@@ -655,9 +883,6 @@
                             <dd>@Model.BeccoCranio</dd>
                             <dt>@localizzatore["Culmine"]:</dt>
                             <dd>@Model.Culmine</dd>
-
-
-
                         </dl>
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
@@ -671,8 +896,6 @@
                             <dd>@Model.Tarso</dd>
                             <dt>@localizzatore["Colore Zampe"]:</dt>
                             <dd>@Model.ColoreZampe</dd>
-
-
                         </dl>
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
@@ -684,17 +907,9 @@
                             <dd>@Model.DimensioneOcchio</dd>
                             <dt>@localizzatore["Colore Iride"]:</dt>
                             <dd>@Model.ColoreIride</dd>
-
-
-
-
-
-
                         </dl>
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
-
-
                             <dt>@localizzatore["Formula Alare E"]:</dt>
                             <dd>@Model.FormulaAlareE</dd>
                             <dt>@localizzatore["Formula Alare WP"]:</dt>
@@ -709,33 +924,29 @@
                             <dd>@Model.ContenutoIngluvie</dd>
                             <dt>@localizzatore["Contenuto Stomaco"]:</dt>
                             <dd>@Model.ContenutoStomaco</dd>
-
-
                         </dl>
 
                     </div>
 
                     <div class="row">
+                            <dl class="col-lg-3 dl-horizontal text-primary">
+                                <dt>@localizzatore["Bibliografia"]:</dt>
+                                <dd>@Model.Bibliografia</dd>
+                            </dl>
 
-                        <dl class="col-lg-3 dl-horizontal text-primary">
-                            <dt>@localizzatore["Bibliografia"]:</dt>
-                            <dd>@Model.Bibliografia</dd>
-                        </dl>
-
-                        <dl class="col-lg-9 dl-horizontal text-primary">
-                            <dt>@localizzatore["Note"]:</dt>
-                            <dd>
-                                <textarea rows="4"
-                                          cols="80"
-                                          width="100%"
-                                          readonly
-                                          style="resize:none; border:none;">
-                                    @Model.Note
-                                </textarea>
-                            </dd>
-                        </dl>
-
-                    </div>
+                            <dl class="col-lg-9 dl-horizontal text-primary">
+                                <dt>@localizzatore["Note"]:</dt>
+                                <dd>
+                                    <textarea rows="4"
+                                              cols="80"
+                                              width="100%"
+                                              readonly
+                                              style="resize:none; border:none;">
+                                        @Model.Note
+                                    </textarea>
+                                </dd>
+                            </dl>
+                        </div>
                 </div>
             }
         </div>

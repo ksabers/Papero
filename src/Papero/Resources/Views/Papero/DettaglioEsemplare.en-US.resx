@@ -381,4 +381,25 @@
   <data name="Vassoio" xml:space="preserve">
     <value>Tray</value>
   </data>
+  <data name="Ali" xml:space="preserve">
+    <value>Wings</value>
+  </data>
+  <data name="Anello" xml:space="preserve">
+    <value>Ring</value>
+  </data>
+  <data name="Becco" xml:space="preserve">
+    <value>Beak</value>
+  </data>
+  <data name="Contenuti" xml:space="preserve">
+    <value>Contents</value>
+  </data>
+  <data name="Misure generali" xml:space="preserve">
+    <value>General measurements</value>
+  </data>
+  <data name="Occhio" xml:space="preserve">
+    <value>Eye</value>
+  </data>
+  <data name="Zampe" xml:space="preserve">
+    <value>Legs</value>
+  </data>
 </root>
