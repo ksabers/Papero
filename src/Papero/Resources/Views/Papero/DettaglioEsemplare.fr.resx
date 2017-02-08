@@ -381,25 +381,4 @@
   <data name="Vassoio" xml:space="preserve">
     <value>Plateau</value>
   </data>
-  <data name="Ali" xml:space="preserve">
-    <value>Ailes</value>
-  </data>
-  <data name="Anello" xml:space="preserve">
-    <value>Bagle</value>
-  </data>
-  <data name="Becco" xml:space="preserve">
-    <value>Bec</value>
-  </data>
-  <data name="Contenuti" xml:space="preserve">
-    <value>Contenus</value>
-  </data>
-  <data name="Misure generali" xml:space="preserve">
-    <value>Mesures générales</value>
-  </data>
-  <data name="Occhio" xml:space="preserve">
-    <value>Œil</value>
-  </data>
-  <data name="Zampe" xml:space="preserve">
-    <value>Pattes</value>
-  </data>
 </root>

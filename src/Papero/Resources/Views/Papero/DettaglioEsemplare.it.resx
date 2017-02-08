@@ -381,25 +381,4 @@
   <data name="Vassoio" xml:space="preserve">
     <value>Vassoio</value>
   </data>
-  <data name="Ali" xml:space="preserve">
-    <value>Ali</value>
-  </data>
-  <data name="Anello" xml:space="preserve">
-    <value>Anello</value>
-  </data>
-  <data name="Becco" xml:space="preserve">
-    <value>Becco</value>
-  </data>
-  <data name="Contenuti" xml:space="preserve">
-    <value>Contenuti</value>
-  </data>
-  <data name="Misure generali" xml:space="preserve">
-    <value>Misure generali</value>
-  </data>
-  <data name="Occhio" xml:space="preserve">
-    <value>Occhio</value>
-  </data>
-  <data name="Zampe" xml:space="preserve">
-    <value>Zampe</value>
-  </data>
 </root>
