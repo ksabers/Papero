@@ -17,35 +17,43 @@
 *@
 @section css {
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/angular-tree-control/0.2.28/css/tree-control.css" rel="stylesheet" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/angular-tree-control/0.2.28/css/tree-control-attribute.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-tree-control/0.2.28/css/tree-control.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-tree-control/0.2.28/css/tree-control-attribute.css" rel="stylesheet" />
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.css" />
 
     <style type="text/css">
-        dt { font-weight: normal; }
-        dd { font-weight: bold; }
-        .dl-horizontal dt { white-space: normal; }
+        dt {
+            font-weight: normal;
+        }
 
-        .fa.fa-arrow-up.ng-hide {            /*   Questi due stili servono per trasformare "ng-show" da "display:none" a "visibility:hidden" e quindi incolonnare giuste le frecce  */
-            display: inline-block!important; /*   per muovere su e giù le righe nelle tabelle  */
+        dd {
+            font-weight: bold;
+        }
+
+        .dl-horizontal dt {
+            white-space: normal;
+        }
+
+        .fa.fa-arrow-up.ng-hide { /*   Questi due stili servono per trasformare "ng-show" da "display:none" a "visibility:hidden" e quindi incolonnare giuste le frecce  */
+            display: inline-block !important; /*   per muovere su e giù le righe nelle tabelle  */
             visibility: hidden;
-         }
+        }
+
         .fa.fa-arrow-down.ng-hide {
-            display: inline-block!important;
+            display: inline-block !important;
             visibility: hidden;
-         }
-
+        }
     </style>
 }
 
 @section scripts {
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"
-        asp-fallback-src="~/lib/angular/angular.min.js"
-        asp-fallback-test="window.angular"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"
+            asp-fallback-src="~/lib/angular/angular.min.js"
+            asp-fallback-test="window.angular"></script>
 
-<script src="~/lib/angular-tree-control/angular-tree-control.js"></script>
+    <script src="~/lib/angular-tree-control/angular-tree-control.js"></script>
 
     <script src="~/js/papero-app.js"></script>
     <script src="~/js/modaleNomiController.js"></script>
@@ -60,15 +68,14 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
     <script>
-        $('#modaleElencoAutori').on('hidden.bs.modal', function () {       //  Questi eventi sono le chiusure (non submit) di alcune modali (non tutte). Queste modali richiedono che la 
+        $('#modaleElencoAutori').on('hidden.bs.modal', function () {       //  Questi eventi sono le chiusure (non submit) di alcune modali (non tutte). Queste modali richiedono che la
             location.reload(true);                                         //  pagina venga ricaricata per resettare correttamente le tabelle (altrimenti rimarrebbero i valori modificati)
         });
         $('#modaleModiPreparazione').on('hidden.bs.modal', function () {
             location.reload(true);
         });
     </script>
-
- }
+}
 <div class="row" ng-app="papero-app">
     <div class="col-lg-12">
 
@@ -82,13 +89,14 @@
                               name="formMSNG">
                             <div class="form-group">
                                 <div class="input-group input-group-lg">
-                                    <input type="text" pattern="([1-9][0-9]*)" id="inputMSNG" name="inputMSNG" ng-model="vm.MSNG" ng-change="vm.controllaMSNG()" value="@Model.Msng" class="form-control form-control-lg" asp-for="Msng" required>
+                                    <input type="text" pattern="([1-9][0-9]*)" id="inputMSNG" ng-model="vm.MSNG" ng-change="vm.controllaMSNG()" value="@Model.Msng" class="form-control form-control-lg" asp-for="Msng" required>
                                     <span class="input-group-btn">
                                         <button class="btn btn-success btn-lg" type="submit" ng-disabled="vm.controllaMSNG()">@localizzatore["MSNG"]</button>
                                     </span>
                                 </div>
                             </div>
                         </form>
+
                     </div>
 
                     @*
@@ -113,8 +121,8 @@
                                                 </div>
                                                 <div class="panel-body text-primary">
 
-                                                    <form class="form-horizontal" 
-                                                          id="formElencoAutori" 
+                                                    <form class="form-horizontal"
+                                                          id="formElencoAutori"
                                                           name="formElencoAutori"
                                                           asp-controller="UpdateDettaglioEsemplare"
                                                           asp-action="AggiornaAutori">
@@ -139,73 +147,73 @@
                                                                 <label for="inputAnnoClassificazione" class="col-lg-3 col-lg-offset-2 control-label text-primary">@localizzatore["Anno Classificazione"]:</label>
                                                                 <div class="col-lg-2">
                                                                     <input type="hidden" id="annoClassificazioneDB" name="annoClassificazioneDB" value="@Model.Sottospecie.AnnoClassificazione" />
-                                                                    <input type="number" 
-                                                                           min="1700" max="2100" 
-                                                                           class="form-control" 
-                                                                           id="inputAnnoClassificazione" 
-                                                                           name="inputAnnoClassificazione" 
-                                                                           ng-model="vm.annoClassificazione" 
-                                                                           value="@Model.Sottospecie.AnnoClassificazione" 
+                                                                    <input type="number"
+                                                                           min="1700" max="2100"
+                                                                           class="form-control"
+                                                                           id="inputAnnoClassificazione"
+                                                                           name="inputAnnoClassificazione"
+                                                                           ng-model="vm.annoClassificazione"
+                                                                           value="@Model.Sottospecie.AnnoClassificazione"
                                                                            ng-change="vm.aggiornaElencoAutori()" required>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="inputClassificazioneOriginale" class="col-lg-3 col-lg-offset-2 control-label text-primary">@localizzatore["Classificazione Originale"]:</label>
                                                                 <div class="col-lg-1">
-                                                                    <input type="hidden" 
-                                                                           id="classificazioneOriginaleDB" 
-                                                                           name="classificazioneOriginaleDB" 
+                                                                    <input type="hidden"
+                                                                           id="classificazioneOriginaleDB"
+                                                                           name="classificazioneOriginaleDB"
                                                                            value="@((bool)Model.Sottospecie.ClassificazioneOriginale ? "true" : "false")" />
-                                                                    <input type="checkbox" 
-                                                                           class="form-control" 
+                                                                    <input type="checkbox"
+                                                                           class="form-control"
                                                                            id="inputClassificazioneOriginale"
                                                                            name="inputClassificazioneOriginale"
-                                                                           ng-change="vm.aggiornaElencoAutori()" 
-                                                                           ng-model="vm.classificazioneOriginale" 
-                                                                           checked="@Model.Sottospecie.ClassificazioneOriginale"/>
+                                                                           ng-change="vm.aggiornaElencoAutori()"
+                                                                           ng-model="vm.classificazioneOriginale"
+                                                                           checked="@Model.Sottospecie.ClassificazioneOriginale" />
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="dropdownAutori" class="col-lg-3 col-lg-offset-2 control-label text-primary">@localizzatore["Classificatore"]:</label>
                                                                 <div class="col-lg-4">
-                                                                    <select id = "dropdownAutori"
+                                                                    <select id="dropdownAutori"
                                                                             class="form-control"
                                                                             ng-model="vm.autoreSelezionato"
                                                                             ng-options="autore.classificatore for autore in vm.datiDropdownAutori track by autore.id"></select>
                                                                 </div>
                                                                 <div class="col-lg-1">
-                                                                    <i role = "button" ng-click="vm.aggiungiAutore()" class="fa fa-plus-square fa-2x text-success"></i>
+                                                                    <i role="button" ng-click="vm.aggiungiAutore()" class="fa fa-plus-square fa-2x text-success"></i>
                                                                 </div>
                                                             </div>
 
                                                             <div class="form-group">
                                                                 <div class="col-lg-offset-2 col-lg-8">
                                                                     <div style="overflow-y:auto; overflow-x:hidden; max-height:300px;">
-                                                                            <input type="hidden" id="tabellaElencoAutoriSerializzata" name="tabellaElencoAutoriSerializzata"/>
-                                                                            <table datatable="ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaElencoAutori" dt-options="vm.opzioniTabellaElencoAutori">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th>@localizzatore["Ordinamento"]</th>
-                                                                                        <th>@localizzatore["Classificatore"]</th>
-                                                                                        <th></th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    <tr ng-repeat="autore in vm.datiTabellaAutori">
-                                                                                        <td>{{$index+1}}</td>
-                                                                                        <td>{{autore.classificatore}}</td>
-                                                                                        <td>
-                                                                                            <div class="btn-group fa-pull-right">
-                                                                                                <i role="button" ng-show="!$first" ng-click="vm.spostaSu($index)" class="fa fa-arrow-up fa-2x text-success"></i>
-                                                                                                <i role="button" ng-show="!$last" ng-click="vm.spostaGiu($index)" class="fa fa-arrow-down fa-2x text-success"></i>
-                                                                                                <i role="button" ng-click="vm.rimuoviAutore(autore)" class="fa fa-minus-square fa-2x text-danger"></i>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
+                                                                        <input type="hidden" id="tabellaElencoAutoriSerializzata" name="tabellaElencoAutoriSerializzata" />
+                                                                        <table datatable="ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaElencoAutori" dt-options="vm.opzioniTabellaElencoAutori">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>@localizzatore["Ordinamento"]</th>
+                                                                                    <th>@localizzatore["Classificatore"]</th>
+                                                                                    <th></th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr ng-repeat="autore in vm.datiTabellaAutori">
+                                                                                    <td>{{$index+1}}</td>
+                                                                                    <td>{{autore.classificatore}}</td>
+                                                                                    <td>
+                                                                                        <div class="btn-group fa-pull-right">
+                                                                                            <i role="button" ng-show="!$first" ng-click="vm.spostaSu($index)" class="fa fa-arrow-up fa-2x text-success"></i>
+                                                                                            <i role="button" ng-show="!$last" ng-click="vm.spostaGiu($index)" class="fa fa-arrow-down fa-2x text-success"></i>
+                                                                                            <i role="button" ng-click="vm.rimuoviAutore(autore)" class="fa fa-minus-square fa-2x text-danger"></i>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
                                                                     </div>
+                                                                </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-lg-12">
@@ -231,16 +239,16 @@
                                   " " +
                                   (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome))
                                 @switch (Model.Sesso.Id)
-                                    {
-                                        case 2: <text>&nbsp;</text><i class="fa fa-mars"></i>
-                                            break;
-                                        case 3: <text>&nbsp;</text><i class="fa fa-venus"></i>
-                                            break;
-                                        case 1001:<text>&nbsp;?</text><i class="fa fa-mars"></i>
-                                            break;
-                                        case 1002:<text>&nbsp;?</text><i class="fa fa-venus"></i>
-                                            break;
-                                    }
+                                {
+                                    case 2: <text>&nbsp;</text><i class="fa fa-mars"></i>
+                                        break;
+                                    case 3: <text>&nbsp;</text><i class="fa fa-venus"></i>
+                                        break;
+                                    case 1001:<text>&nbsp;?</text><i class="fa fa-mars"></i>
+                                        break;
+                                    case 1002:<text>&nbsp;?</text><i class="fa fa-venus"></i>
+                                        break;
+                                }
                                 <br />
                                 @Model.Sottospecie.ElencoAutori
 
@@ -253,14 +261,14 @@
 
                         <div class="col-lg-2">
                             @*<div class="card card-outline-primary">*@
-                                <dl class="dl-horizontal text-white">
-                                    <dt>@localizzatore["Famiglia"]:</dt>
-                                    <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Famiglia.Nome</dd>
-                                    <dt>@localizzatore["Sottofamiglia"]:</dt>
-                                    <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Nome</dd>
-                                    <dt>@localizzatore["Tribu"]:</dt>
-                                    <dd>@Model.Sottospecie.Specie.Genere.Tribu.Nome</dd>
-                                </dl>
+                            <dl class="dl-horizontal text-white">
+                                <dt>@localizzatore["Famiglia"]:</dt>
+                                <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Famiglia.Nome</dd>
+                                <dt>@localizzatore["Sottofamiglia"]:</dt>
+                                <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Nome</dd>
+                                <dt>@localizzatore["Tribu"]:</dt>
+                                <dd>@Model.Sottospecie.Specie.Genere.Tribu.Nome</dd>
+                            </dl>
                             @*</div>*@
                         </div>
 
@@ -273,7 +281,7 @@
 
                                             <div class="panel panel-primary">
                                                 <div class="panel-heading">
-                                                    <h3 class="panel-title">@localizzatore["Inserire i nuovi valori"]:<i role = "button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                                                    <h3 class="panel-title">@localizzatore["Inserire i nuovi valori"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
                                                 </div>
                                                 <div class="panel-body">
 
@@ -281,8 +289,8 @@
                                                           asp-controller="UpdateDettaglioEsemplare"
                                                           asp-action="AggiornaNomi">
                                                         <fieldset>
-                                                            <input type="hidden" id="sottospeciehidden" asp-for="SottospecieId" value="@Model.Sottospecie.Id"/>
-                                                            <input type="hidden" id="esemplarehidden" asp-for="Id" value="@Model.Id"/>
+                                                            <input type="hidden" id="sottospeciehidden" asp-for="SottospecieId" value="@Model.Sottospecie.Id" />
+                                                            <input type="hidden" id="esemplarehidden" asp-for="Id" value="@Model.Id" />
                                                             <div class="form-group">
                                                                 <label for="nomeItaliano" class="col-lg-2 control-label text-primary">@localizzatore["Nome Italiano"]:</label>
                                                                 <div class="col-lg-10">
@@ -292,19 +300,19 @@
                                                             <div class="form-group">
                                                                 <label for="nomeInglese" class="col-lg-2 control-label text-primary">@localizzatore["Nome Inglese"]:</label>
                                                                 <div class="col-lg-10">
-                                                                    <input type = "text" class="form-control" asp-for="Sottospecie.NomeInglese" id="nomeInglese" name="nomeInglese" value="@Model.Sottospecie.NomeInglese" ng-model="vm.nomeInglese">
+                                                                    <input type="text" class="form-control" asp-for="Sottospecie.NomeInglese" id="nomeInglese" name="nomeInglese" value="@Model.Sottospecie.NomeInglese" ng-model="vm.nomeInglese">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="statiConservazione" class="col-lg-2 control-label text-primary">@localizzatore["Stato di Conservazione"]:</label>
                                                                 <div class="col-lg-10">
-                                                                @*
-                                                                    Questo input nascosto serve per memorizzare il valore dello stato di conservazione così come arriva dal modello.
-                                                                    In seguito, se viene aperta #modaleNomi, viene utilizzato per impostare il valore della select.
-                                                                *@
+                                                                    @*
+                                                                        Questo input nascosto serve per memorizzare il valore dello stato di conservazione così come arriva dal modello.
+                                                                        In seguito, se viene aperta #modaleNomi, viene utilizzato per impostare il valore della select.
+                                                                    *@
                                                                     <input type="hidden" id="statoConservazioneDB" value="@Model.Sottospecie.StatoConservazioneId" />
 
-                                                                    <select id="statiConservazione"                                                                            
+                                                                    <select id="statiConservazione"
                                                                             name="statoConservazione"
                                                                             class="form-control"
                                                                             ng-model="vm.statoConservazioneSelezionato">
@@ -316,7 +324,7 @@
                                                                 <div class="col-lg-12">
                                                                     <div class="pull-right">
                                                                         <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
-                                                                        <button type="submit" class="btn btn-success" >@localizzatore["Inserisci"]</button>
+                                                                        <button type="submit" class="btn btn-success">@localizzatore["Inserisci"]</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -401,10 +409,10 @@
                             <dt>@localizzatore["Località di Cattura"]:</dt>
 
                             @*
-            I parametri del dd servono per far comparire il popover di localizzazione geografica cliccando sulla località. tabindex=0 è un workaround per un bug di Bootstrap
-            altrimenti data-trigger=focus non funzionebbe. Mettere tabindex obbliga anche ad aggiungere style=outline:none altrimenti si vedrebbe
-            una antiestetica cornice attorno all'elemento. data-html=true è importante perché c'è codice html all'interno del data-content.
-            La serie di if-elseif visualizza il primo elemento "non-trattino" nella localizzazione geografica (il più dettagliato).
+                                I parametri del dd servono per far comparire il popover di localizzazione geografica cliccando sulla località. tabindex=0 è un workaround per un bug di Bootstrap
+                                altrimenti data-trigger=focus non funzionebbe. Mettere tabindex obbliga anche ad aggiungere style=outline:none altrimenti si vedrebbe
+                                una antiestetica cornice attorno all'elemento. data-html=true è importante perché c'è codice html all'interno del data-content.
+                                La serie di if-elseif visualizza il primo elemento "non-trattino" nella localizzazione geografica (il più dettagliato).
                             *@
                             <dd data-toggle="popover"
                                 data-html="true"
@@ -745,7 +753,7 @@
                                                                         <input type="number" class="form-control" id="inputRemigante3">
                                                                     </div>
                                                                 </div>
-                                                               
+
                                                                 <div class="form-group">
                                                                     <label for="inputFormulaAlareE" class="col-lg-4 control-label">@localizzatore["Formula Alare E"]:</label>
                                                                     <div class="col-lg-3">
@@ -764,15 +772,15 @@
                                                                         <input type="number" class="form-control" id="inputFormulaAlare2">
                                                                     </div>
                                                                 </div>
-                                                                        
 
-                                                                    
-                                                                        
-                                                                    
+
+
+
+
                                                             </div>
 
 
-                                                            
+
 
                                                             <div class="tab-pane fade col-lg-offset-3" id="tabzampe">
                                                                 <div class="form-group">
@@ -871,7 +879,8 @@
 
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
-                            <dt><i role="button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleMorfologia"></i>
+                            <dt>
+                                <i role="button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleMorfologia"></i>
                                 @localizzatore["Peso"]:
                             </dt>
                             <dd>@Model.Peso</dd>
@@ -929,26 +938,26 @@
                     </div>
 
                     <div class="row">
-                            <dl class="col-lg-3 dl-horizontal text-primary">
-                                <dt>@localizzatore["Bibliografia"]:</dt>
-                                <dd>@Model.Bibliografia</dd>
-                            </dl>
+                        <dl class="col-lg-3 dl-horizontal text-primary">
+                            <dt>@localizzatore["Bibliografia"]:</dt>
+                            <dd>@Model.Bibliografia</dd>
+                        </dl>
 
-                            <dl class="col-lg-9 dl-horizontal text-primary">
-                                <dt>@localizzatore["Note"]:</dt>
-                                <dd>
-                                    <textarea rows="4"
-                                              cols="80"
-                                              width="100%"
-                                              readonly
-                                              style="resize:none; border:none;">
-                                        @Model.Note
-                                    </textarea>
-                                </dd>
-                            </dl>
-                        </div>
+                        <dl class="col-lg-9 dl-horizontal text-primary">
+                            <dt>@localizzatore["Note"]:</dt>
+                            <dd>
+                                <textarea rows="4"
+                                          cols="80"
+                                          width="100%"
+                                          readonly
+                                          style="resize:none; border:none;">
+                                    @Model.Note
+                                </textarea>
+                            </dd>
+                        </dl>
+                    </div>
                 </div>
-            }
+    }
         </div>
     </div>
 </div>
