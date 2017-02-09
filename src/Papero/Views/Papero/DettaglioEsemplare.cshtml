@@ -74,6 +74,11 @@
         $('#modaleModiPreparazione').on('hidden.bs.modal', function () {
             location.reload(true);
         });
+
+        $('#formMorfologia').validate({ errorPlacement: function (error, element) { return true; } });
+        function validaFormMorfologia() {
+            $('#bottoneSubmitMorfologia').prop('disabled', !$('#formMorfologia').valid());
+        }
     </script>
 }
 <div class="row" ng-app="papero-app">
@@ -660,7 +665,9 @@
 
                                                 <form class="form-horizontal"
                                                       asp-controller="UpdateDettaglioEsemplare"
-                                                      asp-action="AggiornaMorfologia">
+                                                      asp-action="AggiornaMorfologia"
+                                                      id="formMorfologia"
+                                                      name="formMorfologia">
                                                     <fieldset>
 
 
@@ -680,25 +687,45 @@
                                                                 <div class="form-group">
                                                                     <label for="inputPeso" class="col-lg-3 control-label">@localizzatore["Peso"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="number" class="form-control" id="inputPeso">
+                                                                        <input id="inputPeso"
+                                                                               name="inputPeso"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@Model.Peso">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="inputLunghezzaTotale" class="col-lg-3 control-label">@localizzatore["Lunghezza Totale"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="number" class="form-control" id="inputLunghezzaTotale">
+                                                                        <input id="inputLunghezzaTotale"
+                                                                               name="inputLunghezzaTotale"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@Model.LunghezzaTotale">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="inputBeccoCranio" class="col-lg-3 control-label">@localizzatore["Becco-Cranio"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="number" class="form-control" id="inputBeccoCranio">
+                                                                        <input id="inputBeccoCranio"
+                                                                               name="inputBeccoCranio"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@Model.BeccoCranio">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="inputCulmine" class="col-lg-3 control-label">@localizzatore["Culmine"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="number" class="form-control" id="inputCulmine">
+                                                                        <input id="inputCulmine"
+                                                                               name="inputCulmine"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@Model.Culmine">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -707,7 +734,11 @@
                                                                 <div class="form-group">
                                                                     <label for="inputColoreBecco" class="col-lg-3 control-label">@localizzatore["Colore Becco"]:</label>
                                                                     <div class="col-lg-4">
-                                                                        <input type="text" class="form-control" id="inputColoreBecco">
+                                                                        <input id="inputColoreBecco"
+                                                                               name="inputColoreBecco"
+                                                                               type="text"
+                                                                               class="form-control"
+                                                                               value="@Model.ColoreBecco">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -716,13 +747,22 @@
                                                                 <div class="form-group">
                                                                     <label for="inputDimensioneOcchio" class="col-lg-4 control-label">@localizzatore["Dimensione Occhio"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="number" class="form-control" id="inputDimensioneOcchio">
+                                                                        <input id="inputDimensioneOcchio"
+                                                                               name="inputDimensioneOcchio"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@Model.DimensioneOcchio">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="inputColoreIride" class="col-lg-4 control-label">@localizzatore["Colore Iride"]:</label>
                                                                     <div class="col-lg-4">
-                                                                        <input type="text" class="form-control" id="inputColoreIride">
+                                                                        <input id="inputColoreIride"
+                                                                               name="inputColoreIride"
+                                                                               type="text"
+                                                                               class="form-control"
+                                                                               value="@Model.ColoreIride">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -732,44 +772,79 @@
                                                                 <div class="form-group">
                                                                     <label for="inputAperturaAlare" class="col-lg-4 control-label">@localizzatore["Apertura Alare"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="number" class="form-control" id="inputAperturaAlare">
+                                                                        <input id="inputAperturaAlare"
+                                                                               name="inputAperturaAlare"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@Model.AperturaAlare">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="inputTimoniereCentrali" class="col-lg-4 control-label">@localizzatore["Timoniere Centrali"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="number" class="form-control" id="inputTimoniereCentrali">
+                                                                        <input id="inputTimoniereCentrali"
+                                                                               name="inputTimoniereCentrali"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@Model.TimoniereCentrali">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="inputTimoniereEsterne" class="col-lg-4 control-label">@localizzatore["Timoniere Esterne"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="number" class="form-control" id="inputTimoniereEsterne">
+                                                                        <input id="inputTimoniereEsterne"
+                                                                               name="inputTimoniereEsterne"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@Model.TimoniereEsterne">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="inputRemigante3" class="col-lg-4 control-label">@localizzatore["Remigante 3"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="number" class="form-control" id="inputRemigante3">
+                                                                        <input id="inputRemigante3"
+                                                                               name="inputRemigante3"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@Model.Remigante3">
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="form-group">
                                                                     <label for="inputFormulaAlareE" class="col-lg-4 control-label">@localizzatore["Formula Alare E"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="number" class="form-control" id="inputFormulaAlareE">
+                                                                        <input id="inputFormulaAlareE"
+                                                                               name="inputFormulaAlareE"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@Model.FormulaAlareE">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="inputFormulaAlareWP" class="col-lg-4 control-label">@localizzatore["Formula Alare WP"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="number" class="form-control" id="inputFormulaAlareWP">
+                                                                        <input id="inputFormulaAlareWP"
+                                                                               name="inputFormulaAlareWP"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@Model.FormulaAlareWp">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="inputFormulaAlare2" class="col-lg-4 control-label">@localizzatore["Formula Alare 2"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="number" class="form-control" id="inputFormulaAlare2">
+                                                                        <input id="inputFormulaAlare2"
+                                                                               name="inputFormulaAlare2"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@Model.FormulaAlare2">
                                                                     </div>
                                                                 </div>
 
@@ -786,13 +861,21 @@
                                                                 <div class="form-group">
                                                                     <label for="inputTarso" class="col-lg-3 control-label">@localizzatore["Tarso"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="number" class="form-control" id="inputTarso">
+                                                                        <input id="inputTarso"
+                                                                               name="inputTarso"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@Model.Tarso">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="inputColoreZampe" class="col-lg-3 control-label">@localizzatore["Colore Zampe"]:</label>
                                                                     <div class="col-lg-3">
-                                                                        <input type="text" class="form-control" id="inputColoreZampe">
+                                                                        <input id="inputColoreZampe"
+                                                                               name="inputColoreZampe"
+                                                                               type="text"
+                                                                               class="form-control">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -803,13 +886,21 @@
                                                                     <div class="col-lg-3">
                                                                         <div class="radio">
                                                                             <label>
-                                                                                <input type="radio" name="inputInanellato" id="inputInanellatoSi" value="true" checked="">
+                                                                                <input id="inputInanellatoSi"
+                                                                                       name="inputInanellato"
+                                                                                       type="radio"
+                                                                                       value="true"
+                                                                                       checked="@Model.Inanellato ? 'checked' : ''">
                                                                                 @localizzatore["Sì"]
                                                                             </label>
                                                                         </div>
                                                                         <div class="radio">
                                                                             <label>
-                                                                                <input type="radio" name="inputInanellato" id="inputInanellatoNo" value="false">
+                                                                                <input id="inputInanellatoNo"
+                                                                                       name="inputInanellato"
+                                                                                       type="radio"
+                                                                                       value="false"
+                                                                                       checked="@Model.Inanellato ? '' : 'checked'">
                                                                                 @localizzatore["No"]
                                                                             </label>
                                                                         </div>
@@ -818,7 +909,11 @@
                                                                 <div class="form-group">
                                                                     <label for="inputDatiAnello" class="col-lg-4 control-label">@localizzatore["Dati Anello"]:</label>
                                                                     <div class="col-lg-4">
-                                                                        <input type="text" class="form-control" id="inputDatiAnello">
+                                                                        <input id="inputDatiAnello"
+                                                                               name="inputDatiAnello"
+                                                                               type="text"
+                                                                               class="form-control"
+                                                                               value="@Model.DatiAnello">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -826,14 +921,22 @@
                                                             <div class="tab-pane fade col-lg-offset-2" id="tabcontenuti">
                                                                 <div class="form-group">
                                                                     <label for="inputContenutoIngluvie" class="col-lg-4 control-label">@localizzatore["Contenuto Ingluvie"]:</label>
-                                                                    <div class="col-lg-3">
-                                                                        <input type="text" class="form-control" id="inputContenutoIngluvie">
+                                                                    <div class="col-lg-4">
+                                                                        <input id="inputContenutoIngluvie"
+                                                                               name="inputContenutoIngluvie"
+                                                                               type="text"
+                                                                               class="form-control"
+                                                                               value="@Model.ContenutoIngluvie">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="inputContenutoStomaco" class="col-lg-4 control-label">@localizzatore["Contenuto Stomaco"]:</label>
-                                                                    <div class="col-lg-3">
-                                                                        <input type="text" class="form-control" id="inputContenutoStomaco">
+                                                                    <div class="col-lg-4">
+                                                                        <input id="inputContenutoStomaco"
+                                                                               name="inputContenutoStomaco"
+                                                                               type="text"
+                                                                               class="form-control"
+                                                                               value="@Model.ContenutoStomaco">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -846,7 +949,7 @@
                                                             <div class="col-lg-12">
                                                                 <div class="pull-right">
                                                                     <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
-                                                                    <button type="submit" class="btn btn-success">@localizzatore["Inserisci"]</button>
+                                                                    <button id="bottoneSubmitMorfologia" type="submit" class="btn btn-success" ng-disabled="$('#inputPeso').valid();">@localizzatore["Inserisci"]</button>
                                                                 </div>
                                                             </div>
                                                         </div>
