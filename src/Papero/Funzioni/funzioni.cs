@@ -60,5 +60,10 @@ namespace Papero.Funzioni
                 return dataIngresso;
             }
         }
+
+        public static string convertiNumero(double? numero)
+        {
+            return numero.ToString().Replace(',', '.');
+        }
     }
 }

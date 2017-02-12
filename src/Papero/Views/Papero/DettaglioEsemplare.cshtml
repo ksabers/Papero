@@ -11,10 +11,6 @@
     ViewBag.Title = localizzatore["Dettaglio Esemplare"];
 }
 
-@*
-    Questo css online serve per invertire il modo in cui dt e dd mostrano il loro contenuto. I dt diventano testo normale
-    mentre i dd diventano testo in grassetto.
-*@
 @section css {
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-tree-control/0.2.28/css/tree-control.css" rel="stylesheet" />
@@ -23,6 +19,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.css" />
 
     <style type="text/css">
+@*
+    Questi tre stili servono per invertire il modo in cui dt e dd mostrano il loro contenuto. I dt diventano testo normale
+    mentre i dd diventano testo in grassetto.
+*@
         dt {
             font-weight: normal;
         }
@@ -35,8 +35,12 @@
             white-space: normal;
         }
 
-        .fa.fa-arrow-up.ng-hide { /*   Questi due stili servono per trasformare "ng-show" da "display:none" a "visibility:hidden" e quindi incolonnare giuste le frecce  */
-            display: inline-block !important; /*   per muovere su e giù le righe nelle tabelle  */
+@*
+    Questi due stili servono per trasformare "ng-show" da "display:none" a "visibility:hidden" e quindi incolonnare giuste le frecce
+    per muovere su e giù le righe nelle tabelle
+*@
+        .fa.fa-arrow-up.ng-hide {
+            display: inline-block !important;
             visibility: hidden;
         }
 
@@ -74,10 +78,14 @@
         $('#modaleModiPreparazione').on('hidden.bs.modal', function () {
             location.reload(true);
         });
+        $('#modaleMorfologia').on('hidden.bs.modal', function () {
+            location.reload(true);
+        });
 
-        $('#formMorfologia').validate({ errorPlacement: function (error, element) { return true; } });
-        function validaFormMorfologia() {
-            $('#bottoneSubmitMorfologia').prop('disabled', !$('#formMorfologia').valid());
+        $('#formMorfologia').validate({ errorPlacement: function (error, element) { return true; } });  // Questo comando abilita la validazione ma disattiva i messaggi di default
+
+        function validaFormMorfologia() {                                                    // Questa funzione controlla tutti i campi numerici della modale di Morfologia e abilita/disabilita
+            $('#bottoneSubmitMorfologia').prop('disabled', !$('#formMorfologia').valid());   // il pulsante di submit in base alla loro validità
         }
     </script>
 }
@@ -649,9 +657,6 @@
                     </div>
 
                     <div class="row">
-
-
-
                         <div class="modal fade" id="modaleMorfologia" role="dialog">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
@@ -669,9 +674,6 @@
                                                       id="formMorfologia"
                                                       name="formMorfologia">
                                                     <fieldset>
-
-
-
                                                         <ul class="nav nav-tabs">
                                                             <li class="active"><a href="#tabmisure" data-toggle="tab">@localizzatore["Misure generali"]</a></li>
                                                             <li class=""><a href="#tabbecco" data-toggle="tab">@localizzatore["Becco"]</a></li>
@@ -681,6 +683,9 @@
                                                             <li class=""><a href="#tabanello" data-toggle="tab">@localizzatore["Anello"]</a></li>
                                                             <li class=""><a href="#tabcontenuti" data-toggle="tab">@localizzatore["Contenuti"]</a></li>
                                                         </ul>
+
+                                                        <input type="hidden" id="esemplarehiddenMorfologia" asp-for="Id" value="@Model.Id" />
+
                                                         <div id="myTabContent" class="tab-content">
 
                                                             <div class="tab-pane fade active in col-lg-offset-3" id="tabmisure">
@@ -692,7 +697,7 @@
                                                                                type="number" min="0" step=".1"
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
-                                                                               value="@Model.Peso">
+                                                                               value="@funzioni.convertiNumero(Model.Peso)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -703,7 +708,7 @@
                                                                                type="number" min="0" step=".1"
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
-                                                                               value="@Model.LunghezzaTotale">
+                                                                               value="@funzioni.convertiNumero(Model.LunghezzaTotale)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -714,7 +719,7 @@
                                                                                type="number" min="0" step=".1"
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
-                                                                               value="@Model.BeccoCranio">
+                                                                               value="@funzioni.convertiNumero(Model.BeccoCranio)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -725,7 +730,7 @@
                                                                                type="number" min="0" step=".1"
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
-                                                                               value="@Model.Culmine">
+                                                                               value="@funzioni.convertiNumero(Model.Culmine)">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -752,7 +757,7 @@
                                                                                type="number" min="0" step=".1"
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
-                                                                               value="@Model.DimensioneOcchio">
+                                                                               value="@funzioni.convertiNumero(Model.DimensioneOcchio)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -777,7 +782,18 @@
                                                                                type="number" min="0" step=".1"
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
-                                                                               value="@Model.AperturaAlare">
+                                                                               value="@funzioni.convertiNumero(Model.AperturaAlare)">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputAla" class="col-lg-4 control-label">@localizzatore["Ala"]:</label>
+                                                                    <div class="col-lg-3">
+                                                                        <input id="inputAla"
+                                                                               name="inputAla"
+                                                                               type="number" min="0" step=".1"
+                                                                               class="form-control"
+                                                                               oninput="validaFormMorfologia();"
+                                                                               value="@funzioni.convertiNumero(Model.Ala)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -788,7 +804,7 @@
                                                                                type="number" min="0" step=".1"
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
-                                                                               value="@Model.TimoniereCentrali">
+                                                                               value="@funzioni.convertiNumero(Model.TimoniereCentrali)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -799,7 +815,7 @@
                                                                                type="number" min="0" step=".1"
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
-                                                                               value="@Model.TimoniereEsterne">
+                                                                               value="@funzioni.convertiNumero(Model.TimoniereEsterne)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -810,10 +826,9 @@
                                                                                type="number" min="0" step=".1"
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
-                                                                               value="@Model.Remigante3">
+                                                                               value="@funzioni.convertiNumero(Model.Remigante3)">
                                                                     </div>
                                                                 </div>
-
                                                                 <div class="form-group">
                                                                     <label for="inputFormulaAlareE" class="col-lg-4 control-label">@localizzatore["Formula Alare E"]:</label>
                                                                     <div class="col-lg-3">
@@ -822,7 +837,7 @@
                                                                                type="number" min="0" step=".1"
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
-                                                                               value="@Model.FormulaAlareE">
+                                                                               value="@funzioni.convertiNumero(Model.FormulaAlareE)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -833,7 +848,7 @@
                                                                                type="number" min="0" step=".1"
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
-                                                                               value="@Model.FormulaAlareWp">
+                                                                               value="@funzioni.convertiNumero(Model.FormulaAlareWp)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -844,18 +859,10 @@
                                                                                type="number" min="0" step=".1"
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
-                                                                               value="@Model.FormulaAlare2">
+                                                                               value="@funzioni.convertiNumero(Model.FormulaAlare2)">
                                                                     </div>
                                                                 </div>
-
-
-
-
-
                                                             </div>
-
-
-
 
                                                             <div class="tab-pane fade col-lg-offset-3" id="tabzampe">
                                                                 <div class="form-group">
@@ -866,7 +873,7 @@
                                                                                type="number" min="0" step=".1"
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
-                                                                               value="@Model.Tarso">
+                                                                               value="@funzioni.convertiNumero(Model.Tarso)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -875,7 +882,8 @@
                                                                         <input id="inputColoreZampe"
                                                                                name="inputColoreZampe"
                                                                                type="text"
-                                                                               class="form-control">
+                                                                               class="form-control"
+                                                                               value="@Model.ColoreZampe">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -940,34 +948,16 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-
                                                         </div>
-
                                                         <br />
-
                                                         <div class="form-group">
                                                             <div class="col-lg-12">
                                                                 <div class="pull-right">
                                                                     <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
-                                                                    <button id="bottoneSubmitMorfologia" type="submit" class="btn btn-success" ng-disabled="$('#inputPeso').valid();">@localizzatore["Inserisci"]</button>
+                                                                    <button id="bottoneSubmitMorfologia" type="submit" class="btn btn-success">@localizzatore["Inserisci"]</button>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                                     </fieldset>
                                                 </form>
                                             </div>
@@ -976,10 +966,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             <dt>

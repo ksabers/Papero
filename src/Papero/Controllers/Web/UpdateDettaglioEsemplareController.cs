@@ -13,6 +13,7 @@ using Papero.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace Papero.Controllers
 {
@@ -26,6 +27,11 @@ namespace Papero.Controllers
         {
             _repository = repository;
             _logger = logger;
+        }
+
+        private double troncaDecimali(double numero)
+        {
+            return Math.Truncate(10 * numero) / 10;
         }
 
         [Authorize]
@@ -119,6 +125,244 @@ namespace Papero.Controllers
             sottospecieDaModificare.NomeItaliano = nomeItaliano;
             sottospecieDaModificare.NomeInglese = nomeInglese;
             sottospecieDaModificare.StatoConservazioneId = statoConservazione;
+
+            if (await _repository.SalvaModifiche())
+            {
+                return RedirectToAction("DettaglioEsemplare", "Papero", new { id = Id });
+            }
+            return RedirectToAction("DettaglioEsemplare", "Papero", new { id = Id });  // TODO scrivere pagina di errore
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AggiornaMorfologia(int Id, 
+                                                            string inputPeso,
+                                                            string inputLunghezzaTotale,
+                                                            string inputBeccoCranio, 
+                                                            string inputCulmine,
+                                                            string inputColoreBecco,
+                                                            string inputDimensioneOcchio,
+                                                            string inputColoreIride,
+                                                            string inputAperturaAlare,
+                                                            string inputAla,
+                                                            string inputTimoniereCentrali,
+                                                            string inputTimoniereEsterne,
+                                                            string inputRemigante3,
+                                                            string inputFormulaAlareE,
+                                                            string inputFormulaAlareWP,
+                                                            string inputFormulaAlare2,
+                                                            string inputTarso,
+                                                            string inputColoreZampe,
+                                                            string inputInanellato,
+                                                            string inputDatiAnello,
+                                                            string inputContenutoIngluvie,
+                                                            string inputContenutoStomaco)
+        {
+            var esemplareDaModificare = _repository.LeggiEsemplare(Id);
+
+            double peso, lunghezzaTotale, beccoCranio, culmine, dimensioneOcchio, aperturaAlare, ala, timoniereCentrali,
+                   timoniereEsterne, remigante3, formulaAlareE, formulaAlareWP, formulaAlare2, tarso;
+
+            if (String.IsNullOrWhiteSpace(inputPeso))
+                esemplareDaModificare.Peso = null;
+            else
+            {
+                inputPeso = inputPeso.Replace(',', '.');
+                if(double.TryParse(inputPeso, 
+                                   NumberStyles.Any, 
+                                   CultureInfo.InvariantCulture, 
+                                   out peso))
+                    esemplareDaModificare.Peso = troncaDecimali(peso);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputLunghezzaTotale))
+                esemplareDaModificare.LunghezzaTotale = null;
+            else
+            {
+                inputLunghezzaTotale = inputLunghezzaTotale.Replace(',', '.');
+                if (double.TryParse(inputLunghezzaTotale, 
+                                    NumberStyles.Any, 
+                                    CultureInfo.InvariantCulture, 
+                                    out lunghezzaTotale))
+                    esemplareDaModificare.LunghezzaTotale = troncaDecimali(lunghezzaTotale);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputBeccoCranio))
+                esemplareDaModificare.BeccoCranio = null;
+            else
+            {
+                inputBeccoCranio = inputBeccoCranio.Replace(',', '.');
+                if (double.TryParse(inputBeccoCranio, 
+                                    NumberStyles.Any, 
+                                    CultureInfo.InvariantCulture, 
+                                    out beccoCranio))
+                    esemplareDaModificare.BeccoCranio = troncaDecimali(beccoCranio);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputCulmine))
+                esemplareDaModificare.Culmine = null;
+            else
+            {
+                inputCulmine = inputCulmine.Replace(',', '.');
+                if (double.TryParse(inputCulmine, 
+                                    NumberStyles.Any, 
+                                    CultureInfo.InvariantCulture, 
+                                    out culmine))
+                    esemplareDaModificare.Culmine = troncaDecimali(culmine);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputColoreBecco))
+                esemplareDaModificare.ColoreBecco = null;
+            else
+                esemplareDaModificare.ColoreBecco = inputColoreBecco;
+
+            if (String.IsNullOrWhiteSpace(inputDimensioneOcchio))
+                esemplareDaModificare.DimensioneOcchio = null;
+            else
+            {
+                inputDimensioneOcchio = inputDimensioneOcchio.Replace(',', '.');
+                if (double.TryParse(inputDimensioneOcchio, 
+                                    NumberStyles.Any, 
+                                    CultureInfo.InvariantCulture, 
+                                    out dimensioneOcchio))
+                    esemplareDaModificare.DimensioneOcchio = troncaDecimali(dimensioneOcchio);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputColoreIride))
+                esemplareDaModificare.ColoreIride = null;
+            else
+                esemplareDaModificare.ColoreIride = inputColoreIride;
+
+            if (String.IsNullOrWhiteSpace(inputAperturaAlare))
+                esemplareDaModificare.AperturaAlare = null;
+            else
+            {
+                inputAperturaAlare = inputAperturaAlare.Replace(',', '.');
+                if (double.TryParse(inputAperturaAlare,
+                                    NumberStyles.Any,
+                                    CultureInfo.InvariantCulture,
+                                    out aperturaAlare))
+                    esemplareDaModificare.AperturaAlare = troncaDecimali(aperturaAlare);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputAla))
+                esemplareDaModificare.Ala = null;
+            else
+            {
+                inputAla = inputAla.Replace(',', '.');
+                if (double.TryParse(inputAla,
+                                    NumberStyles.Any,
+                                    CultureInfo.InvariantCulture,
+                                    out ala))
+                    esemplareDaModificare.Ala = troncaDecimali(ala);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputTimoniereCentrali))
+                esemplareDaModificare.TimoniereCentrali = null;
+            else
+            {
+                inputTimoniereCentrali = inputTimoniereCentrali.Replace(',', '.');
+                if (double.TryParse(inputTimoniereCentrali,
+                                    NumberStyles.Any,
+                                    CultureInfo.InvariantCulture,
+                                    out timoniereCentrali))
+                    esemplareDaModificare.TimoniereCentrali = troncaDecimali(timoniereCentrali);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputTimoniereEsterne))
+                esemplareDaModificare.TimoniereEsterne = null;
+            else
+            {
+                inputTimoniereEsterne = inputTimoniereEsterne.Replace(',', '.');
+                if (double.TryParse(inputTimoniereEsterne,
+                                    NumberStyles.Any,
+                                    CultureInfo.InvariantCulture,
+                                    out timoniereEsterne))
+                    esemplareDaModificare.TimoniereEsterne = troncaDecimali(timoniereEsterne);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputRemigante3))
+                esemplareDaModificare.Remigante3 = null;
+            else
+            {
+                inputRemigante3 = inputRemigante3.Replace(',', '.');
+                if (double.TryParse(inputRemigante3,
+                                    NumberStyles.Any,
+                                    CultureInfo.InvariantCulture,
+                                    out remigante3))
+                    esemplareDaModificare.Remigante3 = troncaDecimali(remigante3);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputFormulaAlareE))
+                esemplareDaModificare.FormulaAlareE = null;
+            else
+            {
+                inputFormulaAlareE = inputFormulaAlareE.Replace(',', '.');
+                if (double.TryParse(inputFormulaAlareE,
+                                    NumberStyles.Any,
+                                    CultureInfo.InvariantCulture,
+                                    out formulaAlareE))
+                    esemplareDaModificare.FormulaAlareE = troncaDecimali(formulaAlareE);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputFormulaAlareWP))
+                esemplareDaModificare.FormulaAlareWp = null;
+            else
+            {
+                inputFormulaAlareWP = inputFormulaAlareWP.Replace(',', '.');
+                if (double.TryParse(inputFormulaAlareWP,
+                                    NumberStyles.Any,
+                                    CultureInfo.InvariantCulture,
+                                    out formulaAlareWP))
+                    esemplareDaModificare.FormulaAlareWp = troncaDecimali(formulaAlareWP);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputFormulaAlare2))
+                esemplareDaModificare.FormulaAlare2 = null;
+            else
+            {
+                inputFormulaAlare2 = inputFormulaAlare2.Replace(',', '.');
+                if (double.TryParse(inputFormulaAlare2,
+                                    NumberStyles.Any,
+                                    CultureInfo.InvariantCulture,
+                                    out formulaAlare2))
+                    esemplareDaModificare.FormulaAlare2 = troncaDecimali(formulaAlare2);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputTarso))
+                esemplareDaModificare.Tarso = null;
+            else
+            {
+                inputTarso = inputTarso.Replace(',', '.');
+                if (double.TryParse(inputTarso,
+                                    NumberStyles.Any,
+                                    CultureInfo.InvariantCulture,
+                                    out tarso))
+                    esemplareDaModificare.Tarso = troncaDecimali(tarso);
+            }
+
+            if (String.IsNullOrWhiteSpace(inputColoreZampe))
+                esemplareDaModificare.ColoreZampe = null;
+            else
+                esemplareDaModificare.ColoreZampe = inputColoreZampe;
+
+            esemplareDaModificare.Inanellato = (inputInanellato == "true" ? true : false);
+
+            if (String.IsNullOrWhiteSpace(inputDatiAnello))
+                esemplareDaModificare.DatiAnello = null;
+            else
+                esemplareDaModificare.DatiAnello = inputDatiAnello;
+
+            if (String.IsNullOrWhiteSpace(inputContenutoIngluvie))
+                esemplareDaModificare.ContenutoIngluvie = null;
+            else
+                esemplareDaModificare.ContenutoIngluvie = inputContenutoIngluvie;
+
+            if (String.IsNullOrWhiteSpace(inputContenutoStomaco))
+                esemplareDaModificare.ContenutoStomaco = null;
+            else
+                esemplareDaModificare.ContenutoStomaco = inputContenutoStomaco;
+
 
             if (await _repository.SalvaModifiche())
             {
