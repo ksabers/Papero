@@ -250,7 +250,7 @@ namespace Papero.Models
                 entity.HasIndex(e => e.Ordinamento)
                     .HasName("Determinazioni$Ordinamento");
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.HasKey(e => new { e.EsemplareId, e.DeterminatoreId });
 
                 entity.Property(e => e.DeterminatoreId).HasColumnName("DeterminatoreID");
 
@@ -979,7 +979,7 @@ namespace Papero.Models
                     .HasName("VecchiDeterminatori$UOrdinamento")
                     .IsUnique();
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.HasKey(e => new { e.VecchiaDeterminazioneId, e.DeterminatoreId });
 
                 entity.Property(e => e.DeterminatoreId)
                     .IsRequired()

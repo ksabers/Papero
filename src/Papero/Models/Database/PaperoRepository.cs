@@ -252,6 +252,42 @@ namespace Papero.Models
                 .OrderBy(vassoio => vassoio.Vassoio)
                 .ToList();
         }
+
+        public IEnumerable<VecchieDeterminazioni> LeggiVecchieDeterminazioni()
+        {
+            return _contesto.VecchieDeterminazioni
+                .Include(vecchiaDeterminazione => vecchiaDeterminazione.VecchiDeterminatori)
+                    .ThenInclude(vecchioDeterminatore => vecchioDeterminatore.Determinatore)
+                .OrderBy(vecchiaDeterminazione => vecchiaDeterminazione.Ordinamento)
+                .ToList();
+        }
+        public IEnumerable<VecchieDeterminazioni> LeggiVecchieDeterminazioni(int idEsemplare)
+        {
+            return _contesto.VecchieDeterminazioni
+                .Where(vecchiaDeterminazione => vecchiaDeterminazione.EsemplareId == idEsemplare)
+                .Include(vecchiaDeterminazione => vecchiaDeterminazione.VecchiDeterminatori)
+                    .ThenInclude(vecchioDeterminatore => vecchioDeterminatore.Determinatore)
+                .OrderBy(vecchiaDeterminazione => vecchiaDeterminazione.Ordinamento)
+                .ToList();
+        }
+
+        public IEnumerable<VecchiDeterminatori> LeggiVecchiDeterminatori(int idEsemplare)
+        {
+            return _contesto.VecchiDeterminatori
+                .Where(vecchioDeterminatore => vecchioDeterminatore.VecchiaDeterminazione.EsemplareId == idEsemplare)
+                .Include(vecchioDeterminatore => vecchioDeterminatore.Determinatore)
+                .OrderBy(vecchioDeterminatore => vecchioDeterminatore.Ordinamento)
+                .ToList();
+        }
+
+        public IEnumerable<Determinatori> LeggiDeterminatori()
+        {
+            return _contesto.Determinatori
+                .OrderBy(determinatore => determinatore.Cognome).ThenBy(determinatore => determinatore.Nome)
+                .ToList();
+        }
+
+
         public async Task<bool> SalvaModifiche()
         {
             return (await _contesto.SaveChangesAsync()) > 0;

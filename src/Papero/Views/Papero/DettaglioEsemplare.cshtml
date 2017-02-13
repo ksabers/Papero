@@ -64,6 +64,7 @@
     <script src="~/js/modaleElencoAutoriController.js"></script>
     <script src="~/js/modaleModiPreparazioneController.js"></script>
     <script src="~/js/pulsanteMSNGController.js"></script>
+    <script src="~/js/modaleVecchieDeterminazioniController.js"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.5/angular-datatables.min.js"></script>
@@ -388,8 +389,8 @@
                     <div class="row">
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
-                            <dt>@localizzatore["NCU"]:</dt>
-                            <dd>@Model.Ncu</dd>
+                            @*<dt>@localizzatore["NCU"]:</dt>
+                            <dd>@Model.Ncu</dd>*@
                             <dt>
                                 <a asp-controller="UpdateDettaglioEsemplare" asp-action="TogglePresenza" asp-route-id="@Model.Id" style="text-decoration:none">
                                     @if (User.IsInRole("Amministratore"))
@@ -492,21 +493,116 @@
                                 </ul>
 
                             </dd>
-                            <dt>@localizzatore["Vecchie Determinazioni"]:</dt>
-                            <dd style="max-height:150px;overflow-y:auto;">
-                                <ul class="list-unstyled">
-                                    @foreach (var determinazione in Model.VecchieDeterminazioni.OrderBy(det => det.Ordinamento))
-                                    {
-                                        <li>@(determinazione.VecchiaDeterminazione)</li>
-                                        <ol>
-                                            @foreach (var vecchioDeterminatore in determinazione.VecchiDeterminatori.OrderBy(det => det.Ordinamento))
-                                            {
-                                                <li>@(vecchioDeterminatore.Determinatore.Nome + " " + vecchioDeterminatore.Determinatore.Cognome)</li>
-                                            }
-                                        </ol>
-                                    }
-                                </ul>
-                            </dd>
+                            <div class="card card-outline-secondary" ng-controller="modaleVecchieDeterminazioniController as vm">
+
+                                <div class="modal fade" id="modaleVecchieDeterminazioni" role="dialog">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="panel panel-primary">
+                                                    <div class="panel-heading">
+                                                        <h3 class="panel-title">@localizzatore["Inserire i nuovi valori"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                                                    </div>
+                                                    <div class="panel-body">
+
+                                                        <form class="form-horizontal"
+                                                              asp-controller="UpdateDettaglioEsemplare"
+                                                              asp-action="AggiornaVecchieDeterminazioni">
+                                                            <fieldset>
+                                                                <input type="hidden" id="esemplarehiddenVecchieDeterminazioni" asp-for="Id" value="@Model.Id" />
+                                                                <div class="form-group">
+                                                                    <div class="col-lg-6">
+                                                                        <div style="overflow-y:auto; overflow-x:hidden; max-height:300px;">
+                                                                            <table datatable="ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaVecchieDeterminazioni" dt-options="vm.opzioniTabellaVecchieDeterminazioni">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>Vecchia Determinazione</th>
+                                                                                        <th></th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr ng-repeat="vecchiaDeterminazione in vm.datiTabellaVecchieDeterminazioni">
+                                                                                        <td>{{vecchiaDeterminazione.vecchiaDeterminazione}}</td>
+                                                                                        <td>
+                                                                                            <div class="btn-group fa-pull-right">
+                                                                                                <i role="button" ng-show="!$first" ng-click="vm.spostaSu($index)" class="fa fa-arrow-up fa-2x text-success"></i>
+                                                                                                <i role="button" ng-show="!$last" ng-click="vm.spostaGiu($index)" class="fa fa-arrow-down fa-2x text-success"></i>
+                                                                                                <i role="button" ng-click="vm.rimuoviVecchiaDeterminazione(vecchiaDeterminazione)" class="fa fa-minus-square fa-2x text-danger"></i>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <select class="form-control" id="dropdrownDeterminatori" name="dropdrownDeterminatori">
+
+                                                                        </select>
+                                                                        <div style="overflow-y:auto; overflow-x:hidden; max-height:300px;">
+                                                                            <table datatable="" class="table table-striped table-bordered table-hover text-primary" id="tabellaVecchiDeterminatori" dt-options="vm.opzioniTabellaVecchiDeterminatori">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>Vecchio Determinatore</th>
+                                                                                        <th></th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr ng-repeat="vecchiodeterminatore in vm.datiTabellaVecchiDeterminatori">
+                                                                                        <td>{{vecchiodeterminatore.determinatore.nome + " " + vecchiodeterminatore.determinatore.cognome}}</td>
+                                                                                        <td>
+                                                                                            <div class="btn-group fa-pull-right">
+                                                                                                <i role="button" ng-show="!$first" ng-click="vm.spostaSuDet($index)" class="fa fa-arrow-up fa-2x text-success"></i>
+                                                                                                <i role="button" ng-show="!$last" ng-click="vm.spostaGiuDet($index)" class="fa fa-arrow-down fa-2x text-success"></i>
+                                                                                                <i role="button" ng-click="vm.rimuoviVecchioDeterminatore(vecchioDeterminatore)" class="fa fa-minus-square fa-2x text-danger"></i>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="pull-right">
+                                                                            <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
+                                                                            <button type="submit" class="btn btn-success">@localizzatore["Inserisci"]</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <dt>@if (User.IsInRole("Amministratore"))
+                                {
+                                    <i role="button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleVecchieDeterminazioni"></i>
+                                }
+                                    @localizzatore["Vecchie Determinazioni"]:
+                                </dt>
+                                <dd style="max-height:150px;overflow-y:auto;">
+                                    <ul class="list-unstyled">
+                                        @foreach (var determinazione in Model.VecchieDeterminazioni.OrderBy(det => det.Ordinamento))
+                                        {
+                                            <li>@(determinazione.VecchiaDeterminazione)</li>
+                                            <ol>
+                                                @foreach (var vecchioDeterminatore in determinazione.VecchiDeterminatori.OrderBy(det => det.Ordinamento))
+                                                {
+                                                    <li>@(vecchioDeterminatore.Determinatore.Nome + " " + vecchioDeterminatore.Determinatore.Cognome)</li>
+                                                }
+                                            </ol>
+                                        }
+                                    </ul>
+                                </dd>
+                            </div>
+
                         </dl>
 
 
@@ -688,9 +784,9 @@
 
                                                         <div id="myTabContent" class="tab-content">
 
-                                                            <div class="tab-pane fade active in col-lg-offset-3" id="tabmisure">
+                                                            <div class="tab-pane fade active in col-lg-offset-2" id="tabmisure">
                                                                 <div class="form-group">
-                                                                    <label for="inputPeso" class="col-lg-3 control-label">@localizzatore["Peso"]:</label>
+                                                                    <label for="inputPeso" class="col-lg-4 control-label">@localizzatore["Peso"] (g):</label>
                                                                     <div class="col-lg-3">
                                                                         <input id="inputPeso"
                                                                                name="inputPeso"
@@ -701,7 +797,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="inputLunghezzaTotale" class="col-lg-3 control-label">@localizzatore["Lunghezza Totale"]:</label>
+                                                                    <label for="inputLunghezzaTotale" class="col-lg-4 control-label">@localizzatore["Lunghezza Totale"] (cm):</label>
                                                                     <div class="col-lg-3">
                                                                         <input id="inputLunghezzaTotale"
                                                                                name="inputLunghezzaTotale"
@@ -712,7 +808,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="inputBeccoCranio" class="col-lg-3 control-label">@localizzatore["Becco-Cranio"]:</label>
+                                                                    <label for="inputBeccoCranio" class="col-lg-4 control-label">@localizzatore["Becco-Cranio"] (mm):</label>
                                                                     <div class="col-lg-3">
                                                                         <input id="inputBeccoCranio"
                                                                                name="inputBeccoCranio"
@@ -723,7 +819,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="inputCulmine" class="col-lg-3 control-label">@localizzatore["Culmine"]:</label>
+                                                                    <label for="inputCulmine" class="col-lg-4 control-label">@localizzatore["Culmine"] (mm):</label>
                                                                     <div class="col-lg-3">
                                                                         <input id="inputCulmine"
                                                                                name="inputCulmine"
@@ -750,7 +846,7 @@
 
                                                             <div class="tab-pane fade col-lg-offset-2" id="tabocchio">
                                                                 <div class="form-group">
-                                                                    <label for="inputDimensioneOcchio" class="col-lg-4 control-label">@localizzatore["Dimensione Occhio"]:</label>
+                                                                    <label for="inputDimensioneOcchio" class="col-lg-4 control-label">@localizzatore["Dimensione Occhio"] (mm):</label>
                                                                     <div class="col-lg-3">
                                                                         <input id="inputDimensioneOcchio"
                                                                                name="inputDimensioneOcchio"
@@ -775,7 +871,7 @@
                                                             <div class="tab-pane fade col-lg-offset-2" id="tabali">
 
                                                                 <div class="form-group">
-                                                                    <label for="inputAperturaAlare" class="col-lg-4 control-label">@localizzatore["Apertura Alare"]:</label>
+                                                                    <label for="inputAperturaAlare" class="col-lg-4 control-label">@localizzatore["Apertura Alare"] (cm):</label>
                                                                     <div class="col-lg-3">
                                                                         <input id="inputAperturaAlare"
                                                                                name="inputAperturaAlare"
@@ -786,7 +882,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="inputAla" class="col-lg-4 control-label">@localizzatore["Ala"]:</label>
+                                                                    <label for="inputAla" class="col-lg-4 control-label">@localizzatore["Ala"] (mm):</label>
                                                                     <div class="col-lg-3">
                                                                         <input id="inputAla"
                                                                                name="inputAla"
@@ -797,7 +893,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="inputTimoniereCentrali" class="col-lg-4 control-label">@localizzatore["Timoniere Centrali"]:</label>
+                                                                    <label for="inputTimoniereCentrali" class="col-lg-4 control-label">@localizzatore["Timoniere Centrali"] (mm):</label>
                                                                     <div class="col-lg-3">
                                                                         <input id="inputTimoniereCentrali"
                                                                                name="inputTimoniereCentrali"
@@ -808,7 +904,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="inputTimoniereEsterne" class="col-lg-4 control-label">@localizzatore["Timoniere Esterne"]:</label>
+                                                                    <label for="inputTimoniereEsterne" class="col-lg-4 control-label">@localizzatore["Timoniere Esterne"] (mm):</label>
                                                                     <div class="col-lg-3">
                                                                         <input id="inputTimoniereEsterne"
                                                                                name="inputTimoniereEsterne"
@@ -819,7 +915,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="inputRemigante3" class="col-lg-4 control-label">@localizzatore["Remigante 3"]:</label>
+                                                                    <label for="inputRemigante3" class="col-lg-4 control-label">@localizzatore["Remigante 3"] (mm):</label>
                                                                     <div class="col-lg-3">
                                                                         <input id="inputRemigante3"
                                                                                name="inputRemigante3"
@@ -866,7 +962,7 @@
 
                                                             <div class="tab-pane fade col-lg-offset-3" id="tabzampe">
                                                                 <div class="form-group">
-                                                                    <label for="inputTarso" class="col-lg-3 control-label">@localizzatore["Tarso"]:</label>
+                                                                    <label for="inputTarso" class="col-lg-3 control-label">@localizzatore["Tarso"] (mm):</label>
                                                                     <div class="col-lg-3">
                                                                         <input id="inputTarso"
                                                                                name="inputTarso"
@@ -916,7 +1012,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="inputDatiAnello" class="col-lg-4 control-label">@localizzatore["Dati Anello"]:</label>
-                                                                    <div class="col-lg-4">
+                                                                    <div class="col-lg-6">
                                                                         <input id="inputDatiAnello"
                                                                                name="inputDatiAnello"
                                                                                type="text"
@@ -929,7 +1025,7 @@
                                                             <div class="tab-pane fade col-lg-offset-2" id="tabcontenuti">
                                                                 <div class="form-group">
                                                                     <label for="inputContenutoIngluvie" class="col-lg-4 control-label">@localizzatore["Contenuto Ingluvie"]:</label>
-                                                                    <div class="col-lg-4">
+                                                                    <div class="col-lg-6">
                                                                         <input id="inputContenutoIngluvie"
                                                                                name="inputContenutoIngluvie"
                                                                                type="text"
@@ -939,7 +1035,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="inputContenutoStomaco" class="col-lg-4 control-label">@localizzatore["Contenuto Stomaco"]:</label>
-                                                                    <div class="col-lg-4">
+                                                                    <div class="col-lg-6">
                                                                         <input id="inputContenutoStomaco"
                                                                                name="inputContenutoStomaco"
                                                                                type="text"
@@ -970,12 +1066,12 @@
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             <dt>
                                 <i role="button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleMorfologia"></i>
-                                @localizzatore["Peso"]:
+                                @localizzatore["Peso"] (g):
                             </dt>
                             <dd>@Model.Peso</dd>
-                            <dt>@localizzatore["Lunghezza Totale"]:</dt>
+                            <dt>@localizzatore["Lunghezza Totale"] (cm):</dt>
                             <dd>@Model.LunghezzaTotale</dd>
-                            <dt>@localizzatore["Apertura Alare"]:</dt>
+                            <dt>@localizzatore["Apertura Alare"] (cm):</dt>
                             <dd>@Model.AperturaAlare</dd>
                             <dt>@localizzatore["Becco-Cranio"]:</dt>
                             <dd>@Model.BeccoCranio</dd>
@@ -986,22 +1082,22 @@
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             <dt>@localizzatore["Colore Becco"]:</dt>
                             <dd>@Model.ColoreBecco</dd>
-                            <dt>@localizzatore["Ala"]:</dt>
+                            <dt>@localizzatore["Ala"] (mm):</dt>
                             <dd>@Model.Ala</dd>
-                            <dt>@localizzatore["Remigante 3"]:</dt>
+                            <dt>@localizzatore["Remigante 3"] (mm):</dt>
                             <dd>@Model.Remigante3</dd>
-                            <dt>@localizzatore["Tarso"]:</dt>
+                            <dt>@localizzatore["Tarso"] (mm):</dt>
                             <dd>@Model.Tarso</dd>
                             <dt>@localizzatore["Colore Zampe"]:</dt>
                             <dd>@Model.ColoreZampe</dd>
                         </dl>
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
-                            <dt>@localizzatore["Timoniere Centrali"]:</dt>
+                            <dt>@localizzatore["Timoniere Centrali"] (mm):</dt>
                             <dd>@Model.TimoniereCentrali</dd>
-                            <dt>@localizzatore["Timoniere Esterne"]:</dt>
+                            <dt>@localizzatore["Timoniere Esterne"] (mm):</dt>
                             <dd>@Model.TimoniereEsterne</dd>
-                            <dt>@localizzatore["Dimensione Occhio"]:</dt>
+                            <dt>@localizzatore["Dimensione Occhio"] (mm):</dt>
                             <dd>@Model.DimensioneOcchio</dd>
                             <dt>@localizzatore["Colore Iride"]:</dt>
                             <dd>@Model.ColoreIride</dd>

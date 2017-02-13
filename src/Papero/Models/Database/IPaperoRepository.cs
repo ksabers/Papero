@@ -24,6 +24,10 @@ namespace Papero.Models
         IEnumerable<Armadi> LeggiArmadi();
         IEnumerable<Cassetti> LeggiCassetti();
         IEnumerable<Vassoi> LeggiVassoi();
+        IEnumerable<VecchieDeterminazioni> LeggiVecchieDeterminazioni();
+        IEnumerable<VecchieDeterminazioni> LeggiVecchieDeterminazioni(int idEsemplare);
+        IEnumerable<VecchiDeterminatori> LeggiVecchiDeterminatori(int idEsemplare);
+        IEnumerable<Determinatori> LeggiDeterminatori();
 
         void CancellaClassificazioni(int idSottospecie);
         Sottospecie LeggiSottospecie(int idSottospecie);
