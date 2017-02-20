@@ -271,10 +271,18 @@ namespace Papero.Models
                 .ToList();
         }
 
-        public IEnumerable<VecchiDeterminatori> LeggiVecchiDeterminatori(int idEsemplare)
+        public IEnumerable<VecchiDeterminatori> LeggiVecchiDeterminatori()
         {
             return _contesto.VecchiDeterminatori
-                .Where(vecchioDeterminatore => vecchioDeterminatore.VecchiaDeterminazione.EsemplareId == idEsemplare)
+                .Include(vecchioDeterminatore => vecchioDeterminatore.Determinatore)
+                .OrderBy(vecchioDeterminatore => vecchioDeterminatore.Ordinamento)
+                .ToList();
+        }
+
+        public IEnumerable<VecchiDeterminatori> LeggiVecchiDeterminatori(int idVecchiaDeterminazione)
+        {
+            return _contesto.VecchiDeterminatori
+                .Where(vecchioDeterminatore => vecchioDeterminatore.VecchiaDeterminazione.Id == idVecchiaDeterminazione)
                 .Include(vecchioDeterminatore => vecchioDeterminatore.Determinatore)
                 .OrderBy(vecchioDeterminatore => vecchioDeterminatore.Ordinamento)
                 .ToList();

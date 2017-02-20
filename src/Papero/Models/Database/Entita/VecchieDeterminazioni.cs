@@ -13,6 +13,7 @@ namespace Papero.Models
         public int Id { get; set; }
         public int? EsemplareId { get; set; }
         public string VecchiaDeterminazione { get; set; }
+        public string DataDeterminazione { get; set; }
         public int? Ordinamento { get; set; }
 
         public virtual ICollection<VecchiDeterminatori> VecchiDeterminatori { get; set; }

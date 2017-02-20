@@ -82,6 +82,9 @@
         $('#modaleMorfologia').on('hidden.bs.modal', function () {
             location.reload(true);
         });
+        $('#modaleVecchieDeterminazioni').on('hidden.bs.modal', function () {
+            location.reload(true);
+        });
 
         $('#formMorfologia').validate({ errorPlacement: function (error, element) { return true; } });  // Questo comando abilita la validazione ma disattiva i messaggi di default
 
@@ -511,63 +514,90 @@
                                                             <fieldset>
                                                                 <input type="hidden" id="esemplarehiddenVecchieDeterminazioni" asp-for="Id" value="@Model.Id" />
                                                                 <div class="form-group">
-                                                                    <div class="col-lg-6">
-                                                                        <div style="overflow-y:auto; overflow-x:hidden; max-height:300px;">
-                                                                            <table datatable="ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaVecchieDeterminazioni" dt-options="vm.opzioniTabellaVecchieDeterminazioni">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th>Vecchia Determinazione</th>
-                                                                                        <th></th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    <tr ng-repeat="vecchiaDeterminazione in vm.datiTabellaVecchieDeterminazioni">
-                                                                                        <td>{{vecchiaDeterminazione.vecchiaDeterminazione}}</td>
-                                                                                        <td>
-                                                                                            <div class="btn-group fa-pull-right">
-                                                                                                <i role="button" ng-show="!$first" ng-click="vm.spostaSu($index)" class="fa fa-arrow-up fa-2x text-success"></i>
-                                                                                                <i role="button" ng-show="!$last" ng-click="vm.spostaGiu($index)" class="fa fa-arrow-down fa-2x text-success"></i>
-                                                                                                <i role="button" ng-click="vm.rimuoviVecchiaDeterminazione(vecchiaDeterminazione)" class="fa fa-minus-square fa-2x text-danger"></i>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
+                                                                
+                                                                        <div class="col-lg-6">
+                                                                            <div style="overflow-y:auto; overflow-x:hidden; max-height:300px;">
+                                                                                <table datatable="ng" class="table table-bordered  text-primary" id="tabellaVecchieDeterminazioni" dt-options="vm.opzioniTabellaVecchieDeterminazioni">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th>
+                                                                                                Vecchie Determinazioni<br />
+                                                                                                <input class="form-control" type="text" ng-model="vm.inputVecchiaDeterminazione" />
+                                                                                            </th>
+                                                                                            <th><i role="button" class="fa fa-plus-square fa-2x text-success" ng-click="vm.aggiungiVecchiaDeterminazione()" ng-hide="vm.duranteInserimento"></i></th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr ng-repeat="vecchiaDeterminazione in vm.datiTabellaVecchieDeterminazioni" >
+                                                                                            
+                                                                                            <td ng-click="vm.selezionaRiga(vecchiaDeterminazione)">{{vecchiaDeterminazione.vecchiaDeterminazione + ' ' + vecchiaDeterminazione.id}}</td>
+                                                                                            <td>
+                                                                                                <div class="btn-group fa-pull-right">
+                                                                                                    <i role="button" 
+                                                                                                       ng-show="!$first && (vm.duranteInserimento == 0)" 
+                                                                                                       ng-click="vm.spostaSu($index)" 
+                                                                                                       class="fa fa-arrow-up fa-2x text-success"></i>
+                                                                                                    <i role="button" 
+                                                                                                       ng-show="!$last && (vm.duranteInserimento == 0)" 
+                                                                                                       ng-click="vm.spostaGiu($index)" 
+                                                                                                       class="fa fa-arrow-down fa-2x text-success"></i>
+                                                                                                    <i role="button" 
+                                                                                                       ng-click="vm.rimuoviVecchiaDeterminazione(vecchiaDeterminazione)" 
+                                                                                                       ng-show="(vm.duranteInserimento == 0) || (vecchiaDeterminazione.id == vm.duranteInserimento)"
+                                                                                                       class="fa fa-minus-square fa-2x text-danger"></i>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-lg-6">
-                                                                        <select class="form-control" id="dropdrownDeterminatori" name="dropdrownDeterminatori">
+                                                                        <div class="col-lg-6">
+                                                                            <div style="overflow-y:auto; overflow-x:hidden; max-height:300px;">
+                                                                                <table datatable="ng" class="table table-striped table-bordered table-hover text-primary" id="tabellaVecchiDeterminatori" dt-options="vm.opzioniTabellaVecchiDeterminatori">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th>
+                                                                                                Vecchi Determinatori<br />per {{vm.vecchiaDeterminazioneSelezionata + ' ' + vm.idVecchioDeterminatoreSelezionato + ' ' + vm.duranteInserimento}}<br />
+                                                                                                <select class="form-control"
+                                                                                                        id="dropdownDeterminatori"
+                                                                                                        name="dropdownDeterminatori"
+                                                                                                        ng-model="vm.vecchioDeterminatoreSelezionato"
+                                                                                                        ng-options="determinatore as (determinatore.nome + ' ' + determinatore.cognome) for determinatore in vm.dropdownVecchiDeterminatori track by determinatore.id"></select>
+                                                                                            </th>
+                                                                                            <th><i role="button" class="fa fa-plus-square fa-2x text-success" ng-click="vm.aggiungiVecchioDeterminatore()"></i></th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr ng-repeat="vecchiodeterminatore in vm.datiTabellaVecchiDeterminatori">
+                                                                                            <td>{{vecchiodeterminatore.determinatore.nome + " " + vecchiodeterminatore.determinatore.cognome}}</td>
+                                                                                            <td>
+                                                                                                <div class="btn-group fa-pull-right">
+                                                                                                    <i role="button" 
+                                                                                                       ng-show="!$first" 
+                                                                                                       ng-click="vm.spostaSuDet($index)" 
+                                                                                                       class="fa fa-arrow-up fa-2x text-success"></i>
+                                                                                                    <i role="button" 
+                                                                                                       ng-show="!$last" 
+                                                                                                       ng-click="vm.spostaGiuDet($index)" 
+                                                                                                       class="fa fa-arrow-down fa-2x text-success"></i>
+                                                                                                    <i role="button" ng-click="vm.rimuoviVecchioDeterminatore(vecchioDeterminatore)" class="fa fa-minus-square fa-2x text-danger"></i>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                   
 
-                                                                        </select>
-                                                                        <div style="overflow-y:auto; overflow-x:hidden; max-height:300px;">
-                                                                            <table datatable="" class="table table-striped table-bordered table-hover text-primary" id="tabellaVecchiDeterminatori" dt-options="vm.opzioniTabellaVecchiDeterminatori">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th>Vecchio Determinatore</th>
-                                                                                        <th></th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    <tr ng-repeat="vecchiodeterminatore in vm.datiTabellaVecchiDeterminatori">
-                                                                                        <td>{{vecchiodeterminatore.determinatore.nome + " " + vecchiodeterminatore.determinatore.cognome}}</td>
-                                                                                        <td>
-                                                                                            <div class="btn-group fa-pull-right">
-                                                                                                <i role="button" ng-show="!$first" ng-click="vm.spostaSuDet($index)" class="fa fa-arrow-up fa-2x text-success"></i>
-                                                                                                <i role="button" ng-show="!$last" ng-click="vm.spostaGiuDet($index)" class="fa fa-arrow-down fa-2x text-success"></i>
-                                                                                                <i role="button" ng-click="vm.rimuoviVecchioDeterminatore(vecchioDeterminatore)" class="fa fa-minus-square fa-2x text-danger"></i>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
+                                                               
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <div class="col-lg-12">
                                                                         <div class="pull-right">
                                                                             <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
-                                                                            <button type="submit" class="btn btn-success">@localizzatore["Inserisci"]</button>
+                                                                            <button type="submit" class="btn btn-success" ng-disabled="vm.invalido || (vm.duranteInserimento > 0)">@localizzatore["Inserisci"]</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -583,7 +613,11 @@
 
                                 <dt>@if (User.IsInRole("Amministratore"))
                                 {
-                                    <i role="button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleVecchieDeterminazioni"></i>
+                                    <i role="button" 
+                                       class="fa fa-pencil fa-pull-left fa-fw text-muted" 
+                                       data-toggle="modal" 
+                                       data-target="#modaleVecchieDeterminazioni" 
+                                       ng-click="vm.apriModaleVecchieDeterminazioni();"></i>
                                 }
                                     @localizzatore["Vecchie Determinazioni"]:
                                 </dt>
@@ -591,7 +625,7 @@
                                     <ul class="list-unstyled">
                                         @foreach (var determinazione in Model.VecchieDeterminazioni.OrderBy(det => det.Ordinamento))
                                         {
-                                            <li>@(determinazione.VecchiaDeterminazione)</li>
+                                            <li>@((String.IsNullOrWhiteSpace(determinazione.DataDeterminazione) ? "" : ("(" + determinazione.DataDeterminazione + ") ")) + determinazione.VecchiaDeterminazione)</li>
                                             <ol>
                                                 @foreach (var vecchioDeterminatore in determinazione.VecchiDeterminatori.OrderBy(det => det.Ordinamento))
                                                 {
@@ -602,10 +636,7 @@
                                     </ul>
                                 </dd>
                             </div>
-
                         </dl>
-
-
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             <dt>@localizzatore["Data di Preparazione"]:</dt>
@@ -807,6 +838,20 @@
                                                                                value="@funzioni.convertiNumero(Model.LunghezzaTotale)">
                                                                     </div>
                                                                 </div>
+
+                                                            </div>
+
+                                                            <div class="tab-pane fade col-lg-offset-3" id="tabbecco">
+                                                                <div class="form-group">
+                                                                    <label for="inputColoreBecco" class="col-lg-3 control-label">@localizzatore["Colore Becco"]:</label>
+                                                                    <div class="col-lg-4">
+                                                                        <input id="inputColoreBecco"
+                                                                               name="inputColoreBecco"
+                                                                               type="text"
+                                                                               class="form-control"
+                                                                               value="@Model.ColoreBecco">
+                                                                    </div>
+                                                                </div>
                                                                 <div class="form-group">
                                                                     <label for="inputBeccoCranio" class="col-lg-4 control-label">@localizzatore["Becco-Cranio"] (mm):</label>
                                                                     <div class="col-lg-3">
@@ -827,19 +872,6 @@
                                                                                class="form-control"
                                                                                oninput="validaFormMorfologia();"
                                                                                value="@funzioni.convertiNumero(Model.Culmine)">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="tab-pane fade col-lg-offset-3" id="tabbecco">
-                                                                <div class="form-group">
-                                                                    <label for="inputColoreBecco" class="col-lg-3 control-label">@localizzatore["Colore Becco"]:</label>
-                                                                    <div class="col-lg-4">
-                                                                        <input id="inputColoreBecco"
-                                                                               name="inputColoreBecco"
-                                                                               type="text"
-                                                                               class="form-control"
-                                                                               value="@Model.ColoreBecco">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1065,7 +1097,11 @@
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             <dt>
-                                <i role="button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleMorfologia"></i>
+                                @if (User.IsInRole("Amministratore"))
+                                {
+                                    <i role="button" class="fa fa-pencil fa-pull-left fa-fw text-muted" data-toggle="modal" data-target="#modaleMorfologia"></i>
+                                }
+                                
                                 @localizzatore["Peso"] (g):
                             </dt>
                             <dd>@Model.Peso</dd>

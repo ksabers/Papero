@@ -124,10 +124,17 @@ namespace Papero.Controllers
         }
 
         [Authorize]
-        [HttpGet("api/vecchideterminatori/{idEsemplare}")]
-        public IActionResult GetVecchiDeterminatori(int idEsemplare)
+        [HttpGet("api/vecchideterminatori")]
+        public IActionResult GetVecchiDeterminatori()
         {
-            return Ok(_repository.LeggiVecchiDeterminatori(idEsemplare));
+            return Ok(_repository.LeggiVecchiDeterminatori());
+        }
+
+        [Authorize]
+        [HttpGet("api/vecchideterminatori/{idVecchiaDeterminazione}")]
+        public IActionResult GetVecchiDeterminatori(int idVecchiaDeterminazione)
+        {
+            return Ok(_repository.LeggiVecchiDeterminatori(idVecchiaDeterminazione));
         }
 
         [Authorize]

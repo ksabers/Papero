@@ -18,6 +18,7 @@
         vm.numeroSpecie = 0;           // Badge che contiene il numero di sottospecie attualmente selezionate nell'albero
 
         vm.opzioniTabella = DTOptionsBuilder.newOptions()      // Opzioni di visualizzazione della angular datatable
+            .withOption("lengthMenu", [10, 25])
             .withLanguageSource(stringaLinguaggioDatatables);  // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
                                                                // (come da specifiche delle angular datatables)
                                                                // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)

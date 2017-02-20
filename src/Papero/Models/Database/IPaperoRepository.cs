@@ -26,6 +26,7 @@ namespace Papero.Models
         IEnumerable<Vassoi> LeggiVassoi();
         IEnumerable<VecchieDeterminazioni> LeggiVecchieDeterminazioni();
         IEnumerable<VecchieDeterminazioni> LeggiVecchieDeterminazioni(int idEsemplare);
+        IEnumerable<VecchiDeterminatori> LeggiVecchiDeterminatori();
         IEnumerable<VecchiDeterminatori> LeggiVecchiDeterminatori(int idEsemplare);
         IEnumerable<Determinatori> LeggiDeterminatori();
 
