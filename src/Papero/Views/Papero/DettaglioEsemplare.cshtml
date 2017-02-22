@@ -542,7 +542,7 @@
                                                                                                        ng-click="vm.spostaGiu($index)" 
                                                                                                        class="fa fa-arrow-down fa-2x text-success"></i>
                                                                                                     <i role="button" 
-                                                                                                       ng-click="vm.rimuoviVecchiaDeterminazione(vecchiaDeterminazione)" 
+                                                                                                       ng-click="vm.rimuoviVecchiaDeterminazione($index)" 
                                                                                                        ng-show="(vm.duranteInserimento == 0) || (vecchiaDeterminazione.id == vm.duranteInserimento)"
                                                                                                        class="fa fa-minus-square fa-2x text-danger"></i>
                                                                                                 </div>
@@ -581,7 +581,7 @@
                                                                                                        ng-show="!$last" 
                                                                                                        ng-click="vm.spostaGiuDet($index)" 
                                                                                                        class="fa fa-arrow-down fa-2x text-success"></i>
-                                                                                                    <i role="button" ng-click="vm.rimuoviVecchioDeterminatore(vecchioDeterminatore)" class="fa fa-minus-square fa-2x text-danger"></i>
+                                                                                                    <i role="button" ng-click="vm.rimuoviVecchioDeterminatore($index)" class="fa fa-minus-square fa-2x text-danger"></i>
                                                                                                 </div>
                                                                                             </td>
                                                                                         </tr>
