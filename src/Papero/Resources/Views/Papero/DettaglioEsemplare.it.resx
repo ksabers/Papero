@@ -402,4 +402,13 @@
   <data name="Zampe" xml:space="preserve">
     <value>Zampe</value>
   </data>
+  <data name="Anno" xml:space="preserve">
+    <value>Anno</value>
+  </data>
+  <data name="per" xml:space="preserve">
+    <value>per</value>
+  </data>
+  <data name="Vecchi Determinatori" xml:space="preserve">
+    <value>Vecchi Determinatori</value>
+  </data>
 </root>

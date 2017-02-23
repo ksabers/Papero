@@ -402,4 +402,13 @@
   <data name="Zampe" xml:space="preserve">
     <value>Pattes</value>
   </data>
+  <data name="Anno" xml:space="preserve">
+    <value>Année</value>
+  </data>
+  <data name="per" xml:space="preserve">
+    <value>pour</value>
+  </data>
+  <data name="Vecchi Determinatori" xml:space="preserve">
+    <value>Vieux Déterminants</value>
+  </data>
 </root>

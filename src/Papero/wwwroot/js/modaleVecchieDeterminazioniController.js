@@ -38,6 +38,8 @@
             .withOption('ordering', false)
             .withLanguageSource(stringaLinguaggioDatatables);
 
+        vm.inputDataDeterminazione = "";
+
 
         function aggiornaTabellaVecchiDeterminatori(idVecchiaDeterminazione) {
             vm.datiTabellaVecchiDeterminatori = _.filter(elencoVecchiDeterminatori,   // dall'elenco generale si filtrano solo i determinatori associati alla determinazione selezionata
@@ -160,16 +162,19 @@
                     break;
                 }               
             };
-
             if (!trovato) {  // se l'inserimento è valido, viene eseguito
                 idMassimo = idMassimo + 1;
-                rigaDaInserire = { id: idMassimo, vecchiaDeterminazione: vm.inputVecchiaDeterminazione };
-                vm.datiTabellaVecchieDeterminazioni.push(rigaDaInserire); // si inserisce un elemento formato dal testo
-                aggiornaDropdownVecchiDeterminatori();                    // della input e da un nuovo id sicuramente non presente
+                rigaDaInserire = {                                          // la riga da inserire sarà formata:
+                    id: idMassimo,                                          //    1) da un nuovo id sicuramente non presente
+                    dataDeterminazione: vm.inputDataDeterminazione,         //    2) dall'eventuale data (può non esserci)
+                    vecchiaDeterminazione: vm.inputVecchiaDeterminazione    //    3) dal testo della input
+                };
+                vm.datiTabellaVecchieDeterminazioni.push(rigaDaInserire); // si inserisce la riga nuova e si aggiorna tutto
+                aggiornaDropdownVecchiDeterminatori();
                 vm.vecchioDeterminatoreSelezionato = vm.dropdownVecchiDeterminatori[0];
                 vm.inputVecchiaDeterminazione = "";
-                vm.duranteInserimento = idMassimo;   // flag che dice che siamo in modalità di inserimento di un nuovo determinatore (perché non è zero)
-                vm.selezionaRiga(rigaDaInserire);
+                vm.duranteInserimento = idMassimo;   // flag che dice che siamo in modalità di inserimento di un nuovo determinatore (perché non è zero): questo automaticamente
+                vm.selezionaRiga(rigaDaInserire);    // disabilita tutti i pulsanti sulla tabella tranne quello di cancellazione della riga (se fosse stata inserita per sbaglio)
             }
         };
 
@@ -206,8 +211,7 @@
             var indice = _.findIndex(elencoVecchiDeterminatori,         // dall'indice della riga della tabella si risale all'indice della riga nell'elenco non filtrato
                                      function (vecchioDeterminatore) {  // (perché la cancellazione va fatta lì altrimenti non verrebbe mantenuta spostandosi di riga)
                                          return (vecchioDeterminatore.vecchiaDeterminazioneId == vm.datiTabellaVecchiDeterminatori[indiceVecchioDeterminatoreSelezionato].vecchiaDeterminazioneId) && (vecchioDeterminatore.determinatoreId == vm.datiTabellaVecchiDeterminatori[indiceVecchioDeterminatoreSelezionato].determinatoreId)
-                                     })
-
+                                     });
             elencoVecchiDeterminatori = elencoVecchiDeterminatori   // cancella la riga nell'elenco non filtrato...
                                            .slice(0, indice)
                                               .concat(elencoVecchiDeterminatori
@@ -224,7 +228,12 @@
             vm.selezionaRiga(vm.datiTabellaVecchieDeterminazioni[0]);
             aggiornaDropdownVecchiDeterminatori();
             vm.vecchioDeterminatoreSelezionato = vm.dropdownVecchiDeterminatori[0];
-        }
+        };
+
+        vm.serializzaTabelle = function serializzaTabelle() {  //  Trasforma le tabelle in stringhe JSON che vengono poi inviate con il submit al controller UpdateDettaglioEsemplare sul server
+            $("#serializzazioneHiddenVecchieDeterminazioni").val(JSON.stringify(vm.datiTabellaVecchieDeterminazioni));
+            $("#serializzazioneHiddenVecchiDeterminatori").val(JSON.stringify(elencoVecchiDeterminatori));
+        };
 
         $http.get("/api/vecchiedeterminazioni/" + inputIdEsemplare.value)
             .then(function (response) {
