@@ -29,10 +29,12 @@ namespace Papero.Models
         IEnumerable<VecchiDeterminatori> LeggiVecchiDeterminatori();
         IEnumerable<VecchiDeterminatori> LeggiVecchiDeterminatori(int idEsemplare);
         IEnumerable<Determinatori> LeggiDeterminatori();
-
         void CancellaClassificazioni(int idSottospecie);
         Sottospecie LeggiSottospecie(int idSottospecie);
         Task<bool> SalvaModifiche();
-        void cancellaPreparati(int idEsemplare);
+        void CancellaPreparati(int idEsemplare);
+        void CancellaVecchiDeterminatori(int[] arrayIdVecchieDeterminazioni);
+        void CancellaVecchieDeterminazioni(int idEsemplare);
+        void InserisciVecchiDeterminatori(VecchiDeterminatori determinatoreDaInserire);
     }
 }

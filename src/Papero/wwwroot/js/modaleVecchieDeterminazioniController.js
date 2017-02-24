@@ -173,6 +173,7 @@
                 aggiornaDropdownVecchiDeterminatori();
                 vm.vecchioDeterminatoreSelezionato = vm.dropdownVecchiDeterminatori[0];
                 vm.inputVecchiaDeterminazione = "";
+                vm.inputDataDeterminazione = "";
                 vm.duranteInserimento = idMassimo;   // flag che dice che siamo in modalità di inserimento di un nuovo determinatore (perché non è zero): questo automaticamente
                 vm.selezionaRiga(rigaDaInserire);    // disabilita tutti i pulsanti sulla tabella tranne quello di cancellazione della riga (se fosse stata inserita per sbaglio)
             }

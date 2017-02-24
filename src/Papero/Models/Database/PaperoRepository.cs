@@ -122,9 +122,6 @@ namespace Papero.Models
             {
                 return -1;
             }
-
- 
-
         }
 
         public IEnumerable<StatiConservazione> LeggiStatiConservazione()
@@ -180,7 +177,7 @@ namespace Papero.Models
              _contesto.SaveChanges();
         }
 
-        public void cancellaPreparati(int idEsemplare)
+        public void CancellaPreparati(int idEsemplare)
         {
             _contesto.Preparati
                 .RemoveRange(_contesto.Preparati.Where(preparato => preparato.EsemplareId == idEsemplare));
@@ -295,6 +292,25 @@ namespace Papero.Models
                 .ToList();
         }
 
+        public void CancellaVecchiDeterminatori(int[] arrayIdVecchieDeterminazioni)
+        {
+            _contesto.VecchiDeterminatori
+                .RemoveRange(_contesto.VecchiDeterminatori.Where(determinatore => arrayIdVecchieDeterminazioni.Contains((int)determinatore.VecchiaDeterminazioneId)));
+            _contesto.SaveChanges();
+        }
+
+        public void CancellaVecchieDeterminazioni(int idEsemplare)
+        {
+            _contesto.VecchieDeterminazioni
+                .RemoveRange(_contesto.VecchieDeterminazioni.Where(determinazione => determinazione.EsemplareId == idEsemplare));
+            _contesto.SaveChanges();
+        }
+
+        public void InserisciVecchiDeterminatori(VecchiDeterminatori determinatoreDaInserire)
+        {
+            _contesto.VecchiDeterminatori.Add(determinatoreDaInserire);
+            _contesto.SaveChanges();
+        }
 
         public async Task<bool> SalvaModifiche()
         {

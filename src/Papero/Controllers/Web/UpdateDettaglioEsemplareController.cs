@@ -96,7 +96,7 @@ namespace Papero.Controllers
             var ordinamento = 1;
             var arrayPreparati = JsonConvert.DeserializeObject<int[][]>(tabellaElencoPreparatiSerializzata);
 
-            _repository.cancellaPreparati(Id);
+            _repository.CancellaPreparati(Id);
 
             foreach (var preparato in arrayPreparati)
             {
@@ -114,6 +114,73 @@ namespace Papero.Controllers
                 return RedirectToAction("DettaglioEsemplare", "Papero", new { id = Id });
             }
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = Id });  //TODO andare a pagina di errore
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AggiornaVecchieDeterminazioni(int Id, string serializzazioneHiddenVecchieDeterminazioni, string serializzazioneHiddenVecchiDeterminatori)
+        {
+
+            var esemplareDaModificare = _repository.LeggiEsemplare(Id);
+
+            //  deserializza le stringhe e ricostituisce le variabili di partenza
+
+            var vecchieDeterminazioni = JsonConvert.DeserializeObject<IEnumerable<VecchieDeterminazioni>>(serializzazioneHiddenVecchieDeterminazioni);
+            var vecchiDeterminatori = JsonConvert.DeserializeObject<IEnumerable<VecchiDeterminatori>>(serializzazioneHiddenVecchiDeterminatori);
+            var ordinamentoDeterminazioni = 1;
+
+
+            //  crea l'array di tutte le determinazioniID corrispondenti all'Id dell'esemplare corrente
+
+            var arrayIdVecchieDeterminazioni = _repository.LeggiVecchieDeterminazioni(Id).Select(determinazione => determinazione.Id).ToArray();
+
+            // cancella dalla tabella VecchiDeterminatori tutte le righe che hanno VecchiaDeterminazioneID compresa nell'array appena creato
+
+            _repository.CancellaVecchiDeterminatori(arrayIdVecchieDeterminazioni);
+
+            //  cancella dalla tabella VecchieDeterminazioni tutte le righe che hanno esemplareId uguale all'Id dell'esemplare corrente
+
+            _repository.CancellaVecchieDeterminazioni(Id);
+
+            //  per ciascuna riga di serializzazioneHiddenVecchieDeterminazioni deserializzata:
+
+            foreach (var determinazione in vecchieDeterminazioni)
+            {
+                //     1) inserisci nella tabella VecchieDeterminazioni una riga con l'IdEsemplare corrente, il testo, la data e l'ordinamento
+                var determinazioneDaInserire = new VecchieDeterminazioni();
+                determinazioneDaInserire.EsemplareId = Id;
+                determinazioneDaInserire.VecchiaDeterminazione = determinazione.VecchiaDeterminazione;
+                determinazioneDaInserire.DataDeterminazione = determinazione.DataDeterminazione;
+                determinazioneDaInserire.Ordinamento = ordinamentoDeterminazioni;
+                ordinamentoDeterminazioni += 1;
+                esemplareDaModificare.VecchieDeterminazioni.Add(determinazioneDaInserire);
+                await _repository.SalvaModifiche();
+
+                //     2) fatti restituire l'ID della riga appena inserita
+
+                var idDeterminazioneInserita = determinazioneDaInserire.Id;
+
+                //     3) filtra serializzazioneHiddenVecchiDeterminatori in base all'ID di serializzazioneHiddenVecchieDeterminazioni  (NON QUELLO APPENA RESTITUITO!)
+
+                var vecchiDeterminatoriFiltrati = vecchiDeterminatori.Where(determinatore => determinatore.VecchiaDeterminazioneId == determinazione.Id).ToList();
+                //     4) per ciascuna riga di serializzazioneHiddenVecchiDeterminatori filtrato:
+
+                var ordinamentoDeterminatori = 1;
+                foreach (var determinatore in vecchiDeterminatoriFiltrati)
+                {
+                    //          a)  inserisci nella tabella VecchiDeterminatori una riga con: ID della riga inserita al passo 3, ID del determinatore, ordinamento
+
+                    var determinatoreDaInserire = new VecchiDeterminatori();
+                    determinatoreDaInserire.VecchiaDeterminazioneId = idDeterminazioneInserita;
+                    determinatoreDaInserire.DeterminatoreId = determinatore.DeterminatoreId;
+                    determinatoreDaInserire.Ordinamento = ordinamentoDeterminatori;
+                    ordinamentoDeterminatori += 1;
+                    _repository.InserisciVecchiDeterminatori(determinatoreDaInserire);
+                };
+            }
+
+            return RedirectToAction("DettaglioEsemplare", "Papero", new { id = Id });
+
         }
 
         [Authorize]
