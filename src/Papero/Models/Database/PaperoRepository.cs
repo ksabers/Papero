@@ -23,7 +23,6 @@ namespace Papero.Models
             _log = log;
         }
 
-
         public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplari()
         {
             _log.LogInformation("Chiamata di _contesto.Esemplari.ToList()");
@@ -44,17 +43,16 @@ namespace Papero.Models
                 });
         }
 
-
         public IEnumerable<Famiglie> LeggiAlbero()
         {
             _log.LogInformation("Chiamata di _contesto.Famiglie.ToList() con Include e ThenInclude");
 
             return _contesto.Famiglie
                 .Include(famiglia => famiglia.Figli)
-                .ThenInclude(sottofamiglia => sottofamiglia.Figli)
-                .ThenInclude(tribu => tribu.Figli)
-                .ThenInclude(genere => genere.Figli)
-                .ThenInclude(specie => specie.Figli)
+                    .ThenInclude(sottofamiglia => sottofamiglia.Figli)
+                        .ThenInclude(tribu => tribu.Figli)
+                            .ThenInclude(genere => genere.Figli)
+                                .ThenInclude(specie => specie.Figli)
                 .ToList();
         }
 
@@ -107,7 +105,6 @@ namespace Papero.Models
             {
                 return new Esemplari { Id = -1 } ;
             }
-
         }
 
         public int EsemplareIdDaMSNG(int MSNG)
@@ -312,6 +309,22 @@ namespace Papero.Models
             _contesto.SaveChanges();
         }
 
+        public IEnumerable<ElencoSpecieViewModel> LeggiElencoSpecie()
+        {
+            return _contesto.Sottospecie
+                .Select(sottospecie => new ElencoSpecieViewModel
+                {
+                    Nome = sottospecie.Specie.Genere.Nome + ' ' + sottospecie.Specie.Nome + (sottospecie.Nome == "-" ? "" : " " + sottospecie.Nome) + (string.IsNullOrWhiteSpace(sottospecie.ElencoAutori) ? "" : " " + sottospecie.ElencoAutori),
+                    SpecieId = sottospecie.Specie.Id,
+                    Id = sottospecie.Id,
+                    Genere = sottospecie.Specie.Genere.Nome,
+                    Specie = sottospecie.Specie.Nome,
+                    Sottospecie = sottospecie.Nome,
+                    ElencoAutori = sottospecie.ElencoAutori
+                })
+                .OrderBy(sottospecie => sottospecie.Nome)
+                .ToList();
+        }
         public async Task<bool> SalvaModifiche()
         {
             return (await _contesto.SaveChangesAsync()) > 0;

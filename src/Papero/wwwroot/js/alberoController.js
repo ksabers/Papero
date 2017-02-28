@@ -10,12 +10,59 @@
 
 
         var elencoEsemplari = [];         // Elenco completo non filtrato degli esemplari 
+        var alberoTassonomia = [];
 
         var vm = this;
 
         vm.datiAlbero = [];            // Albero tassonomico
+        vm.datiElencoSpecie = [];
         vm.esemplariSelezionati = [];  // Contenuto della tabella
         vm.numeroSpecie = 0;           // Badge che contiene il numero di sottospecie attualmente selezionate nell'albero
+        vm.expandedNodes = [];
+        vm.foglia = false;
+
+        vm.selezionaSpecie = function selezionaSpecie() {
+            //alert(vm.specieSelezionata.id);
+            //vm.filtroAlbero = { specieId: vm.specieSelezionata.id };
+
+
+            //vm.filtroAlbero = {
+            //    "figli": [
+            //      {
+            //          "figli": [
+            //            {
+            //                "figli": [
+            //                  {
+            //                      "figli": [
+            //                        {
+            //                            "figli": [
+            //                              {
+            //                                  "id": vm.specieSelezionata.id
+            //                              }
+            //                            ]
+            //                        }
+
+            //                      ]
+            //                  }
+            //                ]
+            //            }
+            //          ]
+            //      }
+
+            //    ]
+            //};
+
+            //vm.filtroAlbero = { "specieId": vm.specieSelezionata.specieId };
+
+
+            vm.esemplariSelezionati = _.filter(elencoEsemplari, function (esemplare) { return esemplare.sottospecieId == vm.specieSelezionata.id });
+            vm.numeroSpecie = 1;
+            vm.foglia = true;
+
+
+        }
+
+
 
         vm.opzioniTabella = DTOptionsBuilder.newOptions()      // Opzioni di visualizzazione della angular datatable
             .withOption("lengthMenu", [10, 25])
@@ -53,10 +100,14 @@
                 return elencoFigli;
             }
 
+            vm.specieSelezionata = [];
+
             if (!!nodo.specieId) {                    // Gestione del caso speciale in cui venga selezionata direttamente una foglia:
                 elencoFigli = $(nodo.id).toArray();   // deve essere restituita solo lei, ma in forma di array (altrimenti "elencoFigli.includes" qui sotto non funzionerebbe)
+                vm.foglia = true;
             } else {
                 elencoFigli = trovaFigli(nodo);       // altrimenti si traversa l'albero ricorsivamente
+                vm.foglia = false;
             }
 
             vm.numeroSpecie = elencoFigli.length;  // Le foglie selezionate vengono contate per mostrarle in cima all'albero
@@ -72,8 +123,16 @@
 
         $http.get("/api/albero")
             .then(function (response) {
-                vm.datiAlbero = response.data;
+                alberoTassonomia = response.data;
+                vm.datiAlbero = alberoTassonomia;
             });
+
+        $http.get("/api/elencospecie")
+            .then(function (response) {
+                vm.datiElencoSpecie = response.data;
+    });
+
+
     }
 
 })();

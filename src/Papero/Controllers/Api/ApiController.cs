@@ -144,6 +144,13 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiDeterminatori());
         }
 
+        [Authorize]
+        [HttpGet("api/elencoSpecie")]
+        public IActionResult GetElencoSpecie()
+        {
+            return Ok(_repository.LeggiElencoSpecie());
+        }
+
 
 
     }

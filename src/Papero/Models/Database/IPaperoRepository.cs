@@ -36,5 +36,6 @@ namespace Papero.Models
         void CancellaVecchiDeterminatori(int[] arrayIdVecchieDeterminazioni);
         void CancellaVecchieDeterminazioni(int idEsemplare);
         void InserisciVecchiDeterminatori(VecchiDeterminatori determinatoreDaInserire);
+        IEnumerable<ElencoSpecieViewModel> LeggiElencoSpecie();
     }
 }

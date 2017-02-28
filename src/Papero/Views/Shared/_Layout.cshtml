@@ -20,6 +20,7 @@
             asp-fallback-test-value="absolute"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/black/pace-theme-flash.css" rel="stylesheet"/>
     <link href="~/lib/coreui/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/angular-ui-select/dist/select.min.css" />
 
     @RenderSection("css", false)
 
@@ -168,6 +169,15 @@
             asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
     <script src="~/lib/coreui/js/app.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"
+            asp-fallback-src="~/lib/angular/angular.min.js"
+            asp-fallback-test="window.angular"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+
+    <script src="~/lib/angular-ui-select/dist/select.min.js"></script>
+
+    <script src="~/js/papero-app.js"></script>
 
     @RenderSection("scripts", false)
 
