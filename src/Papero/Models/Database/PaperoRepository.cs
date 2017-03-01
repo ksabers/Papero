@@ -103,7 +103,7 @@ namespace Papero.Models
             }
             catch (Exception)
             {
-                return new Esemplari { Id = -1 } ;
+                return new Esemplari { Id = -1 };
             }
         }
 
@@ -169,9 +169,9 @@ namespace Papero.Models
 
         public void CancellaClassificazioni(int idSottospecie)
         {
-             _contesto.Classificazioni
-                .RemoveRange(_contesto.Classificazioni.Where(classificazione => classificazione.SottospecieId == idSottospecie));
-             _contesto.SaveChanges();
+            _contesto.Classificazioni
+               .RemoveRange(_contesto.Classificazioni.Where(classificazione => classificazione.SottospecieId == idSottospecie));
+            _contesto.SaveChanges();
         }
 
         public void CancellaPreparati(int idEsemplare)
@@ -309,6 +309,11 @@ namespace Papero.Models
             _contesto.SaveChanges();
         }
 
+        public void AggiungiEsemplare(Esemplari esemplareDaInserire)
+        {
+            _contesto.Esemplari.Add(esemplareDaInserire);
+        }
+
         public IEnumerable<ElencoSpecieViewModel> LeggiElencoSpecie()
         {
             return _contesto.Sottospecie
@@ -324,6 +329,67 @@ namespace Papero.Models
                 })
                 .OrderBy(sottospecie => sottospecie.Nome)
                 .ToList();
+        }
+
+        public int LeggiIDSessoIndeterminato()
+        {
+            return _contesto.Sessi
+                .Single(sesso => sesso.Sesso == "Indeterminato")
+                .Id;
+        }
+
+        public int LeggiIDLocalitaIndeterminata()
+        {
+            return _contesto.Localita
+                .Single(localita =>
+                        localita.NomeLocalita == "-" &&
+                        localita.Citta.NomeCitta == "-" &&
+                        localita.Citta.Provincia.Provincia == "-" &&
+                        localita.Citta.Provincia.Regione.Regione == "-" &&
+                        localita.Citta.Provincia.Regione.Nazione.Nazione == "-")
+                .Id;
+        }
+
+        public int LeggiIDRaccoglitoreIndeterminato()
+        {
+            return _contesto.Raccoglitori
+                .Single(raccoglitore => raccoglitore.Raccoglitore == "-")
+                .Id;
+        }
+
+        public int LeggiIDCollezioneIndeterminata()
+        {
+            return _contesto.Collezioni
+                .Single(collezione => collezione.Collezione == "-")
+                .Id;
+        }
+
+        public int LeggiIDSpedizioneIndeterminata()
+        {
+            return _contesto.Spedizioni
+                .Single(spedizione => spedizione.Spedizione == "-")
+                .Id;
+        }
+
+        public int LeggiIDTipoIndeterminato()
+        {
+            return _contesto.Tipi
+                .Single(tipo => tipo.Tipo == "-")
+                .Id;
+        }
+
+        public int LeggiIDAberrazioneIndeterminata()
+        {
+            return _contesto.Aberrazioni
+                .Single(aberrazione => aberrazione.Aberrazione == "-")
+                .Id;
+        }
+
+        public int LeggiIDTipoAcquisizioneIndeterminato()
+        {
+            return _contesto.TipiAcquisizione
+                .Single(tipo => tipo.TipoAcquisizione == "-")
+                .Id;
         }
         public async Task<bool> SalvaModifiche()
         {

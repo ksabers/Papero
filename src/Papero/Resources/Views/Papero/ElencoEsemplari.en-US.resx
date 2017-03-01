@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Aggiungi nuovo MSNG" xml:space="preserve">
+    <value>Add new MSNG</value>
+  </data>
   <data name="Albero tassonomico" xml:space="preserve">
     <value>Taxonomical Tree</value>
   </data>
@@ -129,11 +132,20 @@
   <data name="Esemplari" xml:space="preserve">
     <value>Specimens</value>
   </data>
+  <data name="Inserisci" xml:space="preserve">
+    <value>Submit</value>
+  </data>
   <data name="MSNG" xml:space="preserve">
     <value>MSNG</value>
   </data>
+  <data name="MSNG già esistente!" xml:space="preserve">
+    <value>MSNG already present!</value>
+  </data>
   <data name="Nome Scientifico" xml:space="preserve">
     <value>Scientific Name</value>
+  </data>
+  <data name="Selezione diretta" xml:space="preserve">
+    <value>Direct selection</value>
   </data>
   <data name="Specie selezionate" xml:space="preserve">
     <value>Selected Species</value>

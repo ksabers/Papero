@@ -37,5 +37,14 @@ namespace Papero.Models
         void CancellaVecchieDeterminazioni(int idEsemplare);
         void InserisciVecchiDeterminatori(VecchiDeterminatori determinatoreDaInserire);
         IEnumerable<ElencoSpecieViewModel> LeggiElencoSpecie();
+        int LeggiIDSessoIndeterminato();
+        int LeggiIDLocalitaIndeterminata();
+        int LeggiIDRaccoglitoreIndeterminato();
+        int LeggiIDCollezioneIndeterminata();
+        int LeggiIDSpedizioneIndeterminata();
+        int LeggiIDTipoIndeterminato();
+        int LeggiIDAberrazioneIndeterminata();
+        int LeggiIDTipoAcquisizioneIndeterminato();
+        void AggiungiEsemplare(Esemplari esemplareDaInserire);
     }
 }

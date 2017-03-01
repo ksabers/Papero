@@ -252,15 +252,15 @@
                                   Model.Sottospecie.Specie.Nome +
                                   " " +
                                   (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome))
-                                @switch (Model.Sesso.Id)
+                                @switch (Model.Sesso.Sesso)
                                 {
-                                    case 2: <text>&nbsp;</text><i class="fa fa-mars"></i>
+                                    case "Maschio": <text>&nbsp;</text><i class="fa fa-mars"></i>
                                         break;
-                                    case 3: <text>&nbsp;</text><i class="fa fa-venus"></i>
+                                    case "Femmina": <text>&nbsp;</text><i class="fa fa-venus"></i>
                                         break;
-                                    case 1001:<text>&nbsp;?</text><i class="fa fa-mars"></i>
+                                    case "Prob. Maschio":<text>&nbsp;?</text><i class="fa fa-mars"></i>
                                         break;
-                                    case 1002:<text>&nbsp;?</text><i class="fa fa-venus"></i>
+                                    case "Prob. Femmina":<text>&nbsp;?</text><i class="fa fa-venus"></i>
                                         break;
                                 }
                                 <br />
@@ -477,6 +477,8 @@
                             <dd>@Model.AvutoDa.Raccoglitore</dd>
                             <dt>@localizzatore["Legit"]:</dt>
                             <dd>@Model.Legit.Raccoglitore</dd>
+                            <dt>@localizzatore["Cedente"]:</dt>
+                            <dd>@Model.Cedente.Raccoglitore</dd>
 
                         </dl>
 

@@ -148,10 +148,10 @@ namespace Papero.Controllers
             {
                 //     1) inserisci nella tabella VecchieDeterminazioni una riga con l'IdEsemplare corrente, il testo, la data e l'ordinamento
                 var determinazioneDaInserire = new VecchieDeterminazioni();
-                determinazioneDaInserire.EsemplareId = Id;
-                determinazioneDaInserire.VecchiaDeterminazione = determinazione.VecchiaDeterminazione;
-                determinazioneDaInserire.DataDeterminazione = determinazione.DataDeterminazione;
-                determinazioneDaInserire.Ordinamento = ordinamentoDeterminazioni;
+                    determinazioneDaInserire.EsemplareId = Id;
+                    determinazioneDaInserire.VecchiaDeterminazione = determinazione.VecchiaDeterminazione;
+                    determinazioneDaInserire.DataDeterminazione = determinazione.DataDeterminazione;
+                    determinazioneDaInserire.Ordinamento = ordinamentoDeterminazioni;
                 ordinamentoDeterminazioni += 1;
                 esemplareDaModificare.VecchieDeterminazioni.Add(determinazioneDaInserire);
                 await _repository.SalvaModifiche();
@@ -198,6 +198,35 @@ namespace Papero.Controllers
                 return RedirectToAction("DettaglioEsemplare", "Papero", new { id = Id });
             }
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = Id });  // TODO scrivere pagina di errore
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult>InserisciEsemplare(string inputMSNG, string inputHiddenIdSottospecie)
+        {
+            var sessoIndeterminato = _repository.LeggiIDSessoIndeterminato();
+
+            var esemplareDaInserire = new Esemplari();
+                esemplareDaInserire.SottospecieId = Int32.Parse(inputHiddenIdSottospecie);
+                esemplareDaInserire.Msng = Int32.Parse(inputMSNG);
+                esemplareDaInserire.SessoId = _repository.LeggiIDSessoIndeterminato();
+                esemplareDaInserire.LocalitaCatturaId = _repository.LeggiIDLocalitaIndeterminata();
+                esemplareDaInserire.AvutoDaId = esemplareDaInserire.LegitId = esemplareDaInserire.CedenteId = _repository.LeggiIDRaccoglitoreIndeterminato();
+                esemplareDaInserire.TipoAcquisizioneId = _repository.LeggiIDTipoAcquisizioneIndeterminato();
+                esemplareDaInserire.CollezioneId = _repository.LeggiIDCollezioneIndeterminata();
+                esemplareDaInserire.SpedizioneId = _repository.LeggiIDSpedizioneIndeterminata();
+                esemplareDaInserire.Presenza = true;
+                esemplareDaInserire.TipoId = _repository.LeggiIDTipoIndeterminato();
+                esemplareDaInserire.AberrazioneId = _repository.LeggiIDAberrazioneIndeterminata();
+                esemplareDaInserire.Inanellato = false;
+
+            _repository.AggiungiEsemplare(esemplareDaInserire);
+
+            if (await _repository.SalvaModifiche())
+            {
+                return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaInserire.Id });
+            }
+            return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaInserire.Id });  // TODO scrivere pagina di errore
         }
 
         [Authorize]

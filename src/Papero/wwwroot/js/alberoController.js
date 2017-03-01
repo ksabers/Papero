@@ -11,6 +11,7 @@
 
         var elencoEsemplari = [];         // Elenco completo non filtrato degli esemplari 
         var alberoTassonomia = [];
+        var re = new RegExp("([1-9][0-9]*)");
 
         var vm = this;
 
@@ -20,6 +21,7 @@
         vm.numeroSpecie = 0;           // Badge che contiene il numero di sottospecie attualmente selezionate nell'albero
         vm.expandedNodes = [];
         vm.foglia = false;
+        vm.MSNGpresente = false;
 
         vm.selezionaSpecie = function selezionaSpecie() {
             //alert(vm.specieSelezionata.id);
@@ -62,6 +64,21 @@
 
         }
 
+        vm.controllaMSNG = function controllaMSNG() {
+            vm.MSNGpresente = false;
+            return !re.test(vm.inputMSNG);
+        }
+
+        vm.verificaMSNG = function verificaMSNG(eventoSubmit) {
+            //alert(vm.specieSelezionata.id);
+            
+            if (_.find(elencoEsemplari, function (esemplare) { return esemplare.id == _.trim(vm.inputMSNG); })) {
+                vm.MSNGpresente = true;
+                eventoSubmit.preventDefault();
+                return false;
+            }
+            
+        }
 
 
         vm.opzioniTabella = DTOptionsBuilder.newOptions()      // Opzioni di visualizzazione della angular datatable
