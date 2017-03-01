@@ -60,6 +60,7 @@
             vm.esemplariSelezionati = _.filter(elencoEsemplari, function (esemplare) { return esemplare.sottospecieId == vm.specieSelezionata.id });
             vm.numeroSpecie = 1;
             vm.foglia = true;
+            vm.sottospecie = vm.specieSelezionata.id;
 
 
         }
@@ -72,12 +73,11 @@
         vm.verificaMSNG = function verificaMSNG(eventoSubmit) {
             //alert(vm.specieSelezionata.id);
             
-            if (_.find(elencoEsemplari, function (esemplare) { return esemplare.id == _.trim(vm.inputMSNG); })) {
+            if (_.find(elencoEsemplari, function (esemplare) { return esemplare.msng == _.trim(vm.inputMSNG); })) {
                 vm.MSNGpresente = true;
                 eventoSubmit.preventDefault();
                 return false;
             }
-            
         }
 
 
@@ -122,6 +122,7 @@
             if (!!nodo.specieId) {                    // Gestione del caso speciale in cui venga selezionata direttamente una foglia:
                 elencoFigli = $(nodo.id).toArray();   // deve essere restituita solo lei, ma in forma di array (altrimenti "elencoFigli.includes" qui sotto non funzionerebbe)
                 vm.foglia = true;
+                vm.sottospecie = nodo.id;
             } else {
                 elencoFigli = trovaFigli(nodo);       // altrimenti si traversa l'albero ricorsivamente
                 vm.foglia = false;
