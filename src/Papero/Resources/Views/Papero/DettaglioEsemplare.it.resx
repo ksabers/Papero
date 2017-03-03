@@ -163,7 +163,7 @@
     <value>Culmine</value>
   </data>
   <data name="Data Acquisizione" xml:space="preserve">
-    <value>Data Acquisizione</value>
+    <value>Data di Acquisizione</value>
   </data>
   <data name="Data Corretta" xml:space="preserve">
     <value>Data Corretta</value>
@@ -410,5 +410,17 @@
   </data>
   <data name="Vecchi Determinatori" xml:space="preserve">
     <value>Vecchi Determinatori</value>
+  </data>
+  <data name="Acquisizione" xml:space="preserve">
+    <value>Acquisizione</value>
+  </data>
+  <data name="Cedente" xml:space="preserve">
+    <value>Cedente</value>
+  </data>
+  <data name="Località" xml:space="preserve">
+    <value>Località</value>
+  </data>
+  <data name="Referenti" xml:space="preserve">
+    <value>Referenti</value>
   </data>
 </root>

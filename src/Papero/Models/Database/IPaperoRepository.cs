@@ -46,5 +46,19 @@ namespace Papero.Models
         int LeggiIDAberrazioneIndeterminata();
         int LeggiIDTipoAcquisizioneIndeterminato();
         void AggiungiEsemplare(Esemplari esemplareDaInserire);
+        IEnumerable<Nazioni> LeggiNazioni();
+        IEnumerable<Regioni> LeggiRegioni();
+        IEnumerable<Regioni> LeggiRegioni(int idNazione);
+        IEnumerable<Province> LeggiProvince();
+        IEnumerable<Province> LeggiProvince(int idRegione);
+        IEnumerable<Citta> LeggiCitta();
+        IEnumerable<Citta> LeggiCitta(int idProvincia);
+        IEnumerable<Localita> LeggiLocalita();
+        IEnumerable<Localita> LeggiLocalita(int idCitta);
+        IEnumerable<Nazioni> LeggiGeografia();
+        IEnumerable<TipiAcquisizione> LeggiTipiAcquisizione();
+        IEnumerable<Collezioni> LeggiCollezioni();
+        IEnumerable<Spedizioni> LeggiSpedizioni();
+        IEnumerable<Raccoglitori> LeggiRaccoglitori();
     }
 }

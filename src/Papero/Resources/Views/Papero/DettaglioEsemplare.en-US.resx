@@ -411,4 +411,16 @@
   <data name="Vecchi Determinatori" xml:space="preserve">
     <value>Old Determiners</value>
   </data>
+  <data name="Acquisizione" xml:space="preserve">
+    <value>Acquisition</value>
+  </data>
+  <data name="Cedente" xml:space="preserve">
+    <value>Assignor</value>
+  </data>
+  <data name="Località" xml:space="preserve">
+    <value>Place</value>
+  </data>
+  <data name="Referenti" xml:space="preserve">
+    <value>References</value>
+  </data>
 </root>

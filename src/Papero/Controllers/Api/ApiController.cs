@@ -151,6 +151,103 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiElencoSpecie());
         }
 
+        [Authorize]
+        [HttpGet("api/nazioni")]
+        public IActionResult GetNazioni()
+        {
+            return Ok(_repository.LeggiNazioni());
+        }
+
+        [Authorize]
+        [HttpGet("api/regioni")]
+        public IActionResult GetRegioni()
+        {
+            return Ok(_repository.LeggiRegioni());
+        }
+
+        [Authorize]
+        [HttpGet("api/regioni/{idNazione}")]
+        public IActionResult GetRegioni(int idNazione)
+        {
+            return Ok(_repository.LeggiRegioni(idNazione));
+        }
+
+        [Authorize]
+        [HttpGet("api/province")]
+        public IActionResult GetProvince()
+        {
+            return Ok(_repository.LeggiProvince());
+        }
+
+        [Authorize]
+        [HttpGet("api/province/{idRegione}")]
+        public IActionResult GetProvince(int idRegione)
+        {
+            return Ok(_repository.LeggiProvince(idRegione));
+        }
+
+        [Authorize]
+        [HttpGet("api/citta")]
+        public IActionResult GetCitta()
+        {
+            return Ok(_repository.LeggiCitta());
+        }
+
+        [Authorize]
+        [HttpGet("api/citta/{idProvincia}")]
+        public IActionResult GetCitta(int idProvincia)
+        {
+            return Ok(_repository.LeggiCitta(idProvincia));
+        }
+
+        [Authorize]
+        [HttpGet("api/localita")]
+        public IActionResult GetLocalita()
+        {
+            return Ok(_repository.LeggiLocalita());
+        }
+
+        [Authorize]
+        [HttpGet("api/localita/{idCitta}")]
+        public IActionResult GetLocalita(int idCitta)
+        {
+            return Ok(_repository.LeggiLocalita(idCitta));
+        }
+
+        [Authorize]
+        [HttpGet("api/geografia")]
+        public IActionResult GetGeografia()
+        {
+            return Ok(_repository.LeggiGeografia());
+        }
+
+        [Authorize]
+        [HttpGet("api/tipiacquisizione")]
+        public IActionResult GetTipiAcquisizione()
+        {
+            return Ok(_repository.LeggiTipiAcquisizione());
+        }
+
+        [Authorize]
+        [HttpGet("api/collezioni")]
+        public IActionResult GetCollezioni()
+        {
+            return Ok(_repository.LeggiCollezioni());
+        }
+
+        [Authorize]
+        [HttpGet("api/spedizioni")]
+        public IActionResult GetSpedizioni()
+        {
+            return Ok(_repository.LeggiSpedizioni());
+        }
+
+        [Authorize]
+        [HttpGet("api/raccoglitori")]
+        public IActionResult GetRaccoglitori()
+        {
+            return Ok(_repository.LeggiRaccoglitori());
+        }
 
 
     }

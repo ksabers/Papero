@@ -77,6 +77,7 @@ namespace Papero.Models
                         .ThenInclude(preparazione => preparazione.Preparatore)
                     .Include(esemplare => esemplare.AvutoDa)
                     .Include(esemplare => esemplare.Legit)
+                    .Include(esemplare => esemplare.Cedente)
                     .Include(esemplare => esemplare.TipoAcquisizione)
                     .Include(esemplare => esemplare.Collezione)
                     .Include(esemplare => esemplare.Spedizione)
@@ -390,6 +391,111 @@ namespace Papero.Models
             return _contesto.TipiAcquisizione
                 .Single(tipo => tipo.TipoAcquisizione == "-")
                 .Id;
+        }
+
+        public IEnumerable<Nazioni> LeggiNazioni()
+        {
+            return _contesto.Nazioni
+                .OrderBy(nazione => nazione.Nazione)
+                .ToList();
+        }
+
+        public IEnumerable<Regioni> LeggiRegioni()
+        {
+            return _contesto.Regioni
+                .OrderBy(regione => regione.Regione)
+                .ToList();
+        }
+
+        public IEnumerable<Regioni> LeggiRegioni(int idNazione)
+        {
+            return _contesto.Regioni
+                .Where(regione => regione.NazioneId == idNazione)
+                .OrderBy(regione => regione.Regione)
+                .ToList();
+        }
+
+        public IEnumerable<Province> LeggiProvince()
+        {
+            return _contesto.Province
+                .OrderBy(provincia => provincia.Provincia)
+                .ToList();
+        }
+
+        public IEnumerable<Province> LeggiProvince(int idRegione)
+        {
+            return _contesto.Province
+                .Where(provincia => provincia.RegioneId == idRegione)
+                .OrderBy(provincia => provincia.Provincia)
+                .ToList();
+        }
+
+        public IEnumerable<Citta> LeggiCitta()
+        {
+            return _contesto.Citta
+                .OrderBy(citta => citta.NomeCitta)
+                .ToList();
+        }
+
+        public IEnumerable<Citta> LeggiCitta(int idProvincia)
+        {
+            return _contesto.Citta
+                .Where(citta => citta.ProvinciaId == idProvincia)
+                .OrderBy(citta => citta.NomeCitta)
+                .ToList();
+        }
+
+        public IEnumerable<Localita> LeggiLocalita()
+        {
+            return _contesto.Localita
+                .OrderBy(localita => localita.NomeLocalita)
+                .ToList();
+        }
+
+        public IEnumerable<Localita> LeggiLocalita(int idCitta)
+        {
+            return _contesto.Localita
+                .Where(localita => localita.CittaId == idCitta)
+                .OrderBy(localita => localita.NomeLocalita)
+                .ToList();
+        }
+
+        public IEnumerable<Nazioni> LeggiGeografia()
+        {
+            return _contesto.Nazioni
+                .Include(nazione => nazione.Regioni)
+                    .ThenInclude(regione => regione.Province)
+                        .ThenInclude(provincia => provincia.Citta)
+                            .ThenInclude(citta => citta.Localita)
+                .ToList();
+        }
+
+        public IEnumerable<TipiAcquisizione> LeggiTipiAcquisizione()
+        {
+            return _contesto.TipiAcquisizione
+                .OrderBy(tipoAcquisizione => tipoAcquisizione.TipoAcquisizione)
+                .ToList();
+        }
+
+        public IEnumerable<Collezioni> LeggiCollezioni()
+        {
+            return _contesto.Collezioni
+                .OrderBy(collezione => collezione.Collezione)
+                .ToList();
+        }
+
+        public IEnumerable<Spedizioni> LeggiSpedizioni()
+        {
+            return _contesto.Spedizioni
+                .OrderBy(spedizione => spedizione.Spedizione)
+                .ToList();
+        }
+
+        public IEnumerable<Raccoglitori> LeggiRaccoglitori()
+        {
+            return _contesto.Raccoglitori
+                .OrderBy(raccoglitore => raccoglitore.Raccoglitore)
+                .ToList();
         }
         public async Task<bool> SalvaModifiche()
         {
