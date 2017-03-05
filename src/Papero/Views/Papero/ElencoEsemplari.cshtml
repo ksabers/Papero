@@ -78,34 +78,38 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">@localizzatore["Esemplari"]</h3>
-                <div class="container-fluid" ng-show="vm.foglia">
-                    <div class="col-lg-5">
-                        <form class="navbar-form" 
-                              asp-controller="UpdateDettaglioEsemplare"
-                              asp-action="InserisciEsemplare"
-                              ng-submit="vm.verificaMSNG($event)"
-                              novalidate>
-                            <div class="row form-group">
-                                <label for="inputMSNG" class="control-label">@localizzatore["Aggiungi nuovo MSNG"]:</label>
-                                <input type="text" 
-                                       id="inputMSNG" 
-                                       name="inputMSNG"
-                                       ng-model="vm.inputMSNG"
-                                       ng-change="vm.controllaMSNG()"
-                                       pattern="([1-9][0-9]*)"
-                                       class="form-control" 
-                                       placeholder="@localizzatore["MSNG"]">
-                                <input type="hidden" id="inputHiddenIdSottospecie" name="inputHiddenIdSottospecie" ng-value="vm.sottospecie"/>
-                                <button type="submit" ng-disabled="vm.MSNGpresente || vm.controllaMSNG()" class="btn btn-success">@localizzatore["Inserisci"]</button>
+                @if (!User.IsInRole("Amministratore"))
+                {
+                    <div class="container-fluid" ng-show="vm.foglia">
+                        <div class="col-lg-5">
+                            <form class="navbar-form"
+                                  asp-controller="UpdateDettaglioEsemplare"
+                                  asp-action="InserisciEsemplare"
+                                  ng-submit="vm.verificaMSNG($event)"
+                                  novalidate>
+                                <div class="row form-group">
+                                    <label for="inputMSNG" class="control-label">@localizzatore["Aggiungi nuovo MSNG"]:</label>
+                                    <input type="text"
+                                           id="inputMSNG"
+                                           name="inputMSNG"
+                                           ng-model="vm.inputMSNG"
+                                           ng-change="vm.controllaMSNG()"
+                                           pattern="([1-9][0-9]*)"
+                                           class="form-control"
+                                           placeholder="@localizzatore["MSNG"]">
+                                    <input type="hidden" id="inputHiddenIdSottospecie" name="inputHiddenIdSottospecie" ng-value="vm.sottospecie" />
+                                    <button type="submit" ng-disabled="vm.MSNGpresente || vm.controllaMSNG()" class="btn btn-success">@localizzatore["Inserisci"]</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-3" ng-show="vm.MSNGpresente">
+                            <div class="alert alert-danger text-center">
+                                <strong>@localizzatore["MSNG già esistente!"]</strong>
                             </div>
-                        </form>
-                    </div>
-                    <div class="col-lg-3" ng-show="vm.MSNGpresente">
-                        <div class="alert alert-danger text-center">
-                            <strong>@localizzatore["MSNG già esistente!"]</strong>
                         </div>
                     </div>
-                </div>
+                }
+
             </div>
             <div class="panel-body">
 

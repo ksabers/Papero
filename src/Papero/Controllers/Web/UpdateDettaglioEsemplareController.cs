@@ -204,8 +204,6 @@ namespace Papero.Controllers
         [HttpPost]
         public async Task<IActionResult>InserisciEsemplare(string inputMSNG, string inputHiddenIdSottospecie)
         {
-            var sessoIndeterminato = _repository.LeggiIDSessoIndeterminato();
-
             var esemplareDaInserire = new Esemplari();
                 esemplareDaInserire.SottospecieId = Int32.Parse(inputHiddenIdSottospecie);
                 esemplareDaInserire.Msng = Int32.Parse(inputMSNG);
