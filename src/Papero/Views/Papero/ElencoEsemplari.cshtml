@@ -78,7 +78,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">@localizzatore["Esemplari"]</h3>
-                @if (!User.IsInRole("Amministratore"))
+                @if (User.IsInRole("Amministratore"))
                 {
                     <div class="container-fluid" ng-show="vm.foglia">
                         <div class="col-lg-5">
