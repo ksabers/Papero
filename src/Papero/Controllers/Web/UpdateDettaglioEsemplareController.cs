@@ -229,6 +229,40 @@ namespace Papero.Controllers
 
         [Authorize]
         [HttpPost]
+        public async Task<IActionResult> AggiornaGeografia(int Id,
+                                                           string hiddenOutputIdLocalitaSelezionata,
+                                                           string inputDataCattura,
+                                                           string inputDataCatturaCorretta,
+                                                           string hiddenOutputIdTipoAcquisizione,
+                                                           string inputDataAcquisizione,
+                                                           string hiddenOutputIdCollezione,
+                                                           string hiddenoutputIdSpedizione,
+                                                           string hiddenOutputIdAvutoDa,
+                                                           string hiddenOutputIdLegit,
+                                                           string hiddenOutputIdCedente)
+        {
+            var esemplareDaModificare = _repository.LeggiEsemplare(Id);
+
+            esemplareDaModificare.LocalitaCatturaId = Int32.Parse(hiddenOutputIdLocalitaSelezionata);
+            esemplareDaModificare.DataCattura = inputDataCattura;
+            esemplareDaModificare.DataCatturaCorretta = inputDataCatturaCorretta;
+            esemplareDaModificare.TipoAcquisizioneId = Int32.Parse(hiddenOutputIdTipoAcquisizione);
+            esemplareDaModificare.DataAcquisizione = inputDataAcquisizione;
+            esemplareDaModificare.CollezioneId = Int32.Parse(hiddenOutputIdCollezione);
+            esemplareDaModificare.SpedizioneId = Int32.Parse(hiddenoutputIdSpedizione);
+            esemplareDaModificare.AvutoDaId = Int32.Parse(hiddenOutputIdAvutoDa);
+            esemplareDaModificare.LegitId = Int32.Parse(hiddenOutputIdLegit);
+            esemplareDaModificare.CedenteId = Int32.Parse(hiddenOutputIdCedente);
+
+            if (await _repository.SalvaModifiche())
+            {
+                return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });
+            }
+            return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
+        }
+
+        [Authorize]
+        [HttpPost]
         public async Task<IActionResult> AggiornaMorfologia(int Id, 
                                                             string inputPeso,
                                                             string inputLunghezzaTotale,

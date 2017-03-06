@@ -448,6 +448,7 @@
                                                                     <li class=""><a href="#tabcollezione" data-toggle="tab">@localizzatore["Collezione"] - @localizzatore["Spedizione"]</a></li>
                                                                     <li class=""><a href="#tabreferenti" data-toggle="tab">@localizzatore["Referenti"]</a></li>
                                                                 </ul>
+                                                                <input type="hidden" id="esemplarehiddenGeografia" asp-for="Id" value="@Model.Id" />
 
                                                                 <div id="myTabContent" class="tab-content">
 
@@ -472,7 +473,7 @@
                                                                                     <ui-select-match>
                                                                                         <span ng-bind="$select.selected.regione"></span>
                                                                                     </ui-select-match>
-                                                                                    <ui-select-choices repeat="regione in (vm.regioni | filter: $select.search) track by regione.id" >
+                                                                                    <ui-select-choices repeat="regione in (vm.regioni | filter: $select.search) track by regione.id">
                                                                                         <span ng-bind="regione.regione"></span>
                                                                                     </ui-select-choices>
                                                                                 </ui-select>
@@ -485,7 +486,7 @@
                                                                                     <ui-select-match>
                                                                                         <span ng-bind="$select.selected.provincia"></span>
                                                                                     </ui-select-match>
-                                                                                    <ui-select-choices repeat="provincia in (vm.province | filter: $select.search) track by provincia.id" >
+                                                                                    <ui-select-choices repeat="provincia in (vm.province | filter: $select.search) track by provincia.id">
                                                                                         <span ng-bind="provincia.provincia"></span>
                                                                                     </ui-select-choices>
                                                                                 </ui-select>
@@ -498,20 +499,26 @@
                                                                                     <ui-select-match>
                                                                                         <span ng-bind="$select.selected.nomeCitta"></span>
                                                                                     </ui-select-match>
-                                                                                    <ui-select-choices repeat="citta in (vm.citta | filter: $select.search) track by citta.id" >
+                                                                                    <ui-select-choices repeat="citta in (vm.citta | filter: $select.search) track by citta.id">
                                                                                         <span ng-bind="citta.nomeCitta"></span>
                                                                                     </ui-select-choices>
                                                                                 </ui-select>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label for="uiselectLocalita" class="col-lg-3 control-label">@localizzatore["Località"]:</label>
+                                                                            <label for="uiselectLocalita" class="col-lg-3 control-label">@localizzatore["Località"]:{{vm.localitaSelezionata.id}}</label>
                                                                             <div class="col-lg-4">
-                                                                                <ui-select id="uiselectLocalita" ng-model="vm.localitaSelezionata">
+                                                                                @*Questo serve per memorizzare il valore dal modello e inizializzare la dropdown all'apertura*@
+                                                                                <input type="hidden" id="hiddenIdLocalitaSelezionata" name="hiddenIdLocalitaSelezionata" value="@Model.LocalitaCatturaId" />
+
+                                                                                @*Questo invece serve per inviare il valore corrente al form durante il submit*@
+                                                                                <input type="hidden" id="hiddenOutputIdLocalitaSelezionata" name="hiddenOutputIdLocalitaSelezionata" />
+
+                                                                                <ui-select id="uiselectLocalita" name="uiselectLocalita" ng-model="vm.localitaSelezionata" ng-change="vm.selezionaLocalita()">
                                                                                     <ui-select-match>
                                                                                         <span ng-bind="$select.selected.nomeLocalita"></span>
                                                                                     </ui-select-match>
-                                                                                    <ui-select-choices repeat="localita in (vm.localita | filter: $select.search) track by localita.id" >
+                                                                                    <ui-select-choices repeat="localita in (vm.localita | filter: $select.search) track by localita.id">
                                                                                         <span ng-bind="localita.nomeLocalita"></span>
                                                                                     </ui-select-choices>
                                                                                 </ui-select>
@@ -546,12 +553,18 @@
                                                                         <div class="form-group">
                                                                             <label for="uiselectTipoAcquisizione" class="col-lg-4 control-label">@localizzatore["Tipo Acquisizione"]:</label>
                                                                             <div class="col-lg-3">
-                                                                                <input type="hidden" id="hiddenIdTipoAcquisizione" value="@Model.TipoAcquisizioneId" />
-                                                                                <ui-select id="uiselectTipoAcquisizione" ng-model="vm.TipoAcquisizioneSelezionato">
+
+                                                                                @*Questo serve per memorizzare il valore dal modello e inizializzare la dropdown all'apertura*@
+                                                                                <input type="hidden" id="hiddenIdTipoAcquisizione" name="hiddenIdTipoAcquisizione" value="@Model.TipoAcquisizioneId" />
+
+                                                                                @*Questo invece serve per inviare il valore corrente al form durante il submit*@
+                                                                                <input type="hidden" id="hiddenOutputIdTipoAcquisizione" name="hiddenOutputIdTipoAcquisizione" />
+
+                                                                                <ui-select id="uiselectTipoAcquisizione" ng-model="vm.TipoAcquisizioneSelezionato" ng-change="vm.selezionaTipoAcquisizione()">
                                                                                     <ui-select-match>
                                                                                         <span ng-bind="$select.selected.tipoAcquisizione"></span>
                                                                                     </ui-select-match>
-                                                                                    <ui-select-choices repeat = "tipoAcquisizione in (vm.tipiAcquisizione | filter: $select.search) track by tipoAcquisizione.id" >
+                                                                                    <ui-select-choices repeat="tipoAcquisizione in (vm.tipiAcquisizione | filter: $select.search) track by tipoAcquisizione.id">
                                                                                         <span ng-bind="tipoAcquisizione.tipoAcquisizione"></span>
                                                                                     </ui-select-choices>
                                                                                 </ui-select>
@@ -574,8 +587,14 @@
                                                                         <div class="form-group">
                                                                             <label for="uiselectCollezione" class="col-lg-3 control-label">@localizzatore["Collezione"]:</label>
                                                                             <div class="col-lg-7">
+
+                                                                                @*Questo serve per memorizzare il valore dal modello e inizializzare la dropdown all'apertura*@
                                                                                 <input type="hidden" id="hiddenIdCollezione" value="@Model.CollezioneId" />
-                                                                                <ui-select id="uiselectCollezione" ng-model="vm.CollezioneSelezionata">
+
+                                                                                @*Questo invece serve per inviare il valore corrente al form durante il submit*@
+                                                                                <input type="hidden" id="hiddenOutputIdCollezione" name="hiddenOutputIdCollezione" />
+
+                                                                                <ui-select id="uiselectCollezione" ng-model="vm.CollezioneSelezionata" ng-change="vm.selezionaCollezione()">
                                                                                     <ui-select-match>
                                                                                         <span ng-bind="$select.selected.collezione"></span>
                                                                                     </ui-select-match>
@@ -588,8 +607,14 @@
                                                                         <div class="form-group">
                                                                             <label for="uiselectSpedizione" class="col-lg-3 control-label">@localizzatore["Spedizione"]:</label>
                                                                             <div class="col-lg-7">
+
+                                                                                @*Questo serve per memorizzare il valore dal modello e inizializzare la dropdown all'apertura*@
                                                                                 <input type="hidden" id="hiddenIdSpedizione" value="@Model.SpedizioneId" />
-                                                                                <ui-select id="uiselectSpedizione" ng-model="vm.SpedizioneSelezionata">
+
+                                                                                @*Questo invece serve per inviare il valore corrente al form durante il submit*@
+                                                                                <input type="hidden" id="hiddenoutputIdSpedizione" name="hiddenoutputIdSpedizione" />
+
+                                                                                <ui-select id="uiselectSpedizione" ng-model="vm.SpedizioneSelezionata" ng-change="vm.selezionaSpedizione()">
                                                                                     <ui-select-match>
                                                                                         <span ng-bind="$select.selected.spedizione"></span>
                                                                                     </ui-select-match>
@@ -605,8 +630,14 @@
                                                                         <div class="form-group">
                                                                             <label for="uiselectAvutoDa" class="col-lg-3 control-label">@localizzatore["Avuto da"]:</label>
                                                                             <div class="col-lg-7">
+
+                                                                                @*Questo serve per memorizzare il valore dal modello e inizializzare la dropdown all'apertura*@
                                                                                 <input type="hidden" id="hiddenIdAvutoDa" value="@Model.AvutoDaId" />
-                                                                                <ui-select id="uiselectAvutoDa" ng-model="vm.AvutoDaSelezionato">
+
+                                                                                @*Questo invece serve per inviare il valore corrente al form durante il submit*@
+                                                                                <input type="hidden" id="hiddenOutputIdAvutoDa" name="hiddenOutputIdAvutoDa" />
+
+                                                                                <ui-select id="uiselectAvutoDa" ng-model="vm.AvutoDaSelezionato" ng-change="vm.selezionaAvutoDa()">
                                                                                     <ui-select-match>
                                                                                         <span ng-bind="$select.selected.raccoglitore"></span>
                                                                                     </ui-select-match>
@@ -619,8 +650,14 @@
                                                                         <div class="form-group">
                                                                             <label for="uiselectLegit" class="col-lg-3 control-label">@localizzatore["Legit"]:</label>
                                                                             <div class="col-lg-7">
+
+                                                                                @*Questo serve per memorizzare il valore dal modello e inizializzare la dropdown all'apertura*@
                                                                                 <input type="hidden" id="hiddenIdLegit" value="@Model.LegitId" />
-                                                                                <ui-select id="uiselectLegit" ng-model="vm.LegitSelezionato">
+
+                                                                                @*Questo invece serve per inviare il valore corrente al form durante il submit*@
+                                                                                <input type="hidden" id="hiddenOutputIdLegit" name="hiddenOutputIdLegit" />
+
+                                                                                <ui-select id="uiselectLegit" ng-model="vm.LegitSelezionato" ng-change="vm.selezionaLegit()">
                                                                                     <ui-select-match>
                                                                                         <span ng-bind="$select.selected.raccoglitore"></span>
                                                                                     </ui-select-match>
@@ -633,8 +670,14 @@
                                                                         <div class="form-group">
                                                                             <label for="uiselectCedente" class="col-lg-3 control-label">@localizzatore["Cedente"]:</label>
                                                                             <div class="col-lg-7">
+
+                                                                                @*Questo serve per memorizzare il valore dal modello e inizializzare la dropdown all'apertura*@
                                                                                 <input type="hidden" id="hiddenIdCedente" value="@Model.CedenteId" />
-                                                                                <ui-select id="uiselectCedente" ng-model="vm.CedenteSelezionato">
+
+                                                                                @*Questo invece serve per inviare il valore corrente al form durante il submit*@
+                                                                                <input type="hidden" id="hiddenOutputIdCedente" name="hiddenOutputIdCedente" />
+
+                                                                                <ui-select id="uiselectCedente" ng-model="vm.CedenteSelezionato" ng-change="vm.selezionaCedente()">
                                                                                     <ui-select-match>
                                                                                         <span ng-bind="$select.selected.raccoglitore"></span>
                                                                                     </ui-select-match>
@@ -646,9 +689,9 @@
                                                                         </div>
                                                                     </div>
 
-                                                                
 
-                                                              
+
+
                                                                 </div>
                                                                 <br />
                                                                 <div class="form-group">
@@ -712,7 +755,7 @@
                                             }
                                             else if (Model.LocalitaCattura.NomeLocalita == "-")
                                             {
-                                                @Model.LocalitaCattura.Citta.Provincia
+                                                @Model.LocalitaCattura.Citta.NomeCitta
                                             }
                                             else
                                             {

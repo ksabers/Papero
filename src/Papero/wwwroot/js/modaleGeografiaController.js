@@ -14,11 +14,17 @@
         var elencoLocalita = [];
 
         var vm = this;
-            vm.regioni = [];
+
+        vm.regioni = [];
+
+        vm.selezionaLocalita = function selezionaLocalita() {
+            $("#hiddenOutputIdLocalitaSelezionata").val(vm.localitaSelezionata.id);
+        };
 
         vm.selezionaCitta = function selezionaCitta() {
             vm.localita = _.filter(elencoLocalita, function (localita) { return localita.cittaId == vm.cittaSelezionata.id });
             vm.localitaSelezionata = _.find(vm.localita, function (localita) { return localita.nomeLocalita == "-" });
+            vm.selezionaLocalita();
         };
 
         vm.selezionaProvincia = function selezionaProvincia() {
@@ -39,6 +45,30 @@
             vm.selezionaRegione();
         };
 
+        vm.selezionaTipoAcquisizione = function selezionaTipoAcquisizione() {
+            $("#hiddenOutputIdTipoAcquisizione").val(vm.TipoAcquisizioneSelezionato.id);
+        };
+
+        vm.selezionaCollezione = function selezionaCollezione() {
+            $("#hiddenOutputIdCollezione").val(vm.CollezioneSelezionata.id);
+        };
+
+        vm.selezionaSpedizione = function selezionaSpedizione() {
+            $("#hiddenoutputIdSpedizione").val(vm.SpedizioneSelezionata.id);
+        };
+
+        vm.selezionaAvutoDa = function selezionaAvutoDa() {
+            $("#hiddenOutputIdAvutoDa").val(vm.AvutoDaSelezionato.id);
+        };
+
+        vm.selezionaLegit = function selezionaLegit() {
+            $("#hiddenOutputIdLegit").val(vm.LegitSelezionato.id);
+        };
+
+        vm.selezionaCedente = function selezionaCedente() {
+            $("#hiddenOutputIdCedente").val(vm.CedenteSelezionato.id);
+        };
+
         vm.apriModaleGeografia = function apriModaleGeografia() {
             var cittaIniziale = _.find(elencoLocalita, function (localita) { return localita.id == $("#hiddenIdLocalita").val() }).cittaId;
             var provinciaIniziale = _.find(elencoCitta, function (citta) { return citta.id == cittaIniziale }).provinciaId;
@@ -53,14 +83,25 @@
             vm.cittaSelezionata = _.find(vm.citta, function (citta) { return citta.id == cittaIniziale })
             vm.selezionaCitta();
             vm.localitaSelezionata = _.find(vm.localita, function (localita) { return localita.id == $("#hiddenIdLocalita").val() });
+            vm.selezionaLocalita();
 
             vm.TipoAcquisizioneSelezionato = _.find(vm.tipiAcquisizione, function (tipoAcquisizione) { return tipoAcquisizione.id == $("#hiddenIdTipoAcquisizione").val() });
+            vm.selezionaTipoAcquisizione();
+
             vm.CollezioneSelezionata = _.find(vm.collezioni, function (collezione) { return collezione.id == $("#hiddenIdCollezione").val() });
+            vm.selezionaCollezione();
+
             vm.SpedizioneSelezionata = _.find(vm.spedizioni, function (spedizione) { return spedizione.id == $("#hiddenIdSpedizione").val() });
+            vm.selezionaSpedizione();
 
             vm.AvutoDaSelezionato = _.find(vm.raccoglitori, function (raccoglitore) { return raccoglitore.id == $("#hiddenIdAvutoDa").val() });
+            vm.selezionaAvutoDa();
+
             vm.LegitSelezionato = _.find(vm.raccoglitori, function (raccoglitore) { return raccoglitore.id == $("#hiddenIdLegit").val() });
+            vm.selezionaLegit();
+
             vm.CedenteSelezionato = _.find(vm.raccoglitori, function (raccoglitore) { return raccoglitore.id == $("#hiddenIdCedente").val() });
+            vm.selezionaCedente();
         };
 
         $http.get("/api/nazioni")
