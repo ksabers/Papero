@@ -49,16 +49,63 @@ namespace Papero.Funzioni
             return elenco;
         }
 
-        public static string leggiData(string dataIngresso)
+        public static string leggiData(string dataIngresso)  // Legge una data parziale e la restituisce nel formato di visualizzazione
         {
-            if (string.IsNullOrWhiteSpace(dataIngresso))
+            if (string.IsNullOrWhiteSpace(dataIngresso))  // Se la stringa è nulla o vuota, la data non è valida
             {
                 return "-";
             }
-            else
+
+            if (dataIngresso.Length != 8)  // Internamente le date devono sempre essere in formato "YYYYMMDD", altrimenti non sono valide
             {
-                return dataIngresso;
+                return "-";
             }
+
+            var annoNumerico = 0;
+            var meseNumerico = 0;
+            var giornoNumerico = 0;
+            var annoStringa = dataIngresso.Substring(0, 4);
+            var meseStringa = dataIngresso.Substring(4, 2);
+            var giornoStringa = dataIngresso.Substring(6, 2);
+
+            string[] mesiRomani = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII" };
+            
+            if (!Int32.TryParse(annoStringa, out annoNumerico))  //  Se l'anno non è un numero la data non è valida
+            {
+                return "-";
+            };
+
+            if (!Int32.TryParse(meseStringa, out meseNumerico))  //  Se il mese non è un numero la data non è valida
+            {
+                return "-";
+            };
+
+            if (meseNumerico > 12 || meseNumerico < 0)  // Se il mese non è compreso tra 0 e 12 la data non è valida
+            {
+                return "-";
+            };
+
+            if (!Int32.TryParse(giornoStringa, out giornoNumerico))  //  Se il giorno non è un numero la data non è valida
+            {
+                return "-";
+            };
+
+            if ((meseNumerico != 0) && (giornoNumerico != 0))  //  Se la data è completa, deve essere valida (questo verifica contemporaneamente i giorni tra 0 e 31
+            {                                                  //  e la validità generale della data (bisestili, mesi con 30 giorni, ecc.))
+                try
+                {
+                    var date = new DateTime(annoNumerico, meseNumerico, giornoNumerico);
+                }
+                catch (Exception)
+                {
+                    return "-";
+                }
+            }
+
+            // A questo punto siamo sicuri che la stringa rappresentava una data valida e la restituiamo in uscita nel formato corretto
+
+            return (giornoStringa == "00" ? "" : (giornoStringa + ".")) + (meseStringa == "00" ? "" : (mesiRomani[meseNumerico - 1] + ".")) + annoStringa;
+
         }
 
         public static string convertiNumero(double? numero)

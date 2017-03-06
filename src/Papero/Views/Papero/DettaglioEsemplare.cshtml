@@ -98,18 +98,78 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-lg-2" ng-controller="pulsanteMSNGController as vm">
+
+                        <div class="modal fade" id="modaleConfermaCancellazione" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+
+                                        <div class="panel panel-danger">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">@localizzatore["Confermare la cancellazione. L'operazione non può essere annullata."]<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                                            </div>
+                                            <div class="panel-body text-primary">
+
+                                                <form class="form-horizontal"
+                                                      id="formCancellaEsemplare"
+                                                      name="formCancellaEsemplare"
+                                                      asp-controller="UpdateDettaglioEsemplare"
+                                                      asp-action="CancellaEsemplare">
+                                                    <fieldset>
+
+                                                        <input type="hidden" id="esemplarehiddenCancellaEsemplare" asp-for="Id" value="@Model.Id" />
+
+                                                        <div class="form-group text-center">
+                                                            <h3>
+
+                                                                @(Model.Sottospecie.Specie.Genere.Nome +
+                                                                        " " +
+                                                                        Model.Sottospecie.Specie.Nome +
+                                                                        " " +
+                                                                        (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome) + " " + @Model.Sottospecie.ElencoAutori)
+
+                                                            </h3>
+                                                            <h3>
+                                                                @localizzatore["MSNG"]: <strong>@Model.Msng</strong>
+                                                           </h3>
+                                                        </div>
+
+                                                        <div class="form-group text-center">
+                                                            <div class="col-lg-12">
+                                                                    <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
+                                                                    <button type="submit" class="btn btn-danger">@localizzatore["Cancella Esemplare"]</button>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <form asp-controller="Papero"
                               asp-action="DettaglioEsemplareByMSNG"
                               id="formMSNG"
                               name="formMSNG">
                             <div class="form-group">
                                 <div class="input-group input-group-lg">
-                                    <input type="text" pattern="([1-9][0-9]*)" id="inputMSNG" ng-model="vm.MSNG" ng-change="vm.controllaMSNG()" value="@Model.Msng" class="form-control form-control-lg" asp-for="Msng" required>
+                                    <input type="text" pattern="([1-9][0-9]*)" id="inputMSNG" ng-model="vm.MSNG" ng-change="vm.controllaMSNG()" class="form-control form-control-lg" asp-for="Msng" required>
                                     <span class="input-group-btn">
                                         <button class="btn btn-success btn-lg" type="submit" ng-disabled="vm.controllaMSNG()">@localizzatore["MSNG"]</button>
                                     </span>
                                 </div>
                             </div>
+                            @if (ViewBag.trovato)
+                            {
+                                @if (User.IsInRole("Amministratore"))
+                                {
+                                    <i role="button" data-toggle="modal" data-target="#modaleConfermaCancellazione" ng-click="vm.apriModaleConfermaCancellazione()" class="fa fa-trash fa-2x"></i>
+                                }
+                            }
+
                         </form>
 
                     </div>
@@ -711,8 +771,8 @@
                                     </div>
                                 </div>
 
-
-                                <dt>@if (User.IsInRole("Amministratore"))
+                                <dt>
+                                    @if (User.IsInRole("Amministratore"))
                                 {
                                     <i role="button"
                                        class="fa fa-pencil fa-pull-left fa-fw text-muted"
@@ -720,26 +780,27 @@
                                        data-target="#modaleGeografia"
                                        ng-click="vm.apriModaleGeografia();"></i>
                                 }
-                                    @localizzatore["Località di Cattura"]:
-                                </dt>
+                                @localizzatore["Località di Cattura"]:
+                            </dt>
 
-                                @*
-                I parametri del dd servono per far comparire il popover di localizzazione geografica cliccando sulla località. tabindex=0 è un workaround per un bug di Bootstrap
-                altrimenti data-trigger=focus non funzionebbe. Mettere tabindex obbliga anche ad aggiungere style=outline:none altrimenti si vedrebbe
-                una antiestetica cornice attorno all'elemento. data-html=true è importante perché c'è codice html all'interno del data-content.
-                La serie di if-elseif visualizza il primo elemento "non-trattino" nella localizzazione geografica (il più dettagliato).
-                                *@
-                                <input type="hidden" id="hiddenIdLocalita" value="@Model.LocalitaCatturaId" />
-                                <dd data-toggle="popover"
-                                    data-html="true"
-                                    data-placement="bottom"
-                                    tabindex="0"
-                                    data-trigger="focus"
-                                    style="outline:none;cursor:pointer;"
-                                    data-content="@localizzatore["Nazione"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Regione.Nazione.Nazione)</b><br>
+                            @*
+            I parametri del dd servono per far comparire il popover di localizzazione geografica cliccando sulla località. tabindex=0 è un workaround per un bug di Bootstrap
+            altrimenti data-trigger=focus non funzionebbe. Mettere tabindex obbliga anche ad aggiungere style=outline:none altrimenti si vedrebbe
+            una antiestetica cornice attorno all'elemento. data-html=true è importante perché c'è codice html all'interno del data-content.
+            La serie di if-elseif visualizza il primo elemento "non-trattino" nella localizzazione geografica (il più dettagliato).
+                            *@
+                            <input type="hidden" id="hiddenIdLocalita" value="@Model.LocalitaCatturaId" />
+                            <dd data-toggle="popover"
+                                data-html="true"
+                                data-placement="bottom"
+                                tabindex="0"
+                                data-trigger="focus"
+                                style="outline:none;cursor:pointer;"
+                                data-content="@localizzatore["Nazione"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Regione.Nazione.Nazione)</b><br>
                                           @localizzatore["Regione"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Regione.Regione)</b><br>
                                           @localizzatore["Provincia"]: <b>@(Model.LocalitaCattura.Citta.Provincia.Provincia)</b><br>
-                                          @localizzatore["Città"]: <b>@(Model.LocalitaCattura.Citta.NomeCitta)</b>">
+                                          @localizzatore["Città"]: <b>@(Model.LocalitaCattura.Citta.NomeCitta)</b><br>
+                                          @localizzatore["Località"]: <b>@(Model.LocalitaCattura.NomeLocalita)</b>">
                                         @{
                                             if (Model.LocalitaCattura.Citta.Provincia.Regione.Regione == "-")
                                             {
@@ -764,31 +825,26 @@
                                         }
                                 </dd>
 
-                                <dt>@localizzatore["Data di Cattura"]:</dt>
-                                <dd>@funzioni.leggiData(Model.DataCattura)</dd>
-                                <dt>@localizzatore["Data Corretta"]:</dt>
-                                <dd>@Model.DataCatturaCorretta</dd>
-                                <dt>@localizzatore["Tipo Acquisizione"]:</dt>
-                                <dd>@Model.TipoAcquisizione.TipoAcquisizione</dd>
-                                <dt>@localizzatore["Data Acquisizione"]:</dt>
-                                <dd>@funzioni.leggiData(Model.DataAcquisizione)</dd>
-                                <dt>@localizzatore["Collezione"]:</dt>
-                                <dd>@Model.Collezione.Collezione</dd>
-                                <dt>@localizzatore["Spedizione"]:</dt>
-                                <dd>@Model.Spedizione.Spedizione</dd>
-                                <dt>@localizzatore["Avuto da"]:</dt>
-                                <dd>@Model.AvutoDa.Raccoglitore</dd>
-                                <dt>@localizzatore["Legit"]:</dt>
-                                <dd>@Model.Legit.Raccoglitore</dd>
-                                <dt>@localizzatore["Cedente"]:</dt>
-                                <dd>@Model.Cedente.Raccoglitore</dd>
-                            </div>
-
-
-
-
-
-                        </dl>
+                            <dt>@localizzatore["Data di Cattura"]:</dt>
+                            <dd>@funzioni.leggiData(Model.DataCattura)</dd>
+                            <dt>@localizzatore["Data Corretta"]:</dt>
+                            <dd>@Model.DataCatturaCorretta</dd>
+                            <dt>@localizzatore["Tipo Acquisizione"]:</dt>
+                            <dd>@Model.TipoAcquisizione.TipoAcquisizione</dd>
+                            <dt>@localizzatore["Data Acquisizione"]:</dt>
+                            <dd>@funzioni.leggiData(Model.DataAcquisizione)</dd>
+                            <dt>@localizzatore["Collezione"]:</dt>
+                            <dd>@Model.Collezione.Collezione</dd>
+                            <dt>@localizzatore["Spedizione"]:</dt>
+                            <dd>@Model.Spedizione.Spedizione</dd>
+                            <dt>@localizzatore["Avuto da"]:</dt>
+                            <dd>@Model.AvutoDa.Raccoglitore</dd>
+                            <dt>@localizzatore["Legit"]:</dt>
+                            <dd>@Model.Legit.Raccoglitore</dd>
+                            <dt>@localizzatore["Cedente"]:</dt>
+                            <dd>@Model.Cedente.Raccoglitore</dd>
+                        </div>
+                    </dl>
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             <dt>@localizzatore["Data di Determinazione"]:</dt>
@@ -954,19 +1010,7 @@
                         </dl>
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
-                            <dt>@localizzatore["Data di Preparazione"]:</dt>
-                            <dd>@funzioni.leggiData(Model.DataPreparazione)</dd>
-                            <dt>@localizzatore["Scheda"]:</dt>
-                            <dd>@Model.Scheda</dd>
-                            <dt>@localizzatore["Preparatori"]:</dt>
-                            <dd>
-                                <ul class="list-unstyled">
-                                    @foreach (var preparatore in Model.Preparazioni.OrderBy(preparatore => preparatore.Ordinamento))
-                                    {
-                                        <li>@(preparatore.Preparatore.Nome + " " + preparatore.Preparatore.Cognome)</li>
-                                    }
-                                </ul>
-                            </dd>
+
                             <div class="card card-outline-secondary" ng-controller="modaleModiPreparazioneController as vm">
 
                                 <div class="modal fade" id="modaleModiPreparazione" role="dialog">
@@ -1090,6 +1134,19 @@
                                     </ul>
                                 </dd>
                             </div>
+                            <dt>@localizzatore["Data di Preparazione"]:</dt>
+                            <dd>@funzioni.leggiData(Model.DataPreparazione)</dd>
+                            <dt>@localizzatore["Scheda"]:</dt>
+                            <dd>@Model.Scheda</dd>
+                            <dt>@localizzatore["Preparatori"]:</dt>
+                            <dd>
+                                <ul class="list-unstyled">
+                                    @foreach (var preparatore in Model.Preparazioni.OrderBy(preparatore => preparatore.Ordinamento))
+                                    {
+                                        <li>@(preparatore.Preparatore.Nome + " " + preparatore.Preparatore.Cognome)</li>
+                                    }
+                                </ul>
+                            </dd>
                             <dt>@localizzatore["Note di Preparazione"]:</dt>
                             <dd>
                                 <textarea rows="3" readonly style="resize:none; border:none;">@Model.NotePreparazione</textarea>
