@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using System.Globalization;
+using Papero.Funzioni;
 
 namespace Papero.Controllers
 {
@@ -232,9 +233,11 @@ namespace Papero.Controllers
         public async Task<IActionResult> AggiornaGeografia(int Id,
                                                            string hiddenOutputIdLocalitaSelezionata,
                                                            string inputDataCattura,
+                                                           string tipoDataCattura,
                                                            string inputDataCatturaCorretta,
                                                            string hiddenOutputIdTipoAcquisizione,
                                                            string inputDataAcquisizione,
+                                                           string tipoDataAcquisizione,
                                                            string hiddenOutputIdCollezione,
                                                            string hiddenoutputIdSpedizione,
                                                            string hiddenOutputIdAvutoDa,
@@ -244,10 +247,10 @@ namespace Papero.Controllers
             var esemplareDaModificare = _repository.LeggiEsemplare(Id);
 
             esemplareDaModificare.LocalitaCatturaId = Int32.Parse(hiddenOutputIdLocalitaSelezionata);
-            esemplareDaModificare.DataCattura = inputDataCattura;
+            esemplareDaModificare.DataCattura = funzioni.scriviData(inputDataCattura, tipoDataCattura);
             esemplareDaModificare.DataCatturaCorretta = inputDataCatturaCorretta;
             esemplareDaModificare.TipoAcquisizioneId = Int32.Parse(hiddenOutputIdTipoAcquisizione);
-            esemplareDaModificare.DataAcquisizione = inputDataAcquisizione;
+            esemplareDaModificare.DataAcquisizione = funzioni.scriviData(inputDataAcquisizione, tipoDataAcquisizione);
             esemplareDaModificare.CollezioneId = Int32.Parse(hiddenOutputIdCollezione);
             esemplareDaModificare.SpedizioneId = Int32.Parse(hiddenoutputIdSpedizione);
             esemplareDaModificare.AvutoDaId = Int32.Parse(hiddenOutputIdAvutoDa);

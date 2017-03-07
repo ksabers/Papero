@@ -51,12 +51,12 @@ namespace Papero.Funzioni
 
         public static string leggiData(string dataIngresso)  // Legge una data parziale e la restituisce nel formato di visualizzazione
         {
-            if (string.IsNullOrWhiteSpace(dataIngresso))  // Se la stringa è nulla o vuota, la data non è valida
+            if (string.IsNullOrEmpty(dataIngresso) || string.IsNullOrWhiteSpace(dataIngresso))  // Se la stringa è nulla o vuota, la data non è valida
             {
                 return "-";
             }
 
-            if (dataIngresso.Length != 8 && dataIngresso.Length !=10)  // Internamente le date devono sempre essere in formato "YYYYMMDD" oppure "YYYY-MM-DD", altrimenti non sono valide
+            if (dataIngresso.Trim().Length != 8 && dataIngresso.Trim().Length !=10)  // Internamente le date devono sempre essere in formato "YYYYMMDD" oppure "YYYY-MM-DD", altrimenti non sono valide
             {
                 return "-";
             }
@@ -68,17 +68,17 @@ namespace Papero.Funzioni
             var meseStringa = "";
             var giornoStringa = "";
 
-            if (dataIngresso.Length == 8)
+            if (dataIngresso.Trim().Length == 8)
             {
-                annoStringa = dataIngresso.Substring(0, 4);
-                meseStringa = dataIngresso.Substring(4, 2);
-                giornoStringa = dataIngresso.Substring(6, 2);
+                annoStringa = dataIngresso.Trim().Substring(0, 4);
+                meseStringa = dataIngresso.Trim().Substring(4, 2);
+                giornoStringa = dataIngresso.Trim().Substring(6, 2);
             }
             else
             {
-                annoStringa = dataIngresso.Substring(0, 4);
-                meseStringa = dataIngresso.Substring(5, 2);
-                giornoStringa = dataIngresso.Substring(8, 2);
+                annoStringa = dataIngresso.Trim().Substring(0, 4);
+                meseStringa = dataIngresso.Trim().Substring(5, 2);
+                giornoStringa = dataIngresso.Trim().Substring(8, 2);
             };
 
             string[] mesiRomani = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII" };
@@ -119,6 +119,47 @@ namespace Papero.Funzioni
 
             return (giornoStringa == "00" ? "" : (giornoStringa + ".")) + (meseStringa == "00" ? "" : (mesiRomani[meseNumerico - 1] + ".")) + annoStringa;
 
+        }
+
+
+        public static string scriviData(string dataIngresso, string tipoData)
+        {
+            if (string.IsNullOrEmpty(dataIngresso) || string.IsNullOrWhiteSpace(dataIngresso))
+            {
+                return null;
+            };
+
+            var annoStringa = "";
+            var meseStringa = "";
+            var giornoStringa = "";
+
+            if (dataIngresso.Trim().Length == 8)
+            {
+                annoStringa = dataIngresso.Trim().Substring(0, 4);
+                meseStringa = dataIngresso.Trim().Substring(4, 2);
+                giornoStringa = dataIngresso.Trim().Substring(6, 2);
+            }
+            else
+            {
+                annoStringa = dataIngresso.Trim().Substring(0, 4);
+                meseStringa = dataIngresso.Trim().Substring(5, 2);
+                giornoStringa = dataIngresso.Trim().Substring(8, 2);
+            };
+
+            switch (tipoData)
+            {
+                case "Data completa":
+                    return annoStringa + "-" + meseStringa + "-" + giornoStringa;
+
+                case "Ignora mese/giorno":
+                    return annoStringa + "-00-00";
+
+                case "Ignora giorno":
+                    return annoStringa + "-" + meseStringa + "-00";
+
+                default:
+                    return null;
+            }
         }
 
         public static string convertiNumero(double? numero)
