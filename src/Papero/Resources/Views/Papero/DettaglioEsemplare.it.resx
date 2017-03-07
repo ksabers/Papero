@@ -423,4 +423,13 @@
   <data name="Referenti" xml:space="preserve">
     <value>Referenti</value>
   </data>
+  <data name="Data completa" xml:space="preserve">
+    <value>Data completa</value>
+  </data>
+  <data name="Ignora giorno" xml:space="preserve">
+    <value>Ignora giorno</value>
+  </data>
+  <data name="Ignora mese/giorno" xml:space="preserve">
+    <value>Ignora mese/giorno</value>
+  </data>
 </root>

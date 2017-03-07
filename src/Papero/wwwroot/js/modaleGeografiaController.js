@@ -102,6 +102,15 @@
 
             vm.CedenteSelezionato = _.find(vm.raccoglitori, function (raccoglitore) { return raccoglitore.id == $("#hiddenIdCedente").val() });
             vm.selezionaCedente();
+
+            var dataCattura = funzioni.trasformaData($("#hiddenDataCattura").val());
+            vm.dataCattura = dataCattura.data;
+            vm.tipoDataCattura = dataCattura.tipo;
+
+            var dataAcquisizione = funzioni.trasformaData($("#hiddenDataAcquisizione").val());
+            vm.dataAcquisizione = dataAcquisizione.data;
+            vm.tipoDataAcquisizione = dataAcquisizione.tipo;
+            
         };
 
         $http.get("/api/nazioni")

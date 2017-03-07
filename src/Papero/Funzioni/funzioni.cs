@@ -56,7 +56,7 @@ namespace Papero.Funzioni
                 return "-";
             }
 
-            if (dataIngresso.Length != 8)  // Internamente le date devono sempre essere in formato "YYYYMMDD", altrimenti non sono valide
+            if (dataIngresso.Length != 8 && dataIngresso.Length !=10)  // Internamente le date devono sempre essere in formato "YYYYMMDD" oppure "YYYY-MM-DD", altrimenti non sono valide
             {
                 return "-";
             }
@@ -64,9 +64,22 @@ namespace Papero.Funzioni
             var annoNumerico = 0;
             var meseNumerico = 0;
             var giornoNumerico = 0;
-            var annoStringa = dataIngresso.Substring(0, 4);
-            var meseStringa = dataIngresso.Substring(4, 2);
-            var giornoStringa = dataIngresso.Substring(6, 2);
+            var annoStringa = "";
+            var meseStringa = "";
+            var giornoStringa = "";
+
+            if (dataIngresso.Length == 8)
+            {
+                annoStringa = dataIngresso.Substring(0, 4);
+                meseStringa = dataIngresso.Substring(4, 2);
+                giornoStringa = dataIngresso.Substring(6, 2);
+            }
+            else
+            {
+                annoStringa = dataIngresso.Substring(0, 4);
+                meseStringa = dataIngresso.Substring(5, 2);
+                giornoStringa = dataIngresso.Substring(8, 2);
+            };
 
             string[] mesiRomani = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII" };
             

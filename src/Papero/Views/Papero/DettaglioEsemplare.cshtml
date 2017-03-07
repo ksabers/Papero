@@ -566,7 +566,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label for="uiselectLocalita" class="col-lg-3 control-label">@localizzatore["Località"]:{{vm.localitaSelezionata.id}}</label>
+                                                                            <label for="uiselectLocalita" class="col-lg-3 control-label">@localizzatore["Località"]:</label>
                                                                             <div class="col-lg-4">
                                                                                 @*Questo serve per memorizzare il valore dal modello e inizializzare la dropdown all'apertura*@
                                                                                 <input type="hidden" id="hiddenIdLocalitaSelezionata" name="hiddenIdLocalitaSelezionata" value="@Model.LocalitaCatturaId" />
@@ -588,17 +588,26 @@
 
                                                                     <div class="tab-pane fade col-lg-offset-2" id="tabdata">
                                                                         <div class="form-group">
-                                                                            <label for="inputDataCattura" class="col-lg-4 control-label">@localizzatore["Data di Cattura"]:</label>
+                                                                            <label for="inputDataCattura" class="col-lg-3 control-label">@localizzatore["Data di Cattura"]:</label>
                                                                             <div class="col-lg-4">
+                                                                                <input type="hidden" id="hiddenDataCattura" value="@Model.DataCattura" />
                                                                                 <input id="inputDataCattura"
                                                                                        name="inputDataCattura"
-                                                                                       type="text"
-                                                                                       class="form-control"
-                                                                                       value="@Model.DataCattura">
+                                                                                       ng-model="vm.dataCattura"
+                                                                                       type="date"
+                                                                                       class="form-control">
+                                                                            </div>
+                                                                            <div>
+                                                                                <input type="radio" name="tipoDataCattura" ng-model="vm.tipoDataCattura" value="Data completa"/>
+                                                                                <input type="radio" name="tipoDataCattura" ng-model="vm.tipoDataCattura" value="Ignora mese/giorno"/>
+                                                                                <input type="radio" name="tipoDataCattura" ng-model="vm.tipoDataCattura" value="Ignora giorno"/>
+                                                                                <span ng-show="vm.tipoDataCattura == 'Data completa'">@localizzatore["Data completa"]</span>
+                                                                                <span ng-show="vm.tipoDataCattura == 'Ignora mese/giorno'">@localizzatore["Ignora mese/giorno"]</span>
+                                                                                <span ng-show="vm.tipoDataCattura == 'Ignora giorno'">@localizzatore["Ignora giorno"]</span>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label for="inputDataCatturaCorretta" class="col-lg-4 control-label">@localizzatore["Data Corretta"]:</label>
+                                                                            <label for="inputDataCatturaCorretta" class="col-lg-3 control-label">@localizzatore["Data Corretta"]:</label>
                                                                             <div class="col-lg-4">
                                                                                 <input id="inputDataCatturaCorretta"
                                                                                        name="inputDataCatturaCorretta"
@@ -631,13 +640,21 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label for="inputDataAcquisizione" class="col-lg-4 control-label">@localizzatore["Data Acquisizione"]:</label>
+                                                                            <label for="inputDataAcquisizione" class="col-lg-3 control-label">@localizzatore["Data Acquisizione"]:</label>
                                                                             <div class="col-lg-4">
+                                                                                <input type="hidden" id="hiddenDataAcquisizione" value="@Model.DataAcquisizione" />
                                                                                 <input id="inputDataAcquisizione"
                                                                                        name="inputDataAcquisizione"
-                                                                                       type="text"
-                                                                                       class="form-control"
-                                                                                       value="@Model.DataAcquisizione">
+                                                                                       type="date"
+                                                                                       class="form-control">
+                                                                            </div>
+                                                                            <div>
+                                                                                <input type="radio" name="tipoDataAcquisizione" ng-model="vm.tipoDataAcquisizione" value="Data completa" />
+                                                                                <input type="radio" name="tipoDataAcquisizione" ng-model="vm.tipoDataAcquisizione" value="Ignora mese/giorno" />
+                                                                                <input type="radio" name="tipoDataAcquisizione" ng-model="vm.tipoDataAcquisizione" value="Ignora giorno" />
+                                                                                <span ng-show="vm.tipoDataAcquisizione == 'Data completa'">@localizzatore["Data completa"]</span>
+                                                                                <span ng-show="vm.tipoDataAcquisizione == 'Ignora mese/giorno'">@localizzatore["Ignora mese/giorno"]</span>
+                                                                                <span ng-show="vm.tipoDataAcquisizione == 'Ignora giorno'">@localizzatore["Ignora giorno"]</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
