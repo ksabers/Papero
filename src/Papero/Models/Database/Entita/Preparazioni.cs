@@ -5,7 +5,7 @@ namespace Papero.Models
 {
     public partial class Preparazioni
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public int? EsemplareId { get; set; }
         public int? PreparatoreId { get; set; }
         public int? Ordinamento { get; set; }

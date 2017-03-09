@@ -74,21 +74,6 @@ namespace Papero
             })
                 .AddEntityFrameworkStores<PaperoDBContext>();   // IMPORTANTE!!! Questa riga dice quale database fisico verrà usato per contenere le tabelle usate da Identity
 
-            servizi.AddLogging(); // Aggiunta del supporto per i log
-
-            servizi.AddMvc(opzioni =>                                  // Aggiunta del framework MVC lato server e sua configurazione
-            {
-                if (_ambiente.IsProduction())                          // Se siamo in ambiente di produzione...
-                {
-                    opzioni.Filters.Add(new RequireHttpsAttribute());   // ...forziamo tutto il sito ad andare via HTTPS per motivi di sicurezza (in sviluppo va bene HTTP)
-                }
-            })                                                     
-                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)  // Aggiunta del supporto per la localizzazione delle viste
-                .AddDataAnnotationsLocalization()                                // Aggiunta del supporto per la localizzazione delle annotazioni
-                .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);  // IMPORTANTE!!!!  Senza questa riga i JSON non vengono
-                                                                                                                                  // generati correttamente perché esistono dei riferimenti
-                                                                                                                                  // circolari (che in realtà sono innocui ma causerebbero
-                                                                                                                                  // "Self referencing loop detected")
 
             servizi.AddLocalization(opzioni =>         // Aggiunta del supporto globale per la localizzazione e sua configurazione
             {
@@ -111,10 +96,26 @@ namespace Papero
                 opzioni.SupportedUICultures = lingueSupportate; // SupportedCultures serve per i formati (date, decimali, ecc.). SupportedUICultures per le lingue dell'interfaccia.
 
             });
+
+            servizi.AddMvc(opzioni =>                                  // Aggiunta del framework MVC lato server e sua configurazione
+            {
+                if (_ambiente.IsProduction())                          // Se siamo in ambiente di produzione...
+                {
+                    opzioni.Filters.Add(new RequireHttpsAttribute());   // ...forziamo tutto il sito ad andare via HTTPS per motivi di sicurezza (in sviluppo va bene HTTP)
+                }
+            })
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)  // Aggiunta del supporto per la localizzazione delle viste
+                .AddDataAnnotationsLocalization()                                // Aggiunta del supporto per la localizzazione delle annotazioni
+                .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);  // IMPORTANTE!!!!  Senza questa riga i JSON non vengono
+                                                                                                                                  // generati correttamente perché esistono dei riferimenti
+                                                                                                                                  // circolari (che in realtà sono innocui ma causerebbero
+                                                                                                                                  // "Self referencing loop detected")
+
+            servizi.AddLogging(); // Aggiunta del supporto per i log
         }
 
 
-// Configurazione della pipeline HTTP. Qui si decide come l'applicazione risponde alle richieste.
+        // Configurazione della pipeline HTTP. Qui si decide come l'applicazione risponde alle richieste.
         public void Configure(IApplicationBuilder applicazione, IHostingEnvironment ambiente, ILoggerFactory gestoreLogs)
         {
 

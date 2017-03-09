@@ -230,6 +230,19 @@ namespace Papero.Controllers
 
         [Authorize]
         [HttpPost]
+        public async Task<IActionResult> CancellaEsemplare(int Id)
+        {
+            _repository.CancellaEsemplare(Id);
+
+            if (await _repository.SalvaModifiche())
+            {
+                return RedirectToAction("ElencoEsemplari", "Papero");
+            }
+            return RedirectToAction("ElencoEsemplari", "Papero");  // TODO scrivere pagina di errore
+        }
+
+        [Authorize]
+        [HttpPost]
         public async Task<IActionResult> AggiornaGeografia(int Id,
                                                            string hiddenOutputIdLocalitaSelezionata,
                                                            string inputDataCattura,

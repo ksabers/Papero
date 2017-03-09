@@ -33,7 +33,9 @@ namespace Papero.Models
         Sottospecie LeggiSottospecie(int idSottospecie);
         Task<bool> SalvaModifiche();
         void CancellaPreparati(int idEsemplare);
+        void CancellaPreparazioni(int idEsemplare);
         void CancellaVecchiDeterminatori(int[] arrayIdVecchieDeterminazioni);
+        void CancellaDeterminazioni(int idEsemplare);
         void CancellaVecchieDeterminazioni(int idEsemplare);
         void InserisciVecchiDeterminatori(VecchiDeterminatori determinatoreDaInserire);
         IEnumerable<ElencoSpecieViewModel> LeggiElencoSpecie();
@@ -56,9 +58,13 @@ namespace Papero.Models
         IEnumerable<Localita> LeggiLocalita();
         IEnumerable<Localita> LeggiLocalita(int idCitta);
         IEnumerable<Nazioni> LeggiGeografia();
-        IEnumerable<TipiAcquisizione> LeggiTipiAcquisizione();
+        IEnumerable<TipiAcquisizioneLocalizzatiViewModel> LeggiTipiAcquisizione();
         IEnumerable<Collezioni> LeggiCollezioni();
         IEnumerable<Spedizioni> LeggiSpedizioni();
         IEnumerable<Raccoglitori> LeggiRaccoglitori();
+        IEnumerable<SessiLocalizzatiViewModel> LeggiSessi();
+        IEnumerable<TipiLocalizzatiViewModel> LeggiTipi();
+        IEnumerable<AberrazioniLocalizzateViewModel> LeggiAberrazioni();
+        void CancellaEsemplare(int idEsemplare);
     }
 }

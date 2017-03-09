@@ -432,4 +432,13 @@
   <data name="Ignora mese/giorno" xml:space="preserve">
     <value>Ignore month/day</value>
   </data>
+  <data name="Acquisto" xml:space="preserve">
+    <value>Purchase</value>
+  </data>
+  <data name="Dono" xml:space="preserve">
+    <value>Gift</value>
+  </data>
+  <data name="Scambio" xml:space="preserve">
+    <value>Exchange</value>
+  </data>
 </root>

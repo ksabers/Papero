@@ -641,7 +641,8 @@ namespace Papero.Models
                     .HasName("Preparazioni$UEsemplareIDPreparatoreIDOrdinamento")
                     .IsUnique();
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.HasKey(e => new { e.EsemplareId, e.PreparatoreId });
+                //entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.EsemplareId)
                     .IsRequired()

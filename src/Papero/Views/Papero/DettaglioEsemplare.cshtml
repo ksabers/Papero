@@ -63,6 +63,7 @@
     <script src="~/js/pulsanteMSNGController.js"></script>
     <script src="~/js/modaleVecchieDeterminazioniController.js"></script>
     <script src="~/js/modaleGeografiaController.js"></script>
+    <script src="~/js/modaleDatiGeneraliController.js"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.5/angular-datatables.min.js"></script>
@@ -451,7 +452,7 @@
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
                             @*<dt>@localizzatore["NCU"]:</dt>
-                            <dd>@Model.Ncu</dd>*@
+            <dd>@Model.Ncu</dd>*@
                             <dt>
                                 <a asp-controller="UpdateDettaglioEsemplare" asp-action="TogglePresenza" asp-route-id="@Model.Id" style="text-decoration:none">
                                     @if (User.IsInRole("Amministratore"))
@@ -468,16 +469,134 @@
                                 </a>&nbsp;@localizzatore["Presenza"]:
                             </dt>
                             <dd>@((bool)Model.Presenza ? localizzatore["Sì"] : localizzatore["No"])</dd>
-                            <dt>@localizzatore["Sesso"]:</dt>
-                            <dd>@localizzatore[Model.Sesso.Sesso]</dd>
-                            <dt>@localizzatore["Lettera"]:</dt>
-                            <dd>@Model.LetteraEsemplare</dd>
-                            <dt>@localizzatore["Numero"]:</dt>
-                            <dd>@Model.NumeroEsemplare</dd>
-                            <dt>@localizzatore["Tipo"]:</dt>
-                            <dd>@Model.Tipo.Tipo</dd>
-                            <dt>@localizzatore["Aberrazione"]:</dt>
-                            <dd>@localizzatore[Model.Aberrazione.Aberrazione]</dd>
+
+                            <div class="card card-outline-secondary" ng-controller="modaleDatiGeneraliController as vm">
+
+
+                                <div class="modal fade" id="modaleDatiGenerali" role="dialog">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="panel panel-primary">
+                                                    <div class="panel-heading">
+                                                        <h3 class="panel-title">@localizzatore["Inserire i nuovi valori"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <form class="form-horizontal"
+                                                              asp-controller="UpdateDettaglioEsemplare"
+                                                              asp-action="AggiornaDatiGenerali"
+                                                              id="formDatiGenerali"
+                                                              name="formDatiGenerali">
+                                                            <fieldset>
+
+                                                                <input type="hidden" id="esemplarehiddenDatiGenerali" asp-for="Id" value="@Model.Id" />
+
+                                                                <div class="form-group">
+                                                                    <label for="uiselectSesso" class="col-lg-5 control-label">@localizzatore["Sesso"]:</label>
+                                                                    <div class="col-lg-4">
+                                                                        @*Questo serve per memorizzare il valore dal modello e inizializzare la dropdown all'apertura*@
+                                                                        <input type="hidden" id="hiddenIdSessoSelezionato" name="hiddenIdSessoSelezionato" value="@Model.SessoId" />
+
+                                                                        @*Questo invece serve per inviare il valore corrente al form durante il submit*@
+                                                                        <input type="hidden" id="hiddenOutputIdSessoSelezionato" name="hiddenOutputIdSessoSelezionato" />
+
+                                                                        <ui-select id="uiselectSesso" ng-model="vm.sessoSelezionato" ng-change="vm.selezionaSesso()">
+                                                                            <ui-select-match>
+                                                                                <span ng-bind="$select.selected.sessoLocalizzato"></span>
+                                                                            </ui-select-match>
+                                                                            <ui-select-choices repeat="sesso in (vm.sessi | filter: $select.search) track by sesso.id">
+                                                                                <span ng-bind="sesso.sessoLocalizzato"></span>
+                                                                            </ui-select-choices>
+                                                                        </ui-select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputLettera" class="col-lg-5 control-label">@localizzatore["Lettera"]:</label>
+                                                                    <div class="col-lg-4">
+                                                                        <input id="inputLettera" name="inputLettera" type="text" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputNumero" class="col-lg-5 control-label">@localizzatore["Numero"]:</label>
+                                                                    <div class="col-lg-4">
+                                                                        <input id="inputNumero" name="inputNumero" type="text" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="uiselectTipo" class="col-lg-5 control-label">@localizzatore["Tipo"]:</label>
+                                                                    <div class="col-lg-4">
+                                                                        @*Questo serve per memorizzare il valore dal modello e inizializzare la dropdown all'apertura*@
+                                                                        <input type="hidden" id="hiddenIdTipoSelezionato" name="hiddenIdTipoSelezionato" value="@Model.TipoId" />
+
+                                                                        @*Questo invece serve per inviare il valore corrente al form durante il submit*@
+                                                                        <input type="hidden" id="hiddenOutputIdTipoSelezionato" name="hiddenOutputIdTipoSelezionato" />
+                                                                        <ui-select id="uiselectTipo" ng-model="vm.tipoSelezionato" ng-change="vm.selezionaTipo()">
+                                                                            <ui-select-match>
+                                                                                <span ng-bind="$select.selected.tipoLocalizzato"></span>
+                                                                            </ui-select-match>
+                                                                            <ui-select-choices repeat="tipo in (vm.tipi | filter: $select.search) track by tipo.id">
+                                                                                <span ng-bind="tipo.tipoLocalizzato"></span>
+                                                                            </ui-select-choices>
+                                                                        </ui-select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="uiselectAberrazione" class="col-lg-5 control-label">@localizzatore["Aberrazione"]:</label>
+                                                                    <div class="col-lg-4">
+                                                                        @*Questo serve per memorizzare il valore dal modello e inizializzare la dropdown all'apertura*@
+                                                                        <input type="hidden" id="hiddenIdAberrazioneSelezionata" name="hiddenIdAberrazioneSelezionata" value="@Model.AberrazioneId" />
+
+                                                                        @*Questo invece serve per inviare il valore corrente al form durante il submit*@
+                                                                        <input type="hidden" id="hiddenOutputIdAberrazioneSelezionata" name="hiddenOutputIdAberrazioneSelezionata" />
+                                                                        <ui-select id="uiselectAberrazione" ng-model="vm.aberrazioneSelezionata" ng-change="vm.selezionaAberrazione()">
+                                                                            <ui-select-match>
+                                                                                <span ng-bind="$select.selected.aberrazioneLocalizzata"></span>
+                                                                            </ui-select-match>
+                                                                            <ui-select-choices repeat="aberrazione in (vm.aberrazioni | filter: $select.search) track by aberrazione.id">
+                                                                                <span ng-bind="aberrazione.aberrazioneLocalizzata"></span>
+                                                                            </ui-select-choices>
+                                                                        </ui-select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="pull-right">
+                                                                            <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
+                                                                            <button id="bottoneSubmitMorfologia" type="submit" class="btn btn-success">@localizzatore["Inserisci"]</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <dt>
+                                    @if (User.IsInRole("Amministratore"))
+                                    {
+                                        <i role="button"
+                                           class="fa fa-pencil fa-pull-left fa-fw text-muted"
+                                           data-toggle="modal"
+                                           data-target="#modaleDatiGenerali"
+                                           ng-click="vm.apriModaleDatiGenerali()"></i>
+                                    }
+                                    @localizzatore["Sesso"]:
+                                </dt>
+                                <dd>@localizzatore[Model.Sesso.Sesso]</dd>
+                                <dt>@localizzatore["Lettera"]:</dt>
+                                <dd>@Model.LetteraEsemplare</dd>
+                                <dt>@localizzatore["Numero"]:</dt>
+                                <dd>@Model.NumeroEsemplare</dd>
+                                <dt>@localizzatore["Tipo"]:</dt>
+                                <dd>@Model.Tipo.Tipo</dd>
+                                <dt>@localizzatore["Aberrazione"]:</dt>
+                                <dd>@localizzatore[Model.Aberrazione.Aberrazione]</dd>
+                            </div>
                         </dl>
 
                         <dl class="col-lg-3 dl-horizontal text-primary">
@@ -637,10 +756,10 @@
 
                                                                                 <ui-select id="uiselectTipoAcquisizione" ng-model="vm.TipoAcquisizioneSelezionato" ng-change="vm.selezionaTipoAcquisizione()">
                                                                                     <ui-select-match>
-                                                                                        <span ng-bind="$select.selected.tipoAcquisizione"></span>
+                                                                                        <span ng-bind="$select.selected.tipoAcquisizioneLocalizzato"></span>
                                                                                     </ui-select-match>
                                                                                     <ui-select-choices repeat="tipoAcquisizione in (vm.tipiAcquisizione | filter: $select.search) track by tipoAcquisizione.id">
-                                                                                        <span ng-bind="tipoAcquisizione.tipoAcquisizione"></span>
+                                                                                        <span ng-bind="tipoAcquisizione.tipoAcquisizioneLocalizzato"></span>
                                                                                     </ui-select-choices>
                                                                                 </ui-select>
                                                                             </div>
@@ -777,10 +896,6 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
-
-
-
                                                                 </div>
                                                                 <br />
                                                                 <div class="form-group">
@@ -859,7 +974,7 @@
                             <dt>@localizzatore["Data Corretta"]:</dt>
                             <dd>@Model.DataCatturaCorretta</dd>
                             <dt>@localizzatore["Tipo Acquisizione"]:</dt>
-                            <dd>@Model.TipoAcquisizione.TipoAcquisizione</dd>
+                            <dd>@localizzatore[Model.TipoAcquisizione.TipoAcquisizione]</dd>
                             <dt>@localizzatore["Data Acquisizione"]:</dt>
                             <dd>@funzioni.leggiData(Model.DataAcquisizione)</dd>
                             <dt>@localizzatore["Collezione"]:</dt>

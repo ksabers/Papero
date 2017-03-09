@@ -249,6 +249,26 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiRaccoglitori());
         }
 
+        [Authorize]
+        [HttpGet("api/sessi")]
+        public IActionResult GetSessi()
+        {
+            return Ok(_repository.LeggiSessi());
+        }
+
+        [Authorize]
+        [HttpGet("api/tipi")]
+        public IActionResult GetTipi()
+        {
+            return Ok(_repository.LeggiTipi());
+        }
+
+        [Authorize]
+        [HttpGet("api/aberrazioni")]
+        public IActionResult GetAberrazioni()
+        {
+            return Ok(_repository.LeggiAberrazioni());
+        }
 
     }
 }

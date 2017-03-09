@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using Papero.Funzioni;
-using Papero.Models;
+using Papero.Controllers;
 using Papero.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,12 +15,15 @@ namespace Papero.Models
     {
         private PaperoDBContext _contesto;
         private ILogger<PaperoRepository> _log;
+        private IStringLocalizer<PaperoRepository> _localizzatore;
 
         public PaperoRepository(PaperoDBContext contesto,
-                                ILogger<PaperoRepository> log)
+                                ILogger<PaperoRepository> log,
+                                IStringLocalizer<PaperoRepository> localizzatore)
         {
             _contesto = contesto;
             _log = log;
+            _localizzatore = localizzatore;
         }
 
         public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplari()
@@ -182,6 +185,13 @@ namespace Papero.Models
             _contesto.SaveChanges();
         }
 
+        public void CancellaPreparazioni(int idEsemplare)
+        {
+            _contesto.Preparazioni
+                .RemoveRange(_contesto.Preparazioni.Where(preparazione => preparazione.EsemplareId == idEsemplare));
+            _contesto.SaveChanges();
+        }
+
         public IEnumerable<PartiPreparate> LeggiPartiPreparate()
         {
             return _contesto.PartiPreparate
@@ -297,6 +307,12 @@ namespace Papero.Models
             _contesto.SaveChanges();
         }
 
+        public void CancellaDeterminazioni(int idEsemplare)
+        {
+            _contesto.Determinazioni
+                .RemoveRange(_contesto.Determinazioni.Where(determinazione => determinazione.EsemplareId == idEsemplare));
+            _contesto.SaveChanges();
+        }
         public void CancellaVecchieDeterminazioni(int idEsemplare)
         {
             _contesto.VecchieDeterminazioni
@@ -470,10 +486,16 @@ namespace Papero.Models
                 .ToList();
         }
 
-        public IEnumerable<TipiAcquisizione> LeggiTipiAcquisizione()
+        public IEnumerable<TipiAcquisizioneLocalizzatiViewModel> LeggiTipiAcquisizione()
         {
             return _contesto.TipiAcquisizione
                 .OrderBy(tipoAcquisizione => tipoAcquisizione.TipoAcquisizione)
+                .Select(tipoAcquisizione => new TipiAcquisizioneLocalizzatiViewModel
+                {
+                    Id = tipoAcquisizione.Id,
+                    TipoAcquisizione = tipoAcquisizione.TipoAcquisizione,
+                    TipoAcquisizioneLocalizzato = _localizzatore[tipoAcquisizione.TipoAcquisizione]
+                })
                 .ToList();
         }
 
@@ -496,6 +518,60 @@ namespace Papero.Models
             return _contesto.Raccoglitori
                 .OrderBy(raccoglitore => raccoglitore.Raccoglitore)
                 .ToList();
+        }
+
+        public IEnumerable<SessiLocalizzatiViewModel> LeggiSessi()
+        {
+            
+            return _contesto.Sessi
+                .OrderBy(sesso => sesso.Sesso)
+                .Select(sesso => new SessiLocalizzatiViewModel
+                {
+                    Id = sesso.Id,
+                    Sesso = sesso.Sesso,
+                    SessoLocalizzato = _localizzatore[sesso.Sesso]
+                })
+                .ToList();
+        }
+
+        public IEnumerable<TipiLocalizzatiViewModel> LeggiTipi()
+        {
+            return _contesto.Tipi
+                .OrderBy(tipo => tipo.Tipo)
+                .Select(tipo => new TipiLocalizzatiViewModel
+                {
+                    Id = tipo.Id,
+                    Tipo = tipo.Tipo,
+                    TipoLocalizzato = _localizzatore[tipo.Tipo]
+                })
+                .ToList();
+        }
+
+        public IEnumerable<AberrazioniLocalizzateViewModel> LeggiAberrazioni()
+        {
+            return _contesto.Aberrazioni
+                .OrderBy(aberrazione => aberrazione.Aberrazione)
+                .Select(aberrazione => new AberrazioniLocalizzateViewModel
+                {
+                    Id = aberrazione.Id,
+                    Aberrazione = aberrazione.Aberrazione,
+                    AberrazioneLocalizzata = _localizzatore[aberrazione.Aberrazione]
+                })
+                .ToList();
+        }
+
+        public void CancellaEsemplare(int idEsemplare)
+        {
+            CancellaPreparati(idEsemplare);
+            CancellaPreparazioni(idEsemplare);
+            CancellaDeterminazioni(idEsemplare);
+
+            var arrayIdVecchieDeterminazioni = LeggiVecchieDeterminazioni(idEsemplare).Select(determinazione => determinazione.Id).ToArray();
+            CancellaVecchiDeterminatori(arrayIdVecchieDeterminazioni);
+            CancellaVecchieDeterminazioni(idEsemplare);
+
+            _contesto.Esemplari
+                .Remove(_contesto.Esemplari.Single(esemplare => esemplare.Id == idEsemplare));
         }
         public async Task<bool> SalvaModifiche()
         {

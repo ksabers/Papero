@@ -238,10 +238,15 @@
 
         $http.get("/api/vecchiedeterminazioni/" + inputIdEsemplare.value)
             .then(function (response) {
-                vm.datiTabellaVecchieDeterminazioni = response.data;                                        // popolamento della tabella di sx
-                idMassimo = _.maxBy(vm.datiTabellaVecchieDeterminazioni, function (o) { return o.id }).id;  // calcolo del massimo id presente in tabella, in modo da poterne aggiungere di nuovi
-            });                                                                                             // quando cliccheremo sul "+" di sinistra
-
+                vm.datiTabellaVecchieDeterminazioni = response.data;                                             // popolamento della tabella di sx
+                if (vm.datiTabellaVecchieDeterminazioni.length > 0) {                                            // calcolo del massimo id presente in tabella, in modo da poterne aggiungere di nuovi
+                    idMassimo = _.maxBy(vm.datiTabellaVecchieDeterminazioni, function (o) { return o.id }).id;   // quando cliccheremo sul "+" di sinistra
+                }
+                else {
+                    idMassimo = 0;  //  Ovviamente dobbiamo prevedere il caso in cui la tabella sia vuota
+                }
+                
+            });                                                                                             
         $http.get("/api/vecchideterminatori")
             .then(function (response) {
                 elencoVecchiDeterminatori = response.data;  // usato per popolare la tabella di dx, dopo averlo filtrato per id di determinazione in base alla riga selezionata a sx
