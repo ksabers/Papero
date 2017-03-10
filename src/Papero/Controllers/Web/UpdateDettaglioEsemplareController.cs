@@ -279,6 +279,30 @@ namespace Papero.Controllers
 
         [Authorize]
         [HttpPost]
+        public async Task<IActionResult> AggiornaDatiGenerali(int Id, 
+                                                              string hiddenOutputIdSessoSelezionato, 
+                                                              string inputLettera, 
+                                                              string inputNumero, 
+                                                              string hiddenOutputIdTipoSelezionato, 
+                                                              string hiddenOutputIdAberrazioneSelezionata)
+        {
+            var esemplareDaModificare = _repository.LeggiEsemplare(Id);
+
+            esemplareDaModificare.SessoId = Int32.Parse(hiddenOutputIdSessoSelezionato);
+            esemplareDaModificare.LetteraEsemplare = inputLettera;
+            esemplareDaModificare.NumeroEsemplare = inputNumero;
+            esemplareDaModificare.TipoId = Int32.Parse(hiddenOutputIdTipoSelezionato);
+            esemplareDaModificare.AberrazioneId = Int32.Parse(hiddenOutputIdAberrazioneSelezionata);
+
+            if (await _repository.SalvaModifiche())
+            {
+                return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });
+            }
+            return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
+        }
+
+        [Authorize]
+        [HttpPost]
         public async Task<IActionResult> AggiornaMorfologia(int Id, 
                                                             string inputPeso,
                                                             string inputLunghezzaTotale,
