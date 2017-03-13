@@ -285,6 +285,13 @@ namespace Papero.Controllers
         }
 
         [Authorize]
+        [HttpGet("api/preparatori/{idEsemplare}")]
+        public IActionResult GetPreparatori(int idEsemplare)
+        {
+            return Ok(_repository.LeggiPreparatori(idEsemplare));
+        }
+
+        [Authorize]
         [HttpGet("api/preparazioni")]
         public IActionResult GetPreparazioni()
         {

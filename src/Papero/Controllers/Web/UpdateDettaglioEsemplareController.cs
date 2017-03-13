@@ -335,6 +335,60 @@ namespace Papero.Controllers
 
         [Authorize]
         [HttpPost]
+        public async Task<IActionResult> AggiornaPreparazione(int Id,
+                                                              string inputDataPreparazione,
+                                                              string tipoDataPreparazione,
+                                                              string inputScheda,
+                                                              string tabellaElencoPreparatoriSerializzata,
+                                                              string inputNotePreparazione)
+        {
+            var esemplareDaModificare = _repository.LeggiEsemplare(Id);
+            var arrayPreparatori = JsonConvert.DeserializeObject<int[]>(tabellaElencoPreparatoriSerializzata);
+            var ordinamento = 1;
+
+            _repository.CancellaPreparazioni(Id);
+
+            foreach (var preparatore in arrayPreparatori)
+            {
+                var preparazioneDaAggiungere = new Preparazioni();
+                preparazioneDaAggiungere.PreparatoreId = preparatore;
+                preparazioneDaAggiungere.EsemplareId = Id;
+                preparazioneDaAggiungere.Ordinamento = ordinamento;
+                ordinamento += 1;
+                esemplareDaModificare.Preparazioni.Add(preparazioneDaAggiungere);
+            }
+
+            esemplareDaModificare.DataPreparazione = funzioni.scriviData(inputDataPreparazione, tipoDataPreparazione);
+            esemplareDaModificare.Scheda = Int32.Parse(inputScheda);
+            esemplareDaModificare.NotePreparazione = inputNotePreparazione;
+
+            if (await _repository.SalvaModifiche())
+            {
+                return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });
+            }
+            return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AggiornaBibliografiaNote(int Id, 
+                                                                  string inputBibliografia,
+                                                                  string inputNote)
+        {
+            var esemplareDaModificare = _repository.LeggiEsemplare(Id);
+
+            esemplareDaModificare.Bibliografia = inputBibliografia;
+            esemplareDaModificare.Note = inputNote;
+
+            if (await _repository.SalvaModifiche())
+            {
+                return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });
+            }
+            return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
+        }
+
+        [Authorize]
+        [HttpPost]
         public async Task<IActionResult> AggiornaMorfologia(int Id, 
                                                             string inputPeso,
                                                             string inputLunghezzaTotale,

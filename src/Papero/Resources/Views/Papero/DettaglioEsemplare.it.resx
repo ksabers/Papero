@@ -441,4 +441,10 @@
   <data name="Scambio" xml:space="preserve">
     <value>Scambio</value>
   </data>
+  <data name="Cancella Esemplare" xml:space="preserve">
+    <value>Cancella Esemplare</value>
+  </data>
+  <data name="Confermare la cancellazione: l'operazione non può essere annullata" xml:space="preserve">
+    <value>Confermare la cancellazione. L'operazione non può essere annullata.</value>
+  </data>
 </root>

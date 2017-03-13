@@ -71,6 +71,7 @@ namespace Papero.Models
         IEnumerable<TipiLocalizzatiViewModel> LeggiTipi();
         IEnumerable<AberrazioniLocalizzateViewModel> LeggiAberrazioni();
         IEnumerable<Preparatori> LeggiPreparatori();
+        IEnumerable<Preparatori> LeggiPreparatori(int IdEsemplare);
         IEnumerable<Preparazioni> LeggiPreparazioni();
         IEnumerable<Preparazioni> LeggiPreparazioni(int idEsemplare);
         IEnumerable<Determinatori> LeggiDeterminatori(int idEsemplare);
