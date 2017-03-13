@@ -296,7 +296,22 @@ namespace Papero.Models
         public IEnumerable<Determinatori> LeggiDeterminatori()
         {
             return _contesto.Determinatori
-                .OrderBy(determinatore => determinatore.Cognome).ThenBy(determinatore => determinatore.Nome)
+                .OrderBy(determinatore => determinatore.Cognome)
+                    .ThenBy(determinatore => determinatore.Nome)
+                .ToList();
+        }
+
+        public IEnumerable<Determinatori> LeggiDeterminatori(int idEsemplare)
+        {
+            return _contesto.Determinazioni
+                .Where(determinazione => determinazione.EsemplareId == idEsemplare)
+                .OrderBy(determinazione => determinazione.Ordinamento)
+                .Select(determinazione => new Determinatori
+                {
+                    Id = determinazione.Determinatore.Id,
+                    Nome = determinazione.Determinatore.Nome,
+                    Cognome = determinazione.Determinatore.Cognome
+                })
                 .ToList();
         }
 
@@ -306,6 +321,7 @@ namespace Papero.Models
                 .RemoveRange(_contesto.VecchiDeterminatori.Where(determinatore => arrayIdVecchieDeterminazioni.Contains((int)determinatore.VecchiaDeterminazioneId)));
             _contesto.SaveChanges();
         }
+
 
         public void CancellaDeterminazioni(int idEsemplare)
         {
@@ -557,6 +573,26 @@ namespace Papero.Models
                     Aberrazione = aberrazione.Aberrazione,
                     AberrazioneLocalizzata = _localizzatore[aberrazione.Aberrazione]
                 })
+                .ToList();
+        }
+
+        public IEnumerable<Preparatori> LeggiPreparatori()
+        {
+            return _contesto.Preparatori
+                .OrderBy(preparatore => preparatore.Cognome)
+                    .ThenBy(preparatore => preparatore.Nome)
+                .ToList();
+        }
+
+        public IEnumerable<Preparazioni> LeggiPreparazioni()
+        {
+            return _contesto.Preparazioni
+                .ToList();
+        }
+        public IEnumerable<Preparazioni> LeggiPreparazioni(int idEsemplare)
+        {
+            return _contesto.Preparazioni
+                .Where(preparazione => preparazione.EsemplareId == idEsemplare)
                 .ToList();
         }
 

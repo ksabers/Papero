@@ -35,6 +35,11 @@ namespace Papero.Models
         void CancellaPreparati(int idEsemplare);
         void CancellaPreparazioni(int idEsemplare);
         void CancellaVecchiDeterminatori(int[] arrayIdVecchieDeterminazioni);
+       
+        /// <summary>
+        /// Cancella dalla tabella Determinazioni tutte le determinazioni relative ad uno specifico esemplare
+        /// </summary>
+        /// <param name="idEsemplare">Id dell'esemplare per cui cancellare le determinazioni</param>
         void CancellaDeterminazioni(int idEsemplare);
         void CancellaVecchieDeterminazioni(int idEsemplare);
         void InserisciVecchiDeterminatori(VecchiDeterminatori determinatoreDaInserire);
@@ -65,6 +70,10 @@ namespace Papero.Models
         IEnumerable<SessiLocalizzatiViewModel> LeggiSessi();
         IEnumerable<TipiLocalizzatiViewModel> LeggiTipi();
         IEnumerable<AberrazioniLocalizzateViewModel> LeggiAberrazioni();
+        IEnumerable<Preparatori> LeggiPreparatori();
+        IEnumerable<Preparazioni> LeggiPreparazioni();
+        IEnumerable<Preparazioni> LeggiPreparazioni(int idEsemplare);
+        IEnumerable<Determinatori> LeggiDeterminatori(int idEsemplare);
         void CancellaEsemplare(int idEsemplare);
     }
 }

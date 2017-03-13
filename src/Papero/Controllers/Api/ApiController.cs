@@ -145,6 +145,13 @@ namespace Papero.Controllers
         }
 
         [Authorize]
+        [HttpGet("api/determinatori/{idEsemplare}")]
+        public IActionResult GetDeterminazioni(int idEsemplare)
+        {
+            return Ok(_repository.LeggiDeterminatori(idEsemplare));
+        }
+
+        [Authorize]
         [HttpGet("api/elencoSpecie")]
         public IActionResult GetElencoSpecie()
         {
@@ -268,6 +275,27 @@ namespace Papero.Controllers
         public IActionResult GetAberrazioni()
         {
             return Ok(_repository.LeggiAberrazioni());
+        }
+
+        [Authorize]
+        [HttpGet("api/preparatori")]
+        public IActionResult GetPreparatori()
+        {
+            return Ok(_repository.LeggiPreparatori());
+        }
+
+        [Authorize]
+        [HttpGet("api/preparazioni")]
+        public IActionResult GetPreparazioni()
+        {
+            return Ok(_repository.LeggiPreparazioni());
+        }
+
+        [Authorize]
+        [HttpGet("api/preparazioni/{idEsemplare}")]
+        public IActionResult GetPreparazioni(int idEsemplare)
+        {
+            return Ok(_repository.LeggiPreparazioni(idEsemplare));
         }
 
     }

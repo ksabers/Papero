@@ -303,6 +303,38 @@ namespace Papero.Controllers
 
         [Authorize]
         [HttpPost]
+        public async Task<IActionResult> AggiornaDeterminazioni(int Id,
+                                                                string inputDataDiDeterminazione,
+                                                                string tipoDataDeterminazione,
+                                                                string tabellaElencoDeterminatoriSerializzata)
+        {
+            var esemplareDaModificare = _repository.LeggiEsemplare(Id);
+            var arrayDeterminatori = JsonConvert.DeserializeObject<int[]>(tabellaElencoDeterminatoriSerializzata);
+            var ordinamento = 1;
+
+            _repository.CancellaDeterminazioni(Id);
+
+            foreach (var determinatore in arrayDeterminatori)
+            {
+                var determinazioneDaAggiungere = new Determinazioni();
+                determinazioneDaAggiungere.DeterminatoreId = determinatore;
+                determinazioneDaAggiungere.EsemplareId = Id;
+                determinazioneDaAggiungere.Ordinamento = ordinamento;
+                ordinamento += 1;
+                esemplareDaModificare.Determinazioni.Add(determinazioneDaAggiungere);
+            }
+
+            esemplareDaModificare.DataDeterminazione = funzioni.scriviData(inputDataDiDeterminazione, tipoDataDeterminazione);
+
+            if (await _repository.SalvaModifiche())
+            {
+                return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });
+            }
+            return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
+        }
+
+        [Authorize]
+        [HttpPost]
         public async Task<IActionResult> AggiornaMorfologia(int Id, 
                                                             string inputPeso,
                                                             string inputLunghezzaTotale,
