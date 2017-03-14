@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Papero.ViewModels;
+using System.Security.Claims;
 
 namespace Papero
 {
@@ -71,6 +72,9 @@ namespace Papero
                 configurazione.Password.RequireNonAlphanumeric = false;
                 configurazione.Password.RequireUppercase = false;
                 configurazione.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";  // Percorso della pagina di login
+                configurazione.ClaimsIdentity.RoleClaimType = ClaimTypes.Role;
+                configurazione.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
+                configurazione.ClaimsIdentity.UserNameClaimType = ClaimTypes.Name;
             })
                 .AddEntityFrameworkStores<PaperoDBContext>();   // IMPORTANTE!!! Questa riga dice quale database fisico verrà usato per contenere le tabelle usate da Identity
 

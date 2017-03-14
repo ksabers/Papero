@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Papero.Models;
@@ -15,12 +16,17 @@ namespace Papero.Controllers
     {
         private SignInManager<UtentePapero> _gestoreLogin;
         private IStringLocalizer<AuthController> _localizzatore;
+        private UserManager<UtentePapero> _gestoreUtenti;
+
 
         public AuthController(SignInManager<UtentePapero> gestoreLogin,
-                              IStringLocalizer<AuthController> localizzatore)
+                              IStringLocalizer<AuthController> localizzatore,
+                              UserManager<UtentePapero> gestoreUtenti)
+
         {
             _gestoreLogin = gestoreLogin;
             _localizzatore = localizzatore;
+            _gestoreUtenti = gestoreUtenti;
         }
         public IActionResult Login()
         {
@@ -67,5 +73,14 @@ namespace Papero.Controllers
 
             return RedirectToAction("Login", "Auth");
         }
+
+
+        [Authorize]
+        [HttpGet("auth/utenti")]
+        public IActionResult GetUtenti()
+        {
+            return Ok(_gestoreUtenti.Users.ToList());
+        }
+
     }
 }

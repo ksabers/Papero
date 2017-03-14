@@ -3,7 +3,10 @@
     Vista che mostra la scheda di dettaglio del singolo esemplare
 *@
 
+
 @using Papero.Funzioni
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 
 @model Papero.ViewModels.DettaglioEsemplareViewModel
 

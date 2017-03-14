@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Papero.Controllers;
@@ -131,6 +132,7 @@ namespace Papero.Models
                 .OrderBy(statoConservazione => statoConservazione.StatoConservazione)
                 .ToList();
         }
+
 
         public IEnumerable<ElencoClassificatoriViewModel> LeggiClassificazioni(int idSottospecie)
         {
@@ -623,6 +625,7 @@ namespace Papero.Models
             _contesto.Esemplari
                 .Remove(_contesto.Esemplari.Single(esemplare => esemplare.Id == idEsemplare));
         }
+
         public async Task<bool> SalvaModifiche()
         {
             return (await _contesto.SaveChangesAsync()) > 0;

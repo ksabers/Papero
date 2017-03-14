@@ -18,6 +18,10 @@ namespace Papero.Controllers
             _repository = repository;
         }
 
+        /// <summary>
+        /// API che restituisce l'albero tassonomico
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("api/albero")]
         public IActionResult GetAlbero()
@@ -25,6 +29,10 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiAlbero());
         }
 
+        /// <summary>
+        /// API che restituisce l'elenco degli esemplari in formato sintetico
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("api/esemplari")]
         public IActionResult GetElencoSinteticoEsemplari()
@@ -32,6 +40,11 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiElencoEsemplari());
         }
 
+        /// <summary>
+        /// API che restituisce tutti i dati di un singolo esemplare
+        /// </summary>
+        /// <param name="idEsemplare"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("api/esemplare/{idEsemplare}")]
         public IActionResult GetEsemplare(int idEsemplare)
@@ -39,6 +52,10 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiEsemplare(idEsemplare));
         }
 
+        /// <summary>
+        /// API che restituisce gli stati di conservazione
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("api/staticonservazione")]
         public IActionResult GetStatiConservazione()
@@ -102,6 +119,10 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiCassetti());
         }
 
+        /// <summary>
+        /// API che restituisce l'elenco dei Vassoi
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("api/vassoi")]
         public IActionResult GetVassoi()
