@@ -39,8 +39,8 @@ namespace Papero.Models
         /// </summary>
         /// <returns></returns>
         IEnumerable<StatiConservazione> LeggiStatiConservazione();
-        IEnumerable<ElencoClassificatoriViewModel> LeggiClassificazioni(int idSottospecie);
-        IEnumerable<ElencoClassificatoriViewModel> LeggiClassificatori();
+        IEnumerable<Classificatori> LeggiClassificazioni(int idSottospecie);
+        IEnumerable<Classificatori> LeggiClassificatori();
         IEnumerable<Sottospecie> LeggiSottospecie();
 
         IEnumerable<PartiPreparate> LeggiPartiPreparate();

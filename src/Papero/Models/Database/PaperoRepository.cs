@@ -134,13 +134,13 @@ namespace Papero.Models
         }
 
 
-        public IEnumerable<ElencoClassificatoriViewModel> LeggiClassificazioni(int idSottospecie)
+        public IEnumerable<Classificatori> LeggiClassificazioni(int idSottospecie)
         {
             return _contesto.Classificazioni
                 .Where(classificazione => classificazione.SottospecieId == idSottospecie)
                 .Include(classificazione => classificazione.Classificatore)
                 .OrderBy(classificazione => classificazione.Ordinamento)
-                .Select(cl => new ElencoClassificatoriViewModel
+                .Select(cl => new Classificatori
                 {
                     Id = cl.ClassificatoreId,
                     Classificatore = cl.Classificatore.Classificatore
@@ -148,15 +148,10 @@ namespace Papero.Models
                 .ToList();
         }
 
-        public IEnumerable<ElencoClassificatoriViewModel> LeggiClassificatori()
+        public IEnumerable<Classificatori> LeggiClassificatori()
         {
             return _contesto.Classificatori
                     .OrderBy(classificatore => classificatore.Classificatore)
-                    .Select(cl => new ElencoClassificatoriViewModel
-                    {
-                        Id = cl.Id,
-                        Classificatore = cl.Classificatore
-                    })
                     .ToList();
         }
 

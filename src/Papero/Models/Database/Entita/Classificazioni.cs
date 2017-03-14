@@ -10,7 +10,7 @@ namespace Papero.Models
         public int ClassificatoreId { get; set; }
         public int Ordinamento { get; set; }
 
-        public virtual ElencoClassificatoriViewModel Classificatore { get; set; }
+        public virtual Classificatori Classificatore { get; set; }
         public virtual Sottospecie Sottospecie { get; set; }
     }
 }
