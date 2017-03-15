@@ -166,5 +166,10 @@ namespace Papero.Funzioni
         {
             return numero.ToString().Replace(',', '.');
         }
+
+        public static double troncaDecimali(double numero)
+        {
+            return Math.Truncate(10 * numero) / 10;
+        }
     }
 }

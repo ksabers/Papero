@@ -30,12 +30,8 @@ namespace Papero.Controllers
             _logger = logger;
         }
 
-        private double troncaDecimali(double numero)
-        {
-            return Math.Truncate(10 * numero) / 10;
-        }
 
-        [Authorize]
+        [Authorize(Policy = "ModificaPresenzaEsemplare")]
         public async Task<IActionResult> TogglePresenza(int Id)               // Inverte il campo "Presenza" da true a false e viceversa 
         {
             var esemplareDaModificare = _repository.LeggiEsemplare(Id);
@@ -50,7 +46,7 @@ namespace Papero.Controllers
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = Id });  //TODO fare pagina di errore
         }
 
-        [Authorize]                                                                      // Aggiorna la lista degli autori di una sottospecie
+        [Authorize(Policy = "ModificaElencoAutori")]                                     // Aggiorna la lista degli autori di una sottospecie
         [HttpPost]
         public async Task<IActionResult> AggiornaAutori(int Id,                          //  Id dell'esemplare
                                                 int sottospecieId,                       //  Id della sottospecie
@@ -87,7 +83,7 @@ namespace Papero.Controllers
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = Id });  //TODO andare a pagina di errore
         }
 
-        [Authorize]
+        [Authorize(Policy = "ModificaModiPreparazioneEsemplare")]
         [HttpPost]
         public async Task<IActionResult> AggiornaModiPreparazione(int Id,                              //  Id dell'esemplare
                                                           string tabellaElencoPreparatiSerializzata)  //  Array di array [parte,vassoio] dei preparati
@@ -117,7 +113,7 @@ namespace Papero.Controllers
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = Id });  //TODO andare a pagina di errore
         }
 
-        [Authorize]
+        [Authorize(Policy = "ModificaDatiVecchieDeterminazioniEsemplare")]
         [HttpPost]
         public async Task<IActionResult> AggiornaVecchieDeterminazioni(int Id, string serializzazioneHiddenVecchieDeterminazioni, string serializzazioneHiddenVecchiDeterminatori)
         {
@@ -184,7 +180,7 @@ namespace Papero.Controllers
 
         }
 
-        [Authorize]
+        [Authorize(Policy = "ModificaNomiSottospecie")]
         [HttpPost]
         public async Task<IActionResult> AggiornaNomi(int Id, int sottospecieId, string nomeItaliano, string nomeInglese, int statoConservazione)
         {
@@ -201,7 +197,7 @@ namespace Papero.Controllers
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = Id });  // TODO scrivere pagina di errore
         }
 
-        [Authorize]
+        [Authorize(Policy = "InserimentoEsemplare")]
         [HttpPost]
         public async Task<IActionResult>InserisciEsemplare(string inputMSNG, string inputHiddenIdSottospecie)
         {
@@ -228,7 +224,7 @@ namespace Papero.Controllers
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaInserire.Id });  // TODO scrivere pagina di errore
         }
 
-        [Authorize]
+        [Authorize(Policy = "CancellazioneEsemplare")]
         [HttpPost]
         public async Task<IActionResult> CancellaEsemplare(int Id)
         {
@@ -241,7 +237,7 @@ namespace Papero.Controllers
             return RedirectToAction("ElencoEsemplari", "Papero");  // TODO scrivere pagina di errore
         }
 
-        [Authorize]
+        [Authorize(Policy = "ModificaDatiGeografiaEsemplare")]
         [HttpPost]
         public async Task<IActionResult> AggiornaGeografia(int Id,
                                                            string hiddenOutputIdLocalitaSelezionata,
@@ -277,7 +273,7 @@ namespace Papero.Controllers
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
         }
 
-        [Authorize]
+        [Authorize(Policy = "ModificaDatiGeneraliEsemplare")]
         [HttpPost]
         public async Task<IActionResult> AggiornaDatiGenerali(int Id, 
                                                               string hiddenOutputIdSessoSelezionato, 
@@ -301,7 +297,7 @@ namespace Papero.Controllers
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
         }
 
-        [Authorize]
+        [Authorize(Policy = "ModificaDatiDeterminazioniEsemplare")]
         [HttpPost]
         public async Task<IActionResult> AggiornaDeterminazioni(int Id,
                                                                 string inputDataDiDeterminazione,
@@ -333,7 +329,7 @@ namespace Papero.Controllers
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
         }
 
-        [Authorize]
+        [Authorize(Policy = "ModificaPreparazioneEsemplare")]
         [HttpPost]
         public async Task<IActionResult> AggiornaPreparazione(int Id,
                                                               string inputDataPreparazione,
@@ -369,7 +365,7 @@ namespace Papero.Controllers
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
         }
 
-        [Authorize]
+        [Authorize(Policy = "ModificaBibliografiaNoteEsemplare")]
         [HttpPost]
         public async Task<IActionResult> AggiornaBibliografiaNote(int Id, 
                                                                   string inputBibliografia,
@@ -387,7 +383,7 @@ namespace Papero.Controllers
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
         }
 
-        [Authorize]
+        [Authorize(Policy = "ModificaMorfologiaEsemplare")]
         [HttpPost]
         public async Task<IActionResult> AggiornaMorfologia(int Id, 
                                                             string inputPeso,
@@ -426,7 +422,7 @@ namespace Papero.Controllers
                                    NumberStyles.Any, 
                                    CultureInfo.InvariantCulture, 
                                    out peso))
-                    esemplareDaModificare.Peso = troncaDecimali(peso);
+                    esemplareDaModificare.Peso = funzioni.troncaDecimali(peso);
             }
 
             if (String.IsNullOrWhiteSpace(inputLunghezzaTotale))
@@ -438,7 +434,7 @@ namespace Papero.Controllers
                                     NumberStyles.Any, 
                                     CultureInfo.InvariantCulture, 
                                     out lunghezzaTotale))
-                    esemplareDaModificare.LunghezzaTotale = troncaDecimali(lunghezzaTotale);
+                    esemplareDaModificare.LunghezzaTotale = funzioni.troncaDecimali(lunghezzaTotale);
             }
 
             if (String.IsNullOrWhiteSpace(inputBeccoCranio))
@@ -450,7 +446,7 @@ namespace Papero.Controllers
                                     NumberStyles.Any, 
                                     CultureInfo.InvariantCulture, 
                                     out beccoCranio))
-                    esemplareDaModificare.BeccoCranio = troncaDecimali(beccoCranio);
+                    esemplareDaModificare.BeccoCranio = funzioni.troncaDecimali(beccoCranio);
             }
 
             if (String.IsNullOrWhiteSpace(inputCulmine))
@@ -462,7 +458,7 @@ namespace Papero.Controllers
                                     NumberStyles.Any, 
                                     CultureInfo.InvariantCulture, 
                                     out culmine))
-                    esemplareDaModificare.Culmine = troncaDecimali(culmine);
+                    esemplareDaModificare.Culmine = funzioni.troncaDecimali(culmine);
             }
 
             if (String.IsNullOrWhiteSpace(inputColoreBecco))
@@ -479,7 +475,7 @@ namespace Papero.Controllers
                                     NumberStyles.Any, 
                                     CultureInfo.InvariantCulture, 
                                     out dimensioneOcchio))
-                    esemplareDaModificare.DimensioneOcchio = troncaDecimali(dimensioneOcchio);
+                    esemplareDaModificare.DimensioneOcchio = funzioni.troncaDecimali(dimensioneOcchio);
             }
 
             if (String.IsNullOrWhiteSpace(inputColoreIride))
@@ -496,7 +492,7 @@ namespace Papero.Controllers
                                     NumberStyles.Any,
                                     CultureInfo.InvariantCulture,
                                     out aperturaAlare))
-                    esemplareDaModificare.AperturaAlare = troncaDecimali(aperturaAlare);
+                    esemplareDaModificare.AperturaAlare = funzioni.troncaDecimali(aperturaAlare);
             }
 
             if (String.IsNullOrWhiteSpace(inputAla))
@@ -508,7 +504,7 @@ namespace Papero.Controllers
                                     NumberStyles.Any,
                                     CultureInfo.InvariantCulture,
                                     out ala))
-                    esemplareDaModificare.Ala = troncaDecimali(ala);
+                    esemplareDaModificare.Ala = funzioni.troncaDecimali(ala);
             }
 
             if (String.IsNullOrWhiteSpace(inputTimoniereCentrali))
@@ -520,7 +516,7 @@ namespace Papero.Controllers
                                     NumberStyles.Any,
                                     CultureInfo.InvariantCulture,
                                     out timoniereCentrali))
-                    esemplareDaModificare.TimoniereCentrali = troncaDecimali(timoniereCentrali);
+                    esemplareDaModificare.TimoniereCentrali = funzioni.troncaDecimali(timoniereCentrali);
             }
 
             if (String.IsNullOrWhiteSpace(inputTimoniereEsterne))
@@ -532,7 +528,7 @@ namespace Papero.Controllers
                                     NumberStyles.Any,
                                     CultureInfo.InvariantCulture,
                                     out timoniereEsterne))
-                    esemplareDaModificare.TimoniereEsterne = troncaDecimali(timoniereEsterne);
+                    esemplareDaModificare.TimoniereEsterne = funzioni.troncaDecimali(timoniereEsterne);
             }
 
             if (String.IsNullOrWhiteSpace(inputRemigante3))
@@ -544,7 +540,7 @@ namespace Papero.Controllers
                                     NumberStyles.Any,
                                     CultureInfo.InvariantCulture,
                                     out remigante3))
-                    esemplareDaModificare.Remigante3 = troncaDecimali(remigante3);
+                    esemplareDaModificare.Remigante3 = funzioni.troncaDecimali(remigante3);
             }
 
             if (String.IsNullOrWhiteSpace(inputFormulaAlareE))
@@ -556,7 +552,7 @@ namespace Papero.Controllers
                                     NumberStyles.Any,
                                     CultureInfo.InvariantCulture,
                                     out formulaAlareE))
-                    esemplareDaModificare.FormulaAlareE = troncaDecimali(formulaAlareE);
+                    esemplareDaModificare.FormulaAlareE = funzioni.troncaDecimali(formulaAlareE);
             }
 
             if (String.IsNullOrWhiteSpace(inputFormulaAlareWP))
@@ -568,7 +564,7 @@ namespace Papero.Controllers
                                     NumberStyles.Any,
                                     CultureInfo.InvariantCulture,
                                     out formulaAlareWP))
-                    esemplareDaModificare.FormulaAlareWp = troncaDecimali(formulaAlareWP);
+                    esemplareDaModificare.FormulaAlareWp = funzioni.troncaDecimali(formulaAlareWP);
             }
 
             if (String.IsNullOrWhiteSpace(inputFormulaAlare2))
@@ -580,7 +576,7 @@ namespace Papero.Controllers
                                     NumberStyles.Any,
                                     CultureInfo.InvariantCulture,
                                     out formulaAlare2))
-                    esemplareDaModificare.FormulaAlare2 = troncaDecimali(formulaAlare2);
+                    esemplareDaModificare.FormulaAlare2 = funzioni.troncaDecimali(formulaAlare2);
             }
 
             if (String.IsNullOrWhiteSpace(inputTarso))
@@ -592,7 +588,7 @@ namespace Papero.Controllers
                                     NumberStyles.Any,
                                     CultureInfo.InvariantCulture,
                                     out tarso))
-                    esemplareDaModificare.Tarso = troncaDecimali(tarso);
+                    esemplareDaModificare.Tarso = funzioni.troncaDecimali(tarso);
             }
 
             if (String.IsNullOrWhiteSpace(inputColoreZampe))

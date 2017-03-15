@@ -445,6 +445,6 @@
     <value>Delete Specimen</value>
   </data>
   <data name="Confermare la cancellazione: l'operazione non può essere annullata" xml:space="preserve">
-    <value>Please confirm the deletion. The operation cannot be undone.</value>
+    <value>Please confirm the deletion: the operation cannot be undone</value>
   </data>
 </root>

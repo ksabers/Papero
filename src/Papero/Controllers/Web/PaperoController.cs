@@ -6,10 +6,6 @@
 
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
@@ -18,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Papero.ViewModels;
 using AutoMapper;
+
 
 namespace Papero.Controllers
 {
@@ -30,6 +27,7 @@ namespace Papero.Controllers
         public PaperoController(IStringLocalizer<PaperoController> localizzatore,   // Costruttore della classe, con le dependency injection di: 1)supporto per la localizzazione
                                 IPaperoRepository repository,                       // 2) Repository delle query nel database
                                 ILogger<PaperoController> logger)                   // 3) Supporto per i log
+
         {
             _localizzatore = localizzatore;
             _repository = repository;

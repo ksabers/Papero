@@ -445,6 +445,6 @@
     <value>Cancella Esemplare</value>
   </data>
   <data name="Confermare la cancellazione: l'operazione non può essere annullata" xml:space="preserve">
-    <value>Confermare la cancellazione. L'operazione non può essere annullata.</value>
+    <value>Confermare la cancellazione: l'operazione non può essere annullata.</value>
   </data>
 </root>

@@ -3,6 +3,8 @@
 }
 
 @using Papero.Funzioni
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService autorizzatore
 
 @section css {
 
@@ -80,9 +82,9 @@
                 <h3 class="panel-title">@localizzatore["Esemplari"]</h3>
 
 @* Visualizza la box per l'inserimento dell'esemplare nuovo solo se autorizzato *@
-                @if (User.IsInRole("Amministratore"))
+                @if (await autorizzatore.AuthorizeAsync(User, "InserimentoEsemplare"))
                 {
-                    <div class="container-fluid" ng-show="vm.foglia">
+                    <div class="container-fluid" ng-show="vm.foglia" ng-cloak>
                         <div class="col-lg-5">
                             <form class="navbar-form"
                                   asp-controller="UpdateDettaglioEsemplare"
@@ -104,7 +106,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-lg-3" ng-show="vm.MSNGpresente">
+                        <div class="col-lg-3" ng-show="vm.MSNGpresente" ng-cloak>
                             <div class="alert alert-danger text-center">
                                 <strong>@localizzatore["MSNG già esistente!"]</strong>
                             </div>

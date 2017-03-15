@@ -42,7 +42,7 @@ namespace Papero
             if (_ambiente.IsDevelopment())
             {
                 // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                costruttoreConfigurazione.AddUserSecrets();
+                //costruttoreConfigurazione.AddUserSecrets();
             }
 
             _configurazione = costruttoreConfigurazione.Build();  // Creiamo l'effettivo oggetto di configurazione
@@ -72,12 +72,30 @@ namespace Papero
                 configurazione.Password.RequireNonAlphanumeric = false;
                 configurazione.Password.RequireUppercase = false;
                 configurazione.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";  // Percorso della pagina di login
-                configurazione.ClaimsIdentity.RoleClaimType = ClaimTypes.Role;
-                configurazione.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
-                configurazione.ClaimsIdentity.UserNameClaimType = ClaimTypes.Name;
             })
                 .AddEntityFrameworkStores<PaperoDBContext>();   // IMPORTANTE!!! Questa riga dice quale database fisico verrà usato per contenere le tabelle usate da Identity
 
+            servizi.AddAuthorization(opzioni =>  // Aggiunta delle policies del sistema di autorizzazione. Ogni policy rappresenta l'autorizzazione ad eseguire una certa operazione
+                                                 // (lato backend) e/o a visualizzare un certo controllo (lato frontend)
+                                                 // IMPORTANTE!!!! Dato che non ci serve tener conto dei valori dei claim, per semplicità ogni claim si chiama come la sua policy
+            {
+                // Policies della vista di elenco esemplari (e del relativo controller)
+                opzioni.AddPolicy("InserimentoEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("InserimentoEsemplare"));
+
+                // Policies della vista di dettaglio del singolo esemplare (e del relativo controller)
+                opzioni.AddPolicy("CancellazioneEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("CancellazioneEsemplare"));
+                opzioni.AddPolicy("ModificaElencoAutori", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaElencoAutori"));
+                opzioni.AddPolicy("ModificaNomiSottospecie", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaNomiSottospecie"));
+                opzioni.AddPolicy("ModificaPresenzaEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaPresenzaEsemplare"));
+                opzioni.AddPolicy("ModificaDatiGeneraliEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaDatiGeneraliEsemplare"));
+                opzioni.AddPolicy("ModificaDatiGeografiaEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaDatiGeografiaEsemplare"));
+                opzioni.AddPolicy("ModificaDatiDeterminazioniEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaDatiDeterminazioniEsemplare"));
+                opzioni.AddPolicy("ModificaDatiVecchieDeterminazioniEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaDatiVecchieDeterminazioniEsemplare"));
+                opzioni.AddPolicy("ModificaModiPreparazioneEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaModiPreparazioneEsemplare"));
+                opzioni.AddPolicy("ModificaPreparazioneEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaPreparazioneEsemplare"));
+                opzioni.AddPolicy("ModificaMorfologiaEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaMorfologiaEsemplare"));
+                opzioni.AddPolicy("ModificaBibliografiaNoteEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaBibliografiaNoteEsemplare"));
+            });
 
             servizi.AddLocalization(opzioni =>         // Aggiunta del supporto globale per la localizzazione e sua configurazione
             {
