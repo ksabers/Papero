@@ -1,0 +1,49 @@
+﻿@model Papero.ViewModels.QRCodeViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous"
+          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="sr-only"
+          asp-fallback-test-property="position"
+          asp-fallback-test-value="absolute"
+          rel="stylesheet">
+    <script src="https://use.fontawesome.com/6cbc9821e8.js"
+            asp-fallback-href="~/lib/font-awesome/css/font-awesome.min.css"
+            asp-fallback-test-class="sr-only"
+            asp-fallback-test-property="position"
+            asp-fallback-test-value="absolute"></script>
+
+
+</head>
+<body>
+    <div class="row" style="height:100px"></div>
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4">
+            <div class="panel panel-success center-block" style="width:500px;box-shadow:10px 10px 5px grey;">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@localizzatore["MSNG"]: <strong>@Model.Msng</strong></h3>
+                </div>
+                <div class="panel-body">
+                    @RenderBody()
+                    <img class="pull-right" src="~/img/logo_museo.png" height="150px" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <a href="#" class="btn btn-primary hidden-print" onclick="window.print()"><i class="fa fa-qrcode"></i>  @localizzatore["Stampa QRCode"]</a>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

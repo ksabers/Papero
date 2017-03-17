@@ -174,7 +174,10 @@
                                 {
                                     <i role="button" data-toggle="modal" data-target="#modaleConfermaCancellazione" ng-click="vm.apriModaleConfermaCancellazione()" class="fa fa-trash fa-2x"></i>
                                 }
-                            }
+                                <a asp-controller="Papero" asp-action="QRCode" asp-route-id="@Model.Id" style="text-decoration:none" target="_blank">
+                                    <i role="button" class="fa fa-qrcode fa-2x text-white"></i>
+                                </a>
+                                    }
 
                         </form>
 
@@ -2035,14 +2038,8 @@
                                                                             <dl class="col-lg-9 dl-horizontal text-primary">
                                                                                 <dt>@localizzatore["Note"]:</dt>
                                                                                 <dd>
-                                                                                    <textarea rows="4"
-                                                                                              cols="80"
-                                                                                              width="100%"
-                                                                                              readonly
-                                                                                              style="resize:none; border:none;">
-                                                                                        @Model.Note
-                                                                                        </textarea>
-                                                                                    </dd>
+                                                                                    <textarea rows="4" cols="80" width="100%" readonly style="resize:none; border:none;">@Model.Note</textarea>
+                                                                                </dd>
                                                                                 </dl>
                                                                             </div>
                                                                         </div>

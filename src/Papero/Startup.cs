@@ -80,9 +80,11 @@ namespace Papero
                                                  // IMPORTANTE!!!! Dato che non ci serve tener conto dei valori dei claim, per semplicità ogni claim si chiama come la sua policy
             {
                 // Policies della vista di elenco esemplari (e del relativo controller)
+                opzioni.AddPolicy("VisualizzaElencoEsemplari", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaElencoEsemplari"));
                 opzioni.AddPolicy("InserimentoEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("InserimentoEsemplare"));
 
                 // Policies della vista di dettaglio del singolo esemplare (e del relativo controller)
+                opzioni.AddPolicy("VisualizzaDettaglioEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaDettaglioEsemplare"));
                 opzioni.AddPolicy("CancellazioneEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("CancellazioneEsemplare"));
                 opzioni.AddPolicy("ModificaElencoAutori", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaElencoAutori"));
                 opzioni.AddPolicy("ModificaNomiSottospecie", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaNomiSottospecie"));
@@ -148,6 +150,7 @@ namespace Papero
             Mapper.Initialize(config => 
             {
                 config.CreateMap<Esemplari, DettaglioEsemplareViewModel>();
+                config.CreateMap<Esemplari, QRCodeViewModel>();
             });
 
             if (ambiente.IsDevelopment())                       // Se siamo in ambiente di sviluppo...

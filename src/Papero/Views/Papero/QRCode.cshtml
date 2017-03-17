@@ -1,0 +1,21 @@
+﻿@{
+Layout = "QRCodeLayout";
+}
+@*
+    QRCode
+    
+*@
+
+
+@model Papero.ViewModels.QRCodeViewModel
+
+
+@using Papero.Funzioni
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService autorizzatore
+
+@{
+    ViewBag.Title = localizzatore["QRCode"];
+}
+
+<img src="@(Model.urlQRCode + Model.testoQRCode)" alt="" title="" />

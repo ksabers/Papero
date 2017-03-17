@@ -129,7 +129,12 @@
                         <tr ng-repeat="esemplare in vm.esemplariSelezionati">
                             <td>{{esemplare.msng}}</td>
                             <td>{{esemplare.genere + " " + esemplare.specie + " " + (esemplare.sottospecie == "-" ? "" : esemplare.sottospecie) + " " + esemplare.elencoAutori}}</td>
-                            <td style="text-align:center"><a ng-href="DettaglioEsemplare/{{esemplare.id}}" class="btn btn-sm btn-primary">@localizzatore["Dettagli"]</a></td>
+                            <td style="text-align:center">
+                                @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaDettaglioEsemplare"))
+                                {
+                                    <a ng-href="DettaglioEsemplare/{{esemplare.id}}" class="btn btn-sm btn-primary">@localizzatore["Dettagli"]</a>
+                                }                                
+                            </td>
                         </tr>
                     </tbody>
                 </table>

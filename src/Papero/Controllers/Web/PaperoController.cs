@@ -38,13 +38,13 @@ namespace Papero.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
         public IActionResult ElencoEsemplari()  // Pagina di navigazione con l'albero tassonomico e la tabella degli esemplari. Tutte le richieste al DB sono fatte da Angular
         {                                       // lato client tramite API, quindi lato server ci si limita a farsi restituire la vista vuota
             return View();
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         public IActionResult DettaglioEsemplare(int id)  // Pagina di dettaglio con tutti i dati del singolo esemplare. E' gestita in modo tradizionale client/server senza
                                                          // chiamate Angular
         {
@@ -65,7 +65,28 @@ namespace Papero.Controllers
             }                                        
         }
 
-        [Authorize]
+
+
+        public IActionResult QRCode(int id)  // Pagina di dettaglio con tutti i dati del singolo esemplare. E' gestita in modo tradizionale client/server senza
+                                                         // chiamate Angular
+        {
+                ViewBag.trovato = true;                                        // Flag che dice alla vista che l'ID è valido
+                var modello = _repository.LeggiEsemplare(id);                  // Legge tutti i dati dell'esemplare
+                var vista = Mapper.Map<QRCodeViewModel>(modello);  // Mappa i dati dell'esemplare sul ViewModel che usiamo per comunicare con la vista
+
+            vista.urlQRCode = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=";
+            vista.testoQRCode = System.Text.Encodings.Web.UrlEncoder.Default.Encode(
+                modello.Sottospecie.Specie.Genere.Nome + " " + modello.Sottospecie.Specie.Nome + " " + (modello.Sottospecie.Nome == "-" ? "" : modello.Sottospecie.Nome) +
+                Environment.NewLine +
+                modello.Sottospecie.ElencoAutori);
+
+                return View(vista);        // Restituisce la vista di dettaglio passandole il ViewModel riempito di dati   
+
+        }
+
+
+
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpPost]
         public IActionResult DettaglioEsemplareByMSNG(int MSNG)    // Gestisce la pressione del pulsante MSNG nella pagina di dettaglio: 
         {                                                          // 
