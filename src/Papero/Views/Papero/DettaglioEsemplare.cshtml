@@ -174,10 +174,13 @@
                                 {
                                     <i role="button" data-toggle="modal" data-target="#modaleConfermaCancellazione" ng-click="vm.apriModaleConfermaCancellazione()" class="fa fa-trash fa-2x"></i>
                                 }
-                                <a asp-controller="Papero" asp-action="QRCode" asp-route-id="@Model.Id" style="text-decoration:none" target="_blank">
-                                    <i role="button" class="fa fa-qrcode fa-2x text-white"></i>
-                                </a>
-                                    }
+                                @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaQRCodeScheda"))
+                                {
+                                    <a asp-controller="QRCode" asp-action="QRCodeScheda" asp-route-id="@Model.Id" style="text-decoration:none" target="_blank">
+                                        <i role="button" class="fa fa-qrcode fa-2x text-white"></i>
+                                    </a>
+                                }
+                            }
 
                         </form>
 
@@ -192,8 +195,7 @@
 
                             <input type="hidden" id="inputIdSottospecie" value="@Model.Sottospecie.Id" />
                             <input type="hidden" id="inputIdEsemplare" value="@Model.Id" />
-
-
+                            <!--#region modaleElencoAutori -->
                             <div class="modal fade" id="modaleElencoAutori" role="dialog">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
@@ -315,7 +317,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <!-- #endregion -->
                             <h4>
                                 @(Model.Sottospecie.Specie.Genere.Nome +
                                   " " +
@@ -344,7 +346,6 @@
                         </div>
 
                         <div class="col-lg-2">
-                            @*<div class="card card-outline-primary">*@
                             <dl class="dl-horizontal text-white">
                                 <dt>@localizzatore["Famiglia"]:</dt>
                                 <dd>@Model.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.Famiglia.Nome</dd>
@@ -353,11 +354,10 @@
                                 <dt>@localizzatore["Tribu"]:</dt>
                                 <dd>@Model.Sottospecie.Specie.Genere.Tribu.Nome</dd>
                             </dl>
-                            @*</div>*@
                         </div>
 
                         <div class="col-lg-4" ng-controller="modaleNomiController as vm">
-
+                            <!-- #region modaleNomi -->
                             <div class="modal fade" id="modaleNomi" role="dialog">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
@@ -420,7 +420,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <!-- #endregion -->
                             <div class="card card-outline-primary">
                                 <dl class="dl-horizontal text-white">
                                     <dt>
@@ -458,8 +458,6 @@
 
                     <div class="row">
                         <dl class="col-lg-3 dl-horizontal text-primary">
-                            @*<dt>@localizzatore["NCU"]:</dt>
-                                <dd>@Model.Ncu</dd>*@
                             <dt>
                                 <a asp-controller="UpdateDettaglioEsemplare" asp-action="TogglePresenza" asp-route-id="@Model.Id" style="text-decoration:none">
                                     @if (await autorizzatore.AuthorizeAsync(User, "ModificaPresenzaEsemplare"))
@@ -478,7 +476,7 @@
                             <dd>@((bool)Model.Presenza ? localizzatore["Sì"] : localizzatore["No"])</dd>
 
                             <div class="card card-outline-secondary" ng-controller="modaleDatiGeneraliController as vm">
-
+                                <!-- #region modaleDatiGenerali -->
                                 <div class="modal fade" id="modaleDatiGenerali" role="dialog">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
@@ -580,7 +578,7 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <!-- #endregion -->
                                 <dt>
                                     @if (await autorizzatore.AuthorizeAsync(User, "ModificaDatiGeneraliEsemplare"))
                                     {
@@ -607,7 +605,7 @@
                         <dl class="col-lg-3 dl-horizontal text-primary">
 
                             <div class="card card-outline-secondary" ng-controller="modaleGeografiaController as vm">
-
+                                <!-- #region modaleGeografia -->
                                 <div class="modal fade" id="modaleGeografia" role="dialog">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
@@ -919,7 +917,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
+                                                        <!-- #endregion -->
                                                         <dt>
                                                             @if (await autorizzatore.AuthorizeAsync(User, "ModificaDatiGeografiaEsemplare"))
                                                             {
@@ -997,7 +995,7 @@
 
                                                 <dl class="col-lg-3 dl-horizontal text-primary">
                                                     <div class="card card-outline-secondary" ng-controller="modaleDeterminazioniController as vm">
-
+                                                        <!-- #region modaleDeterminazioni -->
                                                         <div class="modal fade" id="modaleDeterminazioni" role="dialog">
                                                             <div class="modal-dialog modal-lg">
                                                                 <div class="modal-content">
@@ -1105,7 +1103,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
+                                                                    <!-- #endregion -->
                                                                     <dt>
                                                                         @if (await autorizzatore.AuthorizeAsync(User, "ModificaDatiDeterminazioniEsemplare"))
                                                                         {
@@ -1130,7 +1128,7 @@
                                                                 </div>
 
                                                                 <div class="card card-outline-secondary" ng-controller="modaleVecchieDeterminazioniController as vm">
-
+                                                                    <!-- #region modaleVecchieDeterminazioni -->
                                                                     <div class="modal fade" id="modaleVecchieDeterminazioni" role="dialog">
                                                                         <div class="modal-dialog modal-lg">
                                                                             <div class="modal-content">
@@ -1251,7 +1249,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
+                                                                    <!-- #endregion -->
                                                                     <dt>
                                                                         @if (await autorizzatore.AuthorizeAsync(User, "ModificaDatiVecchieDeterminazioniEsemplare"))
                                                                         {
@@ -1280,12 +1278,10 @@
                                                                 </div>
                                                             </dl>
 
-
-
                                                             <dl class="col-lg-3 dl-horizontal text-primary">
 
                                                                 <div class="card card-outline-secondary" ng-controller="modaleModiPreparazioneController as vm">
-
+                                                                    <!-- #region modaleModiPreparazione -->
                                                                     <div class="modal fade" id="modaleModiPreparazione" role="dialog">
                                                                         <div class="modal-dialog modal-lg">
                                                                             <div class="modal-content">
@@ -1390,7 +1386,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
+                                                                    <!-- #endregion -->
                                                                     <dt>
                                                                         @if (await autorizzatore.AuthorizeAsync(User, "ModificaModiPreparazioneEsemplare"))
                                                                         {
@@ -1408,22 +1404,21 @@
                                                                             {
                                                                                 <li>
                                                                                     @(preparato.Parte.Parte +
-                                                                    " (" +
-                                                                    preparato.Vassoio.Cassetto.Armadio.Sala.Sala +
-                                                                    ", " +
-                                                                    preparato.Vassoio.Cassetto.Armadio.Armadio +
-                                                                    ", " +
-                                                                    preparato.Vassoio.Cassetto.Cassetto +
-                                                                    ", " +
-                                                                    preparato.Vassoio.Vassoio + ")")
+                                                " (" +
+                                                preparato.Vassoio.Cassetto.Armadio.Sala.Sala +
+                                                ", " +
+                                                preparato.Vassoio.Cassetto.Armadio.Armadio +
+                                                ", " +
+                                                preparato.Vassoio.Cassetto.Cassetto +
+                                                ", " +
+                                                preparato.Vassoio.Vassoio + ")")
                                                                                 </li>
                                                                             }
                                                                         </ul>
                                                                     </dd>
                                                                 </div>
                                                                 <div class="card card-outline-secondary" ng-controller="modalePreparazioneController as vm">
-
-
+                                                                    <!-- #region modalePreparazione -->
                                                                     <div class="modal fade" id="modalePreparazione" role="dialog">
                                                                         <div class="modal-dialog modal-lg">
                                                                             <div class="modal-content">
@@ -1552,12 +1547,7 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-
-
-
-
-
-
+                                                                                <!-- #endregion -->
                                                                                 <dt>
                                                                                     @if (await autorizzatore.AuthorizeAsync(User, "ModificaPreparazioneEsemplare"))
                                                                                     {
@@ -1588,15 +1578,12 @@
                                                                                     <textarea rows="3" readonly style="resize:none; border:none;">@Model.NotePreparazione</textarea>
                                                                                 </dd>
                                                                             </div>
-
                                                                         </dl>
-
-
-
                                                                     </div>
+
                                                                     <div class="card card-outline-secondary">
                                                                         <div class="row">
-
+                                                                            <!-- #region modaleMorfologia -->
                                                                             <div class="modal fade" id="modaleMorfologia" role="dialog">
                                                                                 <div class="modal-dialog modal-lg">
                                                                                     <div class="modal-content">
@@ -1907,7 +1894,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-
+                                                                            <!-- #endregion -->
                                                                             <dl class="col-lg-3 dl-horizontal text-primary">
                                                                                 <dt>
                                                                                     @if (await autorizzatore.AuthorizeAsync(User, "ModificaMorfologiaEsemplare"))
@@ -1972,7 +1959,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="card card-outline-secondary">
-
+                                                                        <!-- #region modaleBibliografiaNote -->
                                                                         <div class="modal fade" id="modaleBibliografiaNote" role="dialog">
                                                                             <div class="modal-dialog modal-lg">
                                                                                 <div class="modal-content">
@@ -2021,8 +2008,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-
-
+                                                                        <!-- #endregion -->
                                                                         <div class="row">
                                                                             <dl class="col-lg-3 dl-horizontal text-primary">
                                                                                 <dt>
@@ -2040,11 +2026,11 @@
                                                                                 <dd>
                                                                                     <textarea rows="4" cols="80" width="100%" readonly style="resize:none; border:none;">@Model.Note</textarea>
                                                                                 </dd>
-                                                                                </dl>
-                                                                            </div>
+                                                                            </dl>
                                                                         </div>
-
                                                                     </div>
+
+                                                                </div>
     }
         </div>
     </div>

@@ -132,8 +132,14 @@
                             <td style="text-align:center">
                                 @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaDettaglioEsemplare"))
                                 {
-                                    <a ng-href="DettaglioEsemplare/{{esemplare.id}}" class="btn btn-sm btn-primary">@localizzatore["Dettagli"]</a>
-                                }                                
+                                    <a ng-href="DettaglioEsemplare/{{esemplare.id}}" class="btn btn-sm btn-success">@localizzatore["Dettagli"]</a>
+                                }
+                                @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaQRCodeScheda"))
+                                {
+                                    <a ng-href="/QRCode/QRCodeScheda/{{esemplare.id}}" target="_blank" class="btn btn-sm btn-primary pull-right">
+                                        <i role="button" class="fa fa-qrcode text-white"></i>
+                                    </a>
+                                }
                             </td>
                         </tr>
                     </tbody>

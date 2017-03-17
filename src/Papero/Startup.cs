@@ -97,6 +97,9 @@ namespace Papero
                 opzioni.AddPolicy("ModificaPreparazioneEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaPreparazioneEsemplare"));
                 opzioni.AddPolicy("ModificaMorfologiaEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaMorfologiaEsemplare"));
                 opzioni.AddPolicy("ModificaBibliografiaNoteEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaBibliografiaNoteEsemplare"));
+
+                // Policies per la gestione dei QRCode
+                opzioni.AddPolicy("VisualizzaQRCodeScheda", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaQRCodeScheda"));
             });
 
             servizi.AddLocalization(opzioni =>         // Aggiunta del supporto globale per la localizzazione e sua configurazione
