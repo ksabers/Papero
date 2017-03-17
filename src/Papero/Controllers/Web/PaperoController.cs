@@ -67,18 +67,33 @@ namespace Papero.Controllers
 
 
 
-        public IActionResult QRCode(int id)  // Pagina di dettaglio con tutti i dati del singolo esemplare. E' gestita in modo tradizionale client/server senza
-                                                         // chiamate Angular
+        public IActionResult QRCode(int id)
         {
                 ViewBag.trovato = true;                                        // Flag che dice alla vista che l'ID è valido
                 var modello = _repository.LeggiEsemplare(id);                  // Legge tutti i dati dell'esemplare
-                var vista = Mapper.Map<QRCodeViewModel>(modello);  // Mappa i dati dell'esemplare sul ViewModel che usiamo per comunicare con la vista
+                var vista = Mapper.Map<QRCodeViewModel>(modello);              // Mappa i dati dell'esemplare sul ViewModel che usiamo per comunicare con la vista
 
             vista.urlQRCode = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=";
-            vista.testoQRCode = System.Text.Encodings.Web.UrlEncoder.Default.Encode(
+            var testoQRCode = System.Text.Encodings.Web.UrlEncoder.Default.Encode(
                 modello.Sottospecie.Specie.Genere.Nome + " " + modello.Sottospecie.Specie.Nome + " " + (modello.Sottospecie.Nome == "-" ? "" : modello.Sottospecie.Nome) +
                 Environment.NewLine +
-                modello.Sottospecie.ElencoAutori);
+                modello.Sottospecie.ElencoAutori + Environment.NewLine +
+                Environment.NewLine +
+                _localizzatore["Sesso"] + ": " + _localizzatore[modello.Sesso.Sesso] + Environment.NewLine +
+                _localizzatore["Lettera"] + ": " + modello.LetteraEsemplare + Environment.NewLine +
+                _localizzatore["Numero"] + ": " + modello.NumeroEsemplare + Environment.NewLine +
+                _localizzatore["Tipo"] + ": " + _localizzatore[modello.Tipo.Tipo] + Environment.NewLine +
+                _localizzatore["Aberrazione"] + ": " + _localizzatore[modello.Aberrazione.Aberrazione]
+                );
+
+            if (testoQRCode.Length < 4000)
+            {
+                vista.testoQRCode = testoQRCode;
+            }
+            else
+            {
+                vista.testoQRCode = testoQRCode.Substring(0, 4000);
+            }
 
                 return View(vista);        // Restituisce la vista di dettaglio passandole il ViewModel riempito di dati   
 
