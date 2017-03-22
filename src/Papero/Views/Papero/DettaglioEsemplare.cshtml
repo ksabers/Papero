@@ -128,14 +128,13 @@
 
                                                             <div class="form-group text-center">
                                                                 <h3>
-
-                                                                    @(Model.Sottospecie.Specie.Genere.Nome +
-                                                                        " " +
-                                                                        Model.Sottospecie.Specie.Nome +
-                                                                        " " +
-                                                                        (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome) + " " + @Model.Sottospecie.ElencoAutori)
-
+                                                                    @funzioni.FormattaNomeScientifico(Model.Sottospecie.Specie.Genere.Nome,
+                                                                                                      Model.Sottospecie.Specie.Nome,
+                                                                                                      Model.Sottospecie.Nome,
+                                                                                                      Model.Sottospecie.ElencoAutori)
                                                                 </h3>
+
+
                                                                 <h3>
                                                                     @localizzatore["MSNG"]: <strong>@Model.Msng</strong>
                                                                 </h3>
@@ -219,15 +218,15 @@
                                                             <div class="form-group text-center">
                                                                 <h3>
                                                                     <span class="text-muted">
-                                                                        @(Model.Sottospecie.Specie.Genere.Nome +
-                                                                        " " +
-                                                                        Model.Sottospecie.Specie.Nome +
-                                                                        " " +
-                                                                        (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome))
+                                                                        @funzioni.FormattaNomeScientifico(Model.Sottospecie.Specie.Genere.Nome,
+                                                                                                          Model.Sottospecie.Specie.Nome,
+                                                                                                          Model.Sottospecie.Nome)
                                                                     </span>
                                                                     <br />
                                                                     <span class="text-primary">{{vm.stringaElencoAutori}}</span>
                                                                 </h3>
+
+
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="inputAnnoClassificazione" class="col-lg-3 col-lg-offset-2 control-label text-primary">@localizzatore["Anno Classificazione"]:</label>
@@ -319,20 +318,18 @@
                             </div>
                             <!-- #endregion -->
                             <h4>
-                                @(Model.Sottospecie.Specie.Genere.Nome +
-                                  " " +
-                                  Model.Sottospecie.Specie.Nome +
-                                  " " +
-                                  (Model.Sottospecie.Nome == "-" ? "" : Model.Sottospecie.Nome))
+                                @funzioni.FormattaNomeScientifico(Model.Sottospecie.Specie.Genere.Nome,
+                                                                  Model.Sottospecie.Specie.Nome,
+                                                                  Model.Sottospecie.Nome)
                                 @switch (Model.Sesso.Sesso)
                                 {
                                     case "Maschio": <text>&nbsp;</text><i class="fa fa-mars"></i>
                                         break;
                                     case "Femmina": <text>&nbsp;</text><i class="fa fa-venus"></i>
                                         break;
-                                    case "Prob. Maschio":<text>&nbsp;?</text><i class="fa fa-mars"></i>
+                                    case "Prob. Maschio":<text>&nbsp;?&nbsp;</text><i class="fa fa-mars"></i>
                                         break;
-                                    case "Prob. Femmina":<text>&nbsp;?</text><i class="fa fa-venus"></i>
+                                    case "Prob. Femmina":<text>&nbsp;?&nbsp;</text><i class="fa fa-venus"></i>
                                         break;
                                 }
                                 <br />
@@ -343,6 +340,7 @@
                                     <text>&nbsp;</text><i role="button" class="fa fa-pencil text-muted" data-toggle="modal" data-target="#modaleElencoAutori" ng-click="vm.apriModaleElencoAutori(@Model.Sottospecie.Id)"></i>
                                 }
                             </h4>
+
                         </div>
 
                         <div class="col-lg-2">

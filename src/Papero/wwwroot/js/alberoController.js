@@ -137,6 +137,7 @@
         $http.get("/api/esemplari")
              .then(function (response) {
                  elencoEsemplari = response.data;
+
              });
 
         $http.get("/api/albero")

@@ -9,6 +9,13 @@ namespace Papero.Funzioni
     public static class funzioni
     {
 
+        /// <summary>
+        /// Restituisce l'elenco formattato degli autori di una sottospecie
+        /// </summary>
+        /// <param name="classificazione"></param>
+        /// <param name="classificazioneOriginale"></param>
+        /// <param name="annoClassificazione"></param>
+        /// <returns></returns>
         public static string elencoAutori(ICollection<Classificazioni> classificazione, bool classificazioneOriginale, string annoClassificazione)
         {
             var elenco = "";
@@ -49,7 +56,12 @@ namespace Papero.Funzioni
             return elenco;
         }
 
-        public static string leggiData(string dataIngresso)  // Legge una data parziale e la restituisce nel formato di visualizzazione
+        /// <summary>
+        /// Legge una data parziale e la restituisce nel formato di visualizzazione
+        /// </summary>
+        /// <param name="dataIngresso"></param>
+        /// <returns></returns>
+        public static string leggiData(string dataIngresso) 
         {
             if (string.IsNullOrEmpty(dataIngresso) || string.IsNullOrWhiteSpace(dataIngresso))  // Se la stringa è nulla o vuota, la data non è valida
             {
@@ -122,6 +134,12 @@ namespace Papero.Funzioni
         }
 
 
+        /// <summary>
+        /// Restituisce una data nel formato di uscita tenendo conto del fatto se è parziale o no
+        /// </summary>
+        /// <param name="dataIngresso"></param>
+        /// <param name="tipoData"></param>
+        /// <returns></returns>
         public static string scriviData(string dataIngresso, string tipoData)
         {
             if (string.IsNullOrEmpty(dataIngresso) || string.IsNullOrWhiteSpace(dataIngresso))
@@ -162,14 +180,49 @@ namespace Papero.Funzioni
             }
         }
 
+        /// <summary>
+        /// Restituisce in formato stringa un numero con il punto come separatore decimale
+        /// </summary>
+        /// <param name="numero"></param>
+        /// <returns></returns>
         public static string convertiNumero(double? numero)
         {
             return numero.ToString().Replace(',', '.');
         }
 
+        /// <summary>
+        /// Restituisce un numero con una sola cifra decimale
+        /// </summary>
+        /// <param name="numero"></param>
+        /// <returns></returns>
         public static double troncaDecimali(double numero)
         {
             return Math.Truncate(10 * numero) / 10;
+        }
+
+        /// <summary>
+        /// Restituisce il nome scientifico (genere, specie, sottospecie) separato da spazi
+        /// </summary>
+        /// <param name="genere"></param>
+        /// <param name="specie"></param>
+        /// <param name="sottospecie"></param>
+        /// <returns></returns>
+        public static string FormattaNomeScientifico(string genere, string specie, string sottospecie)
+        {
+            return genere + " " + specie + " " + (specie == "-" ? "" : sottospecie);
+        }
+
+        /// <summary>
+        /// Restituisce il nome scientifico (genere, specie, sottospecie, autori) separato da spazi
+        /// </summary>
+        /// <param name="genere"></param>
+        /// <param name="specie"></param>
+        /// <param name="sottospecie"></param>
+        /// <param name="elencoAutori"></param>
+        /// <returns></returns>
+        public static string FormattaNomeScientifico(string genere, string specie, string sottospecie, string elencoAutori)
+        {
+            return genere + " " + specie + " " + (specie == "-" ? "" : sottospecie) + " " + elencoAutori;
         }
     }
 }
