@@ -6,11 +6,12 @@
     angular.module("papero-app")
         .controller("modaleDatiGeneraliController", modaleDatiGeneraliController);
 
+
     function modaleDatiGeneraliController($http) {
 
         var vm = this;
 
-        vm.selezionaSesso = function selezionaSesso() {
+        vm.selezionaSesso = function selezionaSesso() {                          // Imposta gli id nei campi hidden della form in modo da farli accettare dalla submit
             $("#hiddenOutputIdSessoSelezionato").val(vm.sessoSelezionato.id);
         };
 

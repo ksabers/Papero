@@ -420,8 +420,8 @@
   <data name="Località" xml:space="preserve">
     <value>Place</value>
   </data>
-  <data name="Referenti" xml:space="preserve">
-    <value>References</value>
+  <data name="Raccoglitori" xml:space="preserve">
+    <value>Collectors</value>
   </data>
   <data name="Data completa" xml:space="preserve">
     <value>Whole date</value>

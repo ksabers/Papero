@@ -21,23 +21,14 @@
     </style>
 }
 
-
 @section scripts {
 
-
-
-
     <script src="~/lib/angular-tree-control/angular-tree-control.js"></script>
-
-
-
-
     <script src="~/js/alberoController.js"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.5/angular-datatables.min.js"></script>
 }
-
 
 <div class="row" ng-app="papero-app" ng-controller="alberoController as vm">
     <div class="col-lg-3">
@@ -60,15 +51,14 @@
             </div>
 
             <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
-
                 <treecontrol class="tree-boot"
                              id="alberoTassonomia"
                              ng-cloak
                              tree-model="vm.datiAlbero"
                              options="vm.opzioniAlbero"
-                             on-selection="vm.nodoSelezionato(node)"
+                             on-selection="vm.nodoSelezionato(node, selected)"
                              filter-expression="vm.filtroAlbero"
-                             expanded-nodes="vm.expandedNodes">
+                             selected-nodes="vm.nodiSelezionati">
                     {{node.nome}}
                 </treecontrol>
 
@@ -79,9 +69,9 @@
     <div class="col-lg-9">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">@localizzatore["Esemplari"]</h3>
+                <h3 class="panel-title">@localizzatore["Esemplari"]</h3><br />
 
-@* Visualizza la box per l'inserimento dell'esemplare nuovo solo se autorizzato *@
+                @* Visualizza il box per l'inserimento dell'esemplare nuovo solo se autorizzato *@
                 @if (await autorizzatore.AuthorizeAsync(User, "InserimentoEsemplare"))
                 {
                     <div class="container-fluid" ng-show="vm.foglia" ng-cloak>
@@ -113,7 +103,211 @@
                         </div>
                     </div>
                 }
+                <div class="well well-sm text-primary" ng-hide="vm.foglia">
 
+                    <!--#region modaleFiltriElencoEsemplari -->
+                    <div class="modal fade" id="modaleFiltriElencoEsemplari" role="dialog">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body">
+
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">@localizzatore["Inserire i parametri di filtro"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                                        </div>
+                                        <div class="panel-body text-primary">
+
+                                            <form class="form-horizontal">
+                                                <fieldset>
+                                                    <div class="form-group">&nbsp;
+                                                        <div class="btn-group">
+                                                            <a href="#"
+                                                               ng-class="{'btn btn-primary': vm.filtroSuAlberoAttivo, 'btn btn-outline-secondary': !vm.filtroSuAlberoAttivo}"
+                                                               ng-click="vm.filtroSuAlberoAttivo = !vm.filtroSuAlberoAttivo">@localizzatore["Filtro sull'albero"]</a>
+                                                            <a href="#"
+                                                               ng-class="{'btn btn-primary': !vm.filtroSuAlberoAttivo, 'btn btn-outline-secondary': vm.filtroSuAlberoAttivo}"
+                                                               ng-click="vm.filtroSuAlberoAttivo = !vm.filtroSuAlberoAttivo">@localizzatore["Elenco Completo"]</a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <ul class="nav nav-tabs">
+                                                            <li class="active"><a href="#tablocalita" data-toggle="tab">@localizzatore["Località di Cattura"]</a></li>
+                                                            <li><a href="#tabraccoglitori" data-toggle="tab">@localizzatore["Raccoglitori"]</a></li>
+                                                            <li><a href="#tabcollocazione" data-toggle="tab">@localizzatore["Collocazione"]</a></li>
+                                                        </ul>
+                                                        <div id="myTabContent" class="tab-content">
+                                                            <div class="tab-pane fade active in col-lg-offset-3" id="tablocalita">
+                                                                <div class="row">
+                                                                    <div class="form-group">
+                                                                        <label for="uiselectNazione" class="col-lg-2 control-label">@localizzatore["Nazione"]:</label>
+                                                                        <div class="col-lg-5">
+                                                                            <ui-select id="uiselectNazione" ng-model="vm.nazioneSelezionata" ng-change="vm.selezionaNazione();vm.impostaFiltriGeografia();">
+                                                                                <ui-select-match>
+                                                                                    <span ng-bind="$select.selected.nazione"></span>
+                                                                                </ui-select-match>
+                                                                                <ui-select-choices repeat="nazione in (vm.nazioni | filter: $select.search) track by nazione.id">
+                                                                                    <span ng-bind="nazione.nazione"></span>
+                                                                                </ui-select-choices>
+                                                                            </ui-select>
+                                                                        </div>
+                                                                        <i role="button" class="fa fa-minus-circle fa-2x text-danger" ng-click="vm.resetNazione()"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group">
+                                                                        <label for="uiselectRegione" class="col-lg-2 control-label">@localizzatore["Regione"]:</label>
+                                                                        <div class="col-lg-5">
+                                                                            <ui-select id="uiselectRegione" ng-model="vm.regioneSelezionata" ng-change="vm.selezionaRegione();vm.impostaFiltriGeografia();">
+                                                                                <ui-select-match>
+                                                                                    <span ng-bind="$select.selected.regione"></span>
+                                                                                </ui-select-match>
+                                                                                <ui-select-choices repeat="regione in (vm.regioni | filter: $select.search) track by regione.id">
+                                                                                    <span ng-bind="regione.regione"></span>
+                                                                                </ui-select-choices>
+                                                                            </ui-select>
+                                                                        </div>
+                                                                        <i role="button" class="fa fa-minus-circle fa-2x text-danger" ng-click="vm.resetRegione()"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group">
+                                                                        <label for="uiselectProvincia" class="col-lg-2 control-label">@localizzatore["Provincia"]:</label>
+                                                                        <div class="col-lg-5">
+                                                                            <ui-select id="uiselectProvincia" ng-model="vm.provinciaSelezionata" ng-change="vm.selezionaProvincia();vm.impostaFiltriGeografia();">
+                                                                                <ui-select-match>
+                                                                                    <span ng-bind="$select.selected.provincia"></span>
+                                                                                </ui-select-match>
+                                                                                <ui-select-choices repeat="provincia in (vm.province | filter: $select.search) track by provincia.id">
+                                                                                    <span ng-bind="provincia.provincia"></span>
+                                                                                </ui-select-choices>
+                                                                            </ui-select>
+                                                                        </div>
+                                                                        <i role="button" class="fa fa-minus-circle fa-2x text-danger" ng-click="vm.resetProvincia()"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group">
+                                                                        <label for="uiselectCitta" class="col-lg-2 control-label">@localizzatore["Città"]:</label>
+                                                                        <div class="col-lg-5">
+                                                                            <ui-select id="uiselectCitta" ng-model="vm.cittaSelezionata" ng-change="vm.selezionaCitta();vm.impostaFiltriGeografia();">
+                                                                                <ui-select-match>
+                                                                                    <span ng-bind="$select.selected.nomeCitta"></span>
+                                                                                </ui-select-match>
+                                                                                <ui-select-choices repeat="citta in (vm.citta | filter: $select.search) track by citta.id">
+                                                                                    <span ng-bind="citta.nomeCitta"></span>
+                                                                                </ui-select-choices>
+                                                                            </ui-select>
+                                                                        </div>
+                                                                        <i role="button" class="fa fa-minus-circle fa-2x text-danger" ng-click="vm.resetCitta()"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group">
+                                                                        <label for="uiselectLocalita" class="col-lg-2 control-label">@localizzatore["Località"]:</label>
+                                                                        <div class="col-lg-5">
+                                                                            <ui-select id="uiselectLocalita" name="uiselectLocalita" ng-model="vm.localitaSelezionata" ng-change="vm.selezionaLocalita();vm.impostaFiltriGeografia();">
+                                                                                <ui-select-match>
+                                                                                    <span ng-bind="$select.selected.nomeLocalita"></span>
+                                                                                </ui-select-match>
+                                                                                <ui-select-choices repeat="localita in (vm.localita | filter: $select.search) track by localita.id">
+                                                                                    <span ng-bind="localita.nomeLocalita"></span>
+                                                                                </ui-select-choices>
+                                                                            </ui-select>
+                                                                        </div>
+                                                                        <i role="button" class="fa fa-minus-circle fa-2x text-danger" ng-click="vm.resetLocalita()"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane fade active in col-lg-offset-3" id="tabraccoglitori">
+                                                                <div class="row">
+                                                                    <div class="form-group">
+                                                                        <label for="uiselectRaccoglitori" class="col-lg-2 control-label">@localizzatore["Raccoglitore"]:</label>
+                                                                        <div class="col-lg-5">
+                                                                            <ui-select id="uiselectRaccoglitori" name="uiselectRaccoglitori" ng-model="vm.raccoglitoreSelezionato" ng-change="vm.selezionaRaccoglitore();vm.impostaFiltriRaccoglitori();">
+                                                                                <ui-select-match>
+                                                                                    <span ng-bind="$select.selected.raccoglitore"></span>
+                                                                                </ui-select-match>
+                                                                                <ui-select-choices repeat="raccoglitore in (vm.raccoglitori | filter: $select.search) track by raccoglitore.id">
+                                                                                    <span ng-bind="raccoglitore.raccoglitore"></span>
+                                                                                </ui-select-choices>
+                                                                            </ui-select>
+                                                                        </div>
+                                                                        <i role="button" class="fa fa-minus-circle fa-2x text-danger" ng-click="vm.resetRaccoglitore()"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane fade active in col-lg-offset-3" id="tabcollocazione">
+
+                                                                <div class="row">
+                                                                    <div class="form-group">
+                                                                        <label for="uiselectSala" class="col-lg-2 control-label">@localizzatore["Sala"]:</label>
+                                                                        <div class="col-lg-5">
+                                                                            <ui-select id="uiselectSala" ng-model="vm.salaSelezionata" ng-change="vm.selezionaSala();vm.impostaFiltriCollocazione();">
+                                                                                <ui-select-match>
+                                                                                    <span ng-bind="$select.selected.sala"></span>
+                                                                                </ui-select-match>
+                                                                                <ui-select-choices repeat="sala in (vm.sale | filter: $select.search) track by sala.id">
+                                                                                    <span ng-bind="sala.sala"></span>
+                                                                                </ui-select-choices>
+                                                                            </ui-select>
+                                                                        </div>
+                                                                        <i role="button" class="fa fa-minus-circle fa-2x text-danger" ng-click="vm.resetSala()"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group">
+                                                                        <label for="uiselectArmadio" class="col-lg-2 control-label">@localizzatore["Armadio"]:</label>
+                                                                        <div class="col-lg-5">
+                                                                            <ui-select id="uiselectArmadio" ng-model="vm.armadioSelezionato" ng-change="vm.selezionaArmadio();vm.impostaFiltriCollocazione();">
+                                                                                <ui-select-match>
+                                                                                    <span ng-bind="$select.selected.armadio"></span>
+                                                                                </ui-select-match>
+                                                                                <ui-select-choices repeat="armadio in (vm.armadi | filter: $select.search) track by armadio.id">
+                                                                                    <span ng-bind="armadio.armadio"></span>
+                                                                                </ui-select-choices>
+                                                                            </ui-select>
+                                                                        </div>
+                                                                        <i role="button" class="fa fa-minus-circle fa-2x text-danger" ng-click="vm.resetArmadio()"></i>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-lg-12">
+                                                            <div class="pull-right">
+                                                                <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
+                                                                <button id="bottoneSubmitFiltri" type="submit" class="btn btn-success" data-dismiss="modal" ng-click="vm.applicaFiltri();">@localizzatore["Filtra"]</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </form>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- #endregion -->
+
+                    <span class="fa-stack fa-lg" role="button" data-toggle="modal" data-target="#modaleFiltriElencoEsemplari" ng-click="vm.aprimodaleFiltriElencoEsemplari()">
+                        <i class="fa fa-square-o fa-stack-2x"></i>
+                        <i class="fa fa-filter fa-stack-1x"></i>
+                    </span>
+                    <text>&nbsp;</text>
+                    <span ng-show="vm.filtroSuAlberoAttivo">@localizzatore["Filtro sull'albero"]</span>
+                    <span ng-hide="vm.filtroSuAlberoAttivo">@localizzatore["Elenco Completo"]</span>
+                </div>
             </div>
             <div class="panel-body">
 

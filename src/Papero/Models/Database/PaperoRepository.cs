@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿// PaperoRepository.cs
+//
+// Metodi che implementano le query sul database
+//
+// La documentazione di ciascun metodo è nell'interfaccia IPaperoRepository
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -132,7 +138,6 @@ namespace Papero.Models
                 .OrderBy(statoConservazione => statoConservazione.StatoConservazione)
                 .ToList();
         }
-
 
         public IEnumerable<Classificatori> LeggiClassificazioni(int idSottospecie)
         {
@@ -319,7 +324,6 @@ namespace Papero.Models
             _contesto.SaveChanges();
         }
 
-
         public void CancellaDeterminazioni(int idEsemplare)
         {
             _contesto.Determinazioni
@@ -499,6 +503,149 @@ namespace Papero.Models
                 .ToList();
         }
 
+        public IEnumerable<Localita> LeggiLocalitaDaNazione(int idNazione)
+        {
+            return _contesto.Localita
+                .Where(localita => localita.Citta.Provincia.Regione.NazioneId == idNazione)
+            .ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaNazione(int idNazione)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.LocalitaCattura.Citta.Provincia.Regione.NazioneId == idNazione)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                })
+            .ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaRegione(int idRegione)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.LocalitaCattura.Citta.Provincia.RegioneId == idRegione)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                })
+            .ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaProvincia(int idProvincia)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.LocalitaCattura.Citta.ProvinciaId == idProvincia)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                })
+            .ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaCitta(int idCitta)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.LocalitaCattura.CittaId == idCitta)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                })
+            .ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaLocalita(int idLocalita)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.LocalitaCatturaId == idLocalita)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                })
+            .ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaRaccoglitore(int idRaccoglitore)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.AvutoDaId == idRaccoglitore || esemplare.CedenteId == idRaccoglitore || esemplare.LegitId == idRaccoglitore)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                })
+                .ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSala (int idSala)
+        {
+            return (from esemplare in _contesto.Esemplari
+                    join preparato in _contesto.Preparati on esemplare.Id equals preparato.EsemplareId
+                    where preparato.Vassoio.Cassetto.Armadio.SalaId == idSala
+                    select new ElencoEsemplariViewModel
+                    {
+                        Id = esemplare.Id,
+                        Msng = esemplare.Msng,
+                        Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                        Specie = esemplare.Sottospecie.Specie.Nome,
+                        Sottospecie = esemplare.Sottospecie.Nome,
+                        SottospecieId = esemplare.SottospecieId,
+                        ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                    }).GroupBy(esemplare => esemplare.Id).Select(esemplare => esemplare.FirstOrDefault());
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaArmadio(int idArmadio)
+        {
+            return (from esemplare in _contesto.Esemplari
+                    join preparato in _contesto.Preparati on esemplare.Id equals preparato.EsemplareId
+                    where preparato.Vassoio.Cassetto.ArmadioId == idArmadio
+                    select new ElencoEsemplariViewModel
+                    {
+                        Id = esemplare.Id,
+                        Msng = esemplare.Msng,
+                        Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                        Specie = esemplare.Sottospecie.Specie.Nome,
+                        Sottospecie = esemplare.Sottospecie.Nome,
+                        SottospecieId = esemplare.SottospecieId,
+                        ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                    }).GroupBy(esemplare => esemplare.Id).Select(esemplare => esemplare.FirstOrDefault());
+        }
+
         public IEnumerable<TipiAcquisizioneLocalizzatiViewModel> LeggiTipiAcquisizione()
         {
             return _contesto.TipiAcquisizione
@@ -534,8 +681,7 @@ namespace Papero.Models
         }
 
         public IEnumerable<SessiLocalizzatiViewModel> LeggiSessi()
-        {
-            
+        {   
             return _contesto.Sessi
                 .OrderBy(sesso => sesso.Sesso)
                 .Select(sesso => new SessiLocalizzatiViewModel

@@ -1,17 +1,19 @@
 ﻿(function (window, document) {
     'use strict';
 
-
     var funzioni = window.funzioni || (window.funzioni = {});
 
-
+    /**
+     * Prende una data in formato interno e la restituisce in formato datetime assieme ad una stringa che dice se è parziale o no
+     * @param {stringa} dataIngresso
+     * @returns { data: dataUscita (date), tipo: "Data completa"/"Ignora mese/giorno"/"Ignora giorno" (stringa) } 
+     */
     function trasformaData(dataIngresso) {
 
         var dataUscita = new Date();
         var annoStringa = "";
         var meseStringa = "";
         var giornoStringa = "";
-
 
         if (dataIngresso.length != 8 && dataIngresso.length != 10) {
             return { data: null, tipo: "Data completa" };
@@ -46,22 +48,13 @@
         dataUscita.setMonth(parseInt(meseStringa, 10)-1);
         dataUscita.setDate(parseInt(giornoStringa, 10));
         return { data: dataUscita, tipo: "Data completa" };
-
-
-
     }
-
-
-
-
-
 
     function pubblicaFunzioniEsterne(funzioni) {
         angular.extend(funzioni, {
             'trasformaData': trasformaData
         });
     }
-
 
     pubblicaFunzioniEsterne(funzioni);
 

@@ -123,8 +123,23 @@
   <data name="Albero tassonomico" xml:space="preserve">
     <value>Taxonomical Tree</value>
   </data>
+  <data name="Annulla" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Armadio" xml:space="preserve">
+    <value>Cabinet</value>
+  </data>
+  <data name="Città" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="Collocazione" xml:space="preserve">
+    <value>Position</value>
+  </data>
   <data name="Dettagli" xml:space="preserve">
     <value>Details</value>
+  </data>
+  <data name="Elenco Completo" xml:space="preserve">
+    <value>Complete List</value>
   </data>
   <data name="Elenco Esemplari" xml:space="preserve">
     <value>List of Specimens</value>
@@ -132,8 +147,23 @@
   <data name="Esemplari" xml:space="preserve">
     <value>Specimens</value>
   </data>
+  <data name="Filtra" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Filtro sull'albero" xml:space="preserve">
+    <value>Filter on tree</value>
+  </data>
+  <data name="Inserire i parametri di filtro" xml:space="preserve">
+    <value>Insert filter parameters</value>
+  </data>
   <data name="Inserisci" xml:space="preserve">
     <value>Submit</value>
+  </data>
+  <data name="Località" xml:space="preserve">
+    <value>Place</value>
+  </data>
+  <data name="Località di Cattura" xml:space="preserve">
+    <value>Place of Capture</value>
   </data>
   <data name="MSNG" xml:space="preserve">
     <value>MSNG</value>
@@ -141,8 +171,26 @@
   <data name="MSNG già esistente!" xml:space="preserve">
     <value>MSNG already present!</value>
   </data>
+  <data name="Nazione" xml:space="preserve">
+    <value>Country</value>
+  </data>
   <data name="Nome Scientifico" xml:space="preserve">
     <value>Scientific Name</value>
+  </data>
+  <data name="Provincia" xml:space="preserve">
+    <value>Province</value>
+  </data>
+  <data name="Raccoglitore" xml:space="preserve">
+    <value>Collector</value>
+  </data>
+  <data name="Raccoglitori" xml:space="preserve">
+    <value>Collectors</value>
+  </data>
+  <data name="Regione" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="Sala" xml:space="preserve">
+    <value>Room</value>
   </data>
   <data name="Selezione diretta" xml:space="preserve">
     <value>Direct selection</value>

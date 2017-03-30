@@ -30,10 +30,10 @@ namespace Papero.Controllers
         }
 
         /// <summary>
-        /// API che restituisce l'elenco degli esemplari in formato sintetico
+        /// API che restituisce l'elenco degli esemplari in formato sinteticoVisualizzaElencoEsemplari
         /// </summary>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(Policy = "")]
         [HttpGet("api/esemplari")]
         public IActionResult GetElencoSinteticoEsemplari()
         {
@@ -45,7 +45,7 @@ namespace Papero.Controllers
         /// </summary>
         /// <param name="idEsemplare"></param>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/esemplare/{idEsemplare}")]
         public IActionResult GetEsemplare(int idEsemplare)
         {
@@ -63,14 +63,14 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiStatiConservazione());
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/classificazioni/{idSottospecie}")]
         public IActionResult GetClassificazioni(int idSottospecie)
         {
             return Ok(_repository.LeggiClassificazioni(idSottospecie));
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/classificatori")]
         public IActionResult GetClassificatori()
         {
@@ -91,7 +91,7 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiPreparati());
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/preparati/{idEsemplare}")]
         public IActionResult GetPreparati(int idEsemplare)
         {
@@ -130,42 +130,42 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiVassoi());
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/vecchiedeterminazioni")]
         public IActionResult GetVecchieDeterminazioni()
         {
             return Ok(_repository.LeggiVecchieDeterminazioni());
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/vecchiedeterminazioni/{idEsemplare}")]
         public IActionResult GetVecchieDeterminazioni(int idEsemplare)
         {
             return Ok(_repository.LeggiVecchieDeterminazioni(idEsemplare));
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/vecchideterminatori")]
         public IActionResult GetVecchiDeterminatori()
         {
             return Ok(_repository.LeggiVecchiDeterminatori());
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/vecchideterminatori/{idVecchiaDeterminazione}")]
         public IActionResult GetVecchiDeterminatori(int idVecchiaDeterminazione)
         {
             return Ok(_repository.LeggiVecchiDeterminatori(idVecchiaDeterminazione));
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/determinatori")]
         public IActionResult GetDeterminatori()
         {
             return Ok(_repository.LeggiDeterminatori());
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/determinatori/{idEsemplare}")]
         public IActionResult GetDeterminazioni(int idEsemplare)
         {
@@ -270,7 +270,7 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiSpedizioni());
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/raccoglitori")]
         public IActionResult GetRaccoglitori()
         {
@@ -298,32 +298,95 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiAberrazioni());
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/preparatori")]
         public IActionResult GetPreparatori()
         {
             return Ok(_repository.LeggiPreparatori());
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/preparatori/{idEsemplare}")]
         public IActionResult GetPreparatori(int idEsemplare)
         {
             return Ok(_repository.LeggiPreparatori(idEsemplare));
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/preparazioni")]
         public IActionResult GetPreparazioni()
         {
             return Ok(_repository.LeggiPreparazioni());
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/preparazioni/{idEsemplare}")]
         public IActionResult GetPreparazioni(int idEsemplare)
         {
             return Ok(_repository.LeggiPreparazioni(idEsemplare));
+        }
+
+        [Authorize]
+        [HttpGet("api/localitadanazione/{idNazione}")]
+        public IActionResult GetLocalitaDaNazione(int idNazione)
+        {
+            return Ok(_repository.LeggiLocalitaDaNazione(idNazione));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridanazione/{idNazione}")]
+        public IActionResult GetElencoEsemplariDaNazione(int idNazione)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaNazione(idNazione));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridaregione/{idRegione}")]
+        public IActionResult GetElencoEsemplariDaRegione(int idRegione)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaRegione(idRegione));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridaprovincia/{idProvincia}")]
+        public IActionResult GetElencoEsemplariDaProvincia(int idProvincia)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaProvincia(idProvincia));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridacitta/{idCitta}")]
+        public IActionResult GetElencoEsemplariDaCitta(int idCitta)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaCitta(idCitta));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridalocalita/{idLocalita}")]
+        public IActionResult GetElencoEsemplariDaLocalita(int idLocalita)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaLocalita(idLocalita));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridaraccoglitore/{idRaccoglitore}")]
+        public IActionResult GetElencoEsemplariDaRaccoglitore(int idRaccoglitore)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaRaccoglitore(idRaccoglitore));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridasala/{idSala}")]
+        public IActionResult GetElencoEsemplariDaSala(int idSala)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaSala(idSala));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridaarmadio/{idArmadio}")]
+        public IActionResult GetElencoEsemplariDaArmadio(int idArmadio)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaArmadio(idArmadio));
         }
 
     }

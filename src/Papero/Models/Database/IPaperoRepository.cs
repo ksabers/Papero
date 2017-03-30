@@ -1,4 +1,8 @@
-﻿using Papero.ViewModels;
+﻿// IPaperoRepository.cs
+//
+// Interfaccia per PaperoRepository
+
+using Papero.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -324,6 +328,70 @@ namespace Papero.Models
         /// <param name="idEsemplare"></param>
         /// <returns></returns>
         IEnumerable<Preparazioni> LeggiPreparazioni(int idEsemplare);
+
+        /// <summary>
+        /// Restituisce l'elenco delle Località appartenenti ad una specifica nazione
+        /// </summary>
+        /// <param name="idNazione"></param>
+        /// <returns></returns>
+        IEnumerable<Localita> LeggiLocalitaDaNazione(int idNazione);
+
+        /// <summary>
+        /// Restituisce l'elenco degli Esemplari provenienti da una specifica nazione
+        /// </summary>
+        /// <param name="idNazione"></param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaNazione(int idNazione);
+
+        /// <summary>
+        /// Restituisce l'elenco degli Esemplari provenienti da una specifica regione
+        /// </summary>
+        /// <param name="idRegione"></param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaRegione(int idRegione);
+
+        /// <summary>
+        /// Restituisce l'elenco degli Esemplari provenienti da una specifica provincia
+        /// </summary>
+        /// <param name="idProvincia"></param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaProvincia(int idProvincia);
+
+        /// <summary>
+        /// Restituisce l'elenco degli Esemplari provenienti da una specifica città
+        /// </summary>
+        /// <param name="idCitta"></param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaCitta(int idCitta);
+
+        /// <summary>
+        /// Restituisce l'elenco degli Esemplari provenienti da una specifica località
+        /// </summary>
+        /// <param name="idLocalita"></param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaLocalita(int idLocalita);
+
+        /// <summary>
+        /// Restituisce l'elenco degli Esemplari raccolti da uno specifico Raccoglitore
+        /// (indifferentemente come "avuto da", "legit" o "cedente")
+        /// </summary>
+        /// <param name="idRaccoglitore"></param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaRaccoglitore(int idRaccoglitore);
+
+        /// <summary>
+        /// Restituisce l'elenco degli Esemplari di cui almeno una parte si trova in una specifica sala
+        /// </summary>
+        /// <param name="idSala"></param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSala(int idSala);
+
+        /// <summary>
+        /// Restituisce l'elenco degli Esemplari di cui almeno una parte si trova in uno specifico armadio
+        /// </summary>
+        /// <param name="idArmadio"></param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaArmadio(int idArmadio);
 
         /// <summary>
         /// Cancella uno specifico Esemplare dal database
