@@ -389,5 +389,19 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiElencoEsemplariDaArmadio(idArmadio));
         }
 
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridacassetto/{idCassetto}")]
+        public IActionResult GetElencoEsemplariDaCassetto(int idCassetto)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaCassetto(idCassetto));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridavassoio/{idVassoio}")]
+        public IActionResult GetElencoEsemplariDaVassoio(int idVassoio)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaVassoio(idVassoio));
+        }
+
     }
 }

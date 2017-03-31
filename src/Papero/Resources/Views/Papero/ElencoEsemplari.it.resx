@@ -129,6 +129,12 @@
   <data name="Armadio" xml:space="preserve">
     <value>Armadio</value>
   </data>
+  <data name="Attenzione" xml:space="preserve">
+    <value>Attenzione</value>
+  </data>
+  <data name="Cassetto" xml:space="preserve">
+    <value>Cassetto</value>
+  </data>
   <data name="Città" xml:space="preserve">
     <value>Città</value>
   </data>
@@ -177,6 +183,9 @@
   <data name="Nome Scientifico" xml:space="preserve">
     <value>Nome Scientifico</value>
   </data>
+  <data name="numero di righe elevato - L'operazione potrebbe impiegare diverso tempo" xml:space="preserve">
+    <value>numero di righe elevato - L'operazione potrebbe impiegare diverso tempo</value>
+  </data>
   <data name="Provincia" xml:space="preserve">
     <value>Provincia</value>
   </data>
@@ -197,5 +206,8 @@
   </data>
   <data name="Specie selezionate" xml:space="preserve">
     <value>Specie selezionate</value>
+  </data>
+  <data name="Vassoio" xml:space="preserve">
+    <value>Vassoio</value>
   </data>
 </root>

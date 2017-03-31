@@ -394,6 +394,20 @@ namespace Papero.Models
         IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaArmadio(int idArmadio);
 
         /// <summary>
+        /// Restituisce l'elenco degli Esemplari di cui almeno una parte si trova in uno specifico cassetto
+        /// </summary>
+        /// <param name="idCassetto"></param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaCassetto(int idCassetto);
+
+        /// <summary>
+        /// Restituisce l'elenco degli Esemplari di cui almeno una parte si trova in uno specifico vassoio
+        /// </summary>
+        /// <param name="idVassoio"></param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaVassoio(int idVassoio);
+
+        /// <summary>
         /// Cancella uno specifico Esemplare dal database
         /// </summary>
         /// <param name="idEsemplare"></param>

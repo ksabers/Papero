@@ -646,6 +646,40 @@ namespace Papero.Models
                     }).GroupBy(esemplare => esemplare.Id).Select(esemplare => esemplare.FirstOrDefault());
         }
 
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaCassetto(int idCassetto)
+        {
+            return (from esemplare in _contesto.Esemplari
+                    join preparato in _contesto.Preparati on esemplare.Id equals preparato.EsemplareId
+                    where preparato.Vassoio.CassettoId == idCassetto
+                    select new ElencoEsemplariViewModel
+                    {
+                        Id = esemplare.Id,
+                        Msng = esemplare.Msng,
+                        Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                        Specie = esemplare.Sottospecie.Specie.Nome,
+                        Sottospecie = esemplare.Sottospecie.Nome,
+                        SottospecieId = esemplare.SottospecieId,
+                        ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                    }).GroupBy(esemplare => esemplare.Id).Select(esemplare => esemplare.FirstOrDefault());
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaVassoio(int idVassoio)
+        {
+            return (from esemplare in _contesto.Esemplari
+                    join preparato in _contesto.Preparati on esemplare.Id equals preparato.EsemplareId
+                    where preparato.VassoioId == idVassoio
+                    select new ElencoEsemplariViewModel
+                    {
+                        Id = esemplare.Id,
+                        Msng = esemplare.Msng,
+                        Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                        Specie = esemplare.Sottospecie.Specie.Nome,
+                        Sottospecie = esemplare.Sottospecie.Nome,
+                        SottospecieId = esemplare.SottospecieId,
+                        ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                    }).GroupBy(esemplare => esemplare.Id).Select(esemplare => esemplare.FirstOrDefault());
+        }
+
         public IEnumerable<TipiAcquisizioneLocalizzatiViewModel> LeggiTipiAcquisizione()
         {
             return _contesto.TipiAcquisizione

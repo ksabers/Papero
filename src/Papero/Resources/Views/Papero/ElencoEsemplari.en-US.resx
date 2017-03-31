@@ -129,6 +129,12 @@
   <data name="Armadio" xml:space="preserve">
     <value>Cabinet</value>
   </data>
+  <data name="Attenzione" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="Cassetto" xml:space="preserve">
+    <value>Drawer</value>
+  </data>
   <data name="Città" xml:space="preserve">
     <value>City</value>
   </data>
@@ -177,6 +183,9 @@
   <data name="Nome Scientifico" xml:space="preserve">
     <value>Scientific Name</value>
   </data>
+  <data name="numero di righe elevato - L'operazione potrebbe impiegare diverso tempo" xml:space="preserve">
+    <value>many rows returned - Operation could be slow</value>
+  </data>
   <data name="Provincia" xml:space="preserve">
     <value>Province</value>
   </data>
@@ -197,5 +206,8 @@
   </data>
   <data name="Specie selezionate" xml:space="preserve">
     <value>Selected Species</value>
+  </data>
+  <data name="Vassoio" xml:space="preserve">
+    <value>Tray</value>
   </data>
 </root>

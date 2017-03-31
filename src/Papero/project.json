@@ -1,4 +1,5 @@
 {
+  "version": "1.0.0-*",
   "userSecretsId": "Papero-5772c50f-56f3-4058-bd61-75f1352aeca7",
   "dependencies": {
     "Microsoft.AspNetCore.Authentication": "1.1.1",

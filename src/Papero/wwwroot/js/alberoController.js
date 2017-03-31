@@ -19,6 +19,21 @@
         var elencoCitta = [];
         var elencoLocalita = [];
         var elencoArmadi = [];
+        var elencoCassetti = [];
+        var elencoVassoi = [];
+
+        var inizialeAlbero = true;    // Variabili che memorizzano lo stato dei filtri all'apertura della finestra
+        var inizialeNazione = [];      // in modo da poterlo ripristinare in caso di chiusura con "Annulla" 
+        var inizialeRegione = [];
+        var inizialeProvincia = [];
+        var inizialeCitta = [];
+        var inizialeLocalita = [];
+        var inizialeRaccoglitore = [];
+        var inizialeSala = [];
+        var inizialeArmadio = [];
+        var inizialeCassetto = [];
+        var inizialeVassoio = [];
+
 
         var esemplariFiltratiSuGeografia = [];     // elenchi di esemplari restituiti dai singoli filtri
         var esemplariFiltratiSuRaccoglitori = [];
@@ -29,7 +44,7 @@
         vm.filtroSuAlberoAttivo = true;             //  booleani che indicano se un certo filtro è attivo o no. Per default è attivo solo quello sull'albero
         vm.filtroSuGeografiaAttivo = false;
         vm.filtroSuRaccoglitoriAttivo = false;
-        vm.filtrosuCollocazioneAttivo = false;
+        vm.filtroSuCollocazioneAttivo = false;
 
         vm.regioni = [];  // Contenuto della dropdown Regioni
 
@@ -40,7 +55,7 @@
         vm.nodiSelezionati = [];       // Collection che contiene i nodi attualmente selezionati nell'albero (che permette la multiselezione)
         vm.foglia = false;             // Indica se è selezionata una ed una sola foglia dell'albero (cioè una singola sottospecie). Usato per visualizzare il box di inserimento
         vm.MSNGpresente = false;       // Flag che indica se visualizzare o no l'alert di MSNG già presente
-
+        vm.numeroRigheOK = true;       // Flag che indica se i filtri visualizzebbero troppe righe nella tabella e quindi richiede un'ulteriore conferma
         vm.sottospecieSelezionate = [];  // Elenco degli ID delle sottospecie selezionate nell'albero
 
         vm.selezionaSpecie = function selezionaSpecie() {  // Funzione chiamata alla selezione di una specie nella dropdown di selezione diretta
@@ -143,6 +158,41 @@
                 vm.resetSala();
         }
 
+        vm.revertFiltri = function revertFiltri() {  //  Ripristina i filtri al valore che avevano al momento di aprire la modale. Serve nel caso la finestra venga chiusa
+                                                     //  con il tasto "Annulla"
+            vm.filtroSuAlberoAttivo = inizialeAlbero;
+            vm.nazioneSelezionata = inizialeNazione; vm.selezionaNazione();
+            vm.regioneSelezionata = inizialeRegione; vm.selezionaRegione();
+            vm.provinciaSelezionata = inizialeProvincia; vm.selezionaProvincia();
+            vm.cittaSelezionata = inizialeCitta; vm.selezionaCitta();
+            vm.localitaSelezionata = inizialeLocalita; vm.selezionaLocalita();
+            vm.impostaFiltriGeografia();
+
+            vm.raccoglitoreSelezionato = inizialeRaccoglitore; vm.selezionaRaccoglitore();
+            vm.impostaFiltriRaccoglitori();
+
+            vm.salaSelezionata = inizialeSala; vm.selezionaSala;
+            vm.armadioSelezionato = inizialeArmadio; vm.selezionaArmadio();
+            vm.cassettoSelezionato = inizialeCassetto; vm.selezionaCassetto();
+            vm.vassoioSelezionato = inizialeVassoio = vm.selezionaVassoio;
+            vm.impostaFiltriCollocazione();
+
+        };
+
+        function salvaFiltri() {  // Memorizza la condizione corrente dei filtri in modo da poterla eventualmente ripristinare nel caso la finestra venga chiusa con il tasto "Annulla"
+            inizialeAlbero = vm.filtroSuAlberoAttivo;
+            inizialeNazione = vm.nazioneSelezionata;
+            inizialeRegione = vm.regioneSelezionata;
+            inizialeProvincia = vm.provinciaSelezionata;
+            inizialeCitta = vm.cittaSelezionata;
+            inizialeLocalita = vm.localitaSelezionata;
+            inizialeRaccoglitore = vm.raccoglitoreSelezionato;
+            inizialeSala = vm.salaSelezionata;
+            inizialeArmadio = vm.armadioSelezionato;
+            inizialeCassetto = vm.cassettoSelezionato;
+            inizialeVassoio = vm.vassoioSelezionato;
+        };
+
         vm.applicaFiltri = function applicaFiltri() {
 
             if (vm.filtroSuAlberoAttivo) {                   // se è selezionato il filtro sull'albero filtra le sottospecie presenti nell'albero stesso...
@@ -152,39 +202,33 @@
                 elencoFiltratoEsemplari = elencoEsemplari;
             }
 
-            if (vm.filtroSuGeografiaAttivo) {
+            if (vm.filtroSuGeografiaAttivo) {  // Filtra sulla località di cattura
                 elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuGeografia, "id")
             }
 
-            if (vm.filtroSuGeografiaAttivo) {
-                elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuGeografia, "id")
+            if (vm.filtroSuRaccoglitoriAttivo) {  // Filtra sui raccoglitori
+                elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuRaccoglitori, "id")
             }
 
-            // se è impostato un filtro per raccoglitori:
-            //  1) recupera la lista degli esemplari in base al filtro
-            //  2) filtra
-            //  3) scrivi il filtro nel testo
+            if (vm.filtroSuCollocazioneAttivo) {  // Filtra sulla collocazione
+                elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuCollocazione, "id")
+            }
 
             if (elencoFiltratoEsemplari.length < 2000) {
-                //alert("impostazione tabella: " + elencoFiltratoEsemplari.length);
-                vm.esemplariSelezionati = elencoFiltratoEsemplari;
-            };
-            // conta le righe risultanti
-            //  se sono poche:
-            //  1) scrivi il filtro nel testo 
-            //  2) applica alla tabella
-            //  se sono tante:
-            //  1) chiudi la modale del filtro se è aperta
-            //  2) apri la modale di conferma
-            //  3) se è confermato:
-            //     a) scrivi il filtro nel testo
-            //     b) applica alla tabella
-            //     altrimenti:
-            //     a) chiudi la modale di conferma
+                $('#modaleFiltriElencoEsemplari').modal('hide');  // chiude la modale se è aperta, perché il pulsante normale di chiusura non ha data-dismiss="modal"
+                vm.eseguiFiltro();                                // (se lo avesse non potrebbe visualizzare il warning di troppe righe, se necessario)
+            }
+            else vm.numeroRigheOK = false;
+        }
+
+        vm.eseguiFiltro = function eseguiFiltro() {  // Esegue effettivamente il riempimento della tabella esemplari
+            vm.esemplariSelezionati = elencoFiltratoEsemplari;
         }
 
         vm.aprimodaleFiltriElencoEsemplari = function aprimodaleFiltriElencoEsemplari() {
+            vm.numeroRigheOK = true;
             resetDropDownSeNecessario();
+            salvaFiltri();
         };
 
 //#region Impostazione Filtri
@@ -212,20 +256,30 @@
 
             if (vm.salaSelezionata.sala != "-") {
                 if (vm.armadioSelezionato.armadio != "-") {
-                    apiCollocazioneDaChiamare = "/api/elencoesemplaridaarmadio/" + vm.armadioSelezionato.id;
+                    if (vm.cassettoSelezionato.cassetto != "-") {
+                        if (vm.vassoioSelezionato.vassoio != "-") {
+                            apiCollocazioneDaChiamare = "/api/elencoesemplaridavassoio/" + vm.vassoioSelezionato.id;
+                        }
+                        else {
+                            apiCollocazioneDaChiamare = "/api/elencoesemplaridacassetto/" + vm.cassettoSelezionato.id;
+                        }
+                    }
+                    else {
+                        apiCollocazioneDaChiamare = "/api/elencoesemplaridaarmadio/" + vm.armadioSelezionato.id;
+                    }
                 }
                 else {
                     apiCollocazioneDaChiamare = "/api/elencoesemplaridasala/" + vm.salaSelezionata.id;
                 };
                 $http.get(apiCollocazioneDaChiamare)
-                    .then(function (response) {
+                    .then(function(response) {
                         esemplariFiltratiSuCollocazione = response.data;
                         vm.filtroSuCollocazioneAttivo = true;
                     });
             }
             else {
                 vm.filtroSuCollocazioneAttivo = false;
-            }
+            };
         };
 
         vm.impostaFiltriGeografia = function impostaFiltriGeografia() {
@@ -309,11 +363,31 @@
         };
 
         vm.selezionaArmadio = function selezionaArmadio() {
+            vm.cassetti = _.filter(elencoCassetti, function (cassetto) { return cassetto.armadioId == vm.armadioSelezionato.id });
+            vm.cassettoSelezionato = _.find(vm.cassetti, function (cassetto) { return cassetto.cassetto == "-" });
+            vm.selezionaCassetto();
+        };
 
+        vm.selezionaCassetto = function selezionaCassetto() {
+            vm.vassoi = _.filter(elencoVassoi, function (vassoio) { return vassoio.cassettoId == vm.cassettoSelezionato.id });
+            vm.vassoioSelezionato = _.find(vm.vassoi, function (vassoio) { return vassoio.vassoio == "-" });
+            vm.selezionaVassoio();
+        };
+
+        vm.selezionaVassoio = function selezionaVassoio() {
         };
 //#endregion
 
 //#region Reset
+
+        vm.resetFiltri = function resetFiltri() {  //  Resetta contemporaneamente tutti i filtri
+            vm.numeroRigheOK = true;
+            vm.filtroSuAlberoAttivo = true;
+            vm.resetNazione();
+            vm.resetRaccoglitore();
+            vm.resetSala();
+        };
+
         vm.resetSala = function resetSala() {
             vm.salaSelezionata = _.find(vm.sale, function (sala) { return sala.sala == "-" });
             vm.selezionaSala();
@@ -322,6 +396,16 @@
         vm.resetArmadio = function resetArmadio() {
             vm.armadioSelezionato = _.find(vm.armadi, function (armadio) { return armadio.armadio == "-" });
             vm.selezionaArmadio();
+        };
+
+        vm.resetCassetto = function resetCassetto() {
+            vm.cassettoSelezionato = _.find(vm.cassetti, function (cassetto) { return cassetto.cassetto == "-" });
+            vm.selezionaCassetto();
+        };
+
+        vm.resetVassoio = function resetVassoio() {
+            vm.vassoioSelezionato = _.find(vm.vassoi, function (vassoio) { return vassoio.vassoio == "-" });
+            vm.selezionaVassoio();
         };
 
         vm.resetNazione = function resetNazione() {
@@ -411,6 +495,17 @@
             .then(function (response) {
                 elencoArmadi = response.data;
             });
+
+        $http.get("/api/cassetti")
+            .then(function (response) {
+                elencoCassetti = response.data;
+            })
+
+        $http.get("/api/vassoi")
+            .then(function (response) {
+                elencoVassoi = response.data;
+            })
+
 //#endregion
     }
 })();
