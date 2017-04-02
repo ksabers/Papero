@@ -146,9 +146,9 @@
 
                                                     <div class="form-group">
                                                         <ul class="nav nav-tabs">
-                                                            <li class="active"><a href="#tablocalita" data-toggle="tab">@localizzatore["Località di Cattura"]</a></li>
-                                                            <li><a href="#tabraccoglitori" data-toggle="tab">@localizzatore["Raccoglitori"]</a></li>
-                                                            <li><a href="#tabcollocazione" data-toggle="tab">@localizzatore["Collocazione"]</a></li>
+                                                            <li class="active"><a href="#tablocalita" data-toggle="tab">@localizzatore["Località di Cattura"] <i class="fa fa-globe"></i></a></li>
+                                                            <li><a href="#tabraccoglitori" data-toggle="tab">@localizzatore["Raccoglitori"] <i class="fa fa-user"></i></a></li>
+                                                            <li><a href="#tabcollocazione" data-toggle="tab">@localizzatore["Collocazione"] <i class="fa fa-archive"></i></a></li>
                                                         </ul>
                                                         <div id="myTabContent" class="tab-content">
                                                             <div class="tab-pane fade active in col-lg-offset-3" id="tablocalita">
@@ -156,7 +156,7 @@
                                                                     <div class="form-group">
                                                                         <label for="uiselectNazione" class="col-lg-2 control-label">@localizzatore["Nazione"]:</label>
                                                                         <div class="col-lg-5">
-                                                                            <ui-select id="uiselectNazione" ng-model="vm.nazioneSelezionata" ng-change="vm.selezionaNazione();vm.impostaFiltriGeografia();">
+                                                                            <ui-select id="uiselectNazione" ng-model="vm.nazioneSelezionata" ng-change="vm.selezionaNazione()">
                                                                                 <ui-select-match>
                                                                                     <span ng-bind="$select.selected.nazione"></span>
                                                                                 </ui-select-match>
@@ -172,7 +172,7 @@
                                                                     <div class="form-group">
                                                                         <label for="uiselectRegione" class="col-lg-2 control-label">@localizzatore["Regione"]:</label>
                                                                         <div class="col-lg-5">
-                                                                            <ui-select id="uiselectRegione" ng-model="vm.regioneSelezionata" ng-change="vm.selezionaRegione();vm.impostaFiltriGeografia();">
+                                                                            <ui-select id="uiselectRegione" ng-model="vm.regioneSelezionata" ng-change="vm.selezionaRegione()">
                                                                                 <ui-select-match>
                                                                                     <span ng-bind="$select.selected.regione"></span>
                                                                                 </ui-select-match>
@@ -188,7 +188,7 @@
                                                                     <div class="form-group">
                                                                         <label for="uiselectProvincia" class="col-lg-2 control-label">@localizzatore["Provincia"]:</label>
                                                                         <div class="col-lg-5">
-                                                                            <ui-select id="uiselectProvincia" ng-model="vm.provinciaSelezionata" ng-change="vm.selezionaProvincia();vm.impostaFiltriGeografia();">
+                                                                            <ui-select id="uiselectProvincia" ng-model="vm.provinciaSelezionata" ng-change="vm.selezionaProvincia()">
                                                                                 <ui-select-match>
                                                                                     <span ng-bind="$select.selected.provincia"></span>
                                                                                 </ui-select-match>
@@ -204,7 +204,7 @@
                                                                     <div class="form-group">
                                                                         <label for="uiselectCitta" class="col-lg-2 control-label">@localizzatore["Città"]:</label>
                                                                         <div class="col-lg-5">
-                                                                            <ui-select id="uiselectCitta" ng-model="vm.cittaSelezionata" ng-change="vm.selezionaCitta();vm.impostaFiltriGeografia();">
+                                                                            <ui-select id="uiselectCitta" ng-model="vm.cittaSelezionata" ng-change="vm.selezionaCitta()">
                                                                                 <ui-select-match>
                                                                                     <span ng-bind="$select.selected.nomeCitta"></span>
                                                                                 </ui-select-match>
@@ -220,7 +220,7 @@
                                                                     <div class="form-group">
                                                                         <label for="uiselectLocalita" class="col-lg-2 control-label">@localizzatore["Località"]:</label>
                                                                         <div class="col-lg-5">
-                                                                            <ui-select id="uiselectLocalita" name="uiselectLocalita" ng-model="vm.localitaSelezionata" ng-change="vm.selezionaLocalita();vm.impostaFiltriGeografia();">
+                                                                            <ui-select id="uiselectLocalita" name="uiselectLocalita" ng-model="vm.localitaSelezionata" ng-change="vm.selezionaLocalita()">
                                                                                 <ui-select-match>
                                                                                     <span ng-bind="$select.selected.nomeLocalita"></span>
                                                                                 </ui-select-match>
@@ -239,7 +239,7 @@
                                                                     <div class="form-group">
                                                                         <label for="uiselectRaccoglitori" class="col-lg-2 control-label">@localizzatore["Raccoglitore"]:</label>
                                                                         <div class="col-lg-5">
-                                                                            <ui-select id="uiselectRaccoglitori" name="uiselectRaccoglitori" ng-model="vm.raccoglitoreSelezionato" ng-change="vm.selezionaRaccoglitore();vm.impostaFiltriRaccoglitori();">
+                                                                            <ui-select id="uiselectRaccoglitori" name="uiselectRaccoglitori" ng-model="vm.raccoglitoreSelezionato" ng-change="vm.selezionaRaccoglitore()">
                                                                                 <ui-select-match>
                                                                                     <span ng-bind="$select.selected.raccoglitore"></span>
                                                                                 </ui-select-match>
@@ -258,7 +258,7 @@
                                                                     <div class="form-group">
                                                                         <label for="uiselectSala" class="col-lg-2 control-label">@localizzatore["Sala"]:</label>
                                                                         <div class="col-lg-5">
-                                                                            <ui-select id="uiselectSala" ng-model="vm.salaSelezionata" ng-change="vm.selezionaSala();vm.impostaFiltriCollocazione();">
+                                                                            <ui-select id="uiselectSala" ng-model="vm.salaSelezionata" ng-change="vm.selezionaSala()">
                                                                                 <ui-select-match>
                                                                                     <span ng-bind="$select.selected.sala"></span>
                                                                                 </ui-select-match>
@@ -274,7 +274,7 @@
                                                                     <div class="form-group">
                                                                         <label for="uiselectArmadio" class="col-lg-2 control-label">@localizzatore["Armadio"]:</label>
                                                                         <div class="col-lg-5">
-                                                                            <ui-select id="uiselectArmadio" ng-model="vm.armadioSelezionato" ng-change="vm.selezionaArmadio();vm.impostaFiltriCollocazione();">
+                                                                            <ui-select id="uiselectArmadio" ng-model="vm.armadioSelezionato" ng-change="vm.selezionaArmadio()">
                                                                                 <ui-select-match>
                                                                                     <span ng-bind="$select.selected.armadio"></span>
                                                                                 </ui-select-match>
@@ -290,7 +290,7 @@
                                                                     <div class="form-group">
                                                                         <label for="uiselectCassetto" class="col-lg-2 control-label">@localizzatore["Cassetto"]:</label>
                                                                         <div class="col-lg-5">
-                                                                            <ui-select id="uiselectCassetto" ng-model="vm.cassettoSelezionato" ng-change="vm.selezionaCassetto();vm.impostaFiltriCollocazione();">
+                                                                            <ui-select id="uiselectCassetto" ng-model="vm.cassettoSelezionato" ng-change="vm.selezionaCassetto()">
                                                                                 <ui-select-match>
                                                                                     <span ng-bind="$select.selected.cassetto"></span>
                                                                                 </ui-select-match>
@@ -306,7 +306,7 @@
                                                                     <div class="form-group">
                                                                         <label for="uiselectVassoio" class="col-lg-2 control-label">@localizzatore["Vassoio"]:</label>
                                                                         <div class="col-lg-5">
-                                                                            <ui-select id="uiselectVassoio" ng-model="vm.vassoioSelezionato" ng-change="vm.selezionaVassoio();vm.impostaFiltriCollocazione();">
+                                                                            <ui-select id="uiselectVassoio" ng-model="vm.vassoioSelezionato" ng-change="vm.selezionaVassoio()">
                                                                                 <ui-select-match>
                                                                                     <span ng-bind="$select.selected.vassoio"></span>
                                                                                 </ui-select-match>

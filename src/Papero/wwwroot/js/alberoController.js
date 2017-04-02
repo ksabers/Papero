@@ -324,12 +324,9 @@
 //#endregion
 
 //#region SelezioniDropdown
-        vm.selezionaLocalita = function selezionaLocalita() {
-            //$("#hiddenOutputIdLocalitaSelezionata").val(vm.localitaSelezionata.id);
-        };
 
-        vm.selezionaRaccoglitore = function selezionaRaccoglitore() {
-            //$("#hiddenOutputIdLocalitaSelezionata").val(vm.localitaSelezionata.id);
+        vm.selezionaLocalita = function selezionaLocalita() {
+            vm.impostaFiltriGeografia();
         };
 
         vm.selezionaCitta = function selezionaCitta() {
@@ -356,6 +353,10 @@
             vm.selezionaRegione();
         };
 
+        vm.selezionaRaccoglitore = function selezionaRaccoglitore() {
+            vm.impostaFiltriRaccoglitori();
+        };
+
         vm.selezionaSala = function selezionaSala() {
             vm.armadi = _.filter(elencoArmadi, function (armadio) { return armadio.salaId == vm.salaSelezionata.id });
             vm.armadioSelezionato = _.find(vm.armadi, function (armadio) { return armadio.armadio == "-" });
@@ -375,6 +376,7 @@
         };
 
         vm.selezionaVassoio = function selezionaVassoio() {
+            vm.impostaFiltriCollocazione();
         };
 //#endregion
 
