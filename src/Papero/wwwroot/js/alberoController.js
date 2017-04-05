@@ -8,6 +8,7 @@
 
     function alberoController($http, DTOptionsBuilder) {
 
+
         var elencoEsemplari = [];                 // Elenco completo non filtrato degli esemplari 
         var elencoFiltratoEsemplari = [];         // Elenco filtrato degli esemplari 
 
@@ -33,73 +34,23 @@
         var inizialeArmadio = [];
         var inizialeCassetto = [];
         var inizialeVassoio = [];
+        var inizialeSpedizione = [];
+        var inizialeCollezione = [];
+        var inizialeDataDa = null;
+        var inizialeDataA = null;
+        var inizialeTipoDataDa = "";
+        var inizialeTipoDataA = "";
+
 
 
         var esemplariFiltratiSuGeografia = [];     // elenchi di esemplari restituiti dai singoli filtri
         var esemplariFiltratiSuRaccoglitori = [];
-        var esemplariFiltratiSuCollocazione = []
+        var esemplariFiltratiSuCollocazione = [];
+        var esemplariFiltratiSuSpedizione = [];
+        var esemplariFiltratiSuCollezione = [];
+        var esemplariFiltratiSuDataDa = [];
+        var esemplariFiltratiSuDataA = [];
 
-        var vm = this;
-
-        vm.filtroSuAlberoAttivo = true;             //  booleani che indicano se un certo filtro è attivo o no. Per default è attivo solo quello sull'albero
-        vm.filtroSuGeografiaAttivo = false;
-        vm.filtroSuRaccoglitoriAttivo = false;
-        vm.filtroSuCollocazioneAttivo = false;
-
-        vm.regioni = [];  // Contenuto della dropdown Regioni
-
-        vm.datiAlbero = [];            // Albero tassonomico
-        vm.datiElencoSpecie = [];      // Elenco delle specie che compare nella dropdown di selezione diretta
-        vm.esemplariSelezionati = [];  // Contenuto della tabella
-        vm.numeroSpecie = 0;           // Badge che contiene il numero di sottospecie attualmente selezionate nell'albero
-        vm.nodiSelezionati = [];       // Collection che contiene i nodi attualmente selezionati nell'albero (che permette la multiselezione)
-        vm.foglia = false;             // Indica se è selezionata una ed una sola foglia dell'albero (cioè una singola sottospecie). Usato per visualizzare il box di inserimento
-        vm.MSNGpresente = false;       // Flag che indica se visualizzare o no l'alert di MSNG già presente
-        vm.numeroRigheOK = true;       // Flag che indica se i filtri visualizzebbero troppe righe nella tabella e quindi richiede un'ulteriore conferma
-        vm.sottospecieSelezionate = [];  // Elenco degli ID delle sottospecie selezionate nell'albero
-
-        vm.selezionaSpecie = function selezionaSpecie() {  // Funzione chiamata alla selezione di una specie nella dropdown di selezione diretta
-            vm.esemplariSelezionati = _.filter(elencoEsemplari, function (esemplare) { return esemplare.sottospecieId == vm.specieSelezionata.id });
-            vm.numeroSpecie = 1;
-            vm.foglia = true;
-            vm.sottospecie = vm.specieSelezionata.id;
-        }
-
-        vm.controllaMSNG = function controllaMSNG() {  // Funzione chiamata ad ogni pressione di tasto nella casella MSNG. Controlla la correttezza
-            vm.MSNGpresente = false;                   // tramite regular expression e abilita/disabilita il pulsante di submit
-            return !re.test(vm.inputMSNG);
-        }
-
-        vm.verificaMSNG = function verificaMSNG(eventoSubmit) {  // Funzione chiamata al momento del submit del form di inserimento nuovo MSNG
-                                                                 // Verifica se esiste già l'MSNG inserito: se sì, intercetta l'evento di submit e lo blocca
-            if (_.find(elencoEsemplari, function (esemplare) { return esemplare.msng == _.trim(vm.inputMSNG); })) {
-                vm.MSNGpresente = true;
-                eventoSubmit.preventDefault();
-                return false;
-            }
-        }
-
-        vm.opzioniTabella = DTOptionsBuilder.newOptions()      // Opzioni di visualizzazione della angular datatable
-            .withOption("lengthMenu", [10, 25])
-            .withLanguageSource(stringaLinguaggioDatatables);  // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
-                                                               // (come da specifiche delle angular datatables)
-                                                               // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
-            
-        vm.opzioniAlbero = {          // Opzioni di visualizzazione dell'angular treeview
-            multiSelection: true,
-            dirSelectable: true,
-            nodeChildren: "figli",    // nome dell'elemento ricorsivo che comprende i figli di ciascun elemento dell'albero all'interno del JSON
-            injectClasses: {
-                ul: "a1",
-                li: "a2",
-                liSelected: "a7",
-                iExpanded: "a3",
-                iCollapsed: "a4",
-                iLeaf: "a5",
-                label: "a6",
-                labelSelected: "a8"
-            }
-        };
 
         function elencaFigli(nodo) {        //   Riempie un array che contiene tutti gli ID delle "foglie" sotto l'elemento selezionato
             var elencoFigli = [];
@@ -121,15 +72,110 @@
                 elencoFigli = trovaFigli(nodo);       // altrimenti si traversa l'albero ricorsivamente
             }
             return elencoFigli;
-        }
+        };
+
+
+        function resetDropDownSeNecessario() {         // inizializza le dropdown se non hanno un valore impostato
+
+            if (vm.nazioneSelezionata == undefined) {
+                vm.resetNazione();
+            };
+            if (vm.raccoglitoreSelezionato == undefined) {
+                vm.resetRaccoglitore();
+            };
+
+            if (vm.salaSelezionata == undefined) {
+                vm.resetSala();
+            };
+            if (vm.spedizioneSelezionata == undefined) {
+                vm.resetSpedizione();
+            };
+            if (vm.collezioneSelezionata == undefined) {
+                vm.resetCollezione();
+            };
+            if (vm.tipoDataDa == undefined) {
+                vm.resetDataDa();
+            };
+            if (vm.tipoDataA == undefined) {
+                vm.resetDataA();
+            };
+        };
+
+
+        function salvaFiltri() {
+            inizialeAlbero = vm.filtroSuAlberoAttivo;
+            inizialeNazione = vm.nazioneSelezionata;
+            inizialeRegione = vm.regioneSelezionata;
+            inizialeProvincia = vm.provinciaSelezionata;
+            inizialeCitta = vm.cittaSelezionata;
+            inizialeLocalita = vm.localitaSelezionata;
+            inizialeRaccoglitore = vm.raccoglitoreSelezionato;
+            inizialeSala = vm.salaSelezionata;
+            inizialeArmadio = vm.armadioSelezionato;
+            inizialeCassetto = vm.cassettoSelezionato;
+            inizialeVassoio = vm.vassoioSelezionato;
+            inizialeSpedizione = vm.spedizioneSelezionata;
+            inizialeCollezione = vm.collezioneSelezionata;
+            inizialeDataDa = vm.dataCatturaDa;
+            inizialeTipoDataDa = vm.tipoDataCatturaDa;
+            inizialeDataA = vm.dataCatturaA;
+            inizialeTipoDataA = vm.tipoDataCatturaA;
+        };
+
+
+        var vm = this;
+
+        vm.filtroSuAlberoAttivo = true;             //  booleani che indicano se un certo filtro è attivo o no. Per default è attivo solo quello sull'albero
+        vm.filtroSuGeografiaAttivo = false;
+        vm.filtroSuRaccoglitoriAttivo = false;
+        vm.filtroSuCollocazioneAttivo = false;
+        vm.filtroSuSpedizioneAttivo = false;
+        vm.filtroSuCollezioneAttivo = false;
+        vm.filtroDataDa = false;
+        vm.filtroDataA = false;
+
+
+        vm.datiAlbero = [];            // Albero tassonomico
+        vm.datiElencoSpecie = [];      // Elenco delle specie che compare nella dropdown di selezione diretta
+        vm.esemplariSelezionati = [];  // Contenuto della tabella
+        vm.numeroSpecie = 0;           // Badge che contiene il numero di sottospecie attualmente selezionate nell'albero
+        vm.nodiSelezionati = [];       // Collection che contiene i nodi attualmente selezionati nell'albero (che permette la multiselezione)
+        vm.foglia = false;             // Indica se è selezionata una ed una sola foglia dell'albero (cioè una singola sottospecie). Usato per visualizzare il box di inserimento
+        vm.MSNGpresente = false;       // Flag che indica se visualizzare o no l'alert di MSNG già presente
+        vm.numeroRigheOK = true;       // Flag che indica se i filtri visualizzebbero troppe righe nella tabella e quindi richiede un'ulteriore conferma
+        vm.sottospecieSelezionate = [];  // Elenco degli ID delle sottospecie selezionate nell'albero
+
+        vm.opzioniAlbero = {          // Opzioni di visualizzazione dell'angular treeview
+            multiSelection: true,
+            dirSelectable: true,
+            nodeChildren: "figli",    // nome dell'elemento ricorsivo che comprende i figli di ciascun elemento dell'albero all'interno del JSON
+            injectClasses: {
+                ul: "a1",
+                li: "a2",
+                liSelected: "a7",
+                iExpanded: "a3",
+                iCollapsed: "a4",
+                iLeaf: "a5",
+                label: "a6",
+                labelSelected: "a8"
+            }
+        };
+
+
+        vm.opzioniTabella = DTOptionsBuilder.newOptions()       // Opzioni di visualizzazione della angular datatable
+            .withOption("lengthMenu", [10, 25])
+            .withLanguageSource(stringaLinguaggioDatatables);   // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
+                                                                // (come da specifiche delle angular datatables)
+                                                                // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
+
 
         vm.nodoSelezionato = function selezionaEsemplari(nodo, selezionato) {  //  Funzione che viene richiamata alla selezione di un elemento dell'albero
 
             vm.sottospecieSelezionate = [];  // Azzera l'array globale delle foglie selezionate
 
             for (var i = 0; i < vm.nodiSelezionati.length; i++)  // Ogni volta che si seleziona/deseleziona un nodo, scorre l'elenco di quelli ancora selezionati, per ciascuno estrae
-                                                                 // l'array delle foglie e lo aggiunge ai precedenti (senza duplicati, usando la _.union) in modo da avere l'elenco di 
-                                                                 // tutte le sottospecie selezionate
+                // l'array delle foglie e lo aggiunge ai precedenti (senza duplicati, usando la _.union) in modo da avere l'elenco di 
+                // tutte le sottospecie selezionate
             {
                 vm.sottospecieSelezionate = _.union(vm.sottospecieSelezionate, elencaFigli(vm.nodiSelezionati[i]));
             }
@@ -149,17 +195,9 @@
             vm.applicaFiltri();
         };
 
-        function resetDropDownSeNecessario() {         // inizializza le dropdown se non hanno un valore impostato
-            if (vm.nazioneSelezionata == undefined)
-                vm.resetNazione();
-            if (vm.raccoglitoreSelezionato == undefined)
-                vm.resetRaccoglitore();
-            if (vm.salaSelezionata == undefined)
-                vm.resetSala();
-        }
 
-        vm.revertFiltri = function revertFiltri() {  //  Ripristina i filtri al valore che avevano al momento di aprire la modale. Serve nel caso la finestra venga chiusa
-                                                     //  con il tasto "Annulla"
+        vm.revertFiltri = function revertFiltri() {
+
             vm.filtroSuAlberoAttivo = inizialeAlbero;
             vm.nazioneSelezionata = inizialeNazione; vm.selezionaNazione();
             vm.regioneSelezionata = inizialeRegione; vm.selezionaRegione();
@@ -171,27 +209,26 @@
             vm.raccoglitoreSelezionato = inizialeRaccoglitore; vm.selezionaRaccoglitore();
             vm.impostaFiltriRaccoglitori();
 
-            vm.salaSelezionata = inizialeSala; vm.selezionaSala;
+            vm.salaSelezionata = inizialeSala; vm.selezionaSala();
             vm.armadioSelezionato = inizialeArmadio; vm.selezionaArmadio();
             vm.cassettoSelezionato = inizialeCassetto; vm.selezionaCassetto();
-            vm.vassoioSelezionato = inizialeVassoio = vm.selezionaVassoio;
+            vm.vassoioSelezionato = inizialeVassoio; vm.selezionaVassoio();
             vm.impostaFiltriCollocazione();
 
+            vm.spedizioneSelezionata = inizialeSpedizione; vm.selezionaSpedizione();
+            vm.impostaFiltriSpedizione();
+
+            vm.collezioneSelezionata = inizialeCollezione; vm.selezionaCollezione();
+            vm.impostaFiltriCollezione();
+
+            vm.dataCatturaDa = inizialeDataDa;
+            vm.tipoDataCatturaDa = inizialeTipoDataDa;
+            vm.dataCatturaA = inizialeDataA;
+            vm.tipoDataCatturaA = inizialeTipoDataA;
+            vm.impostaFiltriDataDa();
+            vm.impostaFiltriDataA();
         };
 
-        function salvaFiltri() {  // Memorizza la condizione corrente dei filtri in modo da poterla eventualmente ripristinare nel caso la finestra venga chiusa con il tasto "Annulla"
-            inizialeAlbero = vm.filtroSuAlberoAttivo;
-            inizialeNazione = vm.nazioneSelezionata;
-            inizialeRegione = vm.regioneSelezionata;
-            inizialeProvincia = vm.provinciaSelezionata;
-            inizialeCitta = vm.cittaSelezionata;
-            inizialeLocalita = vm.localitaSelezionata;
-            inizialeRaccoglitore = vm.raccoglitoreSelezionato;
-            inizialeSala = vm.salaSelezionata;
-            inizialeArmadio = vm.armadioSelezionato;
-            inizialeCassetto = vm.cassettoSelezionato;
-            inizialeVassoio = vm.vassoioSelezionato;
-        };
 
         vm.applicaFiltri = function applicaFiltri() {
 
@@ -200,30 +237,48 @@
             }
             else {                                           // ...altrimenti prendi l'intero elenco esemplari
                 elencoFiltratoEsemplari = elencoEsemplari;
-            }
+            };
 
             if (vm.filtroSuGeografiaAttivo) {  // Filtra sulla località di cattura
-                elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuGeografia, "id")
-            }
+                elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuGeografia, "id");
+            };
 
             if (vm.filtroSuRaccoglitoriAttivo) {  // Filtra sui raccoglitori
-                elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuRaccoglitori, "id")
-            }
+                elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuRaccoglitori, "id");
+            };
 
             if (vm.filtroSuCollocazioneAttivo) {  // Filtra sulla collocazione
-                elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuCollocazione, "id")
-            }
+                elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuCollocazione, "id");
+            };
+
+            if (vm.filtroSuSpedizioneAttivo) {  // Filtra sulla spedizione
+                elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuSpedizione, "id");
+            };
+
+            if (vm.filtroSuCollezioneAttivo) {  // Filtra sulla collezione
+                elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuCollezione, "id");
+            };
+
+            if (vm.filtroDataDa) {
+                elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuDataDa, "id");
+            };
+
+            if (vm.filtroDataA) {
+                elencoFiltratoEsemplari = _.intersectionBy(elencoFiltratoEsemplari, esemplariFiltratiSuDataA, "id");
+            };
 
             if (elencoFiltratoEsemplari.length < 2000) {
                 $('#modaleFiltriElencoEsemplari').modal('hide');  // chiude la modale se è aperta, perché il pulsante normale di chiusura non ha data-dismiss="modal"
                 vm.eseguiFiltro();                                // (se lo avesse non potrebbe visualizzare il warning di troppe righe, se necessario)
             }
             else vm.numeroRigheOK = false;
-        }
+        };
+
 
         vm.eseguiFiltro = function eseguiFiltro() {  // Esegue effettivamente il riempimento della tabella esemplari
             vm.esemplariSelezionati = elencoFiltratoEsemplari;
-        }
+        };
+
 
         vm.aprimodaleFiltriElencoEsemplari = function aprimodaleFiltriElencoEsemplari() {
             vm.numeroRigheOK = true;
@@ -231,99 +286,90 @@
             salvaFiltri();
         };
 
-//#region Impostazione Filtri
-        vm.impostaFiltriRaccoglitori = function impostaFiltriRaccoglitori() {
 
-            resetDropDownSeNecessario();
-
-            if (vm.raccoglitoreSelezionato.raccoglitore != "-") {
-                $http.get("/api/elencoesemplaridaraccoglitori/" + vm.raccoglitoreSelezionato.id)
-                    .then(function (response) {
-                        esemplariFiltratiSuRaccoglitori = response.data;
-                        vm.filtroSuRaccoglitoriAttivo = true;
-                    });
-            }
-            else {
-                vm.filtroSuRaccoglitoriAttivo = false;
-            }
+        vm.resetFiltri = function resetFiltri() {  //  Resetta contemporaneamente tutti i filtri
+            vm.numeroRigheOK = true;
+            vm.filtroSuAlberoAttivo = true;
+            vm.resetNazione();
+            vm.resetRaccoglitore();
+            vm.resetSala();
+            vm.resetSpedizione();
+            vm.resetCollezione();
+            vm.resetDataDa();
+            vm.resetDataA();
         };
 
-        vm.impostaFiltriCollocazione = function impostaFiltriCollocazione() {
-
-            var apiCollocazioneDaChiamare = "";
-
-            resetDropDownSeNecessario();
-
-            if (vm.salaSelezionata.sala != "-") {
-                if (vm.armadioSelezionato.armadio != "-") {
-                    if (vm.cassettoSelezionato.cassetto != "-") {
-                        if (vm.vassoioSelezionato.vassoio != "-") {
-                            apiCollocazioneDaChiamare = "/api/elencoesemplaridavassoio/" + vm.vassoioSelezionato.id;
-                        }
-                        else {
-                            apiCollocazioneDaChiamare = "/api/elencoesemplaridacassetto/" + vm.cassettoSelezionato.id;
-                        }
-                    }
-                    else {
-                        apiCollocazioneDaChiamare = "/api/elencoesemplaridaarmadio/" + vm.armadioSelezionato.id;
-                    }
-                }
-                else {
-                    apiCollocazioneDaChiamare = "/api/elencoesemplaridasala/" + vm.salaSelezionata.id;
-                };
-                $http.get(apiCollocazioneDaChiamare)
-                    .then(function(response) {
-                        esemplariFiltratiSuCollocazione = response.data;
-                        vm.filtroSuCollocazioneAttivo = true;
-                    });
-            }
-            else {
-                vm.filtroSuCollocazioneAttivo = false;
-            };
+        vm.resetSala = function resetSala() {
+            vm.salaSelezionata = _.find(vm.sale, function (sala) { return sala.sala == "-" });
+            vm.selezionaSala();
         };
 
-        vm.impostaFiltriGeografia = function impostaFiltriGeografia() {
-
-            var apiGeograficaDaChiamare = "";
-
-            resetDropDownSeNecessario();
-
-            if (vm.nazioneSelezionata.nazione != "-") {                         // se è impostato un filtro geografico, cioè se almeno la nazione è diversa da "-"
-                if (vm.regioneSelezionata.regione != "-") {                     // se è impostata anche la regione
-                    if (vm.provinciaSelezionata.provincia != "-") {             // se è impostata anche la provincia
-                        if (vm.cittaSelezionata.nomeCitta != "-") {             // se è impostata anche la città
-                            if (vm.localitaSelezionata.nomeLocalita != "-") {   // se è impostata anche la località
-                                apiGeograficaDaChiamare = "/api/elencoesemplaridalocalita/" + vm.localitaSelezionata.id;
-                            }
-                            else {  // se sono impostate nazione, regione, provincia e città ma non la località
-                                apiGeograficaDaChiamare = "/api/elencoesemplaridacitta/" + vm.cittaSelezionata.id;
-                            }
-                        }
-                        else {  // se sono impostate nazione, regione e provincia ma nient'altro
-                            apiGeograficaDaChiamare = "/api/elencoesemplaridaprovincia/" + vm.provinciaSelezionata.id;
-                        }
-                    }
-                    else {  // se sono impostate nazione e regione ma nient'altro
-                        apiGeograficaDaChiamare = "/api/elencoesemplaridaregione/" + vm.regioneSelezionata.id;
-                    }
-                }
-                else {           // se è impostata solo la nazione ma nient'altro
-                    apiGeograficaDaChiamare = "/api/elencoesemplaridanazione/" + vm.nazioneSelezionata.id;
-                };
-                $http.get(apiGeograficaDaChiamare)
-                    .then(function (response) {
-                        esemplariFiltratiSuGeografia = response.data;
-                        vm.filtroSuGeografiaAttivo = true;
-                    });
-            }
-            else {
-                vm.filtroSuGeografiaAttivo = false;
-                //esemplariFiltratiSuGeografia = elencoEsemplari;
-            }
+        vm.resetArmadio = function resetArmadio() {
+            vm.armadioSelezionato = _.find(vm.armadi, function (armadio) { return armadio.armadio == "-" });
+            vm.selezionaArmadio();
         };
-//#endregion
 
-//#region SelezioniDropdown
+        vm.resetCassetto = function resetCassetto() {
+            vm.cassettoSelezionato = _.find(vm.cassetti, function (cassetto) { return cassetto.cassetto == "-" });
+            vm.selezionaCassetto();
+        };
+
+        vm.resetVassoio = function resetVassoio() {
+            vm.vassoioSelezionato = _.find(vm.vassoi, function (vassoio) { return vassoio.vassoio == "-" });
+            vm.selezionaVassoio();
+        };
+
+        vm.resetNazione = function resetNazione() {
+            vm.nazioneSelezionata = _.find(vm.nazioni, function (nazione) { return nazione.nazione == "-" });
+            vm.selezionaNazione();
+        };
+
+        vm.resetRegione = function resetRegione() {
+            vm.regioneSelezionata = _.find(vm.regioni, function (regione) { return regione.regione == "-" });
+            vm.selezionaRegione();
+        };
+
+        vm.resetProvincia = function resetProvincia() {
+            vm.provinciaSelezionata = _.find(vm.province, function (provincia) { return provincia.provincia == "-" });
+            vm.selezionaProvincia();
+        };
+
+        vm.resetCitta = function resetCitta() {
+            vm.cittaSelezionata = _.find(vm.citta, function (citta) { return citta.nomeCitta == "-" });
+            vm.selezionaCitta();
+        };
+
+        vm.resetLocalita = function resetLocalita() {
+            vm.localitaSelezionata = _.find(vm.localita, function (localita) { return localita.nomeLocalita == "-" });
+            vm.selezionaLocalita();
+        };
+
+        vm.resetRaccoglitore = function resetRaccoglitore() {
+            vm.raccoglitoreSelezionato = _.find(vm.raccoglitori, function (raccoglitore) { return raccoglitore.raccoglitore == "-" });
+            vm.selezionaRaccoglitore();
+        };
+
+        vm.resetSpedizione = function resetSpedizione() {
+            vm.spedizioneSelezionata = _.find(vm.spedizioni, function (spedizione) { return spedizione.spedizione == "-" });
+            vm.selezionaSpedizione();
+        };
+
+        vm.resetCollezione = function resetCollezione() {
+            vm.collezioneSelezionata = _.find(vm.collezioni, function (collezione) { return collezione.collezione == "-" });
+            vm.selezionaCollezione();
+        };
+
+        vm.resetDataDa = function resetDataDa() {
+            vm.dataCatturaDa = null;
+            vm.tipoDataCatturaDa = "Data completa";
+        };
+
+        vm.resetDataA = function resetDataA() {
+            vm.dataCatturaA = null;
+            vm.tipoDataCatturaA = "Data completa";
+        };
+
+
 
         vm.selezionaLocalita = function selezionaLocalita() {
             vm.impostaFiltriGeografia();
@@ -378,70 +424,168 @@
         vm.selezionaVassoio = function selezionaVassoio() {
             vm.impostaFiltriCollocazione();
         };
-//#endregion
 
-//#region Reset
-
-        vm.resetFiltri = function resetFiltri() {  //  Resetta contemporaneamente tutti i filtri
-            vm.numeroRigheOK = true;
-            vm.filtroSuAlberoAttivo = true;
-            vm.resetNazione();
-            vm.resetRaccoglitore();
-            vm.resetSala();
+        vm.selezionaSpedizione = function selezionaSpedizione() {
+            vm.impostaFiltriSpedizione();
         };
 
-        vm.resetSala = function resetSala() {
-            vm.salaSelezionata = _.find(vm.sale, function (sala) { return sala.sala == "-" });
-            vm.selezionaSala();
+        vm.selezionaCollezione = function selezionaCollezione() {
+            vm.impostaFiltriCollezione();
         };
 
-        vm.resetArmadio = function resetArmadio() {
-            vm.armadioSelezionato = _.find(vm.armadi, function (armadio) { return armadio.armadio == "-" });
-            vm.selezionaArmadio();
+
+        vm.impostaFiltriGeografia = function impostaFiltriGeografia() {
+
+            var apiGeograficaDaChiamare = "";
+
+            //resetDropDownSeNecessario();
+
+            if (vm.nazioneSelezionata.nazione != "-") {                         // se è impostato un filtro geografico, cioè se almeno la nazione è diversa da "-"
+                if (vm.regioneSelezionata.regione != "-") {                     // se è impostata anche la regione
+                    if (vm.provinciaSelezionata.provincia != "-") {             // se è impostata anche la provincia
+                        if (vm.cittaSelezionata.nomeCitta != "-") {             // se è impostata anche la città
+                            if (vm.localitaSelezionata.nomeLocalita != "-") {   // se è impostata anche la località
+                                apiGeograficaDaChiamare = "/api/elencoesemplaridalocalita/" + vm.localitaSelezionata.id;
+                            }
+                            else {  // se sono impostate nazione, regione, provincia e città ma non la località
+                                apiGeograficaDaChiamare = "/api/elencoesemplaridacitta/" + vm.cittaSelezionata.id;
+                            }
+                        }
+                        else {  // se sono impostate nazione, regione e provincia ma nient'altro
+                            apiGeograficaDaChiamare = "/api/elencoesemplaridaprovincia/" + vm.provinciaSelezionata.id;
+                        }
+                    }
+                    else {  // se sono impostate nazione e regione ma nient'altro
+                        apiGeograficaDaChiamare = "/api/elencoesemplaridaregione/" + vm.regioneSelezionata.id;
+                    }
+                }
+                else {           // se è impostata solo la nazione ma nient'altro
+                    apiGeograficaDaChiamare = "/api/elencoesemplaridanazione/" + vm.nazioneSelezionata.id;
+                };
+                $http.get(apiGeograficaDaChiamare)
+                    .then(function (response) {
+                        esemplariFiltratiSuGeografia = response.data;
+                        vm.filtroSuGeografiaAttivo = true;
+                    });
+            }
+            else {
+                vm.filtroSuGeografiaAttivo = false;
+            }
         };
 
-        vm.resetCassetto = function resetCassetto() {
-            vm.cassettoSelezionato = _.find(vm.cassetti, function (cassetto) { return cassetto.cassetto == "-" });
-            vm.selezionaCassetto();
+
+        vm.impostaFiltriRaccoglitori = function impostaFiltriRaccoglitori() {
+
+            //resetDropDownSeNecessario();
+
+            if (vm.raccoglitoreSelezionato.raccoglitore != "-") {
+                $http.get("/api/elencoesemplaridaraccoglitori/" + vm.raccoglitoreSelezionato.id)
+                    .then(function (response) {
+                        esemplariFiltratiSuRaccoglitori = response.data;
+                        vm.filtroSuRaccoglitoriAttivo = true;
+                    });
+            }
+            else {
+                vm.filtroSuRaccoglitoriAttivo = false;
+            }
         };
 
-        vm.resetVassoio = function resetVassoio() {
-            vm.vassoioSelezionato = _.find(vm.vassoi, function (vassoio) { return vassoio.vassoio == "-" });
-            vm.selezionaVassoio();
+
+        vm.impostaFiltriCollocazione = function impostaFiltriCollocazione() {
+
+            var apiCollocazioneDaChiamare = "";
+
+            //resetDropDownSeNecessario();
+
+            if (vm.salaSelezionata.sala != "-") {
+                if (vm.armadioSelezionato.armadio != "-") {
+                    if (vm.cassettoSelezionato.cassetto != "-") {
+                        if (vm.vassoioSelezionato.vassoio != "-") {
+                            apiCollocazioneDaChiamare = "/api/elencoesemplaridavassoio/" + vm.vassoioSelezionato.id;
+                        }
+                        else {
+                            apiCollocazioneDaChiamare = "/api/elencoesemplaridacassetto/" + vm.cassettoSelezionato.id;
+                        }
+                    }
+                    else {
+                        apiCollocazioneDaChiamare = "/api/elencoesemplaridaarmadio/" + vm.armadioSelezionato.id;
+                    }
+                }
+                else {
+                    apiCollocazioneDaChiamare = "/api/elencoesemplaridasala/" + vm.salaSelezionata.id;
+                };
+                $http.get(apiCollocazioneDaChiamare)
+                    .then(function (response) {
+                        esemplariFiltratiSuCollocazione = response.data;
+                        vm.filtroSuCollocazioneAttivo = true;
+                    });
+            }
+            else {
+                vm.filtroSuCollocazioneAttivo = false;
+            };
         };
 
-        vm.resetNazione = function resetNazione() {
-            vm.nazioneSelezionata = _.find(vm.nazioni, function (nazione) { return nazione.nazione == "-" });
-            vm.selezionaNazione();
+
+        vm.impostaFiltriSpedizione = function impostaFiltriSpedizione() {
+
+            //resetDropDownSeNecessario();
+
+            if (vm.spedizioneSelezionata.spedizione != "-") {
+                $http.get("/api/elencoesemplaridaspedizione/" + vm.spedizioneSelezionata.id)
+                    .then(function (response) {
+                        esemplariFiltratiSuSpedizione = response.data;
+                        vm.filtroSuSpedizioneAttivo = true;
+                    });
+            }
+            else {
+                vm.filtroSuSpedizioneAttivo = false;
+            }
         };
 
-        vm.resetRegione = function resetRegione() {
-            vm.regioneSelezionata = _.find(vm.regioni, function (regione) { return regione.regione == "-" });
-            vm.selezionaRegione();
+
+        vm.impostaFiltriCollezione = function impostaFiltriCollezione() {
+
+            //resetDropDownSeNecessario();
+
+            if (vm.collezioneSelezionata.collezione != "-") {
+                $http.get("/api/elencoesemplaridacollezione/" + vm.collezioneSelezionata.id)
+                    .then(function (response) {
+                        esemplariFiltratiSuCollezione = response.data;
+                        vm.filtroSuCollezioneAttivo = true;
+                    });
+            }
+            else {
+                vm.filtroSuCollezioneAttivo = false;
+            }
         };
 
-        vm.resetProvincia = function resetProvincia() {
-            vm.provinciaSelezionata = _.find(vm.province, function (provincia) { return provincia.provincia == "-" });
-            vm.selezionaProvincia();
+        vm.impostaFiltriDataDa = function impostaFiltriDataDa() {
+            if (vm.dataCatturaDa != null) {
+                $http.get("/api/elencoesemplaridadatada/" + funzioni.dataInterna(vm.dataCatturaDa, vm.tipoDataCatturaDa)) 
+                    .then(function (response) {
+                        esemplariFiltratiSuDataDa = response.data;
+                        vm.filtroDataDa = true;
+                    });
+            }
+            else {
+                vm.filtroDataDa = false;
+            }
         };
 
-        vm.resetCitta = function resetCitta() {
-            vm.cittaSelezionata = _.find(vm.citta, function (citta) { return citta.nomeCitta == "-" });
-            vm.selezionaCitta();
+        vm.impostaFiltriDataA = function impostaFiltriDataA() {
+            if (vm.dataCatturaA != null) {
+                $http.get("/api/elencoesemplaridadataa/" + funzioni.dataInterna(vm.dataCatturaA, vm.tipoDataCatturaA))
+                    .then(function (response) {
+                        esemplariFiltratiSuDataA = response.data;
+                        vm.filtroDataA = true;
+                    });
+            }
+            else {
+                vm.filtroDataA = false;
+            }
         };
 
-        vm.resetLocalita = function resetLocalita() {
-            vm.localitaSelezionata = _.find(vm.localita, function (localita) { return localita.nomeLocalita == "-" });
-            vm.selezionaLocalita();
-        };
 
-        vm.resetRaccoglitore = function resetRaccoglitore() {
-            vm.raccoglitoreSelezionato = _.find(vm.raccoglitori, function (raccoglitore) { return raccoglitore.raccoglitore == "-" });
-            vm.selezionaRaccoglitore();
-        };
-//#endregion
-
-//#region Chiamate $http
         $http.get("/api/esemplari")
              .then(function (response) {
                  elencoEsemplari = response.data;
@@ -460,7 +604,7 @@
         $http.get("/api/nazioni")
            .then(function (response) {
                vm.nazioni = response.data;
-        });
+           });
 
         $http.get("/api/regioni")
             .then(function (response) {
@@ -501,13 +645,22 @@
         $http.get("/api/cassetti")
             .then(function (response) {
                 elencoCassetti = response.data;
-            })
+            });
 
         $http.get("/api/vassoi")
             .then(function (response) {
                 elencoVassoi = response.data;
-            })
+            });
 
-//#endregion
+        $http.get("/api/spedizioni")
+            .then(function (response) {
+                vm.spedizioni = response.data;
+            });
+
+        $http.get("/api/collezioni")
+            .then(function (response) {
+                vm.collezioni = response.data;
+            });
+
     }
 })();

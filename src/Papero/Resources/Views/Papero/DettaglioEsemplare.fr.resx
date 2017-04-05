@@ -430,7 +430,7 @@
     <value>Ignore jour</value>
   </data>
   <data name="Ignora mese/giorno" xml:space="preserve">
-    <value>Ignore mois</value>
+    <value>Ignore mois/jour</value>
   </data>
   <data name="Acquisto" xml:space="preserve">
     <value>Achat</value>

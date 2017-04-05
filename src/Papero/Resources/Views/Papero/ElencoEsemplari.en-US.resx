@@ -210,4 +210,22 @@
   <data name="Vassoio" xml:space="preserve">
     <value>Tray</value>
   </data>
+  <data name="Collezione" xml:space="preserve">
+    <value>Collection</value>
+  </data>
+  <data name="Reset Filtri" xml:space="preserve">
+    <value>Filters Reset</value>
+  </data>
+  <data name="Spedizione" xml:space="preserve">
+    <value>Expedition</value>
+  </data>
+  <data name="Data di Cattura" xml:space="preserve">
+    <value>Capture Date</value>
+  </data>
+  <data name="A" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="Da" xml:space="preserve">
+    <value>From</value>
+  </data>
 </root>

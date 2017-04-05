@@ -39,20 +39,47 @@
 
         if (giornoStringa == "00") {
             dataUscita.setYear(parseInt(annoStringa, 10));
-            dataUscita.setMonth(parseInt(meseStringa, 10)-1);
+            dataUscita.setMonth(parseInt(meseStringa, 10) - 1);
             dataUscita.setDate(1);
             return { data: dataUscita, tipo: "Ignora giorno" };
         }
 
         dataUscita.setYear(parseInt(annoStringa, 10));
-        dataUscita.setMonth(parseInt(meseStringa, 10)-1);
+        dataUscita.setMonth(parseInt(meseStringa, 10) - 1);
         dataUscita.setDate(parseInt(giornoStringa, 10));
         return { data: dataUscita, tipo: "Data completa" };
-    }
+    };
+
+    /**
+     * Restituisce una data in formato interno
+     * @param {Datetime} data
+     * @param {stringa} tipo
+     */
+    function dataInterna(data, tipo) {
+
+        var data_interna = "";
+
+        if (data == null) {
+            return "";
+        };
+        switch (tipo) {
+            case "Data completa":
+                data_interna = data.toISOString().substring(0, 10).replace(/-/g, "");
+                break;
+            case "Ignora mese/giorno":
+                data_interna = data.getFullYear().toString() + "0000";
+                break;
+            case "Ignora giorno":
+                data_interna = data.toISOString().substring(0, 7).replace(/-/g, "") + "00";
+                break;
+        };
+        return data_interna;
+    };
 
     function pubblicaFunzioniEsterne(funzioni) {
         angular.extend(funzioni, {
-            'trasformaData': trasformaData
+            'trasformaData': trasformaData,
+            'dataInterna' : dataInterna
         });
     }
 

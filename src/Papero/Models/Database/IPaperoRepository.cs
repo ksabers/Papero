@@ -408,6 +408,34 @@ namespace Papero.Models
         IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaVassoio(int idVassoio);
 
         /// <summary>
+        /// Restituisce l'elenco degli Esemplari provenienti da una specifica spedizione
+        /// </summary>
+        /// <param name="idSpedizione"></param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSpedizione(int idSpedizione);
+
+        /// <summary>
+        /// Restituisce l'elenco degli Esemplari inclusi in una specifica collezione
+        /// </summary>
+        /// <param name="idCollezione"></param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaCollezione(int idCollezione);
+
+        /// <summary>
+        /// Restituisce l'elenco degli esemplari la cui data di cattura è maggiore o uguale ad una certa data
+        /// </summary>
+        /// <param name="dataDa">Data in formato interno</param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaDataDa(string dataDa);
+
+        /// <summary>
+        /// Restituisce l'elenco degli esemplari la cui data di cattura è minore o uguale ad una certa data
+        /// </summary>
+        /// <param name="dataA">Data in formato interno</param>
+        /// <returns></returns>
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaDataA(string dataA);
+
+        /// <summary>
         /// Cancella uno specifico Esemplare dal database
         /// </summary>
         /// <param name="idEsemplare"></param>

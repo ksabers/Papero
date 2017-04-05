@@ -612,6 +612,104 @@ namespace Papero.Models
                 .ToList();
         }
 
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSpedizione(int idSpedizione)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.SpedizioneId == idSpedizione)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                })
+                .ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaCollezione(int idCollezione)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.CollezioneId == idCollezione)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                })
+                .ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaDataDa(string dataDa)
+        {
+
+            //return _contesto.Esemplari
+            //    .Where(esemplare =>  Int32.Parse(dataDa) >= (String.IsNullOrEmpty(esemplare.DataCattura) ? (int?)null : (int)Int32.Parse(esemplare.DataCattura)))
+            //    .Select(esemplare => new ElencoEsemplariViewModel
+            //    {
+            //        Id = esemplare.Id,
+            //        Msng = esemplare.Msng,
+            //        Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+            //        Specie = esemplare.Sottospecie.Specie.Nome,
+            //        Sottospecie = esemplare.Sottospecie.Nome,
+            //        SottospecieId = esemplare.SottospecieId,
+            //        ElencoAutori = esemplare.Sottospecie.ElencoAutori
+            //    })
+            //    .ToList();
+
+            return (from esemplare in _contesto.Esemplari
+                    where (!(String.IsNullOrEmpty(esemplare.DataCattura)) &&
+                    Int32.Parse(esemplare.DataCattura) != 0 &&
+                    Int32.Parse(esemplare.DataCattura) >= Int32.Parse(dataDa))
+                    select new ElencoEsemplariViewModel
+                    {
+                        Id = esemplare.Id,
+                        Msng = esemplare.Msng,
+                        Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                        Specie = esemplare.Sottospecie.Specie.Nome,
+                        Sottospecie = esemplare.Sottospecie.Nome,
+                        SottospecieId = esemplare.SottospecieId,
+                        ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                    }).GroupBy(esemplare => esemplare.Id).Select(esemplare => esemplare.FirstOrDefault());
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaDataA(string dataA)
+        {
+            //return _contesto.Esemplari
+            //    .Where(esemplare => (String.IsNullOrEmpty(esemplare.DataCattura) ? (int?)null : (int)Int32.Parse(esemplare.DataCattura)) <= Int32.Parse(dataA))
+            //    .Select(esemplare => new ElencoEsemplariViewModel
+            //    {
+            //        Id = esemplare.Id,
+            //        Msng = esemplare.Msng,
+            //        Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+            //        Specie = esemplare.Sottospecie.Specie.Nome,
+            //        Sottospecie = esemplare.Sottospecie.Nome,
+            //        SottospecieId = esemplare.SottospecieId,
+            //        ElencoAutori = esemplare.Sottospecie.ElencoAutori
+            //    })
+            //    .ToList();
+            return (from esemplare in _contesto.Esemplari
+                    where (!(String.IsNullOrEmpty(esemplare.DataCattura)) &&
+                    Int32.Parse(esemplare.DataCattura) != 0 &&
+                    Int32.Parse(esemplare.DataCattura) <= Int32.Parse(dataA))
+                    select new ElencoEsemplariViewModel
+                    {
+                        Id = esemplare.Id,
+                        Msng = esemplare.Msng,
+                        Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                        Specie = esemplare.Sottospecie.Specie.Nome,
+                        Sottospecie = esemplare.Sottospecie.Nome,
+                        SottospecieId = esemplare.SottospecieId,
+                        ElencoAutori = esemplare.Sottospecie.ElencoAutori
+                    }).GroupBy(esemplare => esemplare.Id).Select(esemplare => esemplare.FirstOrDefault());
+        }
+
         public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSala (int idSala)
         {
             return (from esemplare in _contesto.Esemplari

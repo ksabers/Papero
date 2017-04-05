@@ -105,7 +105,8 @@
                 }
                 <div class="well well-sm text-primary" ng-hide="vm.foglia">
 
-                    <!--#region modaleFiltriElencoEsemplari -->
+<!--#region modaleFiltriElencoEsemplari -->
+
                     <div class="modal fade" id="modaleFiltriElencoEsemplari" role="dialog">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -146,9 +147,12 @@
 
                                                     <div class="form-group">
                                                         <ul class="nav nav-tabs">
-                                                            <li class="active"><a href="#tablocalita" data-toggle="tab">@localizzatore["Località di Cattura"] <i class="fa fa-globe"></i></a></li>
-                                                            <li><a href="#tabraccoglitori" data-toggle="tab">@localizzatore["Raccoglitori"] <i class="fa fa-user"></i></a></li>
-                                                            <li><a href="#tabcollocazione" data-toggle="tab">@localizzatore["Collocazione"] <i class="fa fa-archive"></i></a></li>
+                                                            <li class="active"><a href="#tablocalita" data-toggle="tab">@localizzatore["Località di Cattura"]&nbsp;<i class="fa fa-globe"></i></a></li>
+                                                            <li><a href="#tabdatacattura" data-toggle="tab">@localizzatore["Data di Cattura"]&nbsp;<i class="fa fa-calendar"></i></a></li>
+                                                            <li><a href="#tabraccoglitori" data-toggle="tab">@localizzatore["Raccoglitori"]&nbsp;<i class="fa fa-user-o"></i></a></li>
+                                                            <li><a href="#tabcollocazione" data-toggle="tab">@localizzatore["Collocazione"]&nbsp;<i class="fa fa-file-archive-o"></i></a></li>
+                                                            <li><a href="#tabspedizione" data-toggle="tab">@localizzatore["Spedizione"]&nbsp;<i class="fa fa-map-o"></i></a></li>
+                                                            <li><a href="#tabcollezione" data-toggle="tab">@localizzatore["Collezione"]&nbsp;<i class="fa fa-files-o"></i></a></li>
                                                         </ul>
                                                         <div id="myTabContent" class="tab-content">
                                                             <div class="tab-pane fade active in col-lg-offset-3" id="tablocalita">
@@ -230,6 +234,85 @@
                                                                             </ui-select>
                                                                         </div>
                                                                         <i role="button" class="fa fa-minus-circle fa-2x text-danger" ng-click="vm.resetLocalita()"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane fade col-lg-offset-2" id="tabdatacattura">
+                                                                <div class="row">
+                                                                    <div class="form-group">
+
+                                                                        <label for="inputDataCatturaDa" class="col-lg-3 control-label">@localizzatore["Da"]:</label>
+                                                                        <div class="col-lg-4">
+                                                                            <input id="inputDataCatturaDa"
+                                                                                   name="inputDataCatturaDa"
+                                                                                   ng-model="vm.dataCatturaDa"
+                                                                                   ng-change="vm.impostaFiltriDataDa()"
+                                                                                   type="date"
+                                                                                   class="form-control">
+                                                                        </div>
+                                                                        <div>
+                                                                            <input type="radio" name="tipoDataCatturaDa" ng-model="vm.tipoDataCatturaDa" ng-change="vm.impostaFiltriDataDa()" value="Data completa" />
+                                                                            <input type="radio" name="tipoDataCatturaDa" ng-model="vm.tipoDataCatturaDa" ng-change="vm.impostaFiltriDataDa()" value="Ignora mese/giorno" />
+                                                                            <input type="radio" name="tipoDataCatturaDa" ng-model="vm.tipoDataCatturaDa" ng-change="vm.impostaFiltriDataDa()" value="Ignora giorno" />
+                                                                            <span role="button" 
+                                                                                  style="width:20ch;display: inline-block;"
+                                                                                  ng-show="vm.tipoDataCatturaDa == 'Data completa'"
+                                                                                  ng-click="vm.tipoDataCatturaDa = 'Ignora mese/giorno'">
+                                                                                @localizzatore["Data completa"]
+                                                                            </span>
+                                                                            <span role="button" style="width:20ch;display: inline-block;"
+                                                                                  ng-show="vm.tipoDataCatturaDa == 'Ignora mese/giorno'"
+                                                                                  ng-click="vm.tipoDataCatturaDa = 'Ignora giorno'">
+                                                                                @localizzatore["Ignora mese/giorno"]
+                                                                            </span>
+                                                                            <span role="button" style="width:20ch;display: inline-block;"
+                                                                                  ng-show="vm.tipoDataCatturaDa == 'Ignora giorno'"
+                                                                                  ng-click="vm.tipoDataCatturaDa = 'Data completa'">
+                                                                                @localizzatore["Ignora giorno"]
+                                                                            </span>
+                                                                            <i role="button" class="fa fa-minus-circle fa-2x text-danger" ng-click="vm.resetDataDa()"></i>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group">
+
+                                                                        <label for="inputDataCatturaA" class="col-lg-3 control-label">@localizzatore["A"]:</label>
+                                                                        <div class="col-lg-4">
+                                                                            <input id="inputDataCatturaA"
+                                                                                   name="inputDataCatturaA"
+                                                                                   ng-model="vm.dataCatturaA"
+                                                                                   ng-change="vm.impostaFiltriDataA()"
+                                                                                   type="date"
+                                                                                   class="form-control">
+                                                                        </div>
+                                                                        <div>
+                                                                            <input type="radio" name="tipoDataCatturaA" ng-model="vm.tipoDataCatturaA" ng-change="vm.impostaFiltriDataA()" value="Data completa" />
+                                                                            <input type="radio" name="tipoDataCatturaA" ng-model="vm.tipoDataCatturaA" ng-change="vm.impostaFiltriDataA()" value="Ignora mese/giorno" />
+                                                                            <input type="radio" name="tipoDataCatturaA" ng-model="vm.tipoDataCatturaA" ng-change="vm.impostaFiltriDataA()" value="Ignora giorno" />
+                                                                            <span role="button"
+                                                                                  style="width:20ch;display: inline-block;"
+                                                                                  ng-show="vm.tipoDataCatturaA == 'Data completa'"
+                                                                                  ng-click="vm.tipoDataCatturaA = 'Ignora mese/giorno'">
+                                                                                @localizzatore["Data completa"]
+                                                                            </span>
+                                                                            <span role="button"
+                                                                                  style="width:20ch;display: inline-block;"
+                                                                                  ng-show="vm.tipoDataCatturaA == 'Ignora mese/giorno'"
+                                                                                  ng-click="vm.tipoDataCatturaA = 'Ignora giorno'">
+                                                                                @localizzatore["Ignora mese/giorno"]
+                                                                            </span>
+                                                                            <span role="button"
+                                                                                  style="width:20ch;display: inline-block;"
+                                                                                  ng-show="vm.tipoDataCatturaA == 'Ignora giorno'"
+                                                                                  ng-click="vm.tipoDataCatturaA = 'Data completa'">
+                                                                                @localizzatore["Ignora giorno"]
+                                                                            </span>
+                                                                            <i role="button" class="fa fa-minus-circle fa-2x text-danger" ng-click="vm.resetDataA()"></i>
+                                                                        </div>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -321,6 +404,44 @@
 
                                                             </div>
 
+                                                            <div class="tab-pane fade col-lg-offset-2" id="tabspedizione">
+                                                                <div class="row">
+                                                                    <div class="form-group">
+                                                                        <label for="uiselectSpedizione" class="col-lg-2 control-label">@localizzatore["Spedizione"]:</label>
+                                                                        <div class="col-lg-7">
+                                                                            <ui-select id="uiselectSpedizione" name="uiselectSpedizione" ng-model="vm.spedizioneSelezionata" ng-change="vm.selezionaSpedizione()">
+                                                                                <ui-select-match>
+                                                                                    <span ng-bind="$select.selected.spedizione"></span>
+                                                                                </ui-select-match>
+                                                                                <ui-select-choices repeat="spedizione in (vm.spedizioni | filter: $select.search) track by spedizione.id">
+                                                                                    <span ng-bind="spedizione.spedizione"></span>
+                                                                                </ui-select-choices>
+                                                                            </ui-select>
+                                                                        </div>
+                                                                        <i role="button" class="fa fa-minus-circle fa-2x text-danger" ng-click="vm.resetSpedizione()"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane fade col-lg-offset-3" id="tabcollezione">
+                                                                <div class="row">
+                                                                    <div class="form-group">
+                                                                        <label for="uiselectCollezione" class="col-lg-2 control-label">@localizzatore["Collezione"]:</label>
+                                                                        <div class="col-lg-5">
+                                                                            <ui-select id="uiselectCollezione" name="uiselectCollezione" ng-model="vm.collezioneSelezionata" ng-change="vm.selezionaCollezione()">
+                                                                                <ui-select-match>
+                                                                                    <span ng-bind="$select.selected.collezione"></span>
+                                                                                </ui-select-match>
+                                                                                <ui-select-choices repeat="collezione in (vm.collezioni | filter: $select.search) track by collezione.id">
+                                                                                    <span ng-bind="collezione.collezione"></span>
+                                                                                </ui-select-choices>
+                                                                            </ui-select>
+                                                                        </div>
+                                                                        <i role="button" class="fa fa-minus-circle fa-2x text-danger" ng-click="vm.resetCollezione()"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
                                                         </div>
                                                     </div>
 
@@ -332,7 +453,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div class="alert alert-warning" ng-hide="vm.numeroRigheOK">
                                                         <div class="row">
                                                             <p class="col-lg-9 text-danger"><strong>@localizzatore["Attenzione"]:</strong> @localizzatore["numero di righe elevato - L'operazione potrebbe impiegare diverso tempo"]</p>
@@ -362,8 +483,11 @@
                     <span ng-show="vm.filtroSuAlberoAttivo">@localizzatore["Filtro sull'albero"]</span>
                     <span ng-hide="vm.filtroSuAlberoAttivo">@localizzatore["Elenco Completo"]</span>
                     <span ng-show="vm.filtroSuGeografiaAttivo"> - @localizzatore["Località di Cattura"]</span>
+                    <span ng-show="vm.filtroDataDa || vm.filtroDataA"> - @localizzatore["Data di Cattura"]</span>
                     <span ng-show="vm.filtroSuRaccoglitoriAttivo"> - @localizzatore["Raccoglitori"]</span>
                     <span ng-show="vm.filtroSuCollocazioneAttivo"> - @localizzatore["Collocazione"]</span>
+                    <span ng-show="vm.filtroSuSpedizioneAttivo"> - @localizzatore["Spedizione"]</span>
+                    <span ng-show="vm.filtroSuCollezioneAttivo"> - @localizzatore["Collezione"]</span>
                 </div>
             </div>
             <div class="panel-body">
