@@ -447,4 +447,13 @@
   <data name="Confermare la cancellazione: l'operazione non può essere annullata" xml:space="preserve">
     <value>Please confirm the deletion: the operation cannot be undone</value>
   </data>
+  <data name="Grande" xml:space="preserve">
+    <value>Large</value>
+  </data>
+  <data name="Medio" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="Piccolo" xml:space="preserve">
+    <value>Small</value>
+  </data>
 </root>

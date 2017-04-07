@@ -36,7 +36,7 @@ namespace Papero
 
             var costruttoreConfigurazione = new ConfigurationBuilder()  // Questa è la "configurazione della configurazione"
                 .SetBasePath(_ambiente.ContentRootPath)  // Il file di configurazione è nella root dell'applicazione
-                .AddJsonFile("appsettings.json")  // Nome del file di configurazione
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)  // Nome del file di configurazione
                 .AddEnvironmentVariables();       // Oltre al file JSON importiamo anche le variabili di ambiente 
 
             if (_ambiente.IsDevelopment())
@@ -52,11 +52,14 @@ namespace Papero
         // Elenco e configurazione dei servizi dell'applicazione
         public void ConfigureServices(IServiceCollection servizi)
         {
+            servizi.AddOptions();  // Registrazione del servizio che permette di mappare la configurazione in una classe e di iniettarne un'istanza dove necessario
 
-            servizi.AddSingleton(_configurazione);  // Registrazione della configurazione, in modo da poterla iniettare dove serve
+            servizi.Configure<OpzioniQRCode>(_configurazione.GetSection("QRCode"));  // Mappa della classe OpzioniQRCode sulla sezione QRCode dell'oggetto di configurazione 
+
+            servizi.AddSingleton(_configurazione);  // Registrazione della configurazione "grezza", in modo da poterla iniettare dove serve
                                                     // Si usa AddSingleton perché la configurazione è unica per tutta l'applicazione, non serve rigenerarla ad ogni richiesta
 
-            servizi.AddDbContext<PaperoDBContext>(opzioni =>                                      //Registrazione del contesto del database
+            servizi.AddDbContext<PaperoDBContext>(opzioni =>                                      // Registrazione del contesto del database
             {
                 opzioni.UseSqlServer(_configurazione["StringheConnessione:ConnessioneDefault"]);  // Impostazione del database fisico e connessione presa dalla configurazione
             });  
@@ -152,7 +155,7 @@ namespace Papero
 
             Mapper.Initialize(config => 
             {
-                config.CreateMap<Esemplari, DettaglioEsemplareViewModel>();
+                config.CreateMap<Esemplari, DettaglioEsemplareViewModel>();   // Inizializzazione del Mapper con le associaziona tra entità e rispettivi viewmodel
                 config.CreateMap<Esemplari, QRCodeViewModel>();
             });
 

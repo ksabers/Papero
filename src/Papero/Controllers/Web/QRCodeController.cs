@@ -16,6 +16,7 @@ using Papero.ViewModels;
 using AutoMapper;
 using Papero.Funzioni;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Papero.Controllers
 {
@@ -24,17 +25,17 @@ namespace Papero.Controllers
         private IStringLocalizer<PaperoController> _localizzatore;  // dichiarazione dei campi privati che incapsulano gli oggetti passati per dependency injection
         private IPaperoRepository _repository;
         private ILogger<PaperoController> _logger;
-        private IConfigurationRoot _configurazione;
+        private OpzioniQRCode _opzioni;
 
         public QRCodeController(IStringLocalizer<PaperoController> localizzatore,   // Costruttore della classe, con le dependency injection di: 1)supporto per la localizzazione
                                 IPaperoRepository repository,                       // 2) Repository delle query nel database
                                 ILogger<PaperoController> logger,                   // 3) Supporto per i log
-                                IConfigurationRoot configurazione)                   // 4) Variabili di configurazione
+                                IOptions<OpzioniQRCode> opzioni)                   // 4) Oggetto che mappa le variabili di configurazione della sezione QRCode
         {
             _localizzatore = localizzatore;
             _repository = repository;
             _logger = logger;
-            _configurazione = configurazione;
+            _opzioni = opzioni.Value;
         }
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace Papero.Controllers
         /// <param name="id">ID dell'esemplare richiesto</param>
         /// <returns></returns>
         [Authorize(Policy = "VisualizzaQRCodeScheda")]
-        public IActionResult QRCodeScheda(int id)
+        public IActionResult QRCodeScheda(int id, int formato)
         {
                 ViewBag.trovato = true;                                        // Flag che dice alla vista che l'ID è valido
                 var modello = _repository.LeggiEsemplare(id);                  // Legge tutti i dati dell'esemplare
@@ -51,7 +52,9 @@ namespace Papero.Controllers
 
             //vista.urlQRCode = "https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=";
 
-            vista.urlQRCode = _configurazione["QRCode:URLScheda"] + "/?size=" + _configurazione["QRCode:MisuraScheda"] + "x" + _configurazione["QRCode:MisuraScheda"] + "&data=";
+            vista.urlQRCode = _opzioni.URLScheda + "/?size=" + _opzioni.Formati[formato].Pixel + "x" + _opzioni.Formati[formato].Pixel + "&data=";
+
+            //vista.urlQRCode = _opzioni.URLScheda + "/?size=80x80&data=";
 
             var testoQRCode = System.Text.Encodings.Web.UrlEncoder.Default.Encode(  // La stringa viene url-encodata prima di essere aggiunta all'URL 
                 funzioni.FormattaNomeScientifico(modello.Sottospecie.Specie.Genere.Nome, modello.Sottospecie.Specie.Nome, modello.Sottospecie.Nome) +
@@ -67,13 +70,13 @@ namespace Papero.Controllers
 
             //var testoQRCode = "http://localhost:55072/Papero/DettaglioEsemplare/" + modello.Id;
 
-            if (testoQRCode.Length < 4000)
+            if (testoQRCode.Length < _opzioni.CaratteriMassimi)
             {
                 vista.testoQRCode = testoQRCode;
             }
             else
             {
-                vista.testoQRCode = testoQRCode.Substring(0, 4000);
+                vista.testoQRCode = testoQRCode.Substring(0, _opzioni.CaratteriMassimi);
             }
                 return View(vista);        // Restituisce la vista di dettaglio passandole il ViewModel riempito di dati   
         }

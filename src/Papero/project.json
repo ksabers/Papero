@@ -26,7 +26,8 @@
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.1",
     "Microsoft.AspNetCore.Mvc": "1.1.1",
     "Microsoft.AspNetCore.Mvc.Localization": "1.1.1",
-    "Microsoft.AspNetCore.Mvc.TagHelpers": "1.1.1"
+    "Microsoft.AspNetCore.Mvc.TagHelpers": "1.1.1",
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.1"
   },
 
   "tools": {
