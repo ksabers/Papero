@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService autorizzatore
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -28,6 +30,12 @@
           asp-fallback-test-property="position" 
           asp-fallback-test-value="absolute"
           rel="stylesheet" >
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-tree-control/0.2.28/css/tree-control.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-tree-control/0.2.28/css/tree-control-attribute.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+
     <script src="https://use.fontawesome.com/6cbc9821e8.js"
             asp-fallback-href="~/lib/font-awesome/css/font-awesome.min.css"
             asp-fallback-test-class="sr-only" 
@@ -135,22 +143,30 @@
                         <i class="fa fa-tags fa-fw"></i> @localizzatore["Esemplari"]
                     </a>
                 </li>
-                <li class="nav-item nav-dropdown active">
-                    <a class="nav-link nav-dropdown-toggle" href="#">
-                        <i class="fa fa-vcard-o fa-fw"></i>@localizzatore["Anagrafiche"]<i class="fa arrow"></i>
-                    </a>
-                    <ul class="nav-dropdown-items">
-                        <li>
-                            <a class="nav-link text-right" href="#">Uno</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-right" href="#">Due</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-right" href="#">Tre</a>
-                        </li>
-                    </ul>
-                </li>
+                @if ((await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori")))
+                {
+                    <li class="nav-item nav-dropdown active">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="fa fa-vcard-o fa-fw"></i>@localizzatore["Anagrafiche"]<i class="fa arrow"></i>
+                        </a>
+                        <ul class="nav-dropdown-items">
+                            @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori"))
+                            {
+                                <li>
+                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Classificatori">@localizzatore["Classificatori"]</a>
+                                </li>
+                            }
+
+                            <li>
+                                <a class="nav-link text-right" href="#">Due</a>
+                            </li>
+                            <li>
+                                <a class="nav-link text-right" href="#">Tre</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                
             </ul>
         </nav>
     </div>
@@ -189,7 +205,9 @@
             asp-fallback-src="~/lib/angular/angular.min.js"
             asp-fallback-test="window.angular"></script>
     <script src="~/lib/angular-sanitize/angular-sanitize.min.js"></script>
-
+    <script src="~/lib/angular-tree-control/angular-tree-control.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.5/angular-datatables.min.js"></script>
     <script src="~/lib/angular-ui-select/dist/select.min.js"></script>
 
     <script src="~/js/papero-app.js"></script>

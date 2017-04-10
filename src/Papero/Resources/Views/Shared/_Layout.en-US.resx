@@ -162,4 +162,7 @@
   <data name="Francese" xml:space="preserve">
     <value>French</value>
   </data>
+  <data name="Classificatori" xml:space="preserve">
+    <value>Classifiers</value>
+  </data>
 </root>

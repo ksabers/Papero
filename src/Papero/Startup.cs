@@ -103,6 +103,9 @@ namespace Papero
 
                 // Policies per la gestione dei QRCode
                 opzioni.AddPolicy("VisualizzaQRCodeScheda", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaQRCodeScheda"));
+
+                // Policies per la gestione delle anagrafiche
+                opzioni.AddPolicy("VisualizzaAnagraficaClassificatori", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaAnagraficaClassificatori"));
             });
 
             servizi.AddLocalization(opzioni =>         // Aggiunta del supporto globale per la localizzazione e sua configurazione
