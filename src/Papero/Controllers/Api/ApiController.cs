@@ -77,6 +77,23 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiClassificatori());
         }
 
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
+        [HttpGet("api/classificatori/{idClassificatore}")]
+        public IActionResult GetClassificatori(int classificatoreID)
+        {
+            return Ok(_repository.LeggiClassificatori(classificatoreID));
+        }
+
+        [HttpPost("api/classificatori")]
+        public async Task<IActionResult> PostClassificatore([FromBody]Classificatori classificatore)
+        {
+            _repository.PostClassificatore(classificatore);
+
+            if (await _repository.SalvaModifiche())
+                return Created($"api/classificatori/{classificatore.Id}", classificatore);
+            return BadRequest("Errore");
+        }
+
         [Authorize]
         [HttpGet("api/partipreparate")]
         public IActionResult GetPartiPreparate()

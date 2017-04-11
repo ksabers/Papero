@@ -120,7 +120,37 @@
   <data name="Anagrafica Classificatori" xml:space="preserve">
     <value>Table des Classificateurs</value>
   </data>
+  <data name="Annulla" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="Azioni" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Cancella" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Classificatore" xml:space="preserve">
+    <value>Classificateur</value>
+  </data>
   <data name="Classificatori" xml:space="preserve">
     <value>Classificateurs</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Inserisci" xml:space="preserve">
+    <value>Appliquer</value>
+  </data>
+  <data name="Inserisci nuovo Classificatore" xml:space="preserve">
+    <value>Insérer le nouveau Classificateur</value>
+  </data>
+  <data name="Modifica" xml:space="preserve">
+    <value>Éditer</value>
+  </data>
+  <data name="Modifica Classificatore" xml:space="preserve">
+    <value>Éditer le Classificateur</value>
+  </data>
+  <data name="Nuovo" xml:space="preserve">
+    <value>Nouveau</value>
   </data>
 </root>

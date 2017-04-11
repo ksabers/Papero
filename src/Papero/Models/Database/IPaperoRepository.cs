@@ -45,6 +45,8 @@ namespace Papero.Models
         IEnumerable<StatiConservazione> LeggiStatiConservazione();
         IEnumerable<Classificatori> LeggiClassificazioni(int idSottospecie);
         IEnumerable<Classificatori> LeggiClassificatori();
+
+        IEnumerable<Classificatori> LeggiClassificatori(int idClassificatore);
         IEnumerable<Sottospecie> LeggiSottospecie();
 
         IEnumerable<PartiPreparate> LeggiPartiPreparate();
@@ -440,5 +442,7 @@ namespace Papero.Models
         /// </summary>
         /// <param name="idEsemplare"></param>
         void CancellaEsemplare(int idEsemplare);
+
+        void PostClassificatore(Classificatori classificatore);
     }
 }

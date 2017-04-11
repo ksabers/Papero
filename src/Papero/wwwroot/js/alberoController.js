@@ -6,7 +6,7 @@
     angular.module("papero-app")
         .controller("alberoController", alberoController);
 
-    function alberoController($http, DTOptionsBuilder) {
+    function alberoController($http, DTOptionsBuilder, DTColumnDefBuilder) {
 
 
         var elencoEsemplari = [];                 // Elenco completo non filtrato degli esemplari 
@@ -168,6 +168,9 @@
                                                                 // (come da specifiche delle angular datatables)
                                                                 // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
 
+        vm.colonneTabella = [
+            DTColumnDefBuilder.newColumnDef(2).notSortable()  // Impedisce l'ordinamento della tabella sulla colonna dei pulsanti
+        ];
 
         vm.nodoSelezionato = function selezionaEsemplari(nodo, selezionato) {  //  Funzione che viene richiamata alla selezione di un elemento dell'albero
 

@@ -160,6 +160,14 @@ namespace Papero.Models
                     .ToList();
         }
 
+        public IEnumerable<Classificatori> LeggiClassificatori(int idClassificatore)
+        {
+            return _contesto.Classificatori
+                .Where(classificatore => classificatore.Id == idClassificatore)
+                    .OrderBy(classificatore => classificatore.Classificatore)
+                    .ToList();
+        }
+
         public IEnumerable<Sottospecie> LeggiSottospecie()
         {
             return _contesto.Sottospecie
@@ -899,6 +907,10 @@ namespace Papero.Models
                 .Remove(_contesto.Esemplari.Single(esemplare => esemplare.Id == idEsemplare));
         }
 
+        public void PostClassificatore(Classificatori classificatore)
+        {
+            _contesto.Add(classificatore);
+        }
         public async Task<bool> SalvaModifiche()
         {
             return (await _contesto.SaveChangesAsync()) > 0;

@@ -2,9 +2,8 @@
     ViewBag.Title = localizzatore["Elenco Esemplari"];
 }
 
-@using Papero.Funzioni
-@using Microsoft.AspNetCore.Authorization
-@inject IAuthorizationService autorizzatore
+
+
 
 @section css {
 
@@ -486,7 +485,11 @@
             </div>
             <div class="panel-body">
 
-                <table datatable="ng" class="table table-striped table-bordered table-hover" id="tabellaEsemplari" dt-options="vm.opzioniTabella">
+                <table datatable="ng" 
+                       class="table table-striped table-bordered table-hover" 
+                       id="tabellaEsemplari" 
+                       dt-options="vm.opzioniTabella" 
+                       dt-column-defs="vm.colonneTabella">
                     <thead>
                         <tr>
                             <th>@localizzatore["MSNG"]</th>
