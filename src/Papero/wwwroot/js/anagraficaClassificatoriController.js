@@ -20,6 +20,8 @@
         ];
 
         vm.pulsanteInserimentoVisibile = true;
+        vm.classificatoreGiaPresente = false;
+        vm.pulsanteInsertDisabilitato = true;
 
         vm.apriPannelloInserimento = function apriPannelloInserimento() {
             vm.pulsanteInserimentoVisibile = false;
@@ -29,23 +31,37 @@
         vm.annullaInserimento = function annullaInserimento() {
             $("#panelInserimento").collapse("hide");
             vm.pulsanteInserimentoVisibile = true;
-            $("#inputInsertClassificatore").val("");
+            vm.classificatoreGiaPresente = false;
+            vm.pulsanteInsertDisabilitato = false;
+            vm.inputInsertClassificatore = "";
+        };
+
+        vm.verificaClassificatore = function verificaClassificatore() {
+            vm.pulsanteInsertDisabilitato = (_.trim(vm.inputInsertClassificatore) == "" || _.trim(vm.inputInsertClassificatore) == "-");
+            vm.classificatoreGiaPresente = false;
         };
 
         vm.inserisciClassificatore = function inserisciClassificatore() {
 
-            $http.post("/api/classificatori", { "classificatore": $("#inputInsertClassificatore").val() })
-                .then(function (response) {
-                    vm.classificatori.push(response.data);
-                    $("#panelInserimento").collapse("hide");
-                    vm.pulsanteInserimentoVisibile = true;
-                    $("#inputInsertClassificatore").val("");
-                }, function () {
+            vm.classificatoreDoppio = _.find(vm.classificatori, function (classificatore) { return funzioni.confrontaStringhe(classificatore.classificatore, vm.inputInsertClassificatore) });
+            if (vm.classificatoreDoppio) {
+                vm.classificatoreGiaPresente = true;
+                vm.pulsanteInsertDisabilitato = true;
+            }
+            else {
+                $http.post("/api/classificatori", { "classificatore": vm.inputInsertClassificatore })
+                    .then(function (response) {
+                        vm.classificatori.push(response.data);
+                        $("#panelInserimento").collapse("hide");
+                        vm.pulsanteInserimentoVisibile = true;
+                        vm.inputInsertClassificatore = "";
+                    }, function () {
+                        alert("Errore non gestito durante l'inserimento");
+                    })
+                .finally(function () {
 
                 })
-            .finally(function () {
-
-            })
+            }
         };
 
         vm.apriPannelloEdit = function apriPannelloEdit(classificatore) {

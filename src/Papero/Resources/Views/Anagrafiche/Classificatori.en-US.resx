@@ -132,6 +132,9 @@
   <data name="Classificatore" xml:space="preserve">
     <value>Classifier</value>
   </data>
+  <data name="Classificatore già presente!" xml:space="preserve">
+    <value>Classifier already present!</value>
+  </data>
   <data name="Classificatori" xml:space="preserve">
     <value>Classifiers</value>
   </data>

@@ -22,27 +22,35 @@
                         {
                             <a href="#" class="btn btn-success" ng-click="vm.apriPannelloInserimento()" ng-show="vm.pulsanteInserimentoVisibile"><i class="fa fa-plus"></i> @localizzatore["Nuovo"]</a>
                         }
-                        
+
                     </div>
                 </div>
                 <div id="panelInserimento" class="panel-body panel-collapse collapse">
                     <div class="row">
                         <div class="form-group">
-                            <label for="inputInsertClassificatore" class="col-lg-2 col-lg-offset-3 control-label text-primary">@localizzatore["Inserisci nuovo Classificatore"]:</label>
+                            <label for="inputInsertClassificatore" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuovo Classificatore"]:</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control" id="inputInsertClassificatore" name="inputInsertClassificatore"/>
+                                <input type="text" class="form-control" ng-model="vm.inputInsertClassificatore" ng-change="vm.verificaClassificatore()" id="inputInsertClassificatore" name="inputInsertClassificatore" />
                             </div>
-                        </div>  
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="form-group">
-                            <div class=" col-lg-offset-7 col-lg-3">
-                                <div class="pull-right">
-                                    <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimento()">@localizzatore["Annulla"]</button>
-                                    <button type="submit" class="btn btn-success" ng-click="vm.inserisciClassificatore()">@localizzatore["Inserisci"]</button>
+                        <div class="col-lg-12">
+                            <div class="col-lg-3 col-lg-offset-4">
+                                    <div class="alert alert-danger" ng-show="vm.classificatoreGiaPresente">
+                                        <strong>@localizzatore["Classificatore già presente!"]</strong> (@localizzatore["Id"]: {{vm.classificatoreDoppio.id}})
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2">
+                                    <div class="pull-right">
+                                        <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimento()">@localizzatore["Annulla"]</button>
+                                        <button type="submit" class="btn btn-success" ng-click="vm.inserisciClassificatore()" ng-disabled="vm.pulsanteInsertDisabilitato">@localizzatore["Inserisci"]</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <div id="panelEdit" class="panel-body panel-collapse collapse">
@@ -64,16 +72,16 @@
                             </div>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <table datatable="ng" 
-                   class="table table-striped table-bordered table-hover" 
-                   id="tabellaClassificatori" 
-                   dt-options="vm.opzioniTabellaClassificatori" 
+            <table datatable="ng"
+                   class="table table-striped table-bordered table-hover"
+                   id="tabellaClassificatori"
+                   dt-options="vm.opzioniTabellaClassificatori"
                    dt-column-defs="vm.colonneTabellaClassificatori">
                 <thead>
                     <tr>
