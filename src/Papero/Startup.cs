@@ -56,7 +56,7 @@ namespace Papero
 
             servizi.Configure<OpzioniQRCode>(_configurazione.GetSection("QRCode"));  // Mappa della classe OpzioniQRCode sulla sezione QRCode dell'oggetto di configurazione 
 
-            servizi.AddSingleton(_configurazione);  // Registrazione della configurazione "grezza", in modo da poterla iniettare dove serve
+            servizi.AddSingleton(_configurazione);  // Registrazione della configurazione "grezza", in modo da poterla iniettare dove serve (ma non dovrebbe servire)
                                                     // Si usa AddSingleton perché la configurazione è unica per tutta l'applicazione, non serve rigenerarla ad ogni richiesta
 
             servizi.AddDbContext<PaperoDBContext>(opzioni =>                                      // Registrazione del contesto del database

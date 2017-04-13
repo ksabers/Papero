@@ -444,5 +444,7 @@ namespace Papero.Models
         void CancellaEsemplare(int idEsemplare);
 
         void PostClassificatore(Classificatori classificatore);
+
+        void PutClassificatore(Classificatori classificatore);
     }
 }

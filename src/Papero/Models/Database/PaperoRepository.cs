@@ -916,8 +916,20 @@ namespace Papero.Models
             catch (Exception)  // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
             {
 
+            }            
+        }
+
+        public void PutClassificatore(Classificatori classificatore)
+        {
+
+            try
+            {
+                _contesto.Update(classificatore);
             }
-            
+            catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+
+            }
         }
         public async Task<bool> SalvaModifiche()
         {

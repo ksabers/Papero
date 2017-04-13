@@ -94,6 +94,16 @@ namespace Papero.Controllers
             return BadRequest("Errore");
         }
 
+        [HttpPut("api/classificatori")]
+        public async Task<IActionResult> PutClassificatore([FromBody]Classificatori classificatore)
+        {
+            _repository.PutClassificatore(classificatore);
+
+            if (await _repository.SalvaModifiche())
+                return Ok($"api/classificatori/{classificatore.Id}");
+            return BadRequest("Errore");
+        }
+
         [Authorize]
         [HttpGet("api/partipreparate")]
         public IActionResult GetPartiPreparate()
