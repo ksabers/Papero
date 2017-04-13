@@ -76,10 +76,20 @@
         return data_interna;
     };
 
+    /**
+     * Confronta due stringhe ignorando maiuscole, minuscole e spazi prima/dopo/in mezzo.
+     * @param {stringa} stringaOriginale
+     * @param {stringa} stringaDaConfrontare
+     */
+    function confrontaStringhe(stringaOriginale, stringaDaConfrontare) {
+        return (_.lowerCase(_.trim(stringaOriginale)) == _.lowerCase(_.trim(stringaDaConfrontare)))
+    };
+
     function pubblicaFunzioniEsterne(funzioni) {
         angular.extend(funzioni, {
             'trasformaData': trasformaData,
-            'dataInterna' : dataInterna
+            'dataInterna': dataInterna,
+            'confrontaStringhe': confrontaStringhe
         });
     }
 

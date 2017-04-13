@@ -909,11 +909,27 @@ namespace Papero.Models
 
         public void PostClassificatore(Classificatori classificatore)
         {
-            _contesto.Add(classificatore);
+            try
+            {
+                _contesto.Add(classificatore);
+            }
+            catch (Exception)  // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+
+            }
+            
         }
         public async Task<bool> SalvaModifiche()
         {
-            return (await _contesto.SaveChangesAsync()) > 0;
+            try
+            {
+                return (await _contesto.SaveChangesAsync()) > 0;
+            }
+            catch (DbUpdateException eccezione)
+            {
+                return false;
+            }
+            
         }
     }
 }
