@@ -24,10 +24,12 @@
         vm.classificatoreGiaPresente = false;
         vm.pulsanteInsertDisabilitato = true;
         vm.pulsanteEditDisabilitato = true;
+        vm.pulsanteCancellaVisibile = true;
 
         vm.apriPannelloInserimento = function apriPannelloInserimento() {   // Quando viene aperto il pannello di inserimento...
             vm.annullaEdit();                                               // ...chiudo il pannello di edit (in realtà eseguo solo le azioni di chiusura, il pannello non può
-                                                                            // essere aperto perché il pulsante di inserimento a questo punto è già invisibile)
+            // essere aperto perché il pulsante di inserimento a questo punto è già invisibile)
+            vm.annullaCancella();
             vm.pulsanteInserimentoVisibile = false;                         // ...rendo invisibile il pulsante di inserimento
             $("#panelInserimento").collapse("show");                        // ...e mostro il pannello di inserimento
         };
@@ -86,6 +88,7 @@
 
         vm.apriPannelloEdit = function apriPannelloEdit(classificatore) {
             vm.annullaInserimento();                   // Chiude il pannello di inserimento se è aperto quando si inizia un edit
+            vm.annullaCancella();
             vm.pulsanteInserimentoVisibile = false;
             $("#panelEdit").collapse("show");
             vm.inputEditClassificatore = classificatore.classificatore;
@@ -93,11 +96,21 @@
             classificatoreCliccato = classificatore;  // memorizzo globalmente il classificatore da modificare perché servirà quando verrà cliccato il tasto di edit
         };
 
-        vm.annullaEdit = function annullaEdit() {
-            $("#panelEdit").collapse("hide");
+        vm.apriPannelloCancella = function apriPannelloCancella(classificatore) {
+            vm.annullaInserimento();                   // Chiude il pannello di inserimento se è aperto quando si inizia una cancellazione
+            vm.annullaEdit();
+            vm.pulsanteInserimentoVisibile = false;
+            $("#panelCancella").collapse("show");
+            vm.classificatoreDaCancellare = classificatore.classificatore;
+            vm.pulsanteCancellaVisibile = true;
+            classificatoreCliccato = classificatore;  // memorizzo globalmente il classificatore da cancellare perché servirà quando verrà cliccato il tasto di cancellazione
+        };
+
+        vm.annullaCancella = function annullaCancella() {
+            $("#panelCancella").collapse("hide");
             vm.pulsanteInserimentoVisibile = true;
-            vm.inputEditClassificatore = "";
-            vm.pulsanteEditDisabilitato = true;
+            vm.classificatoreDaCancellare = "";
+            vm.pulsanteCancellaVisibile = true;
         };
 
         vm.editClassificatore = function editClassificatore() {
@@ -131,6 +144,18 @@
 
         vm.cancellaClassificatore = function cancellaClassificatore() {
 
+            $http.delete("/api/classificatori/" + classificatoreCliccato.id)     // chiamo la API di cancellazione
+                .then(function (response) {
+                    vm.classificatori.splice(_.findIndex(vm.classificatori, ["id", classificatoreCliccato.id]), 1);
+                    $("#panelCancella").collapse("hide");                            // chiudo il pannello di cancellazione
+                    vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
+                }, function () {
+                    vm.classificatorenonCancellabile = true;
+                    vm.pulsanteCancellaVisibile = false;
+                })
+            .finally(function () {
+
+            })
         };
 
         $http.get("/api/classificatori")

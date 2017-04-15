@@ -104,6 +104,16 @@ namespace Papero.Controllers
             return BadRequest("Errore");
         }
 
+        [HttpDelete("api/classificatori/{idClassificatore}")]
+        public async Task<IActionResult> CancellaClassificatore(int idClassificatore)
+        {
+            _repository.CancellaClassificatore(idClassificatore);
+
+            if (await _repository.SalvaModifiche())
+                return Ok();
+            return BadRequest("Errore");
+        }
+
         [Authorize]
         [HttpGet("api/partipreparate")]
         public IActionResult GetPartiPreparate()

@@ -188,6 +188,12 @@ namespace Papero.Models
             _contesto.SaveChanges();
         }
 
+        public void CancellaClassificatore(int idClassificatore)
+        {
+            _contesto.Classificatori
+                .RemoveRange(_contesto.Classificatori.Where(classificatore => classificatore.Id == idClassificatore));
+        }
+
         public void CancellaPreparati(int idEsemplare)
         {
             _contesto.Preparati

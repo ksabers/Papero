@@ -446,5 +446,7 @@ namespace Papero.Models
         void PostClassificatore(Classificatori classificatore);
 
         void PutClassificatore(Classificatori classificatore);
+
+        void CancellaClassificatore(int idClassificatore);
     }
 }

@@ -129,6 +129,9 @@
   <data name="Cancella" xml:space="preserve">
     <value>Cancella</value>
   </data>
+  <data name="Cancella Classificatore" xml:space="preserve">
+    <value>Cancella Classificatore</value>
+  </data>
   <data name="Classificatore" xml:space="preserve">
     <value>Classificatore</value>
   </data>
@@ -138,8 +141,14 @@
   <data name="Classificatori" xml:space="preserve">
     <value>Classificatori</value>
   </data>
+  <data name="Già associato a taxa" xml:space="preserve">
+    <value>Già associato a taxa</value>
+  </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
+  </data>
+  <data name="Impossibile cancellare il Classificatore!" xml:space="preserve">
+    <value>Impossibile cancellare il Classificatore!</value>
   </data>
   <data name="Inserisci" xml:space="preserve">
     <value>Inserisci</value>
