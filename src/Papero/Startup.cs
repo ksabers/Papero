@@ -107,6 +107,8 @@ namespace Papero
                 // Policies per la gestione delle anagrafiche
                 opzioni.AddPolicy("VisualizzaAnagraficaClassificatori", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaAnagraficaClassificatori"));
                 opzioni.AddPolicy("EditAnagraficaClassificatori", costruttorePolicy => costruttorePolicy.RequireClaim("EditAnagraficaClassificatori"));
+                opzioni.AddPolicy("VisualizzaAnagraficaCollezioni", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaAnagraficaCollezioni"));
+                opzioni.AddPolicy("EditAnagraficaCollezioni", costruttorePolicy => costruttorePolicy.RequireClaim("EditAnagraficaCollezioni"));
             });
 
             servizi.AddLocalization(opzioni =>         // Aggiunta del supporto globale per la localizzazione e sua configurazione

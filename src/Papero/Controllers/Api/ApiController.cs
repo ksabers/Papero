@@ -94,6 +94,16 @@ namespace Papero.Controllers
             return BadRequest("Errore");
         }
 
+        [HttpPost("api/collezioni")]
+        public async Task<IActionResult> PostCollezione([FromBody]Collezioni collezione)
+        {
+            _repository.PostCollezione(collezione);
+
+            if (await _repository.SalvaModifiche())
+                return Created($"api/collezioni/{collezione.Id}", collezione);
+            return BadRequest("Errore");
+        }
+
         [HttpPut("api/classificatori")]
         public async Task<IActionResult> PutClassificatore([FromBody]Classificatori classificatore)
         {
@@ -108,6 +118,16 @@ namespace Papero.Controllers
         public async Task<IActionResult> CancellaClassificatore(int idClassificatore)
         {
             _repository.CancellaClassificatore(idClassificatore);
+
+            if (await _repository.SalvaModifiche())
+                return Ok();
+            return BadRequest("Errore");
+        }
+
+        [HttpDelete("api/collezioni/{idCollezione}")]
+        public async Task<IActionResult> CancellaCollezione(int idCollezione)
+        {
+            _repository.CancellaCollezione(idCollezione);
 
             if (await _repository.SalvaModifiche())
                 return Ok();

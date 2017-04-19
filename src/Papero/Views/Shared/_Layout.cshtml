@@ -143,7 +143,10 @@
                         <i class="fa fa-tags fa-fw"></i> @localizzatore["Esemplari"]
                     </a>
                 </li>
-                @if ((await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori")))
+                @if ((await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori"))
+                    ||
+                     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollezioni"))
+                    )
                 {
                     <li class="nav-item nav-dropdown active">
                         <a class="nav-link nav-dropdown-toggle" href="#">
@@ -157,17 +160,23 @@
                                 </li>
                             }
 
-                            <li>
-                                <a class="nav-link text-right" href="#">Due</a>
-                            </li>
+                            @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollezioni"))
+                            {
+                                <li>
+                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Collezioni">@localizzatore["Collezioni"]</a>
+                                </li>
+                            }
                             <li>
                                 <a class="nav-link text-right" href="#">Tre</a>
                             </li>
                         </ul>
                     </li>
                 }
-                
+
             </ul>
+
+
+
         </nav>
     </div>
     <footer class="footer">

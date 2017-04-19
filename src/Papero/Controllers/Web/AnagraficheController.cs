@@ -15,5 +15,11 @@ namespace Papero.Controllers.Web
         {
             return View();
         }
+
+        [Authorize(Policy = "VisualizzaAnagraficaCollezioni")]
+        public IActionResult Collezioni()
+        {
+            return View();
+        }
     }
 }

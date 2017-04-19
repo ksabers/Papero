@@ -447,6 +447,12 @@ namespace Papero.Models
 
         void PutClassificatore(Classificatori classificatore);
 
+        void PostCollezione(Collezioni collezione);
+
+        void PutCollezione(Collezioni collezione);
+
         void CancellaClassificatore(int idClassificatore);
+
+        void CancellaCollezione(int idCollezione);
     }
 }

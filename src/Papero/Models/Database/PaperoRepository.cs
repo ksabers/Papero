@@ -194,6 +194,12 @@ namespace Papero.Models
                 .RemoveRange(_contesto.Classificatori.Where(classificatore => classificatore.Id == idClassificatore));
         }
 
+        public void CancellaCollezione(int idCollezione)
+        {
+            _contesto.Collezioni
+                .RemoveRange(_contesto.Collezioni.Where(collezione => collezione.Id == idCollezione));
+        }
+
         public void CancellaPreparati(int idEsemplare)
         {
             _contesto.Preparati
@@ -925,6 +931,18 @@ namespace Papero.Models
             }            
         }
 
+        public void PostCollezione(Collezioni collezione)
+        {
+            try
+            {
+                _contesto.Add(collezione);
+            }
+            catch (Exception)  // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+
+            }
+        }
+
         public void PutClassificatore(Classificatori classificatore)
         {
 
@@ -937,13 +955,26 @@ namespace Papero.Models
 
             }
         }
+
+        public void PutCollezione(Collezioni collezione)
+        {
+
+            try
+            {
+                _contesto.Update(collezione);
+            }
+            catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+
+            }
+        }
         public async Task<bool> SalvaModifiche()
         {
             try
             {
                 return (await _contesto.SaveChangesAsync()) > 0;
             }
-            catch (DbUpdateException eccezione)
+            catch (DbUpdateException)
             {
                 return false;
             }

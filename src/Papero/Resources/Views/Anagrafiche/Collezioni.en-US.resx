@@ -117,55 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafiche" xml:space="preserve">
-    <value>Anagrafiche</value>
+  <data name="Anagrafica Collezioni" xml:space="preserve">
+    <value>Collections Table</value>
   </data>
-  <data name="Contatti" xml:space="preserve">
-    <value>Contatti</value>
+  <data name="Annulla" xml:space="preserve">
+    <value>Cancel</value>
   </data>
-  <data name="Esemplari" xml:space="preserve">
-    <value>Esemplari</value>
+  <data name="Azioni" xml:space="preserve">
+    <value>Actions</value>
   </data>
-  <data name="Impostazioni" xml:space="preserve">
-    <value>Impostazioni</value>
+  <data name="Cancella" xml:space="preserve">
+    <value>Delete</value>
   </data>
-  <data name="Info su Papero" xml:space="preserve">
-    <value>Info su Papero</value>
+  <data name="Cancella Collezione" xml:space="preserve">
+    <value>Delete Collection</value>
   </data>
-  <data name="Inglese" xml:space="preserve">
-    <value>Inglese</value>
+  <data name="Collezione" xml:space="preserve">
+    <value>Collection</value>
   </data>
-  <data name="Italiano" xml:space="preserve">
-    <value>Italiano</value>
-  </data>
-  <data name="Lingua" xml:space="preserve">
-    <value>Lingua</value>
-  </data>
-  <data name="linguaggioDatatables" xml:space="preserve">
-    <value>//cdn.datatables.net/plug-ins/1.10.12/i18n/Italian.json</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
-  </data>
-  <data name="Museo di Storia Naturale 'Giacomo Doria' - Genova" xml:space="preserve">
-    <value>Museo di Storia Naturale 'Giacomo Doria' - Genova</value>
-  </data>
-  <data name="Profilo Utente" xml:space="preserve">
-    <value>Profilo Utente</value>
-  </data>
-  <data name="Tassonomia" xml:space="preserve">
-    <value>Tassonomia</value>
-  </data>
-  <data name="Mostra/Nascondi Menu" xml:space="preserve">
-    <value>Mostra/Nascondi Menu</value>
-  </data>
-  <data name="Francese" xml:space="preserve">
-    <value>Francese</value>
-  </data>
-  <data name="Classificatori" xml:space="preserve">
-    <value>Classificatori</value>
+  <data name="Collezione già presente!" xml:space="preserve">
+    <value>Collection already present!</value>
   </data>
   <data name="Collezioni" xml:space="preserve">
-    <value>Collezioni</value>
+    <value>Collections</value>
+  </data>
+  <data name="Già associata a taxa" xml:space="preserve">
+    <value>Already related to taxa</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Impossibile cancellare la Collezione!" xml:space="preserve">
+    <value>Unable to delete the Collection!</value>
+  </data>
+  <data name="Inserisci" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="Inserisci nuova Collezione" xml:space="preserve">
+    <value>Insert new Collection</value>
+  </data>
+  <data name="Modifica" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Modifica Collezione" xml:space="preserve">
+    <value>Edit Collection</value>
+  </data>
+  <data name="Nuova" xml:space="preserve">
+    <value>New</value>
   </data>
 </root>
