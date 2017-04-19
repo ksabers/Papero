@@ -144,8 +144,12 @@
                     </a>
                 </li>
                 @if ((await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori"))
-                    ||
+                     ||
                      (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollezioni"))
+                     ||
+                     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaSpedizioni"))
+                     ||
+                     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaRaccoglitori"))
                     )
                 {
                     <li class="nav-item nav-dropdown active">
@@ -166,9 +170,18 @@
                                     <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Collezioni">@localizzatore["Collezioni"]</a>
                                 </li>
                             }
-                            <li>
-                                <a class="nav-link text-right" href="#">Tre</a>
-                            </li>
+                            @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaRaccoglitori"))
+                            {
+                                <li>
+                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Raccoglitori">@localizzatore["Raccoglitori"]</a>
+                                </li>
+                            }
+                            @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaSpedizioni"))
+                            {
+                                <li>
+                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Spedizioni">@localizzatore["Spedizioni"]</a>
+                                </li>
+                            }
                         </ul>
                     </li>
                 }

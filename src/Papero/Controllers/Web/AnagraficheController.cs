@@ -21,5 +21,17 @@ namespace Papero.Controllers.Web
         {
             return View();
         }
+
+        [Authorize(Policy = "VisualizzaAnagraficaSpedizioni")]
+        public IActionResult Spedizioni()
+        {
+            return View();
+        }
+
+        [Authorize(Policy = "VisualizzaAnagraficaRaccoglitori")]
+        public IActionResult Raccoglitori()
+        {
+            return View();
+        }
     }
 }

@@ -64,8 +64,11 @@ namespace Papero
                 opzioni.UseSqlServer(_configurazione["StringheConnessione:ConnessioneDefault"]);  // Impostazione del database fisico e connessione presa dalla configurazione
             });  
 
-            servizi.AddScoped<IPaperoRepository, PaperoRepository>();  // Registrazione del repository delle query e della sua interfaccia astratta.
-                                                                       // Si usa AddScoped perché è costoso crearle e quindi lo facciamo solo una volta per richiesta.
+            servizi.AddScoped<IPaperoRepository, PaperoRepository>();                   // Registrazione dei repository delle query e delle loro interfacce astratte.                                                       
+            servizi.AddScoped<ICollezioniRepository, CollezioniRepository>();           // (Si usa AddScoped perché è costoso crearle e quindi lo facciamo solo una volta per richiesta)
+            servizi.AddScoped<IClassificatoriRepository, ClassificatoriRepository>();
+            servizi.AddScoped<ISpedizioniRepository, SpedizioniRepository>();
+            servizi.AddScoped<IRaccoglitoriRepository, RaccoglitoriRepository>();
 
             servizi.AddIdentity<UtentePapero, IdentityRole>(configurazione =>  // Registrazione del servizio di autenticazione e configurazione dei suoi parametri.
             {  
@@ -109,6 +112,10 @@ namespace Papero
                 opzioni.AddPolicy("EditAnagraficaClassificatori", costruttorePolicy => costruttorePolicy.RequireClaim("EditAnagraficaClassificatori"));
                 opzioni.AddPolicy("VisualizzaAnagraficaCollezioni", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaAnagraficaCollezioni"));
                 opzioni.AddPolicy("EditAnagraficaCollezioni", costruttorePolicy => costruttorePolicy.RequireClaim("EditAnagraficaCollezioni"));
+                opzioni.AddPolicy("VisualizzaAnagraficaSpedizioni", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaAnagraficaSpedizioni"));
+                opzioni.AddPolicy("EditAnagraficaSpedizioni", costruttorePolicy => costruttorePolicy.RequireClaim("EditAnagraficaSpedizioni"));
+                opzioni.AddPolicy("VisualizzaAnagraficaRaccoglitori", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaAnagraficaRaccoglitori"));
+                opzioni.AddPolicy("EditAnagraficaRaccoglitori", costruttorePolicy => costruttorePolicy.RequireClaim("EditAnagraficaRaccoglitori"));
             });
 
             servizi.AddLocalization(opzioni =>         // Aggiunta del supporto globale per la localizzazione e sua configurazione

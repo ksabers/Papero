@@ -44,9 +44,7 @@ namespace Papero.Models
         /// <returns></returns>
         IEnumerable<StatiConservazione> LeggiStatiConservazione();
         IEnumerable<Classificatori> LeggiClassificazioni(int idSottospecie);
-        IEnumerable<Classificatori> LeggiClassificatori();
 
-        IEnumerable<Classificatori> LeggiClassificatori(int idClassificatore);
         IEnumerable<Sottospecie> LeggiSottospecie();
 
         IEnumerable<PartiPreparate> LeggiPartiPreparate();
@@ -271,19 +269,11 @@ namespace Papero.Models
         /// Restituisce l'elenco delle Collezioni
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Collezioni> LeggiCollezioni();
+        //IEnumerable<Collezioni> LeggiCollezioni();
 
-        /// <summary>
-        /// Restituisce l'elenco delle Spedizioni
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Spedizioni> LeggiSpedizioni();
 
-        /// <summary>
-        /// Restituisce l'elenco dei Raccoglitori
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Raccoglitori> LeggiRaccoglitori();
+
+
 
         /// <summary>
         /// Restituisce l'elenco dei Sessi con un campo aggiuntivo localizzato in base alla lingua
@@ -443,16 +433,14 @@ namespace Papero.Models
         /// <param name="idEsemplare"></param>
         void CancellaEsemplare(int idEsemplare);
 
-        void PostClassificatore(Classificatori classificatore);
 
-        void PutClassificatore(Classificatori classificatore);
 
-        void PostCollezione(Collezioni collezione);
 
-        void PutCollezione(Collezioni collezione);
 
-        void CancellaClassificatore(int idClassificatore);
 
-        void CancellaCollezione(int idCollezione);
+
+
+
+
     }
 }

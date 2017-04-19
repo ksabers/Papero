@@ -168,4 +168,10 @@
   <data name="Collezioni" xml:space="preserve">
     <value>Collections</value>
   </data>
+  <data name="Spedizioni" xml:space="preserve">
+    <value>Expeditions</value>
+  </data>
+  <data name="Raccoglitori" xml:space="preserve">
+    <value>Collectors</value>
+  </data>
 </root>

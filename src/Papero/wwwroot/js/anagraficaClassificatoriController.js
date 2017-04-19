@@ -99,6 +99,7 @@
         vm.apriPannelloCancella = function apriPannelloCancella(classificatore) {
             vm.annullaInserimento();                   // Chiude il pannello di inserimento se è aperto quando si inizia una cancellazione
             vm.annullaEdit();
+            vm.classificatorenonCancellabile = false;
             vm.pulsanteInserimentoVisibile = false;
             $("#panelCancella").collapse("show");
             vm.classificatoreDaCancellare = classificatore.classificatore;

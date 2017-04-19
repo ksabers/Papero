@@ -1,27 +1,27 @@
-﻿// anagraficaCollezioniController.js 
+﻿// anagraficaRaccoglitoriController.js 
 
 (function () {
     "use strict";
 
     angular.module("papero-app")
-        .controller("anagraficaCollezioniController", anagraficaCollezioniController);
+        .controller("anagraficaRaccoglitoriController", anagraficaRaccoglitoriController);
 
-    function anagraficaCollezioniController($http, DTOptionsBuilder, DTColumnDefBuilder) {
+    function anagraficaRaccoglitoriController($http, DTOptionsBuilder, DTColumnDefBuilder) {
 
-        var collezioneCliccata = {};
+        var raccoglitoreCliccato = {};
         var vm = this;
 
-        vm.opzioniTabellaCollezioni = DTOptionsBuilder.newOptions()       // Opzioni di visualizzazione della angular datatable
+        vm.opzioniTabellaRaccoglitori = DTOptionsBuilder.newOptions()       // Opzioni di visualizzazione della angular datatable
             .withOption("bLengthChange", false)
             .withLanguageSource(stringaLinguaggioDatatables);                 // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
                                                                               // (come da specifiche delle angular datatables)
                                                                               // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
-        vm.colonneTabellaCollezioni = [
+        vm.colonneTabellaRaccoglitori = [
             DTColumnDefBuilder.newColumnDef(2).notSortable()  // Impedisce l'ordinamento della tabella sulla colonna dei pulsanti
         ];
 
         vm.pulsanteInserimentoVisibile = true;  // Impostazione iniziale dei pulsanti e dei pannelli di alert
-        vm.collezioneGiaPresente = false;
+        vm.raccoglitoreGiaPresente = false;
         vm.pulsanteInsertDisabilitato = true;
         vm.pulsanteEditDisabilitato = true;
         vm.pulsanteCancellaVisibile = true;
@@ -37,46 +37,46 @@
         vm.annullaInserimento = function annullaInserimento() {             // Quando viene annullato un inserimento...
             $("#panelInserimento").collapse("hide");                        // ...chiudo il pannello
             vm.pulsanteInserimentoVisibile = true;                          // ...rendo possibile riaprirlo
-            vm.collezioneGiaPresente = false;                           // ...nascondo il riquadro di alert
+            vm.raccoglitoreGiaPresente = false;                           // ...nascondo il riquadro di alert
             vm.pulsanteInsertDisabilitato = true;                           // ...disabilito il pulsante di insert
-            vm.inputInsertCollezione = "";                              // ...e cancello il campo
+            vm.inputInsertRaccoglitore = "";                              // ...e cancello il campo
         };
 
         vm.annullaEdit = function annullaEdit() {                           // Quando viene annullato un edit...
             $("#panelEdit").collapse("hide");                               // ...chiudo il pannello
             vm.pulsanteInserimentoVisibile = true;                          // ..riabilito il pulsante di inserimento nel panel heading
-            vm.collezioneGiaPresente = false;                           // ...nascondo il riquadro di alert
+            vm.raccoglitoreGiaPresente = false;                           // ...nascondo il riquadro di alert
             vm.pulsanteEditDisabilitato = true;                             // ...disabilito il pulsante di edit
-            vm.inputEditCollezione = "";                                // ...e cancello il campo
+            vm.inputEditRaccoglitore = "";                                // ...e cancello il campo
         };
 
-        vm.verificaCollezione = function verificaCollezione() {
-            vm.pulsanteInsertDisabilitato = (_.trim(vm.inputInsertCollezione) == "" || _.trim(vm.inputInsertCollezione) == "-");
-            vm.collezioneGiaPresente = false;
+        vm.verificaRaccoglitore = function verificaRaccoglitore() {
+            vm.pulsanteInsertDisabilitato = (_.trim(vm.inputInsertRaccoglitore) == "" || _.trim(vm.inputInsertRaccoglitore) == "-");
+            vm.raccoglitoreGiaPresente = false;
         };
 
-        vm.verificaEditCollezione = function verificaEditCollezione() {  // Controllo che il campo edit sia valido (non vuoto, non spazi, non trattino)
-            vm.pulsanteEditDisabilitato = (_.trim(vm.inputEditCollezione) == "" || _.trim(vm.inputEditCollezione) == "-");
-            vm.collezioneGiaPresente = false;  // Se modifico il campo, faccio sparire l'alert
+        vm.verificaEditRaccoglitore = function verificaEditRaccoglitore() {  // Controllo che il campo edit sia valido (non vuoto, non spazi, non trattino)
+            vm.pulsanteEditDisabilitato = (_.trim(vm.inputEditRaccoglitore) == "" || _.trim(vm.inputEditRaccoglitore) == "-");
+            vm.raccoglitoreGiaPresente = false;  // Se modifico il campo, faccio sparire l'alert
         };
 
-        vm.inserisciCollezione = function inserisciCollezione() {
+        vm.inserisciRaccoglitore = function inserisciRaccoglitore() {
 
-            // Verifico se la collezione che sto cercando di inserire esiste già nella tabella (ignorando maiuscole, minuscole, spazi prima, dopo e in mezzo)
-            // Se esiste, la salvo in vm.collezioneDoppia in modo da poterne mostrare l'ID nel pannello di alert
-            vm.collezioneDoppia = _.find(vm.collezioni, function (collezione) { return funzioni.confrontaStringhe(collezione.collezione, vm.inputInsertCollezione) });
-            if (vm.collezioneDoppia) {  // se esiste un doppione, _.find ritorna una collezione, quindi la if è true
-                vm.collezioneGiaPresente = true;   // mostro il pannello di alert
+            // Verifico se il raccoglitore che sto cercando di inserire esiste già nella tabella (ignorando maiuscole, minuscole, spazi prima, dopo e in mezzo)
+            // Se esiste, la salvo in vm.raccoglitoreDoppio in modo da poterne mostrare l'ID nel pannello di alert
+            vm.raccoglitoreDoppio = _.find(vm.raccoglitori, function (raccoglitore) { return funzioni.confrontaStringhe(raccoglitore.raccoglitore, vm.inputInsertRaccoglitore) });
+            if (vm.raccoglitoreDoppio) {  // se esiste un doppione, _.find ritorna un raccoglitore, quindi la if è true
+                vm.raccoglitoreGiaPresente = true;   // mostro il pannello di alert
                 vm.pulsanteInsertDisabilitato = true;  // e disabilito la insert
             }
             else {                                                               // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
-                $http.post("/api/collezioni",                                    // il valore si può inserire
-                           { "collezione": _.trim(vm.inputInsertCollezione) })   // chiamo la API di inserimento
+                $http.post("/api/raccoglitori",                                    // il valore si può inserire
+                           { "raccoglitore": _.trim(vm.inputInsertRaccoglitore) })   // chiamo la API di inserimento
                     .then(function (response) {                                  // la chiamata alla API mi restituisce il JSON del valore appena inserito (soprattutto mi dice il nuovo ID)
-                        vm.collezioni.push(response.data);                       // Uso il JSON restituito dalla API per inserire il nuovo valore in tabella
+                        vm.raccoglitori.push(response.data);                       // Uso il JSON restituito dalla API per inserire il nuovo valore in tabella
                         $("#panelInserimento").collapse("hide");                 // chiudo il pannello di inserimento
                         vm.pulsanteInserimentoVisibile = true;                   // riabilito il pulsante nel panel heading
-                        vm.inputInsertCollezione = "";                           // e cancello il campo
+                        vm.inputInsertRaccoglitore = "";                           // e cancello il campo
                     }, function () {
                         alert("Errore non gestito durante l'inserimento");
                     })
@@ -86,53 +86,53 @@
             }
         };
 
-        vm.apriPannelloEdit = function apriPannelloEdit(collezione) {
+        vm.apriPannelloEdit = function apriPannelloEdit(raccoglitore) {
             vm.annullaInserimento();                   // Chiude il pannello di inserimento se è aperto quando si inizia un edit
             vm.annullaCancella();
             vm.pulsanteInserimentoVisibile = false;
             $("#panelEdit").collapse("show");
-            vm.inputEditCollezione = collezione.collezione;
+            vm.inputEditRaccoglitore = raccoglitore.raccoglitore;
             vm.pulsanteEditDisabilitato = true;
-            collezioneCliccata = collezione;        // memorizzo globalmente la collezione da modificare perché servirà quando verrà cliccato il tasto di edit
+            raccoglitoreCliccato = raccoglitore;        // memorizzo globalmente il raccoglitore da modificare perché servirà quando verrà cliccato il tasto di edit
         };
 
-        vm.apriPannelloCancella = function apriPannelloCancella(collezione) {
+        vm.apriPannelloCancella = function apriPannelloCancella(raccoglitore) {
             vm.annullaInserimento();                   // Chiude il pannello di inserimento se è aperto quando si inizia una cancellazione
             vm.annullaEdit();
-            vm.collezionenonCancellabile = false;
+            vm.raccoglitorenonCancellabile = false;
             vm.pulsanteInserimentoVisibile = false;
             $("#panelCancella").collapse("show");
-            vm.collezioneDaCancellare = collezione.collezione;
+            vm.raccoglitoreDaCancellare = raccoglitore.raccoglitore;
             vm.pulsanteCancellaVisibile = true;
-            collezioneCliccata = collezione;  // memorizzo globalmente la collezione da cancellare perché servirà quando verrà cliccato il tasto di cancellazione
+            raccoglitoreeCliccato = raccoglitore;  // memorizzo globalmente la raccoglitore da cancellare perché servirà quando verrà cliccato il tasto di cancellazione
         };
 
         vm.annullaCancella = function annullaCancella() {
             $("#panelCancella").collapse("hide");
             vm.pulsanteInserimentoVisibile = true;
-            vm.collezioneDaCancellare = "";
+            vm.raccoglitoreDaCancellare = "";
             vm.pulsanteCancellaVisibile = true;
         };
 
-        vm.editCollezione = function editCollezione() {
+        vm.editRaccoglitore = function editRaccoglitore() {
 
-            // Verifico se la collezione che sto editando, dopo l'editazione, esisteva già nella tabella (ignorando maiuscole, minuscole, spazi prima, dopo e in mezzo)
+            // Verifico se il raccoglitore che sto editando, dopo l'editazione, esisteva già nella tabella (ignorando maiuscole, minuscole, spazi prima, dopo e in mezzo)
             // (ovvero: la sto modificando ma rendendola uguale ad una già esistente? Non posso farlo)
-            // Se esiste, la salvo in vm.collezioneDoppia in modo da poterne mostrare l'ID nel pannello di alert
-            vm.collezioneDoppia = _.find(vm.collezioni, function (collezione) { return funzioni.confrontaStringhe(collezione.collezione, vm.inputEditCollezione) });
-            if (vm.collezioneDoppia) {               // se esiste un doppione, _.find ritorna una collezione, quindi la if è true
-                vm.collezioneGiaPresente = true;     // mostro il pannello di alert
+            // Se esiste, la salvo in vm.raccoglitoreDoppio in modo da poterne mostrare l'ID nel pannello di alert
+            vm.raccoglitoreDoppio = _.find(vm.raccoglitori, function (raccoglitore) { return funzioni.confrontaStringhe(raccoglitore.raccoglitore, vm.inputEditRaccoglitore) });
+            if (vm.raccoglitoreDoppio) {               // se esiste un doppione, _.find ritorna un raccoglitore, quindi la if è true
+                vm.raccoglitoreGiaPresente = true;     // mostro il pannello di alert
                 vm.pulsanteEditDisabilitato = true;  // e disabilito la insert
             }
             else {                                                                   // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
-                $http.put("/api/collezioni",                                         // il valore si può modificare
-                           { "id": collezioneCliccata.id,
-                             "collezione": _.trim(vm.inputEditCollezione) })         // chiamo la API di modifica
+                $http.put("/api/raccoglitori",                                         // il valore si può modificare
+                           { "id": raccoglitoreCliccato.id,
+                             "raccoglitore": _.trim(vm.inputEditRaccoglitore) })         // chiamo la API di modifica
                     .then(function (response) {                                          
-                        vm.collezioni[_.findIndex(vm.collezioni, ["id", collezioneCliccata.id])].collezione = vm.inputEditCollezione;
+                        vm.raccoglitori[_.findIndex(vm.raccoglitori, ["id", raccoglitoreCliccato.id])].raccoglitore = vm.inputEditRaccoglitore;
                         $("#panelEdit").collapse("hide");                                // chiudo il pannello di edit
                         vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
-                        vm.inputEditCollezione = "";                                     // e cancello il campo
+                        vm.inputEditRaccoglitore = "";                                     // e cancello il campo
                     }, function () {
                         alert("Errore non gestito durante l'editazione");
                     })
@@ -142,15 +142,15 @@
             }
         };
 
-        vm.cancellaCollezione = function cancellaCollezione() {
+        vm.cancellaRaccoglitore = function cancellaRaccoglitore() {
 
-            $http.delete("/api/collezioni/" + collezioneCliccata.id)     // chiamo la API di cancellazione
+            $http.delete("/api/raccoglitori/" + raccoglitoreCliccato.id)     // chiamo la API di cancellazione
                 .then(function (response) {
-                    vm.collezioni.splice(_.findIndex(vm.collezioni, ["id", collezioneCliccata.id]), 1);
+                    vm.raccoglitori.splice(_.findIndex(vm.raccoglitori, ["id", raccoglitoreCliccato.id]), 1);
                     $("#panelCancella").collapse("hide");                            // chiudo il pannello di cancellazione
                     vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
                 }, function () {
-                    vm.collezionenonCancellabile = true;
+                    vm.raccoglitorenonCancellabile = true;
                     vm.pulsanteCancellaVisibile = false;
                 })
             .finally(function () {
@@ -158,9 +158,9 @@
             })
         };
 
-        $http.get("/api/collezioni")
+        $http.get("/api/raccoglitori")
             .then(function (response) {
-                vm.collezioni = response.data;
+                vm.raccoglitori = response.data;
             });
     }
 

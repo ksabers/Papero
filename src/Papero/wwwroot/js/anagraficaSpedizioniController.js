@@ -1,27 +1,27 @@
-﻿// anagraficaCollezioniController.js 
+﻿// anagraficaSpedizioniController.js 
 
 (function () {
     "use strict";
 
     angular.module("papero-app")
-        .controller("anagraficaCollezioniController", anagraficaCollezioniController);
+        .controller("anagraficaSpedizioniController", anagraficaSpedizioniController);
 
-    function anagraficaCollezioniController($http, DTOptionsBuilder, DTColumnDefBuilder) {
+    function anagraficaSpedizioniController($http, DTOptionsBuilder, DTColumnDefBuilder) {
 
-        var collezioneCliccata = {};
+        var spedizioneCliccata = {};
         var vm = this;
 
-        vm.opzioniTabellaCollezioni = DTOptionsBuilder.newOptions()       // Opzioni di visualizzazione della angular datatable
+        vm.opzioniTabellaSpedizioni = DTOptionsBuilder.newOptions()       // Opzioni di visualizzazione della angular datatable
             .withOption("bLengthChange", false)
             .withLanguageSource(stringaLinguaggioDatatables);                 // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
                                                                               // (come da specifiche delle angular datatables)
                                                                               // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
-        vm.colonneTabellaCollezioni = [
+        vm.colonneTabellaSpedizioni = [
             DTColumnDefBuilder.newColumnDef(2).notSortable()  // Impedisce l'ordinamento della tabella sulla colonna dei pulsanti
         ];
 
         vm.pulsanteInserimentoVisibile = true;  // Impostazione iniziale dei pulsanti e dei pannelli di alert
-        vm.collezioneGiaPresente = false;
+        vm.spedizioneGiaPresente = false;
         vm.pulsanteInsertDisabilitato = true;
         vm.pulsanteEditDisabilitato = true;
         vm.pulsanteCancellaVisibile = true;
@@ -37,46 +37,46 @@
         vm.annullaInserimento = function annullaInserimento() {             // Quando viene annullato un inserimento...
             $("#panelInserimento").collapse("hide");                        // ...chiudo il pannello
             vm.pulsanteInserimentoVisibile = true;                          // ...rendo possibile riaprirlo
-            vm.collezioneGiaPresente = false;                           // ...nascondo il riquadro di alert
+            vm.spedizioneGiaPresente = false;                           // ...nascondo il riquadro di alert
             vm.pulsanteInsertDisabilitato = true;                           // ...disabilito il pulsante di insert
-            vm.inputInsertCollezione = "";                              // ...e cancello il campo
+            vm.inputInsertSpedizione = "";                              // ...e cancello il campo
         };
 
         vm.annullaEdit = function annullaEdit() {                           // Quando viene annullato un edit...
             $("#panelEdit").collapse("hide");                               // ...chiudo il pannello
             vm.pulsanteInserimentoVisibile = true;                          // ..riabilito il pulsante di inserimento nel panel heading
-            vm.collezioneGiaPresente = false;                           // ...nascondo il riquadro di alert
+            vm.spedizioneGiaPresente = false;                           // ...nascondo il riquadro di alert
             vm.pulsanteEditDisabilitato = true;                             // ...disabilito il pulsante di edit
-            vm.inputEditCollezione = "";                                // ...e cancello il campo
+            vm.inputEditSpedizione = "";                                // ...e cancello il campo
         };
 
-        vm.verificaCollezione = function verificaCollezione() {
-            vm.pulsanteInsertDisabilitato = (_.trim(vm.inputInsertCollezione) == "" || _.trim(vm.inputInsertCollezione) == "-");
-            vm.collezioneGiaPresente = false;
+        vm.verificaSpedizione = function verificaSpedizione() {
+            vm.pulsanteInsertDisabilitato = (_.trim(vm.inputInsertSpedizione) == "" || _.trim(vm.inputInsertSpedizione) == "-");
+            vm.spedizioneGiaPresente = false;
         };
 
-        vm.verificaEditCollezione = function verificaEditCollezione() {  // Controllo che il campo edit sia valido (non vuoto, non spazi, non trattino)
-            vm.pulsanteEditDisabilitato = (_.trim(vm.inputEditCollezione) == "" || _.trim(vm.inputEditCollezione) == "-");
-            vm.collezioneGiaPresente = false;  // Se modifico il campo, faccio sparire l'alert
+        vm.verificaEditSpedizione = function verificaEditSpedizione() {  // Controllo che il campo edit sia valido (non vuoto, non spazi, non trattino)
+            vm.pulsanteEditDisabilitato = (_.trim(vm.inputEditSpedizione) == "" || _.trim(vm.inputEditSpedizione) == "-");
+            vm.spedizioneGiaPresente = false;  // Se modifico il campo, faccio sparire l'alert
         };
 
-        vm.inserisciCollezione = function inserisciCollezione() {
+        vm.inserisciSpedizione = function inserisciSpedizione() {
 
-            // Verifico se la collezione che sto cercando di inserire esiste già nella tabella (ignorando maiuscole, minuscole, spazi prima, dopo e in mezzo)
-            // Se esiste, la salvo in vm.collezioneDoppia in modo da poterne mostrare l'ID nel pannello di alert
-            vm.collezioneDoppia = _.find(vm.collezioni, function (collezione) { return funzioni.confrontaStringhe(collezione.collezione, vm.inputInsertCollezione) });
-            if (vm.collezioneDoppia) {  // se esiste un doppione, _.find ritorna una collezione, quindi la if è true
-                vm.collezioneGiaPresente = true;   // mostro il pannello di alert
+            // Verifico se la spedizione che sto cercando di inserire esiste già nella tabella (ignorando maiuscole, minuscole, spazi prima, dopo e in mezzo)
+            // Se esiste, la salvo in vm.spedizioneDoppia in modo da poterne mostrare l'ID nel pannello di alert
+            vm.spedizioneDoppia = _.find(vm.spedizioni, function (spedizione) { return funzioni.confrontaStringhe(spedizione.spedizione, vm.inputInsertSpedizione) });
+            if (vm.spedizioneDoppia) {  // se esiste un doppione, _.find ritorna una spedizione, quindi la if è true
+                vm.spedizioneGiaPresente = true;   // mostro il pannello di alert
                 vm.pulsanteInsertDisabilitato = true;  // e disabilito la insert
             }
             else {                                                               // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
-                $http.post("/api/collezioni",                                    // il valore si può inserire
-                           { "collezione": _.trim(vm.inputInsertCollezione) })   // chiamo la API di inserimento
+                $http.post("/api/spedizioni",                                    // il valore si può inserire
+                           { "spedizione": _.trim(vm.inputInsertSpedizione) })   // chiamo la API di inserimento
                     .then(function (response) {                                  // la chiamata alla API mi restituisce il JSON del valore appena inserito (soprattutto mi dice il nuovo ID)
-                        vm.collezioni.push(response.data);                       // Uso il JSON restituito dalla API per inserire il nuovo valore in tabella
+                        vm.spedizioni.push(response.data);                       // Uso il JSON restituito dalla API per inserire il nuovo valore in tabella
                         $("#panelInserimento").collapse("hide");                 // chiudo il pannello di inserimento
                         vm.pulsanteInserimentoVisibile = true;                   // riabilito il pulsante nel panel heading
-                        vm.inputInsertCollezione = "";                           // e cancello il campo
+                        vm.inputInsertSpedizione = "";                           // e cancello il campo
                     }, function () {
                         alert("Errore non gestito durante l'inserimento");
                     })
@@ -86,53 +86,53 @@
             }
         };
 
-        vm.apriPannelloEdit = function apriPannelloEdit(collezione) {
+        vm.apriPannelloEdit = function apriPannelloEdit(spedizione) {
             vm.annullaInserimento();                   // Chiude il pannello di inserimento se è aperto quando si inizia un edit
             vm.annullaCancella();
             vm.pulsanteInserimentoVisibile = false;
             $("#panelEdit").collapse("show");
-            vm.inputEditCollezione = collezione.collezione;
+            vm.inputEditSpedizione = spedizione.spedizione;
             vm.pulsanteEditDisabilitato = true;
-            collezioneCliccata = collezione;        // memorizzo globalmente la collezione da modificare perché servirà quando verrà cliccato il tasto di edit
+            spedizioneCliccata = spedizione;        // memorizzo globalmente la spedizione da modificare perché servirà quando verrà cliccato il tasto di edit
         };
 
-        vm.apriPannelloCancella = function apriPannelloCancella(collezione) {
+        vm.apriPannelloCancella = function apriPannelloCancella(spedizione) {
             vm.annullaInserimento();                   // Chiude il pannello di inserimento se è aperto quando si inizia una cancellazione
             vm.annullaEdit();
-            vm.collezionenonCancellabile = false;
+            vm.spedizionenonCancellabile = false;
             vm.pulsanteInserimentoVisibile = false;
             $("#panelCancella").collapse("show");
-            vm.collezioneDaCancellare = collezione.collezione;
+            vm.spedizioneDaCancellare = spedizione.spedizione;
             vm.pulsanteCancellaVisibile = true;
-            collezioneCliccata = collezione;  // memorizzo globalmente la collezione da cancellare perché servirà quando verrà cliccato il tasto di cancellazione
+            spedizioneCliccata = spedizione;  // memorizzo globalmente la spedizione da cancellare perché servirà quando verrà cliccato il tasto di cancellazione
         };
 
         vm.annullaCancella = function annullaCancella() {
             $("#panelCancella").collapse("hide");
             vm.pulsanteInserimentoVisibile = true;
-            vm.collezioneDaCancellare = "";
+            vm.spedizioneDaCancellare = "";
             vm.pulsanteCancellaVisibile = true;
         };
 
-        vm.editCollezione = function editCollezione() {
+        vm.editSpedizione = function editSpedizione() {
 
-            // Verifico se la collezione che sto editando, dopo l'editazione, esisteva già nella tabella (ignorando maiuscole, minuscole, spazi prima, dopo e in mezzo)
+            // Verifico se la spedizione che sto editando, dopo l'editazione, esisteva già nella tabella (ignorando maiuscole, minuscole, spazi prima, dopo e in mezzo)
             // (ovvero: la sto modificando ma rendendola uguale ad una già esistente? Non posso farlo)
-            // Se esiste, la salvo in vm.collezioneDoppia in modo da poterne mostrare l'ID nel pannello di alert
-            vm.collezioneDoppia = _.find(vm.collezioni, function (collezione) { return funzioni.confrontaStringhe(collezione.collezione, vm.inputEditCollezione) });
-            if (vm.collezioneDoppia) {               // se esiste un doppione, _.find ritorna una collezione, quindi la if è true
-                vm.collezioneGiaPresente = true;     // mostro il pannello di alert
+            // Se esiste, la salvo in vm.spedizioneDoppia in modo da poterne mostrare l'ID nel pannello di alert
+            vm.spedizioneDoppia = _.find(vm.spedizioni, function (spedizione) { return funzioni.confrontaStringhe(spedizione.spedizione, vm.inputEditSpedizione) });
+            if (vm.spedizioneDoppia) {               // se esiste un doppione, _.find ritorna una spedizione, quindi la if è true
+                vm.spedizioneGiaPresente = true;     // mostro il pannello di alert
                 vm.pulsanteEditDisabilitato = true;  // e disabilito la insert
             }
             else {                                                                   // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
-                $http.put("/api/collezioni",                                         // il valore si può modificare
-                           { "id": collezioneCliccata.id,
-                             "collezione": _.trim(vm.inputEditCollezione) })         // chiamo la API di modifica
+                $http.put("/api/spedizioni",                                         // il valore si può modificare
+                           { "id": spedizioneCliccata.id,
+                             "spedizione": _.trim(vm.inputEditSpedizione) })         // chiamo la API di modifica
                     .then(function (response) {                                          
-                        vm.collezioni[_.findIndex(vm.collezioni, ["id", collezioneCliccata.id])].collezione = vm.inputEditCollezione;
+                        vm.spedizioni[_.findIndex(vm.spedizioni, ["id", spedizioneCliccata.id])].spedizione = vm.inputEditSpedizione;
                         $("#panelEdit").collapse("hide");                                // chiudo il pannello di edit
                         vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
-                        vm.inputEditCollezione = "";                                     // e cancello il campo
+                        vm.inputEditSpedizione = "";                                     // e cancello il campo
                     }, function () {
                         alert("Errore non gestito durante l'editazione");
                     })
@@ -142,15 +142,15 @@
             }
         };
 
-        vm.cancellaCollezione = function cancellaCollezione() {
+        vm.cancellaSpedizione = function cancellaSpedizione() {
 
-            $http.delete("/api/collezioni/" + collezioneCliccata.id)     // chiamo la API di cancellazione
+            $http.delete("/api/spedizioni/" + spedizioneCliccata.id)     // chiamo la API di cancellazione
                 .then(function (response) {
-                    vm.collezioni.splice(_.findIndex(vm.collezioni, ["id", collezioneCliccata.id]), 1);
+                    vm.spedizioni.splice(_.findIndex(vm.spedizioni, ["id", spedizioneCliccata.id]), 1);
                     $("#panelCancella").collapse("hide");                            // chiudo il pannello di cancellazione
                     vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
                 }, function () {
-                    vm.collezionenonCancellabile = true;
+                    vm.spedizionenonCancellabile = true;
                     vm.pulsanteCancellaVisibile = false;
                 })
             .finally(function () {
@@ -158,9 +158,9 @@
             })
         };
 
-        $http.get("/api/collezioni")
+        $http.get("/api/spedizioni")
             .then(function (response) {
-                vm.collezioni = response.data;
+                vm.spedizioni = response.data;
             });
     }
 

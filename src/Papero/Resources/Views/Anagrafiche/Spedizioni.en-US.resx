@@ -117,52 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafica Collezioni" xml:space="preserve">
-    <value>Table des Collections</value>
+  <data name="Anagrafica Spedizioni" xml:space="preserve">
+    <value>Expeditions Table</value>
   </data>
   <data name="Annulla" xml:space="preserve">
-    <value>Annuler</value>
+    <value>Cancel</value>
   </data>
   <data name="Azioni" xml:space="preserve">
     <value>Actions</value>
   </data>
   <data name="Cancella" xml:space="preserve">
-    <value>Supprimer</value>
+    <value>Delete</value>
   </data>
-  <data name="Cancella Collezione" xml:space="preserve">
-    <value>Supprimer la Collection</value>
-  </data>
-  <data name="Collezione" xml:space="preserve">
-    <value>Collection</value>
-  </data>
-  <data name="Collezione già presente!" xml:space="preserve">
-    <value>Collection déjà présente!</value>
-  </data>
-  <data name="Collezioni" xml:space="preserve">
-    <value>Collections</value>
+  <data name="Cancella Spedizione" xml:space="preserve">
+    <value>Delete Expedition</value>
   </data>
   <data name="Già associata a taxa" xml:space="preserve">
-    <value>Déjà associée à des taxa</value>
+    <value>Already related to taxa</value>
   </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
-  <data name="Impossibile cancellare la Collezione!" xml:space="preserve">
-    <value>Impossible de supprimer la Collection!</value>
+  <data name="Impossibile cancellare la Spedizione!" xml:space="preserve">
+    <value>Unable to delete the Expedition!</value>
   </data>
   <data name="Inserisci" xml:space="preserve">
-    <value>Appliquer</value>
+    <value>Submit</value>
   </data>
-  <data name="Inserisci nuova Collezione" xml:space="preserve">
-    <value>Insérer la nouvelle Collection!</value>
+  <data name="Inserisci nuova Spedizione" xml:space="preserve">
+    <value>Insert new Expedition</value>
   </data>
   <data name="Modifica" xml:space="preserve">
-    <value>Éditer</value>
+    <value>Edit</value>
   </data>
-  <data name="Modifica Collezione" xml:space="preserve">
-    <value>Éditer la Collection</value>
+  <data name="Modifica Spedizione" xml:space="preserve">
+    <value>Edit Expedition</value>
   </data>
   <data name="Nuova" xml:space="preserve">
-    <value>Nouvelle</value>
+    <value>New</value>
+  </data>
+  <data name="Spedizione" xml:space="preserve">
+    <value>Expedition</value>
+  </data>
+  <data name="Spedizione già presente!" xml:space="preserve">
+    <value>Expedition already present!</value>
+  </data>
+  <data name="Spedizioni" xml:space="preserve">
+    <value>Expeditions</value>
   </data>
 </root>

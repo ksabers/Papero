@@ -70,69 +70,17 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiClassificazioni(idSottospecie));
         }
 
-        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
-        [HttpGet("api/classificatori")]
-        public IActionResult GetClassificatori()
-        {
-            return Ok(_repository.LeggiClassificatori());
-        }
 
-        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
-        [HttpGet("api/classificatori/{idClassificatore}")]
-        public IActionResult GetClassificatori(int classificatoreID)
-        {
-            return Ok(_repository.LeggiClassificatori(classificatoreID));
-        }
 
-        [HttpPost("api/classificatori")]
-        public async Task<IActionResult> PostClassificatore([FromBody]Classificatori classificatore)
-        {
-            _repository.PostClassificatore(classificatore);
 
-            if (await _repository.SalvaModifiche())
-                return Created($"api/classificatori/{classificatore.Id}", classificatore);
-            return BadRequest("Errore");
-        }
 
-        [HttpPost("api/collezioni")]
-        public async Task<IActionResult> PostCollezione([FromBody]Collezioni collezione)
-        {
-            _repository.PostCollezione(collezione);
 
-            if (await _repository.SalvaModifiche())
-                return Created($"api/collezioni/{collezione.Id}", collezione);
-            return BadRequest("Errore");
-        }
 
-        [HttpPut("api/classificatori")]
-        public async Task<IActionResult> PutClassificatore([FromBody]Classificatori classificatore)
-        {
-            _repository.PutClassificatore(classificatore);
 
-            if (await _repository.SalvaModifiche())
-                return Ok($"api/classificatori/{classificatore.Id}");
-            return BadRequest("Errore");
-        }
 
-        [HttpDelete("api/classificatori/{idClassificatore}")]
-        public async Task<IActionResult> CancellaClassificatore(int idClassificatore)
-        {
-            _repository.CancellaClassificatore(idClassificatore);
 
-            if (await _repository.SalvaModifiche())
-                return Ok();
-            return BadRequest("Errore");
-        }
 
-        [HttpDelete("api/collezioni/{idCollezione}")]
-        public async Task<IActionResult> CancellaCollezione(int idCollezione)
-        {
-            _repository.CancellaCollezione(idCollezione);
 
-            if (await _repository.SalvaModifiche())
-                return Ok();
-            return BadRequest("Errore");
-        }
 
         [Authorize]
         [HttpGet("api/partipreparate")]
@@ -313,26 +261,10 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiTipiAcquisizione());
         }
 
-        [Authorize]
-        [HttpGet("api/collezioni")]
-        public IActionResult GetCollezioni()
-        {
-            return Ok(_repository.LeggiCollezioni());
-        }
 
-        [Authorize]
-        [HttpGet("api/spedizioni")]
-        public IActionResult GetSpedizioni()
-        {
-            return Ok(_repository.LeggiSpedizioni());
-        }
 
-        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
-        [HttpGet("api/raccoglitori")]
-        public IActionResult GetRaccoglitori()
-        {
-            return Ok(_repository.LeggiRaccoglitori());
-        }
+
+
 
         [Authorize]
         [HttpGet("api/sessi")]

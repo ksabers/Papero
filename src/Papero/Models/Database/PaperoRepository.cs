@@ -153,20 +153,7 @@ namespace Papero.Models
                 .ToList();
         }
 
-        public IEnumerable<Classificatori> LeggiClassificatori()
-        {
-            return _contesto.Classificatori
-                    .OrderBy(classificatore => classificatore.Classificatore)
-                    .ToList();
-        }
 
-        public IEnumerable<Classificatori> LeggiClassificatori(int idClassificatore)
-        {
-            return _contesto.Classificatori
-                .Where(classificatore => classificatore.Id == idClassificatore)
-                    .OrderBy(classificatore => classificatore.Classificatore)
-                    .ToList();
-        }
 
         public IEnumerable<Sottospecie> LeggiSottospecie()
         {
@@ -188,17 +175,8 @@ namespace Papero.Models
             _contesto.SaveChanges();
         }
 
-        public void CancellaClassificatore(int idClassificatore)
-        {
-            _contesto.Classificatori
-                .RemoveRange(_contesto.Classificatori.Where(classificatore => classificatore.Id == idClassificatore));
-        }
 
-        public void CancellaCollezione(int idCollezione)
-        {
-            _contesto.Collezioni
-                .RemoveRange(_contesto.Collezioni.Where(collezione => collezione.Id == idCollezione));
-        }
+
 
         public void CancellaPreparati(int idEsemplare)
         {
@@ -668,21 +646,6 @@ namespace Papero.Models
 
         public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaDataDa(string dataDa)
         {
-
-            //return _contesto.Esemplari
-            //    .Where(esemplare =>  Int32.Parse(dataDa) >= (String.IsNullOrEmpty(esemplare.DataCattura) ? (int?)null : (int)Int32.Parse(esemplare.DataCattura)))
-            //    .Select(esemplare => new ElencoEsemplariViewModel
-            //    {
-            //        Id = esemplare.Id,
-            //        Msng = esemplare.Msng,
-            //        Genere = esemplare.Sottospecie.Specie.Genere.Nome,
-            //        Specie = esemplare.Sottospecie.Specie.Nome,
-            //        Sottospecie = esemplare.Sottospecie.Nome,
-            //        SottospecieId = esemplare.SottospecieId,
-            //        ElencoAutori = esemplare.Sottospecie.ElencoAutori
-            //    })
-            //    .ToList();
-
             return (from esemplare in _contesto.Esemplari
                     where (!(String.IsNullOrEmpty(esemplare.DataCattura)) &&
                     Int32.Parse(esemplare.DataCattura) != 0 &&
@@ -701,19 +664,6 @@ namespace Papero.Models
 
         public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaDataA(string dataA)
         {
-            //return _contesto.Esemplari
-            //    .Where(esemplare => (String.IsNullOrEmpty(esemplare.DataCattura) ? (int?)null : (int)Int32.Parse(esemplare.DataCattura)) <= Int32.Parse(dataA))
-            //    .Select(esemplare => new ElencoEsemplariViewModel
-            //    {
-            //        Id = esemplare.Id,
-            //        Msng = esemplare.Msng,
-            //        Genere = esemplare.Sottospecie.Specie.Genere.Nome,
-            //        Specie = esemplare.Sottospecie.Specie.Nome,
-            //        Sottospecie = esemplare.Sottospecie.Nome,
-            //        SottospecieId = esemplare.SottospecieId,
-            //        ElencoAutori = esemplare.Sottospecie.ElencoAutori
-            //    })
-            //    .ToList();
             return (from esemplare in _contesto.Esemplari
                     where (!(String.IsNullOrEmpty(esemplare.DataCattura)) &&
                     Int32.Parse(esemplare.DataCattura) != 0 &&
@@ -811,26 +761,8 @@ namespace Papero.Models
                 .ToList();
         }
 
-        public IEnumerable<Collezioni> LeggiCollezioni()
-        {
-            return _contesto.Collezioni
-                .OrderBy(collezione => collezione.Collezione)
-                .ToList();
-        }
 
-        public IEnumerable<Spedizioni> LeggiSpedizioni()
-        {
-            return _contesto.Spedizioni
-                .OrderBy(spedizione => spedizione.Spedizione)
-                .ToList();
-        }
 
-        public IEnumerable<Raccoglitori> LeggiRaccoglitori()
-        {
-            return _contesto.Raccoglitori
-                .OrderBy(raccoglitore => raccoglitore.Raccoglitore)
-                .ToList();
-        }
 
         public IEnumerable<SessiLocalizzatiViewModel> LeggiSessi()
         {   
@@ -919,55 +851,7 @@ namespace Papero.Models
                 .Remove(_contesto.Esemplari.Single(esemplare => esemplare.Id == idEsemplare));
         }
 
-        public void PostClassificatore(Classificatori classificatore)
-        {
-            try
-            {
-                _contesto.Add(classificatore);
-            }
-            catch (Exception)  // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
-            {
 
-            }            
-        }
-
-        public void PostCollezione(Collezioni collezione)
-        {
-            try
-            {
-                _contesto.Add(collezione);
-            }
-            catch (Exception)  // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
-            {
-
-            }
-        }
-
-        public void PutClassificatore(Classificatori classificatore)
-        {
-
-            try
-            {
-                _contesto.Update(classificatore);
-            }
-            catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
-            {
-
-            }
-        }
-
-        public void PutCollezione(Collezioni collezione)
-        {
-
-            try
-            {
-                _contesto.Update(collezione);
-            }
-            catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
-            {
-
-            }
-        }
         public async Task<bool> SalvaModifiche()
         {
             try

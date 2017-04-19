@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = localizzatore["Anagrafica Collezioni"];
+    ViewBag.Title = localizzatore["Anagrafica Raccoglitori"];
 }
 @section css {
 
@@ -8,19 +8,19 @@
 
 @section scripts {
 
-    <script src="~/js/anagraficaCollezioniController.js"></script>
+    <script src="~/js/anagraficaRaccoglitoriController.js"></script>
 
 }
-<div ng-app="papero-app" ng-controller="anagraficaCollezioniController as vm">
+<div ng-app="papero-app" ng-controller="anagraficaRaccoglitoriController as vm">
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        @localizzatore["Collezioni"]&nbsp;&nbsp;&nbsp;
-                        @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollezioni"))
+                        @localizzatore["Raccoglitori"]&nbsp;&nbsp;&nbsp;
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaRaccoglitori"))
                         {
-                            <a href="#" class="btn btn-success" ng-click="vm.apriPannelloInserimento()" ng-show="vm.pulsanteInserimentoVisibile"><i class="fa fa-plus"></i> @localizzatore["Nuova"]</a>
+                            <a href="#" class="btn btn-success" ng-click="vm.apriPannelloInserimento()" ng-show="vm.pulsanteInserimentoVisibile"><i class="fa fa-plus"></i> @localizzatore["Nuovo"]</a>
                         }
 
                     </div>
@@ -28,29 +28,29 @@
                 <div id="panelInserimento" class="panel-body panel-collapse collapse">
                     <div class="row">
                         <div class="form-group">
-                            <label for="inputInsertCollezione" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuova Collezione"]:</label>
+                            <label for="inputInsertRaccoglitore" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuovo Raccoglitore"]:</label>
                             <div class="col-lg-3">
                                 <input type="text" 
                                        class="form-control" 
-                                       ng-model="vm.inputInsertCollezione" 
-                                       ng-change="vm.verificaCollezione()" 
-                                       id="inputInsertCollezione" 
-                                       name="inputInsertCollezione" />
+                                       ng-model="vm.inputInsertRaccoglitore" 
+                                       ng-change="vm.verificaRaccoglitore()" 
+                                       id="inputInsertRaccoglitore" 
+                                       name="inputInsertRaccoglitore" />
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-3 col-lg-offset-4">
-                                    <div class="alert alert-danger" ng-show="vm.collezioneGiaPresente">
-                                        <strong>@localizzatore["Collezione già presente!"]</strong> (@localizzatore["Id"]: {{vm.collezioneDoppia.id}})
+                                    <div class="alert alert-danger" ng-show="vm.raccoglitoreGiaPresente">
+                                        <strong>@localizzatore["Raccoglitore già presente!"]</strong> (@localizzatore["Id"]: {{vm.raccoglitoreDoppio.id}})
                                     </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-lg-2">
                                     <div class="pull-right">
                                         <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimento()">@localizzatore["Annulla"]</button>
-                                        <button type="submit" class="btn btn-success" ng-click="vm.inserisciCollezione()" ng-disabled="vm.pulsanteInsertDisabilitato">@localizzatore["Inserisci"]</button>
+                                        <button type="submit" class="btn btn-success" ng-click="vm.inserisciRaccoglitore()" ng-disabled="vm.pulsanteInsertDisabilitato">@localizzatore["Inserisci"]</button>
                                     </div>
                                 </div>
                             </div>
@@ -60,22 +60,22 @@
                 <div id="panelEdit" class="panel-body panel-collapse collapse">
                     <div class="row">
                         <div class="form-group">
-                            <label for="inputEditCollezione" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Collezione"]:</label>
+                            <label for="inputEditRaccoglitore" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Raccoglitore"]:</label>
                             <div class="col-lg-3">
                                 <input type="text"
                                        class="form-control"
-                                       ng-model="vm.inputEditCollezione"
-                                       ng-change="vm.verificaEditCollezione()"
-                                       id="inputEditCollezione"
-                                       name="inputEditCollezione" />
+                                       ng-model="vm.inputEditRaccoglitore"
+                                       ng-change="vm.verificaEditRaccoglitore()"
+                                       id="inputEditRaccoglitore"
+                                       name="inputEditRaccoglitore" />
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-3 col-lg-offset-4">
-                                <div class="alert alert-danger" ng-show="vm.collezioneGiaPresente">
-                                    <strong>@localizzatore["Collezione già presente!"]</strong> (@localizzatore["Id"]: {{vm.collezioneDoppia.id}})
+                                <div class="alert alert-danger" ng-show="vm.raccoglitoreGiaPresente">
+                                    <strong>@localizzatore["Raccoglitore già presente!"]</strong> (@localizzatore["Id"]: {{vm.raccoglitoreDoppio.id}})
                                 </div>
                             </div>
                             <div class="form-group">
@@ -86,7 +86,7 @@
                                                 ng-click="vm.annullaEdit()">@localizzatore["Annulla"]</button>
                                         <button type="submit" 
                                                 class="btn btn-success" 
-                                                ng-click="vm.editCollezione()" 
+                                                ng-click="vm.editRaccoglitore()" 
                                                 ng-disabled="vm.pulsanteEditDisabilitato">@localizzatore["Modifica"]</button>
                                     </div>
                                 </div>
@@ -97,17 +97,17 @@
                 <div id="panelCancella" class="panel-body panel-collapse collapse">
                     <div class="row">
                         <div class="form-group">
-                            <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Collezione"]:</label>
+                            <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Raccoglitore"]:</label>
                             <div class="col-lg-3" >
-                                <h4>{{vm.collezioneDaCancellare}}</h4>
+                                <h4>{{vm.raccoglitoreDaCancellare}}</h4>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-3 col-lg-offset-4">
-                                <div class="alert alert-danger" ng-show="vm.collezionenonCancellabile">
-                                    <strong>@localizzatore["Impossibile cancellare la Collezione!"]</strong> (@localizzatore["Già associata a taxa"])
+                                <div class="alert alert-danger" ng-show="vm.raccoglitorenonCancellabile">
+                                    <strong>@localizzatore["Impossibile cancellare il Raccoglitore!"]</strong> (@localizzatore["Già associato a taxa"])
                                 </div>
                             </div>
                             <div class="form-group">
@@ -120,7 +120,7 @@
                                             </button>
                                             <button type="submit"
                                                     class="btn btn-danger"
-                                                    ng-click="vm.cancellaCollezione()"
+                                                    ng-click="vm.cancellaRaccoglitore()"
                                                     ng-show="vm.pulsanteCancellaVisibile">
                                                 @localizzatore["Cancella"]
                                                 </button>
@@ -137,31 +137,31 @@
         <div class="col-lg-12">
             <table datatable="ng"
                    class="table table-striped table-bordered table-hover"
-                   id="tabellaCollezioni"
-                   dt-options="vm.opzioniTabellaCollezioni"
-                   dt-column-defs="vm.colonneTabellaCollezioni">
+                   id="tabellaRaccoglitori"
+                   dt-options="vm.opzioniTabellaRaccoglitori"
+                   dt-column-defs="vm.colonneTabellaRaccoglitori">
                 <thead>
                     <tr>
                         <th>@localizzatore["Id"]</th>
-                        <th>@localizzatore["Collezione"]</th>
+                        <th>@localizzatore["Raccoglitore"]</th>
                         <th>@localizzatore["Azioni"]</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="collezione in vm.collezioni">
-                        <td>{{collezione.id}}</td>
-                        <td>{{collezione.collezione}}</td>
+                    <tr ng-repeat="raccoglitore in vm.raccoglitori">
+                        <td>{{raccoglitore.id}}</td>
+                        <td>{{raccoglitore.raccoglitore}}</td>
                         <td>
-                            @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollezioni"))
+                            @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaRaccoglitori"))
                             {
                                 <a class="btn btn-sm btn-success text-white"
-                                   ng-click="vm.apriPannelloEdit(collezione)"
-                                   ng-hide="collezione.collezione == '-'">
+                                   ng-click="vm.apriPannelloEdit(raccoglitore)"
+                                   ng-hide="raccoglitore.raccoglitore == '-'">
                                     <i class="fa fa-pencil"></i>&nbsp;@localizzatore["Modifica"]
                                 </a><text>&nbsp; &nbsp; &nbsp;</text>
                                 <a class="btn btn-sm btn-danger"
-                                   ng-click="vm.apriPannelloCancella(collezione)"
-                                   ng-hide="collezione.collezione == '-'"
+                                   ng-click="vm.apriPannelloCancella(raccoglitore)"
+                                   ng-hide="raccoglitore.raccoglitore == '-'"
                                    >
                                     <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
                                 </a>

@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafica Collezioni" xml:space="preserve">
-    <value>Table des Collections</value>
+  <data name="Anagrafica Raccoglitori" xml:space="preserve">
+    <value>Table des Collecteurs</value>
   </data>
   <data name="Annulla" xml:space="preserve">
     <value>Annuler</value>
@@ -129,40 +129,40 @@
   <data name="Cancella" xml:space="preserve">
     <value>Supprimer</value>
   </data>
-  <data name="Cancella Collezione" xml:space="preserve">
-    <value>Supprimer la Collection</value>
+  <data name="Cancella Raccoglitore" xml:space="preserve">
+    <value>Supprimer le Collecteur</value>
   </data>
-  <data name="Collezione" xml:space="preserve">
-    <value>Collection</value>
-  </data>
-  <data name="Collezione già presente!" xml:space="preserve">
-    <value>Collection déjà présente!</value>
-  </data>
-  <data name="Collezioni" xml:space="preserve">
-    <value>Collections</value>
-  </data>
-  <data name="Già associata a taxa" xml:space="preserve">
-    <value>Déjà associée à des taxa</value>
+  <data name="Già associato a taxa" xml:space="preserve">
+    <value>Déjà associé à des taxa</value>
   </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
-  <data name="Impossibile cancellare la Collezione!" xml:space="preserve">
-    <value>Impossible de supprimer la Collection!</value>
+  <data name="Impossibile cancellare il Raccoglitore!" xml:space="preserve">
+    <value>Impossible de supprimer le Collecteur!</value>
   </data>
   <data name="Inserisci" xml:space="preserve">
     <value>Appliquer</value>
   </data>
-  <data name="Inserisci nuova Collezione" xml:space="preserve">
-    <value>Insérer la nouvelle Collection!</value>
+  <data name="Inserisci nuovo Raccoglitore" xml:space="preserve">
+    <value>Insérer le nouveau Collecteur</value>
   </data>
   <data name="Modifica" xml:space="preserve">
     <value>Éditer</value>
   </data>
-  <data name="Modifica Collezione" xml:space="preserve">
-    <value>Éditer la Collection</value>
+  <data name="Modifica Raccoglitore" xml:space="preserve">
+    <value>Éditer le Collecteur</value>
   </data>
-  <data name="Nuova" xml:space="preserve">
-    <value>Nouvelle</value>
+  <data name="Nuovo" xml:space="preserve">
+    <value>Nouveau</value>
+  </data>
+  <data name="Raccoglitore" xml:space="preserve">
+    <value>Collecteur</value>
+  </data>
+  <data name="Raccoglitore già presente!" xml:space="preserve">
+    <value>Collecteur déjà présent!</value>
+  </data>
+  <data name="Raccoglitori" xml:space="preserve">
+    <value>Collecteurs</value>
   </data>
 </root>
