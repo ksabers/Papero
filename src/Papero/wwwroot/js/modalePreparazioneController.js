@@ -105,11 +105,10 @@
                 elencoPreparatori = response.data;
             });
 
-        $http.get("/api/preparatori/" + esemplarehiddenPreparazione.value)
+        $http.get("/api/preparatoridaesemplare/" + esemplarehiddenPreparazione.value)
             .then(function (response) {
                 vm.datiTabellaElencoPreparatori = response.data;
             });
-
 
     }
 

@@ -32,7 +32,7 @@ namespace Papero.Controllers
 
         [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/determinatoridaesemplare/{idEsemplare}")]
-        public IActionResult GetDeterminazioniDaEsemplare(int idEsemplare)
+        public IActionResult GetDeterminatoriDaEsemplare(int idEsemplare)
         {
             return Ok(_repository.LeggiDeterminatoriDaEsemplare(idEsemplare));
         }

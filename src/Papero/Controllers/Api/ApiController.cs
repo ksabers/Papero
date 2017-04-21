@@ -277,19 +277,9 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiAberrazioni());
         }
 
-        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
-        [HttpGet("api/preparatori")]
-        public IActionResult GetPreparatori()
-        {
-            return Ok(_repository.LeggiPreparatori());
-        }
+        
 
-        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
-        [HttpGet("api/preparatori/{idEsemplare}")]
-        public IActionResult GetPreparatori(int idEsemplare)
-        {
-            return Ok(_repository.LeggiPreparatori(idEsemplare));
-        }
+        
 
         [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/preparazioni")]

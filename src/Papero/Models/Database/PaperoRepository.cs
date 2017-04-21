@@ -783,27 +783,7 @@ namespace Papero.Models
                 .ToList();
         }
 
-        public IEnumerable<Preparatori> LeggiPreparatori()
-        {
-            return _contesto.Preparatori
-                .OrderBy(preparatore => preparatore.Cognome)
-                    .ThenBy(preparatore => preparatore.Nome)
-                .ToList();
-        }
 
-        public IEnumerable<Preparatori> LeggiPreparatori(int IdEsemplare)
-        {
-            return _contesto.Preparazioni
-                .Where(preparazione => preparazione.EsemplareId == IdEsemplare)
-                .OrderBy(preparazione => preparazione.Ordinamento)
-                .Select(preparazione => new Preparatori
-                {
-                    Id = preparazione.Preparatore.Id,
-                    Nome = preparazione.Preparatore.Nome,
-                    Cognome = preparazione.Preparatore.Cognome
-                })
-                .ToList();
-        }
 
         public IEnumerable<Preparazioni> LeggiPreparazioni()
         {

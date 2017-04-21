@@ -39,5 +39,11 @@ namespace Papero.Controllers.Web
         {
             return View();
         }
+
+        [Authorize(Policy = "VisualizzaAnagraficaPreparatori")]
+        public IActionResult Preparatori()
+        {
+            return View();
+        }
     }
 }

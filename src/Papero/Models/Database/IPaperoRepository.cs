@@ -285,19 +285,10 @@ namespace Papero.Models
         /// <returns></returns>
         IEnumerable<AberrazioniLocalizzateViewModel> LeggiAberrazioni();
 
-        /// <summary>
-        /// Restituisce l'elenco completo dei Preparatori
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Preparatori> LeggiPreparatori();
+       
 
 
-        /// <summary>
-        /// Restituisce l'elenco dei Preparatori di un determinato esemplare
-        /// </summary>
-        /// <param name="IdEsemplare"></param>
-        /// <returns></returns>
-        IEnumerable<Preparatori> LeggiPreparatori(int IdEsemplare);
+     
 
         /// <summary>
         /// Restituisce l'elenco completo delle Preparazioni

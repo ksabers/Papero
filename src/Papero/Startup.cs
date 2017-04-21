@@ -70,6 +70,7 @@ namespace Papero
             servizi.AddScoped<ISpedizioniRepository, SpedizioniRepository>();
             servizi.AddScoped<IRaccoglitoriRepository, RaccoglitoriRepository>();
             servizi.AddScoped<IDeterminatoriRepository, DeterminatoriRepository>();
+            servizi.AddScoped<IPreparatoriRepository, PreparatoriRepository>();
 
             servizi.AddIdentity<UtentePapero, IdentityRole>(configurazione =>  // Registrazione del servizio di autenticazione e configurazione dei suoi parametri.
             {  
@@ -119,6 +120,8 @@ namespace Papero
                 opzioni.AddPolicy("EditAnagraficaRaccoglitori", costruttorePolicy => costruttorePolicy.RequireClaim("EditAnagraficaRaccoglitori"));
                 opzioni.AddPolicy("VisualizzaAnagraficaDeterminatori", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaAnagraficaDeterminatori"));
                 opzioni.AddPolicy("EditAnagraficaDeterminatori", costruttorePolicy => costruttorePolicy.RequireClaim("EditAnagraficaDeterminatori"));
+                opzioni.AddPolicy("VisualizzaAnagraficaPreparatori", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaAnagraficaPreparatori"));
+                opzioni.AddPolicy("EditAnagraficaPreparatori", costruttorePolicy => costruttorePolicy.RequireClaim("EditAnagraficaPreparatori"));
             });
 
             servizi.AddLocalization(opzioni =>         // Aggiunta del supporto globale per la localizzazione e sua configurazione

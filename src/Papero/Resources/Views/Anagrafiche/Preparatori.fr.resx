@@ -117,65 +117,50 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafiche" xml:space="preserve">
-    <value>Tables</value>
+  <data name="Anagrafica Preparatori" xml:space="preserve">
+    <value>Table des Préparateurs</value>
   </data>
-  <data name="Contatti" xml:space="preserve">
-    <value>Contacts</value>
+  <data name="Annulla" xml:space="preserve">
+    <value>Annuler</value>
   </data>
-  <data name="Esemplari" xml:space="preserve">
-    <value>Spécimens</value>
+  <data name="Azioni" xml:space="preserve">
+    <value>Actions</value>
   </data>
-  <data name="Impostazioni" xml:space="preserve">
-    <value>Paramètres</value>
+  <data name="Cancella" xml:space="preserve">
+    <value>Supprimer</value>
   </data>
-  <data name="Info su Papero" xml:space="preserve">
-    <value>À propos de Papero</value>
+  <data name="Cancella Preparatore" xml:space="preserve">
+    <value>Supprimer le Préparateur</value>
   </data>
-  <data name="Inglese" xml:space="preserve">
-    <value>Anglais</value>
+  <data name="Cognome" xml:space="preserve">
+    <value>Prénom</value>
   </data>
-  <data name="Italiano" xml:space="preserve">
-    <value>Italien</value>
+  <data name="Già associato a taxa" xml:space="preserve">
+    <value>Déjà associé à des taxa</value>
   </data>
-  <data name="Lingua" xml:space="preserve">
-    <value>Langue</value>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
   </data>
-  <data name="linguaggioDatatables" xml:space="preserve">
-    <value>//cdn.datatables.net/plug-ins/1.10.12/i18n/French.json</value>
+  <data name="Impossibile cancellare il Preparatore!" xml:space="preserve">
+    <value>Impossible de supprimer le Préparateur!</value>
   </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Déconnexion</value>
+  <data name="Inserisci" xml:space="preserve">
+    <value>Appliquer</value>
   </data>
-  <data name="Museo di Storia Naturale 'Giacomo Doria' - Genova" xml:space="preserve">
-    <value>Muséum d'histoire naturelle 'Giacomo Doria' - Gênes</value>
+  <data name="Modifica" xml:space="preserve">
+    <value>Éditer</value>
   </data>
-  <data name="Profilo Utente" xml:space="preserve">
-    <value>Profil utilisateur</value>
+  <data name="Nome" xml:space="preserve">
+    <value>Nom</value>
   </data>
-  <data name="Tassonomia" xml:space="preserve">
-    <value>Taxonomie</value>
+  <data name="Nuovo" xml:space="preserve">
+    <value>Nouveau</value>
   </data>
-  <data name="Mostra/Nascondi Menu" xml:space="preserve">
-    <value>Basculer le Menu</value>
+  <data name="Preparatore" xml:space="preserve">
+    <value>Préparateur</value>
   </data>
-  <data name="Francese" xml:space="preserve">
-    <value>Français</value>
-  </data>
-  <data name="Classificatori" xml:space="preserve">
-    <value>Classificateurs</value>
-  </data>
-  <data name="Collezioni" xml:space="preserve">
-    <value>Collections</value>
-  </data>
-  <data name="Spedizioni" xml:space="preserve">
-    <value>Expéditions</value>
-  </data>
-  <data name="Raccoglitori" xml:space="preserve">
-    <value>Collecteurs</value>
-  </data>
-  <data name="Determinatori" xml:space="preserve">
-    <value>Déterminants</value>
+  <data name="Preparatore già presente!" xml:space="preserve">
+    <value>Préparateur déjà présent!</value>
   </data>
   <data name="Preparatori" xml:space="preserve">
     <value>Préparateurs</value>
