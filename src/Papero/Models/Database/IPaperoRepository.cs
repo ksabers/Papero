@@ -112,18 +112,9 @@ namespace Papero.Models
         /// <returns></returns>
         IEnumerable<VecchiDeterminatori> LeggiVecchiDeterminatori(int idEsemplare);
 
-        /// <summary>
-        /// Restituisce l'elenco completo dei Determinatori
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Determinatori> LeggiDeterminatori();
 
-        /// <summary>
-        /// Restituisce l'elenco dei Determinatori di un determinato esemplare
-        /// </summary>
-        /// <param name="idEsemplare"></param>
-        /// <returns></returns>
-        IEnumerable<Determinatori> LeggiDeterminatori(int idEsemplare);
+
+
         void CancellaClassificazioni(int idSottospecie);
         Sottospecie LeggiSottospecie(int idSottospecie);
         Task<bool> SalvaModifiche();

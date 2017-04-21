@@ -129,7 +129,7 @@
                            { "id": classificatoreCliccato.id,
                              "classificatore": _.trim(vm.inputEditClassificatore) })     // chiamo la API di modifica
                     .then(function (response) {                                          
-                        vm.classificatori[_.findIndex(vm.classificatori, ["id", classificatoreCliccato.id])].classificatore = vm.inputEditClassificatore;
+                        vm.classificatori[_.findIndex(vm.classificatori, ["id", classificatoreCliccato.id])].classificatore = _.trim(vm.inputEditClassificatore);
                         $("#panelEdit").collapse("hide");                                // chiudo il pannello di edit
                         vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
                         vm.inputEditClassificatore = "";                                // e cancello il campo

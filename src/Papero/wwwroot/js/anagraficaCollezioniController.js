@@ -129,7 +129,7 @@
                            { "id": collezioneCliccata.id,
                              "collezione": _.trim(vm.inputEditCollezione) })         // chiamo la API di modifica
                     .then(function (response) {                                          
-                        vm.collezioni[_.findIndex(vm.collezioni, ["id", collezioneCliccata.id])].collezione = vm.inputEditCollezione;
+                        vm.collezioni[_.findIndex(vm.collezioni, ["id", collezioneCliccata.id])].collezione = _.trim(vm.inputEditCollezione);
                         $("#panelEdit").collapse("hide");                                // chiudo il pannello di edit
                         vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
                         vm.inputEditCollezione = "";                                     // e cancello il campo

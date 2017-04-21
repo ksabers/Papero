@@ -23,6 +23,13 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiCollezioni());
         }
 
+        [Authorize]
+        [HttpGet("api/collezioni/{idCollezione}")]
+        public IActionResult GetCollezioni(int idCollezione)
+        {
+            return Ok(_repository.LeggiCollezioni(idCollezione));
+        }
+
         [HttpPost("api/collezioni")]
         public async Task<IActionResult> PostCollezione([FromBody]Collezioni collezione)
         {

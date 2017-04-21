@@ -23,6 +23,13 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiSpedizioni());
         }
 
+        [Authorize]
+        [HttpGet("api/spedizioni/{idSpedizione}")]
+        public IActionResult GetSpedizioni(int idSpedizione)
+        {
+            return Ok(_repository.LeggiSpedizioni(idSpedizione));
+        }
+
         [HttpPost("api/spedizioni")]
         public async Task<IActionResult> PostSpedizione([FromBody]Spedizioni spedizione)
         {

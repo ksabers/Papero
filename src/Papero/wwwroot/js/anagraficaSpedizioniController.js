@@ -129,7 +129,7 @@
                            { "id": spedizioneCliccata.id,
                              "spedizione": _.trim(vm.inputEditSpedizione) })         // chiamo la API di modifica
                     .then(function (response) {                                          
-                        vm.spedizioni[_.findIndex(vm.spedizioni, ["id", spedizioneCliccata.id])].spedizione = vm.inputEditSpedizione;
+                        vm.spedizioni[_.findIndex(vm.spedizioni, ["id", spedizioneCliccata.id])].spedizione = _.trim(vm.inputEditSpedizione);
                         $("#panelEdit").collapse("hide");                                // chiudo il pannello di edit
                         vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
                         vm.inputEditSpedizione = "";                                     // e cancello il campo

@@ -19,6 +19,13 @@ namespace Papero.Models
         IEnumerable<Collezioni> LeggiCollezioni();
 
         /// <summary>
+        /// Restituisce una singola Collezione
+        /// </summary>
+        /// <param name="idCollezione"></param>
+        /// <returns></returns>
+        IEnumerable<Collezioni> LeggiCollezioni(int idCollezione);
+
+        /// <summary>
         /// Inserisce una nuova Collezione nel database
         /// </summary>
         /// <param name="collezione"></param>

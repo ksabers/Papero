@@ -19,6 +19,13 @@ namespace Papero.Models
         IEnumerable<Raccoglitori> LeggiRaccoglitori();
 
         /// <summary>
+        /// Restituisce un singolo Raccoglitore
+        /// </summary>
+        /// <param name="idRaccoglitore"></param>
+        /// <returns></returns>
+        IEnumerable<Raccoglitori> LeggiRaccoglitori(int idRaccoglitore);
+
+        /// <summary>
         /// Inserisce un Raccoglitore nel database
         /// </summary>
         /// <param name="raccoglitore"></param>

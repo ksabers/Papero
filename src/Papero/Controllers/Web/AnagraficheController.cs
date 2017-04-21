@@ -33,5 +33,11 @@ namespace Papero.Controllers.Web
         {
             return View();
         }
+
+        [Authorize(Policy = "VisualizzaAnagraficaDeterminatori")]
+        public IActionResult Determinatori()
+        {
+            return View();
+        }
     }
 }

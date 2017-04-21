@@ -174,4 +174,7 @@
   <data name="Raccoglitori" xml:space="preserve">
     <value>Collectors</value>
   </data>
+  <data name="Determinatori" xml:space="preserve">
+    <value>Determiners</value>
+  </data>
 </root>

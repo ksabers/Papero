@@ -35,6 +35,14 @@ namespace Papero.Models
                 .ToList();
         }
 
+        public IEnumerable<Raccoglitori> LeggiRaccoglitori(int idRaccoglitore)
+        {
+            return _contesto.Raccoglitori
+                .Where(raccoglitore => raccoglitore.Id == idRaccoglitore)
+                .OrderBy(raccoglitore => raccoglitore.Raccoglitore)
+                .ToList();
+        }
+
         public void PostRaccoglitore(Raccoglitori raccoglitore)
         {
             try

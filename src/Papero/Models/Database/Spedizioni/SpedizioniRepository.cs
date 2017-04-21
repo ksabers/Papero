@@ -35,6 +35,14 @@ namespace Papero.Models
                 .ToList();
         }
 
+        public IEnumerable<Spedizioni> LeggiSpedizioni(int idSpedizione)
+        {
+            return _contesto.Spedizioni
+                .Where(spedizione => spedizione.Id == idSpedizione)
+                .OrderBy(spedizione => spedizione.Spedizione)
+                .ToList();
+        }
+
         public void PostSpedizione(Spedizioni spedizione)
         {
             try

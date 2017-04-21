@@ -129,7 +129,7 @@
                            { "id": raccoglitoreCliccato.id,
                              "raccoglitore": _.trim(vm.inputEditRaccoglitore) })         // chiamo la API di modifica
                     .then(function (response) {                                          
-                        vm.raccoglitori[_.findIndex(vm.raccoglitori, ["id", raccoglitoreCliccato.id])].raccoglitore = vm.inputEditRaccoglitore;
+                        vm.raccoglitori[_.findIndex(vm.raccoglitori, ["id", raccoglitoreCliccato.id])].raccoglitore = _.trim(vm.inputEditRaccoglitore);
                         $("#panelEdit").collapse("hide");                                // chiudo il pannello di edit
                         vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
                         vm.inputEditRaccoglitore = "";                                     // e cancello il campo

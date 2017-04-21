@@ -19,6 +19,13 @@ namespace Papero.Models
         IEnumerable<Spedizioni> LeggiSpedizioni();
 
         /// <summary>
+        /// Restituisce una singola Spedizione
+        /// </summary>
+        /// <param name="idSpedizione"></param>
+        /// <returns></returns>
+        IEnumerable<Spedizioni> LeggiSpedizioni(int idSpedizione);
+
+        /// <summary>
         /// Inserisce una Spedizione nel database
         /// </summary>
         /// <param name="spedizione"></param>

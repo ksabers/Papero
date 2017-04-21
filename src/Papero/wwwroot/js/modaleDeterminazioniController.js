@@ -105,7 +105,7 @@
                 elencoDeterminatori = response.data;
             });
 
-        $http.get("/api/determinatori/" + esemplarehiddenDeterminazioni.value)
+        $http.get("/api/determinatoridaesemplare/" + esemplarehiddenDeterminazioni.value)
             .then(function (response) {
                 vm.datiTabellaElencoDeterminatori = response.data;
             });

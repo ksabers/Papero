@@ -23,6 +23,13 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiRaccoglitori());
         }
 
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
+        [HttpGet("api/raccoglitori/{idRaccoglitore}")]
+        public IActionResult GetRaccoglitori(int idRaccoglitore)
+        {
+            return Ok(_repository.LeggiRaccoglitori(idRaccoglitore));
+        }
+
         [HttpPost("api/raccoglitori")]
         public async Task<IActionResult> PostRaccoglitore([FromBody]Raccoglitori raccoglitore)
         {

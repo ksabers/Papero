@@ -293,27 +293,7 @@ namespace Papero.Models
                 .ToList();
         }
 
-        public IEnumerable<Determinatori> LeggiDeterminatori()
-        {
-            return _contesto.Determinatori
-                .OrderBy(determinatore => determinatore.Cognome)
-                    .ThenBy(determinatore => determinatore.Nome)
-                .ToList();
-        }
 
-        public IEnumerable<Determinatori> LeggiDeterminatori(int idEsemplare)
-        {
-            return _contesto.Determinazioni
-                .Where(determinazione => determinazione.EsemplareId == idEsemplare)
-                .OrderBy(determinazione => determinazione.Ordinamento)
-                .Select(determinazione => new Determinatori
-                {
-                    Id = determinazione.Determinatore.Id,
-                    Nome = determinazione.Determinatore.Nome,
-                    Cognome = determinazione.Determinatore.Cognome
-                })
-                .ToList();
-        }
 
         public void CancellaVecchiDeterminatori(int[] arrayIdVecchieDeterminazioni)
         {

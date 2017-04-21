@@ -35,6 +35,14 @@ namespace Papero.Models
                 .ToList();
         }
 
+        public IEnumerable<Collezioni> LeggiCollezioni(int idCollezione)
+        {
+            return _contesto.Collezioni
+                .Where(collezione => collezione.Id == idCollezione)
+                .OrderBy(collezione => collezione.Collezione)
+                .ToList();
+        }
+
         public void PostCollezione(Collezioni collezione)
         {
             try

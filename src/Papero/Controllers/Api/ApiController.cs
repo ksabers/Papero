@@ -163,19 +163,9 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiVecchiDeterminatori(idVecchiaDeterminazione));
         }
 
-        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
-        [HttpGet("api/determinatori")]
-        public IActionResult GetDeterminatori()
-        {
-            return Ok(_repository.LeggiDeterminatori());
-        }
 
-        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
-        [HttpGet("api/determinatori/{idEsemplare}")]
-        public IActionResult GetDeterminazioni(int idEsemplare)
-        {
-            return Ok(_repository.LeggiDeterminatori(idEsemplare));
-        }
+
+
 
         [Authorize]
         [HttpGet("api/elencoSpecie")]
