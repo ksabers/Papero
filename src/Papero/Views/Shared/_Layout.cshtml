@@ -198,6 +198,28 @@
                                     <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Spedizioni">@localizzatore["Spedizioni"]</a>
                                 </li>
                             }
+                            @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollocazione"))
+                            {
+                                <li class="nav-item nav-dropdown active text-right">
+                                    <a class="nav-link nav-dropdown-toggle" href="#">
+                                        <i class="fa fa-university fa-fw"></i>@localizzatore["Collocazione"]<i class="fa arrow"></i>
+                                    </a>
+                                    <ul class="nav-dropdown-items">
+                                        <li>
+                                            <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Sale">@localizzatore["Sale"]</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Armadi">@localizzatore["Armadi"]</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Cassetti">@localizzatore["Cassetti"]</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Vassoi">@localizzatore["Vassoi"]</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
                         </ul>
                     </li>
                 }

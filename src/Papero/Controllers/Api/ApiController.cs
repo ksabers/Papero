@@ -103,12 +103,6 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiPreparati(idEsemplare));
         }
 
-        [Authorize]
-        [HttpGet("api/sale")]
-        public IActionResult GetSale()
-        {
-            return Ok(_repository.LeggiSale());
-        }
 
         [Authorize]
         [HttpGet("api/armadi")]

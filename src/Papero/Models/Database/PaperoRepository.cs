@@ -224,15 +224,7 @@ namespace Papero.Models
                 .ToList();
         }
 
-        public IEnumerable<Sale> LeggiSale()
-        {
-            return _contesto.Sale
-                .Include(sala => sala.Armadi)
-                    .ThenInclude(armadio => armadio.Cassetti)
-                        .ThenInclude(cassetto => cassetto.Vassoi)
-                .OrderBy(sala => sala.Sala)
-                .ToList();
-        }
+
 
         public IEnumerable<Armadi> LeggiArmadi()
         {

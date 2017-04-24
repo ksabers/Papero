@@ -45,5 +45,29 @@ namespace Papero.Controllers.Web
         {
             return View();
         }
+
+        [Authorize(Policy = "VisualizzaAnagraficaCollocazione")]
+        public IActionResult Sale()
+        {
+            return View();
+        }
+
+        [Authorize(Policy = "VisualizzaAnagraficaCollocazione")]
+        public IActionResult Armadi()
+        {
+            return View();
+        }
+
+        [Authorize(Policy = "VisualizzaAnagraficaCollocazione")]
+        public IActionResult Cassetti()
+        {
+            return View();
+        }
+
+        [Authorize(Policy = "VisualizzaAnagraficaCollocazione")]
+        public IActionResult Vassoi()
+        {
+            return View();
+        }
     }
 }

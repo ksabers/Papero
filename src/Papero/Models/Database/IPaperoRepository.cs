@@ -62,11 +62,6 @@ namespace Papero.Models
         /// <returns></returns>
         IEnumerable<Preparati> LeggiPreparati(int idEsemplare);
 
-        /// <summary>
-        /// Restituisce l'elenco completo delle Sale
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Sale> LeggiSale();
 
         /// <summary>
         /// Restituisce l'elenco completo degli Armadi

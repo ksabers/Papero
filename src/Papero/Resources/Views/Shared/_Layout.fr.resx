@@ -180,4 +180,19 @@
   <data name="Preparatori" xml:space="preserve">
     <value>Préparateurs</value>
   </data>
+  <data name="Armadi" xml:space="preserve">
+    <value>Armoires</value>
+  </data>
+  <data name="Cassetti" xml:space="preserve">
+    <value>Tiroirs</value>
+  </data>
+  <data name="Collocazione" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="Sale" xml:space="preserve">
+    <value>Salles</value>
+  </data>
+  <data name="Vassoi" xml:space="preserve">
+    <value>Plateaux</value>
+  </data>
 </root>
