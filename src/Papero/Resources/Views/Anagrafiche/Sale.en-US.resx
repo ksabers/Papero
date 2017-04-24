@@ -132,9 +132,6 @@
   <data name="Cancella Sala" xml:space="preserve">
     <value>Delete Room</value>
   </data>
-  <data name="Già associata a taxa" xml:space="preserve">
-    <value>Already related to taxa</value>
-  </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
@@ -164,5 +161,8 @@
   </data>
   <data name="Sale" xml:space="preserve">
     <value>Rooms</value>
+  </data>
+  <data name="Vi sono elementi dipendenti" xml:space="preserve">
+    <value>There are related elements</value>
   </data>
 </root>

@@ -117,52 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafica Sale" xml:space="preserve">
-    <value>Anagrafica Sale</value>
+  <data name="Anagrafica Armadi" xml:space="preserve">
+    <value>Cabinets Table</value>
   </data>
   <data name="Annulla" xml:space="preserve">
-    <value>Annulla</value>
+    <value>Cancel</value>
+  </data>
+  <data name="Armadi" xml:space="preserve">
+    <value>Cabinets</value>
+  </data>
+  <data name="Armadio" xml:space="preserve">
+    <value>Cabinet</value>
+  </data>
+  <data name="Armadio già presente!" xml:space="preserve">
+    <value>Cabinet already present!</value>
   </data>
   <data name="Azioni" xml:space="preserve">
-    <value>Azioni</value>
+    <value>Actions</value>
   </data>
   <data name="Cancella" xml:space="preserve">
-    <value>Cancella</value>
+    <value>Delete</value>
   </data>
-  <data name="Cancella Sala" xml:space="preserve">
-    <value>Cancella Sala</value>
+  <data name="Cancella Armadio" xml:space="preserve">
+    <value>Delete Cabinet</value>
   </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
-  <data name="Impossibile cancellare la Sala!" xml:space="preserve">
-    <value>Impossibile cancellare la Sala!</value>
+  <data name="Impossibile cancellare l'Armadio!" xml:space="preserve">
+    <value>Unable to delete the Cabinet!</value>
   </data>
   <data name="Inserisci" xml:space="preserve">
-    <value>Inserisci</value>
+    <value>Submit</value>
   </data>
-  <data name="Inserisci nuova Sala" xml:space="preserve">
-    <value>Inserisci nuova Sala</value>
+  <data name="Inserisci nuovo Armadio" xml:space="preserve">
+    <value>Insert new Cabinet</value>
   </data>
   <data name="Modifica" xml:space="preserve">
-    <value>Modifica</value>
+    <value>Edit</value>
   </data>
-  <data name="Modifica Sala" xml:space="preserve">
-    <value>Modifica Sala</value>
+  <data name="Modifica Armadio" xml:space="preserve">
+    <value>Edit Cabinet</value>
   </data>
-  <data name="Nuova" xml:space="preserve">
-    <value>Nuova</value>
+  <data name="Nuovo" xml:space="preserve">
+    <value>New</value>
   </data>
   <data name="Sala" xml:space="preserve">
-    <value>Sala</value>
-  </data>
-  <data name="Sala già presente!" xml:space="preserve">
-    <value>Sala già presente!</value>
-  </data>
-  <data name="Sale" xml:space="preserve">
-    <value>Sale</value>
+    <value>Room</value>
   </data>
   <data name="Vi sono elementi dipendenti" xml:space="preserve">
-    <value>Vi sono elementi dipendenti</value>
+    <value>There are related elements</value>
   </data>
 </root>

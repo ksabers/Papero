@@ -135,9 +135,6 @@
   <data name="Collezione" xml:space="preserve">
     <value>Salle</value>
   </data>
-  <data name="Già associata a taxa" xml:space="preserve">
-    <value>Déjà associée à des taxa</value>
-  </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
@@ -164,5 +161,8 @@
   </data>
   <data name="Sale" xml:space="preserve">
     <value>Salles</value>
+  </data>
+  <data name="Vi sono elementi dipendenti" xml:space="preserve">
+    <value>Il y a des éléments connectés</value>
   </data>
 </root>

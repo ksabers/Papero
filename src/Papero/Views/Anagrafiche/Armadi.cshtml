@@ -1,0 +1,191 @@
+﻿
+@{
+    ViewBag.Title = localizzatore["Anagrafica Armadi"];
+}
+@section css {
+
+}
+
+@section scripts {
+
+    <script src="~/js/anagraficaArmadiController.js"></script>
+
+}
+<div ng-app="papero-app" ng-controller="anagraficaArmadiController as vm">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        @localizzatore["Armadi"]&nbsp;&nbsp;&nbsp;
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
+                        {
+                            <a href="#" class="btn btn-success" ng-click="vm.apriPannelloInserimento()" ng-show="vm.pulsanteInserimentoVisibile"><i class="fa fa-plus"></i> @localizzatore["Nuovo"]</a>
+                        }
+
+                    </div>
+                </div>
+                <div id="panelInserimento" class="panel-body panel-collapse collapse">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputInsertArmadio" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuovo Armadio"]:</label>
+                            <div class="col-lg-3">
+                                <input type="text" 
+                                       class="form-control" 
+                                       ng-model="vm.inputInsertArmadio" 
+                                       ng-change="vm.verificaArmadio()" 
+                                       id="inputInsertArmadio" 
+                                       name="inputInsertArmadio" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-3 col-lg-offset-4">
+                                    <div class="alert alert-danger" ng-show="vm.armadioGiaPresente">
+                                        <strong>@localizzatore["Armadio già presente!"]</strong> (@localizzatore["Id"]: {{vm.armadioDoppio.id}})
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2">
+                                    <div class="pull-right">
+                                        <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimento()">@localizzatore["Annulla"]</button>
+                                        <button type="submit" class="btn btn-success" ng-click="vm.inserisciArmadio()" ng-disabled="vm.pulsanteInsertDisabilitato">@localizzatore["Inserisci"]</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panelEdit" class="panel-body panel-collapse collapse">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputEditArmadio" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Armadio"]:</label>
+                            <div class="col-lg-3">
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="vm.inputEditArmadio"
+                                       ng-change="vm.verificaEditArmadio()"
+                                       id="inputEditArmadio"
+                                       name="inputEditArmadio" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-3 col-lg-offset-4">
+                                <div class="alert alert-danger" ng-show="vm.armadioGiaPresente">
+                                    <strong>@localizzatore["Armadio già presente!"]</strong> (@localizzatore["Id"]: {{vm.armadioDoppio.id}})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2">
+                                    <div class="pull-right">
+                                        <button type="reset" 
+                                                class="btn btn-outline-primary" 
+                                                ng-click="vm.annullaEdit()">@localizzatore["Annulla"]</button>
+                                        <button type="submit" 
+                                                class="btn btn-success" 
+                                                ng-click="vm.editArmadio()" 
+                                                ng-disabled="vm.pulsanteEditDisabilitato">@localizzatore["Modifica"]</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panelCancella" class="panel-body panel-collapse collapse">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Armadio"]:</label>
+                            <div class="col-lg-3" >
+                                <h4>{{vm.armadioDaCancellare}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-3 col-lg-offset-4">
+                                <div class="alert alert-danger" ng-show="vm.armadiononCancellabile">
+                                    <strong>@localizzatore["Impossibile cancellare l'Armadio!"]</strong> (@localizzatore["Vi sono elementi dipendenti"])
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2">
+                                    <div class="pull-right">
+                                        <button type="reset"
+                                                class="btn btn-outline-primary"
+                                                ng-click="vm.annullaCancella()">
+                                            @localizzatore["Annulla"]
+                                        </button>
+                                        <button type="submit"
+                                                class="btn btn-danger"
+                                                ng-click="vm.cancellaArmadio()"
+                                                ng-show="vm.pulsanteCancellaVisibile">
+                                                @localizzatore["Cancella"]
+                                        </button>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label for="uiSelectSala" class="col-lg-1 col-lg-offset-3 control-label text-primary">@localizzatore["Sala"]:</label>
+            <div class="col-lg-3">
+                <ui-select id="uiSelectSala" ng-model="vm.salaSelezionata" ng-change="vm.selezionaSala()">
+                    <ui-select-match>
+                        <span ng-bind="$select.selected.sala"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="sala in (vm.sale | filter: $select.search) track by sala.id">
+                        <span ng-bind="sala.sala"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <div class="row">
+        <div class="col-lg-12">
+            <table datatable="ng"
+                   class="table table-striped table-bordered table-hover"
+                   id="tabellaArmadi"
+                   dt-options="vm.opzioniTabellaArmadi"
+                   dt-column-defs="vm.colonneTabellaArmadi">
+                <thead>
+                    <tr>
+                        <th>@localizzatore["Id"]</th>
+                        <th>@localizzatore["Armadio"]</th>
+                        <th>@localizzatore["Azioni"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="armadio in vm.armadi">
+                        <td>{{armadio.id}}</td>
+                        <td>{{armadio.armadio}}</td>
+                        <td>
+                            @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
+                            {
+                                <a class="btn btn-sm btn-success text-white"
+                                   ng-click="vm.apriPannelloEdit(armadio)"
+                                   ng-hide="armadio.armadio == '-'">
+                                    <i class="fa fa-pencil"></i>&nbsp;@localizzatore["Modifica"]
+                                </a><text>&nbsp; &nbsp; &nbsp;</text>
+                                <a class="btn btn-sm btn-danger"
+                                   ng-click="vm.apriPannelloCancella(armadio)"
+                                   ng-hide="armadio.armadio == '-'"
+                                   >
+                                    <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
