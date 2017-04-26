@@ -1,6 +1,6 @@
-﻿@model Papero.Models.Sale
+﻿@model Papero.Models.Armadi
 @{
-    ViewBag.Title = localizzatore["Anagrafica Armadi"];
+    ViewBag.Title = localizzatore["Anagrafica Cassetti"];
 }
 @section css {
 
@@ -8,17 +8,17 @@
 
 @section scripts {
 
-    <script src="~/js/anagraficaArmadiController.js"></script>
+    <script src="~/js/anagraficaCassettiController.js"></script>
 
 }
-<div ng-app="papero-app" ng-controller="anagraficaArmadiController as vm">
-    <input type="hidden" id="idSalaHidden" name="idSalaHidden" value="@Model.Id"/>
+<div ng-app="papero-app" ng-controller="anagraficaCassettiController as vm">
+    <input type="hidden" id="idArmadioHidden" name="idArmadioHidden" value="@Model.Id"/>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        @localizzatore["Armadi"]&nbsp;&nbsp;&nbsp;
+                        @localizzatore["Cassetti"]&nbsp;&nbsp;&nbsp;
                         @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
                         {
                             <a href="#" class="btn btn-success" ng-click="vm.apriPannelloInserimento()" ng-show="vm.pulsanteInserimentoVisibile"><i class="fa fa-plus"></i> @localizzatore["Nuovo"]</a>
@@ -29,29 +29,29 @@
                 <div id="panelInserimento" class="panel-body panel-collapse collapse">
                     <div class="row">
                         <div class="form-group">
-                            <label for="inputInsertArmadio" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuovo Armadio"]:</label>
+                            <label for="inputInsertCassetto" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuovo Cassetto"]:</label>
                             <div class="col-lg-3">
                                 <input type="text" 
                                        class="form-control" 
-                                       ng-model="vm.inputInsertArmadio" 
-                                       ng-change="vm.verificaArmadio()" 
-                                       id="inputInsertArmadio" 
-                                       name="inputInsertArmadio" />
+                                       ng-model="vm.inputInsertCassetto" 
+                                       ng-change="vm.verificaCassetto()" 
+                                       id="inputInsertCassetto" 
+                                       name="inputInsertCassetto" />
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-3 col-lg-offset-4">
-                                    <div class="alert alert-danger" ng-show="vm.armadioGiaPresente">
-                                        <strong>@localizzatore["Armadio già presente!"]</strong> (@localizzatore["Id"]: {{vm.armadioDoppio.id}})
+                                    <div class="alert alert-danger" ng-show="vm.cassettoGiaPresente">
+                                        <strong>@localizzatore["Cassetto già presente!"]</strong> (@localizzatore["Id"]: {{vm.cassettoDoppio.id}})
                                     </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-lg-2">
                                     <div class="pull-right">
                                         <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimento()">@localizzatore["Annulla"]</button>
-                                        <button type="submit" class="btn btn-success" ng-click="vm.inserisciArmadio()" ng-disabled="vm.pulsanteInsertDisabilitato">@localizzatore["Inserisci"]</button>
+                                        <button type="submit" class="btn btn-success" ng-click="vm.inserisciCassetto()" ng-disabled="vm.pulsanteInsertDisabilitato">@localizzatore["Inserisci"]</button>
                                     </div>
                                 </div>
                             </div>
@@ -61,22 +61,22 @@
                 <div id="panelEdit" class="panel-body panel-collapse collapse">
                     <div class="row">
                         <div class="form-group">
-                            <label for="inputEditArmadio" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Armadio"]:</label>
+                            <label for="inputEditCassetto" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Cassetto"]:</label>
                             <div class="col-lg-3">
                                 <input type="text"
                                        class="form-control"
-                                       ng-model="vm.inputEditArmadio"
-                                       ng-change="vm.verificaEditArmadio()"
-                                       id="inputEditArmadio"
-                                       name="inputEditArmadio" />
+                                       ng-model="vm.inputEditCassetto"
+                                       ng-change="vm.verificaEditCassetto()"
+                                       id="inputEditCassetto"
+                                       name="inputEditCassetto" />
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-3 col-lg-offset-4">
-                                <div class="alert alert-danger" ng-show="vm.armadioGiaPresente">
-                                    <strong>@localizzatore["Armadio già presente!"]</strong> (@localizzatore["Id"]: {{vm.armadioDoppio.id}})
+                                <div class="alert alert-danger" ng-show="vm.cassettoGiaPresente">
+                                    <strong>@localizzatore["Cassetto già presente!"]</strong> (@localizzatore["Id"]: {{vm.cassettoDoppio.id}})
                                 </div>
                             </div>
                             <div class="form-group">
@@ -87,7 +87,7 @@
                                                 ng-click="vm.annullaEdit()">@localizzatore["Annulla"]</button>
                                         <button type="submit" 
                                                 class="btn btn-success" 
-                                                ng-click="vm.editArmadio()" 
+                                                ng-click="vm.editCassetto()" 
                                                 ng-disabled="vm.pulsanteEditDisabilitato">@localizzatore["Modifica"]</button>
                                     </div>
                                 </div>
@@ -98,17 +98,17 @@
                 <div id="panelCancella" class="panel-body panel-collapse collapse">
                     <div class="row">
                         <div class="form-group">
-                            <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Armadio"]:</label>
+                            <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Cassetto"]:</label>
                             <div class="col-lg-3" >
-                                <h4>{{vm.armadioDaCancellare}}</h4>
+                                <h4>{{vm.cassettoDaCancellare}}</h4>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-3 col-lg-offset-4">
-                                <div class="alert alert-danger" ng-show="vm.armadiononCancellabile">
-                                    <strong>@localizzatore["Impossibile cancellare l'Armadio!"]</strong> (@localizzatore["Vi sono elementi dipendenti"])
+                                <div class="alert alert-danger" ng-show="vm.cassettononCancellabile">
+                                    <strong>@localizzatore["Impossibile cancellare il Cassetto!"]</strong> (@localizzatore["Vi sono elementi dipendenti"])
                                 </div>
                             </div>
                             <div class="form-group">
@@ -121,7 +121,7 @@
                                         </button>
                                         <button type="submit"
                                                 class="btn btn-danger"
-                                                ng-click="vm.cancellaArmadio()"
+                                                ng-click="vm.cancellaCassetto()"
                                                 ng-show="vm.pulsanteCancellaVisibile">
                                                 @localizzatore["Cancella"]
                                         </button>
@@ -151,42 +151,58 @@
     </div>
     <p></p>
     <div class="row">
+        <div class="form-group">
+            <label for="uiSelectArmadio" class="col-lg-1 col-lg-offset-3 control-label text-primary">@localizzatore["Armadio"]:</label>
+            <div class="col-lg-3">
+                <ui-select id="uiSelectArmadio" ng-model="vm.armadioSelezionato" ng-change="vm.selezionaArmadio()">
+                    <ui-select-match>
+                        <span ng-bind="$select.selected.armadio"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="armadio in (vm.armadi | filter: $select.search) track by armadio.id">
+                        <span ng-bind="armadio.armadio"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <div class="row">
         <div class="col-lg-12">
             <table datatable="ng"
                    class="table table-striped table-bordered table-hover"
-                   id="tabellaArmadi"
-                   dt-options="vm.opzioniTabellaArmadi"
-                   dt-column-defs="vm.colonneTabellaArmadi">
+                   id="tabellaCassetti"
+                   dt-options="vm.opzioniTabellaCassetti"
+                   dt-column-defs="vm.colonneTabellaCassetti">
                 <thead>
                     <tr>
                         <th>@localizzatore["Id"]</th>
-                        <th>@localizzatore["Armadio"]</th>
+                        <th>@localizzatore["Cassetto"]</th>
                         <th>@localizzatore["Azioni"]</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="armadio in vm.armadi">
-                        <td>{{armadio.id}}</td>
-                        <td>{{armadio.armadio}}</td>
+                    <tr ng-repeat="cassetto in vm.cassetti">
+                        <td>{{cassetto.id}}</td>
+                        <td>{{cassetto.cassetto}}</td>
                         <td>
                             @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
                             {
                                 <a class="btn btn-sm btn-success text-white"
-                                   ng-click="vm.apriPannelloEdit(armadio)"
-                                   ng-hide="armadio.armadio == '-'">
+                                   ng-click="vm.apriPannelloEdit(cassetto)"
+                                   ng-hide="cassetto.cassetto == '-'">
                                     <i class="fa fa-pencil"></i>&nbsp;@localizzatore["Modifica"]
                                 </a><text>&nbsp; &nbsp; &nbsp;</text>
                                 <a class="btn btn-sm btn-danger"
-                                   ng-click="vm.apriPannelloCancella(armadio)"
-                                   ng-hide="armadio.armadio == '-'"
+                                   ng-click="vm.apriPannelloCancella(cassetto)"
+                                   ng-hide="cassetto.cassetto == '-'"
                                    >
                                     <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
                                 </a>
                             }
                             <a class="btn btn-sm btn-primary"
-                               ng-href="/Anagrafiche/Cassetti/{{armadio.id}}"
-                               ng-hide="armadio.armadio == '-'">
-                                <i class="fa fa-arrow-right"></i><text>&nbsp;</text>@localizzatore["Cassetti"]
+                               ng-href="/Anagrafiche/Vassoi/{{cassetto.id}}"
+                               ng-hide="cassetto.cassetto == '-'">
+                                <i class="fa fa-arrow-right"></i><text>&nbsp;</text>@localizzatore["Vassoi"]
                             </a>
                         </td>
                     </tr>

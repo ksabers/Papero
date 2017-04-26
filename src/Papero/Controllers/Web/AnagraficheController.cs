@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Papero.Models;
 
 namespace Papero.Controllers.Web
 {
@@ -53,15 +54,19 @@ namespace Papero.Controllers.Web
         }
 
         [Authorize(Policy = "VisualizzaAnagraficaCollocazione")]
-        public IActionResult Armadi()
+        public IActionResult Armadi(int Id)
         {
-            return View();
+            var sala = new Sale();
+            sala.Id = Id;
+            return View(sala);
         }
 
         [Authorize(Policy = "VisualizzaAnagraficaCollocazione")]
-        public IActionResult Cassetti()
+        public IActionResult Cassetti(int Id)
         {
-            return View();
+            var armadio = new Armadi();
+            armadio.Id = Id;
+            return View(armadio);
         }
 
         [Authorize(Policy = "VisualizzaAnagraficaCollocazione")]

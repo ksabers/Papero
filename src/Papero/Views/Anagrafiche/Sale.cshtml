@@ -166,7 +166,11 @@
                                     <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
                                 </a>
                             }
-
+                            <a class="btn btn-sm btn-primary"
+                               ng-href="/Anagrafiche/Armadi/{{sala.id}}"
+                               ng-hide="sala.sala == '-'">
+                                <i class="fa fa-arrow-right"></i><text>&nbsp;</text>@localizzatore["Armadi"]
+                            </a>
                         </td>
                     </tr>
                 </tbody>

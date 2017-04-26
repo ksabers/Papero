@@ -141,6 +141,9 @@
   <data name="Cancella Armadio" xml:space="preserve">
     <value>Delete Cabinet</value>
   </data>
+  <data name="Cassetti" xml:space="preserve">
+    <value>Drawers</value>
+  </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>

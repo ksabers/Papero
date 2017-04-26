@@ -138,6 +138,9 @@
   <data name="Cancella Armadio" xml:space="preserve">
     <value>Supprimer l'Armoire</value>
   </data>
+  <data name="Cassetti" xml:space="preserve">
+    <value>Tiroirs</value>
+  </data>
   <data name="Collezione" xml:space="preserve">
     <value>Salle</value>
   </data>

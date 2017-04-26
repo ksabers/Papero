@@ -123,6 +123,9 @@
   <data name="Annulla" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="Armadi" xml:space="preserve">
+    <value>Cabinets</value>
+  </data>
   <data name="Azioni" xml:space="preserve">
     <value>Actions</value>
   </data>
