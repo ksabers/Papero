@@ -135,6 +135,9 @@
   <data name="Cancella Vassoio" xml:space="preserve">
     <value>Delete Tray</value>
   </data>
+  <data name="Cassetti" xml:space="preserve">
+    <value>Drawers</value>
+  </data>
   <data name="Cassetto" xml:space="preserve">
     <value>Drawer</value>
   </data>

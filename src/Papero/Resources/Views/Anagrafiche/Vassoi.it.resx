@@ -135,6 +135,9 @@
   <data name="Cancella Vassoio" xml:space="preserve">
     <value>Cancella Vassoio</value>
   </data>
+  <data name="Cassetti" xml:space="preserve">
+    <value>Cassetti</value>
+  </data>
   <data name="Cassetto" xml:space="preserve">
     <value>Cassetto</value>
   </data>

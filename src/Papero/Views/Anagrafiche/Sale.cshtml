@@ -2,9 +2,19 @@
 @{
     ViewBag.Title = localizzatore["Anagrafica Sale"];
 }
+
 @section css {
 
+<style type="text/css">
+    a.btn.btn-sm.ng-hide {
+        display: inline-block !important;
+        visibility: hidden;
+    }
+</style>
+
 }
+
+
 
 @section scripts {
 
@@ -30,11 +40,11 @@
                         <div class="form-group">
                             <label for="inputInsertSala" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuova Sala"]:</label>
                             <div class="col-lg-3">
-                                <input type="text" 
-                                       class="form-control" 
-                                       ng-model="vm.inputInsertSala" 
-                                       ng-change="vm.verificaSala()" 
-                                       id="inputInsertSala" 
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="vm.inputInsertSala"
+                                       ng-change="vm.verificaSala()"
+                                       id="inputInsertSala"
                                        name="inputInsertSala" />
                             </div>
                         </div>
@@ -81,12 +91,12 @@
                             <div class="form-group">
                                 <div class="col-lg-2">
                                     <div class="pull-right">
-                                        <button type="reset" 
-                                                class="btn btn-outline-primary" 
+                                        <button type="reset"
+                                                class="btn btn-outline-primary"
                                                 ng-click="vm.annullaEdit()">@localizzatore["Annulla"]</button>
-                                        <button type="submit" 
-                                                class="btn btn-success" 
-                                                ng-click="vm.editSala()" 
+                                        <button type="submit"
+                                                class="btn btn-success"
+                                                ng-click="vm.editSala()"
                                                 ng-disabled="vm.pulsanteEditDisabilitato">@localizzatore["Modifica"]</button>
                                     </div>
                                 </div>
@@ -161,15 +171,13 @@
                                 </a><text>&nbsp; &nbsp; &nbsp;</text>
                                 <a class="btn btn-sm btn-danger"
                                    ng-click="vm.apriPannelloCancella(sala)"
-                                   ng-hide="sala.sala == '-'"
-                                   >
+                                   ng-hide="(sala.sala == '-')  || (sala.armadi.length != 1)">
                                     <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
                                 </a>
                             }
                             <a class="btn btn-sm btn-primary"
-                               ng-href="/Anagrafiche/Armadi/{{sala.id}}"
-                               ng-hide="sala.sala == '-'">
-                                <i class="fa fa-arrow-right"></i><text>&nbsp;</text>@localizzatore["Armadi"]
+                               ng-href="/Anagrafiche/Armadi/{{sala.id}}">
+                                <i class="fa fa-arrow-right"></i><text>&nbsp;</text>@localizzatore["Armadi"] ({{sala.armadi.length - 1}})
                             </a>
                         </td>
                     </tr>

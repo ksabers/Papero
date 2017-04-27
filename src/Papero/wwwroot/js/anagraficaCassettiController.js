@@ -37,6 +37,7 @@
 
         vm.selezionaArmadio = function selezionaArmadio() {
             vm.cassetti = _.filter(elencoCassetti, function (cassetto) { return cassetto.armadioId == vm.armadioSelezionato.id });
+            vm.pulsanteInserimentoVisibile = (vm.armadioSelezionato.armadio != "-");  // Si può inserire un cassetto solo in un armadio esistente, non in quello indeterminato
         };
 
         vm.apriPannelloInserimento = function apriPannelloInserimento() {   // Quando viene aperto il pannello di inserimento...
@@ -203,10 +204,7 @@
                                    vm.armadioSelezionato = _.find(vm.armadi, function (armadio) { return armadio.armadio == "-" });
                                };
                                vm.selezionaArmadio();
-                           });
-
-
-                     
+                           });                     
                    });
            });
     }

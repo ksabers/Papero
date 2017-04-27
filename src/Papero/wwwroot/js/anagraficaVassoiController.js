@@ -44,11 +44,12 @@
 
         vm.selezionaCassetto = function selezionaCassetto() {
             vm.vassoi = _.filter(elencoVassoi, function (vassoio) { return vassoio.cassettoId == vm.cassettoSelezionato.id });
+            vm.pulsanteInserimentoVisibile = (vm.cassettoSelezionato.cassetto != "-");  // Si può inserire un vassoio solo in un cassetto esistente, non in quello indeterminato
         };
 
         vm.apriPannelloInserimento = function apriPannelloInserimento() {   // Quando viene aperto il pannello di inserimento...
             vm.annullaEdit();                                               // ...chiudo il pannello di edit (in realtà eseguo solo le azioni di chiusura, il pannello non può
-            // essere aperto perché il pulsante di inserimento a questo punto è già invisibile)
+                                                                            // essere aperto perché il pulsante di inserimento a questo punto è già invisibile)
             vm.annullaCancella();
             vm.pulsanteInserimentoVisibile = false;                         // ...rendo invisibile il pulsante di inserimento
             $("#panelInserimento").collapse("show");                        // ...e mostro il pannello di inserimento
@@ -85,7 +86,7 @@
 
         vm.inserisciVassoio = function inserisciVassoio() {
 
-            // Verifico se l'vassoio che sto cercando di inserire esiste già nella tabella (ignorando maiuscole, minuscole, spazi prima, dopo e in mezzo)
+            // Verifico se il vassoio che sto cercando di inserire esiste già nella tabella (ignorando maiuscole, minuscole, spazi prima, dopo e in mezzo)
             // Se esiste, lo salvo in vm.vassoioDoppio in modo da poterne mostrare l'ID nel pannello di alert
             vm.vassoioDoppio = _.find(vm.vassoi, function (vassoio) { return funzioni.confrontaStringhe(vassoio.vassoio, vm.inputInsertVassoio) });
             if (vm.vassoioDoppio) {  // se esiste un doppione, _.find ritorna un vassoio, quindi la if è true
@@ -94,13 +95,16 @@
             }
             else {                                                                       // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
                 $http.post("/api/vassoi",                                        // il valore si può inserire
-                           { "vassoio": _.trim(vm.inputInsertVassoio) })   // chiamo la API di inserimento
-                    .then(function (response) {                                          // la chiamata alla API mi restituisce il JSON del valore appena inserito (soprattutto mi dice il nuovo ID)
+                           {
+                               "cassettoId" : vm.cassettoSelezionato.id,
+                               "vassoio": _.trim(vm.inputInsertVassoio)
+                           })   // chiamo la API di inserimento
+                    .then(function (response) {                                  // la chiamata alla API mi restituisce il JSON del valore appena inserito (soprattutto mi dice il nuovo ID)
                         vm.vassoi.push(response.data);                           // Uso il JSON restituito dalla API per inserire il nuovo valore in tabella
-                        $("#panelInserimento").collapse("hide");                         // chiudo il pannello di inserimento
-                        vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
-                        vm.inputInsertVassoio = "";                               // e cancello il campo
-                        vm.dropdownDisabilitate = false;
+                        $("#panelInserimento").collapse("hide");                 // chiudo il pannello di inserimento
+                        vm.pulsanteInserimentoVisibile = true;                   // riabilito il pulsante nel panel heading
+                        vm.inputInsertVassoio = "";                              // cancello il campo
+                        vm.dropdownDisabilitate = false;                         // riabilito le dropdown
                     }, function () {
                         alert("Errore non gestito durante l'inserimento");
                     })

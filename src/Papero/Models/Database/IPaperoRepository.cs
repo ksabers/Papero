@@ -63,23 +63,8 @@ namespace Papero.Models
         IEnumerable<Preparati> LeggiPreparati(int idEsemplare);
 
 
-        /// <summary>
-        /// Restituisce l'elenco completo degli Armadi
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Armadi> LeggiArmadi();
 
-        /// <summary>
-        /// Restituisce l'elenco completo dei Cassetti
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Cassetti> LeggiCassetti();
 
-        /// <summary>
-        /// Restituisce l'elenco completo dei Vassoi
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Vassoi> LeggiVassoi();
 
         /// <summary>
         /// Restituisce l'elenco completo delle Vecchie Determinazioni

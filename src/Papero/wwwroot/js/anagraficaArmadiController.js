@@ -31,7 +31,7 @@
 
         vm.selezionaSala = function selezionaSala() {
             vm.armadi = _.filter(elencoArmadi, function (armadio) { return armadio.salaId == vm.salaSelezionata.id });
-            //alert("ciao");
+            vm.pulsanteInserimentoVisibile = (vm.salaSelezionata.sala != "-");  // Si può inserire un armadio solo in una sala esistente, non nella sala indeterminata
         };
 
         vm.apriPannelloInserimento = function apriPannelloInserimento() {   // Quando viene aperto il pannello di inserimento...

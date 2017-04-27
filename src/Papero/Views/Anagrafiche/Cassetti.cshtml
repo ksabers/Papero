@@ -4,6 +4,13 @@
 }
 @section css {
 
+<style type="text/css">
+    a.btn.btn-sm.ng-hide {
+        display: inline-block !important;
+        visibility: hidden;
+    }
+</style>
+
 }
 
 @section scripts {
@@ -169,6 +176,12 @@
                     </ui-select-choices>
                 </ui-select>
             </div>
+            <div class="col-lg-1">
+                <a class="btn btn-sm btn-primary"
+                   ng-href="/Anagrafiche/Armadi/{{vm.salaSelezionata.id}}">
+                    <i class="fa fa-arrow-left"></i><text>&nbsp;</text>@localizzatore["Armadi"]
+                </a>
+            </div>
         </div>
     </div>
     <p></p>
@@ -200,15 +213,13 @@
                                 </a><text>&nbsp; &nbsp; &nbsp;</text>
                                 <a class="btn btn-sm btn-danger"
                                    ng-click="vm.apriPannelloCancella(cassetto)"
-                                   ng-hide="cassetto.cassetto == '-'"
-                                   >
+                                   ng-hide="(cassetto.cassetto == '-') || (cassetto.vassoi.length != 1)">
                                     <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
                                 </a>
                             }
                             <a class="btn btn-sm btn-primary"
-                               ng-href="/Anagrafiche/Vassoi/{{cassetto.id}}"
-                               ng-hide="cassetto.cassetto == '-'">
-                                <i class="fa fa-arrow-right"></i><text>&nbsp;</text>@localizzatore["Vassoi"]
+                               ng-href="/Anagrafiche/Vassoi/{{cassetto.id}}">
+                                <i class="fa fa-arrow-right"></i><text>&nbsp;</text>@localizzatore["Vassoi"] ({{cassetto.vassoi.length - 1}})
                             </a>
                         </td>
                     </tr>

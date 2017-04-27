@@ -4,6 +4,13 @@
 }
 @section css {
 
+<style type="text/css">
+    a.btn.btn-sm.ng-hide {
+        display: inline-block !important;
+        visibility: hidden;
+    }
+</style>
+
 }
 
 @section scripts {
@@ -181,15 +188,14 @@
                                 </a><text>&nbsp; &nbsp; &nbsp;</text>
                                 <a class="btn btn-sm btn-danger"
                                    ng-click="vm.apriPannelloCancella(armadio)"
-                                   ng-hide="armadio.armadio == '-'"
+                                   ng-hide="(armadio.armadio == '-') || (armadio.cassetti.length != 1)"
                                    >
                                     <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
                                 </a>
                             }
                             <a class="btn btn-sm btn-primary"
-                               ng-href="/Anagrafiche/Cassetti/{{armadio.id}}"
-                               ng-hide="armadio.armadio == '-'">
-                                <i class="fa fa-arrow-right"></i><text>&nbsp;</text>@localizzatore["Cassetti"]
+                               ng-href="/Anagrafiche/Cassetti/{{armadio.id}}">
+                                <i class="fa fa-arrow-right"></i><text>&nbsp;</text>@localizzatore["Cassetti"] ({{armadio.cassetti.length - 1}})
                             </a>
                         </td>
                     </tr>

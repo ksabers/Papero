@@ -123,6 +123,9 @@
   <data name="Annulla" xml:space="preserve">
     <value>Annuler</value>
   </data>
+  <data name="Armadi" xml:space="preserve">
+    <value>Armoires</value>
+  </data>
   <data name="Armadio" xml:space="preserve">
     <value>Armoire</value>
   </data>

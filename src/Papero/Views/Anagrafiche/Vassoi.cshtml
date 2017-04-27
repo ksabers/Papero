@@ -188,6 +188,12 @@
                     </ui-select-choices>
                 </ui-select>
             </div>
+            <div class="col-lg-1">
+                <a class="btn btn-sm btn-primary"
+                   ng-href="/Anagrafiche/Cassetti/{{vm.armadioSelezionato.id}}">
+                    <i class="fa fa-arrow-left"></i><text>&nbsp;</text>@localizzatore["Cassetti"]
+                </a>
+            </div>
         </div>
     </div>
     <p></p>
@@ -219,8 +225,7 @@
                                 </a><text>&nbsp; &nbsp; &nbsp;</text>
                                 <a class="btn btn-sm btn-danger"
                                    ng-click="vm.apriPannelloCancella(vassoio)"
-                                   ng-hide="vassoio.vassoio == '-'"
-                                   >
+                                   ng-hide="(vassoio.vassoio == '-') || (vassoio.preparati.length > 0)">
                                     <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
                                 </a>
                             }

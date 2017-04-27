@@ -70,18 +70,6 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiClassificazioni(idSottospecie));
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
         [Authorize]
         [HttpGet("api/partipreparate")]
         public IActionResult GetPartiPreparate()
@@ -101,32 +89,6 @@ namespace Papero.Controllers
         public IActionResult GetPreparati(int idEsemplare)
         {
             return Ok(_repository.LeggiPreparati(idEsemplare));
-        }
-
-
-        [Authorize]
-        [HttpGet("api/armadi")]
-        public IActionResult GetArmadi()
-        {
-            return Ok(_repository.LeggiArmadi());
-        }
-
-        [Authorize]
-        [HttpGet("api/cassetti")]
-        public IActionResult GetCassetti()
-        {
-            return Ok(_repository.LeggiCassetti());
-        }
-
-        /// <summary>
-        /// API che restituisce l'elenco dei Vassoi
-        /// </summary>
-        /// <returns></returns>
-        [Authorize]
-        [HttpGet("api/vassoi")]
-        public IActionResult GetVassoi()
-        {
-            return Ok(_repository.LeggiVassoi());
         }
 
         [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
@@ -156,10 +118,6 @@ namespace Papero.Controllers
         {
             return Ok(_repository.LeggiVecchiDeterminatori(idVecchiaDeterminazione));
         }
-
-
-
-
 
         [Authorize]
         [HttpGet("api/elencoSpecie")]
@@ -245,11 +203,6 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiTipiAcquisizione());
         }
 
-
-
-
-
-
         [Authorize]
         [HttpGet("api/sessi")]
         public IActionResult GetSessi()
@@ -270,10 +223,6 @@ namespace Papero.Controllers
         {
             return Ok(_repository.LeggiAberrazioni());
         }
-
-        
-
-        
 
         [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         [HttpGet("api/preparazioni")]
