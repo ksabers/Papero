@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafica Cassetti" xml:space="preserve">
-    <value>Table des Tiroirs</value>
+  <data name="Anagrafica Vassoi" xml:space="preserve">
+    <value>Table des Plateaux</value>
   </data>
   <data name="Annulla" xml:space="preserve">
     <value>Annuler</value>
@@ -132,38 +132,29 @@
   <data name="Cancella" xml:space="preserve">
     <value>Supprimer</value>
   </data>
-  <data name="Cancella Cassetto" xml:space="preserve">
-    <value>Supprimer le Tiroir</value>
-  </data>
-  <data name="Cassetti" xml:space="preserve">
-    <value>Tiroirs</value>
+  <data name="Cancella Vassoio" xml:space="preserve">
+    <value>Supprimer le Plateau</value>
   </data>
   <data name="Cassetto" xml:space="preserve">
     <value>Tiroir</value>
   </data>
-  <data name="Cassetto già presente!" xml:space="preserve">
-    <value>Tiroir déjà présent!</value>
-  </data>
-  <data name="Collezione" xml:space="preserve">
-    <value>Salle</value>
-  </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
-  <data name="Impossibile cancellare il Cassetto!" xml:space="preserve">
-    <value>Impossible de supprimer le Tiroir!</value>
+  <data name="Impossibile cancellare il Vassoio!" xml:space="preserve">
+    <value>Impossible de supprimer le Plateau!</value>
   </data>
   <data name="Inserisci" xml:space="preserve">
     <value>Appliquer</value>
   </data>
-  <data name="Inserisci nuovo Cassetto" xml:space="preserve">
-    <value>Insérer le nouveau Tiroir</value>
+  <data name="Inserisci nuovo Vassoio" xml:space="preserve">
+    <value>Insérer le nouveau Plateau</value>
   </data>
   <data name="Modifica" xml:space="preserve">
     <value>Éditer</value>
   </data>
-  <data name="Modifica Cassetto" xml:space="preserve">
-    <value>Éditer le Tiroir</value>
+  <data name="Modifica Vassoio" xml:space="preserve">
+    <value>Éditer le Plateau</value>
   </data>
   <data name="Nuovo" xml:space="preserve">
     <value>Nouveau</value>
@@ -173,6 +164,12 @@
   </data>
   <data name="Vassoi" xml:space="preserve">
     <value>Plateaux</value>
+  </data>
+  <data name="Vassoio" xml:space="preserve">
+    <value>Plateau</value>
+  </data>
+  <data name="Vassoio già presente!" xml:space="preserve">
+    <value>Plateau déjà présent!</value>
   </data>
   <data name="Vi sono elementi dipendenti" xml:space="preserve">
     <value>Il y a des éléments connectés</value>

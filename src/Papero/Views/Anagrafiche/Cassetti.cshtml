@@ -138,7 +138,10 @@
         <div class="form-group">
             <label for="uiSelectSala" class="col-lg-1 col-lg-offset-3 control-label text-primary">@localizzatore["Sala"]:</label>
             <div class="col-lg-3">
-                <ui-select id="uiSelectSala" ng-model="vm.salaSelezionata" ng-change="vm.selezionaSala()">
+                <ui-select id="uiSelectSala" 
+                           ng-model="vm.salaSelezionata" 
+                           ng-change="vm.selezionaSala()" 
+                           ng-disabled="vm.dropdownDisabilitate">
                     <ui-select-match>
                         <span ng-bind="$select.selected.sala"></span>
                     </ui-select-match>
@@ -154,7 +157,10 @@
         <div class="form-group">
             <label for="uiSelectArmadio" class="col-lg-1 col-lg-offset-3 control-label text-primary">@localizzatore["Armadio"]:</label>
             <div class="col-lg-3">
-                <ui-select id="uiSelectArmadio" ng-model="vm.armadioSelezionato" ng-change="vm.selezionaArmadio()">
+                <ui-select id="uiSelectArmadio" 
+                           ng-model="vm.armadioSelezionato" 
+                           ng-change="vm.selezionaArmadio()" 
+                           ng-disabled="vm.dropdownDisabilitate">
                     <ui-select-match>
                         <span ng-bind="$select.selected.armadio"></span>
                     </ui-select-match>

@@ -27,6 +27,7 @@
         vm.pulsanteInsertDisabilitato = true;
         vm.pulsanteEditDisabilitato = true;
         vm.pulsanteCancellaVisibile = true;
+        vm.dropdownDisabilitate = false;
 
         vm.selezionaSala = function selezionaSala() {
             vm.armadi = _.filter(elencoArmadi, function (armadio) { return armadio.salaId == vm.salaSelezionata.id });
@@ -44,6 +45,7 @@
             vm.annullaCancella();
             vm.pulsanteInserimentoVisibile = false;                         // ...rendo invisibile il pulsante di inserimento
             $("#panelInserimento").collapse("show");                        // ...e mostro il pannello di inserimento
+            vm.dropdownDisabilitate = true;
         };
 
         vm.annullaInserimento = function annullaInserimento() {             // Quando viene annullato un inserimento...
@@ -52,6 +54,7 @@
             vm.cassettoGiaPresente = false;                           // ...nascondo il riquadro di alert
             vm.pulsanteInsertDisabilitato = true;                           // ...disabilito il pulsante di insert
             vm.inputInsertCassetto = "";                              // ...e cancello il campo
+            vm.dropdownDisabilitate = false;
         };
 
         vm.annullaEdit = function annullaEdit() {                           // Quando viene annullato un edit...
@@ -60,6 +63,7 @@
             vm.cassettoGiaPresente = false;                           // ...nascondo il riquadro di alert
             vm.pulsanteEditDisabilitato = true;                             // ...disabilito il pulsante di edit
             vm.inputEditCassetto = "";                                // ...e cancello il campo
+            vm.dropdownDisabilitate = false;
         };
 
         vm.verificaCassetto = function verificaCassetto() {
@@ -89,6 +93,7 @@
                         $("#panelInserimento").collapse("hide");                         // chiudo il pannello di inserimento
                         vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
                         vm.inputInsertCassetto = "";                               // e cancello il campo
+                        vm.dropdownDisabilitate = false;
                     }, function () {
                         alert("Errore non gestito durante l'inserimento");
                     })
@@ -102,6 +107,7 @@
             vm.annullaInserimento();                   // Chiude il pannello di inserimento se è aperto quando si inizia un edit
             vm.annullaCancella();
             vm.pulsanteInserimentoVisibile = false;
+            vm.dropdownDisabilitate = true;
             $("#panelEdit").collapse("show");
             vm.inputEditCassetto = cassetto.cassetto;
             vm.pulsanteEditDisabilitato = true;
@@ -113,6 +119,7 @@
             vm.annullaEdit();
             vm.cassettononCancellabile = false;
             vm.pulsanteInserimentoVisibile = false;
+            vm.dropdownDisabilitate = true;
             $("#panelCancella").collapse("show");
             vm.cassettoDaCancellare = cassetto.cassetto;
             vm.pulsanteCancellaVisibile = true;
@@ -122,6 +129,7 @@
         vm.annullaCancella = function annullaCancella() {
             $("#panelCancella").collapse("hide");
             vm.pulsanteInserimentoVisibile = true;
+            vm.dropdownDisabilitate = false;
             vm.cassettoDaCancellare = "";
             vm.pulsanteCancellaVisibile = true;
         };
@@ -145,6 +153,7 @@
                         $("#panelEdit").collapse("hide");                                // chiudo il pannello di edit
                         vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
                         vm.inputEditCassetto = "";                                // e cancello il campo
+                        vm.dropdownDisabilitate = false;
                     }, function () {
                         alert("Errore non gestito durante l'editazione");
                     })
@@ -162,6 +171,7 @@
                     vm.cassetti.splice(_.findIndex(vm.cassetti, ["id", cassettoCliccato.id]), 1);
                     $("#panelCancella").collapse("hide");                            // chiudo il pannello di cancellazione
                     vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
+                    vm.dropdownDisabilitate = false;
                 }, function () {
                     vm.cassettononCancellabile = true;
                     vm.pulsanteCancellaVisibile = false;

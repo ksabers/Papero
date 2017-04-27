@@ -26,6 +26,8 @@
         vm.pulsanteInsertDisabilitato = true;
         vm.pulsanteEditDisabilitato = true;
         vm.pulsanteCancellaVisibile = true;
+        vm.dropdownDisabilitate = false;
+
 
         vm.selezionaSala = function selezionaSala() {
             vm.armadi = _.filter(elencoArmadi, function (armadio) { return armadio.salaId == vm.salaSelezionata.id });
@@ -38,6 +40,7 @@
             vm.annullaCancella();
             vm.pulsanteInserimentoVisibile = false;                         // ...rendo invisibile il pulsante di inserimento
             $("#panelInserimento").collapse("show");                        // ...e mostro il pannello di inserimento
+            vm.dropdownDisabilitate = true;
         };
 
         vm.annullaInserimento = function annullaInserimento() {             // Quando viene annullato un inserimento...
@@ -46,6 +49,7 @@
             vm.armadioGiaPresente = false;                           // ...nascondo il riquadro di alert
             vm.pulsanteInsertDisabilitato = true;                           // ...disabilito il pulsante di insert
             vm.inputInsertArmadio = "";                              // ...e cancello il campo
+            vm.dropdownDisabilitate = false;
         };
 
         vm.annullaEdit = function annullaEdit() {                           // Quando viene annullato un edit...
@@ -54,6 +58,7 @@
             vm.armadioGiaPresente = false;                           // ...nascondo il riquadro di alert
             vm.pulsanteEditDisabilitato = true;                             // ...disabilito il pulsante di edit
             vm.inputEditArmadio = "";                                // ...e cancello il campo
+            vm.dropdownDisabilitate = false;
         };
 
         vm.verificaArmadio = function verificaArmadio() {
@@ -83,6 +88,7 @@
                         $("#panelInserimento").collapse("hide");                         // chiudo il pannello di inserimento
                         vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
                         vm.inputInsertArmadio = "";                               // e cancello il campo
+                        vm.dropdownDisabilitate = false;
                     }, function () {
                         alert("Errore non gestito durante l'inserimento");
                     })
@@ -96,6 +102,7 @@
             vm.annullaInserimento();                   // Chiude il pannello di inserimento se è aperto quando si inizia un edit
             vm.annullaCancella();
             vm.pulsanteInserimentoVisibile = false;
+            vm.dropdownDisabilitate = true;
             $("#panelEdit").collapse("show");
             vm.inputEditArmadio = armadio.armadio;
             vm.pulsanteEditDisabilitato = true;
@@ -107,6 +114,7 @@
             vm.annullaEdit();
             vm.armadiononCancellabile = false;
             vm.pulsanteInserimentoVisibile = false;
+            vm.dropdownDisabilitate = true;
             $("#panelCancella").collapse("show");
             vm.armadioDaCancellare = armadio.armadio;
             vm.pulsanteCancellaVisibile = true;
@@ -116,6 +124,7 @@
         vm.annullaCancella = function annullaCancella() {
             $("#panelCancella").collapse("hide");
             vm.pulsanteInserimentoVisibile = true;
+            vm.dropdownDisabilitate = false;
             vm.armadioDaCancellare = "";
             vm.pulsanteCancellaVisibile = true;
         };
@@ -139,6 +148,7 @@
                         $("#panelEdit").collapse("hide");                                // chiudo il pannello di edit
                         vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
                         vm.inputEditArmadio = "";                                // e cancello il campo
+                        vm.dropdownDisabilitate = false;
                     }, function () {
                         alert("Errore non gestito durante l'editazione");
                     })
@@ -156,6 +166,7 @@
                     vm.armadi.splice(_.findIndex(vm.armadi, ["id", armadioCliccato.id]), 1);
                     $("#panelCancella").collapse("hide");                            // chiudo il pannello di cancellazione
                     vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
+                    vm.dropdownDisabilitate = false;
                 }, function () {
                     vm.armadiononCancellabile = true;
                     vm.pulsanteCancellaVisibile = false;

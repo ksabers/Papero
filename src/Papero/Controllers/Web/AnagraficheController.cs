@@ -70,9 +70,11 @@ namespace Papero.Controllers.Web
         }
 
         [Authorize(Policy = "VisualizzaAnagraficaCollocazione")]
-        public IActionResult Vassoi()
+        public IActionResult Vassoi(int Id)
         {
-            return View();
+            var cassetto = new Cassetti();
+            cassetto.Id = Id;
+            return View(cassetto);
         }
     }
 }
