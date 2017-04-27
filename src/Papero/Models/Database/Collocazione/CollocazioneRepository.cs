@@ -99,6 +99,7 @@ namespace Papero.Models
         public IEnumerable<Vassoi> LeggiVassoi(int idVassoio)
         {
             return _contesto.Vassoi
+                .Include(vassoio => vassoio.Preparati)
                 .Where(vassoio => vassoio.Id == idVassoio)
                 .OrderBy(vassoio => vassoio.Vassoio)
                 .ToList();

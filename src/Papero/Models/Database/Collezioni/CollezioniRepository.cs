@@ -4,6 +4,7 @@
 //
 // La documentazione di ciascun metodo è nell'interfaccia corrispondente
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System;
