@@ -133,6 +133,36 @@ namespace Papero.Models
         /// <param name="idSala"></param>
         void CancellaSala(int idSala);
 
+        /// <summary>
+        /// Cancella un Armadio dal database
+        /// </summary>
+        /// <param name="idArmadio"></param>
+        void CancellaArmadio(int idArmadio);
+
+        /// <summary>
+        /// Cancella un Cassetto dal database
+        /// </summary>
+        /// <param name="idCassetto"></param>
+        void CancellaCassetto(int idCassetto);
+
+
+        /// <summary>
+        /// Cancella un Vassoio dal database
+        /// </summary>
+        /// <param name="idVassoio"></param>
+        void CancellaVassoio(int idVassoio);
+
+        #endregion
+
+        #region Navigazione Inversa
+
+        int IdVassoioIndeterminatoDaSala(int idSala);
+        int IdVassoioIndeterminatoDaArmadio(int idArmadio);
+        int IdVassoioIndeterminatoDaCassetto(int idCassetto);
+        int IdCassettoIndeterminatoDaSala(int idSala);
+        int IdCassettoIndeterminatoDaArmadio(int idArmadio);
+        int IdArmadioIndeterminatoDaSala(int idSala);
+
         #endregion
 
     }

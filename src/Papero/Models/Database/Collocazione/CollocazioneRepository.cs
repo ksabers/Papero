@@ -210,8 +210,91 @@ namespace Papero.Models
             _contesto.Sale
                 .RemoveRange(_contesto.Sale.Where(sala => sala.Id == idSala));
         }
-        
+
+        public void CancellaArmadio(int idArmadio)
+        {
+            _contesto.Armadi
+                .RemoveRange(_contesto.Armadi.Where(armadio => armadio.Id == idArmadio));
+        }
+
+        public void CancellaCassetto(int idCassetto)
+        {
+            _contesto.Cassetti
+                .RemoveRange(_contesto.Cassetti.Where(cassetto => cassetto.Id == idCassetto));
+        }
+
+        public void CancellaVassoio(int idVassoio)
+        {
+            _contesto.Vassoi
+                .RemoveRange(_contesto.Vassoi.Where(vassoio => vassoio.Id == idVassoio));
+        }
+
         #endregion
+
+        #region Navigazione Inversa
+
+        public int IdVassoioIndeterminatoDaSala(int idSala)
+        {
+            return _contesto.Vassoi
+                .Single(vassoio =>
+                        vassoio.Vassoio == "-" &&
+                        vassoio.Cassetto.Cassetto == "-" &&
+                        vassoio.Cassetto.Armadio.Armadio == "-" &&
+                        vassoio.Cassetto.Armadio.SalaId == idSala)
+                .Id;
+        }
+
+        public int IdVassoioIndeterminatoDaArmadio(int idArmadio)
+        {
+            return _contesto.Vassoi
+                .Single(vassoio =>
+                        vassoio.Vassoio == "-" &&
+                        vassoio.Cassetto.Cassetto == "-" &&
+                        vassoio.Cassetto.ArmadioId == idArmadio)
+                .Id;
+        }
+
+        public int IdVassoioIndeterminatoDaCassetto(int idCassetto)
+        {
+            return _contesto.Vassoi
+                .Single(vassoio =>
+                        vassoio.Vassoio == "-" &&
+                        vassoio.CassettoId == idCassetto)
+                .Id;
+        }
+
+        public int IdCassettoIndeterminatoDaSala(int idSala)
+        {
+            return _contesto.Cassetti
+                .Single(cassetto =>
+                        cassetto.Cassetto == "-" &&
+                        cassetto.Armadio.Armadio == "-" &&
+                        cassetto.Armadio.SalaId == idSala)
+                .Id;
+        }
+
+        public int IdCassettoIndeterminatoDaArmadio(int idArmadio)
+        {
+            return _contesto.Cassetti
+                .Single(cassetto =>
+                        cassetto.Cassetto == "-" &&
+                        cassetto.ArmadioId == idArmadio)
+                .Id;
+        }
+
+        public int IdArmadioIndeterminatoDaSala(int idSala)
+        {
+            return _contesto.Armadi
+                .Single(armadio =>
+                        armadio.Armadio == "-" &&
+                        armadio.SalaId == idSala)
+                .Id;
+        }
+
+
+        #endregion
+
+
 
     }
 }

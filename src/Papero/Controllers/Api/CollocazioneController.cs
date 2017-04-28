@@ -217,7 +217,63 @@ namespace Papero.Controllers
         [HttpDelete("api/sale/{idSala}")]
         public async Task<IActionResult> CancellaSala(int idSala)
         {
-            _repository.CancellaSala(idSala);
+            _repository.CancellaVassoio(_repository.IdVassoioIndeterminatoDaSala(idSala));
+
+            if (await _repositoryComune.SalvaModifiche())
+            {
+                _repository.CancellaCassetto(_repository.IdCassettoIndeterminatoDaSala(idSala));
+                if (await _repositoryComune.SalvaModifiche())
+                {
+                    _repository.CancellaArmadio(_repository.IdArmadioIndeterminatoDaSala(idSala));
+                    if (await _repositoryComune.SalvaModifiche())
+                    {
+                        _repository.CancellaSala(idSala);
+                        if (await _repositoryComune.SalvaModifiche())
+                        {
+                            return Ok();
+                        }
+                    }
+                }
+            }
+            return BadRequest("Errore");
+        }
+
+        [HttpDelete("api/armadi/{idArmadio}")]
+        public async Task<IActionResult> CancellaArmadio(int idArmadio)
+        {
+            _repository.CancellaVassoio(_repository.IdVassoioIndeterminatoDaArmadio(idArmadio));
+
+            if (await _repositoryComune.SalvaModifiche())
+            {
+                _repository.CancellaCassetto(_repository.IdCassettoIndeterminatoDaArmadio(idArmadio));
+                if (await _repositoryComune.SalvaModifiche())
+                {
+                    _repository.CancellaArmadio(idArmadio);
+                    if (await _repositoryComune.SalvaModifiche())
+                        return Ok();
+                }
+            }
+            return BadRequest("Errore");
+        }
+
+        [HttpDelete("api/cassetti/{idCassetto}")]
+        public async Task<IActionResult> CancellaCassetto(int idCassetto)
+        {
+            _repository.CancellaVassoio(_repository.IdVassoioIndeterminatoDaCassetto(idCassetto));
+
+            if (await _repositoryComune.SalvaModifiche())
+            {
+                _repository.CancellaCassetto(idCassetto);
+                if (await _repositoryComune.SalvaModifiche())
+                    return Ok();
+            }
+            return BadRequest("Errore");
+        }
+
+        [HttpDelete("api/vassoi/{idVassoio}")]
+        public async Task<IActionResult> CancellaVassoio(int idVassoio)
+        {
+            _repository.CancellaVassoio(idVassoio);
 
             if (await _repositoryComune.SalvaModifiche())
                 return Ok();
