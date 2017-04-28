@@ -294,7 +294,5 @@ namespace Papero.Models
 
         #endregion
 
-
-
     }
 }

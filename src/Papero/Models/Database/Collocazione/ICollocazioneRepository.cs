@@ -156,11 +156,46 @@ namespace Papero.Models
 
         #region Navigazione Inversa
 
+        /// <summary>
+        /// Restituisce l'id del Vassoio indeterminato a partire da una Sala
+        /// </summary>
+        /// <param name="idSala"></param>
+        /// <returns></returns>
         int IdVassoioIndeterminatoDaSala(int idSala);
+
+        /// <summary>
+        /// Restituisce l'id del Vassoio indeterminato a partire da un Armadio
+        /// </summary>
+        /// <param name="idArmadio"></param>
+        /// <returns></returns>
         int IdVassoioIndeterminatoDaArmadio(int idArmadio);
+
+        /// <summary>
+        /// Restituisce l'id del Vassoio indeterminato a partire da un Cassetto
+        /// </summary>
+        /// <param name="idCassetto"></param>
+        /// <returns></returns>
         int IdVassoioIndeterminatoDaCassetto(int idCassetto);
+
+        /// <summary>
+        /// Restituisce l'id del Cassetto indeterminato a partire da una Sala
+        /// </summary>
+        /// <param name="idSala"></param>
+        /// <returns></returns>
         int IdCassettoIndeterminatoDaSala(int idSala);
+
+        /// <summary>
+        /// Restituisce l'id del Cassetto indeterminato a partire da un Armadio
+        /// </summary>
+        /// <param name="idArmadio"></param>
+        /// <returns></returns>
         int IdCassettoIndeterminatoDaArmadio(int idArmadio);
+
+        /// <summary>
+        /// Restituisce l'id dell'Armadio indeterminato a partire da una Sala
+        /// </summary>
+        /// <param name="idSala"></param>
+        /// <returns></returns>
         int IdArmadioIndeterminatoDaSala(int idSala);
 
         #endregion
