@@ -166,63 +166,23 @@ namespace Papero.Models
         /// <param name="esemplareDaInserire"></param>
         void AggiungiEsemplare(Esemplari esemplareDaInserire);
 
-        /// <summary>
-        /// Restituisce l'elenco completo delle Nazioni
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Nazioni> LeggiNazioni();
 
-        /// <summary>
-        /// Restituisce l'elenco completo delle Regioni
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Regioni> LeggiRegioni();
 
-        /// <summary>
-        /// Restituisce l'elenco delle Regioni filtrato per nazione
-        /// </summary>
-        /// <param name="idNazione"></param>
-        /// <returns></returns>
-        IEnumerable<Regioni> LeggiRegioni(int idNazione);
 
-        /// <summary>
-        /// Restituisce l'elenco completo delle Province
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Province> LeggiProvince();
 
-        /// <summary>
-        /// Restituisce l'elenco delle Province filtrato per regione
-        /// </summary>
-        /// <param name="idRegione"></param>
-        /// <returns></returns>
-        IEnumerable<Province> LeggiProvince(int idRegione);
 
-        /// <summary>
-        /// Restituisce l'elenco completo delle Città
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Citta> LeggiCitta();
 
-        /// <summary>
-        /// Restituisce l'elenco delle Città filtrato per provincia
-        /// </summary>
-        /// <param name="idProvincia"></param>
-        /// <returns></returns>
-        IEnumerable<Citta> LeggiCitta(int idProvincia);
 
-        /// <summary>
-        /// Restituisce l'elenco completo delle Località
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Localita> LeggiLocalita();
 
-        /// <summary>
-        /// Restituisce l'elenco delle Località filtrato per città
-        /// </summary>
-        /// <param name="idCitta"></param>
-        /// <returns></returns>
-        IEnumerable<Localita> LeggiLocalita(int idCitta);
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Restituisce l'albero geografico
@@ -283,12 +243,12 @@ namespace Papero.Models
         /// <returns></returns>
         IEnumerable<Preparazioni> LeggiPreparazioni(int idEsemplare);
 
-        /// <summary>
-        /// Restituisce l'elenco delle Località appartenenti ad una specifica nazione
-        /// </summary>
-        /// <param name="idNazione"></param>
-        /// <returns></returns>
-        IEnumerable<Localita> LeggiLocalitaDaNazione(int idNazione);
+        ///// <summary>
+        ///// Restituisce l'elenco delle Località appartenenti ad una specifica nazione
+        ///// </summary>
+        ///// <param name="idNazione"></param>
+        ///// <returns></returns>
+        //IEnumerable<Localita> LeggiLocalitaDaNazione(int idNazione);
 
         /// <summary>
         /// Restituisce l'elenco degli Esemplari provenienti da una specifica nazione

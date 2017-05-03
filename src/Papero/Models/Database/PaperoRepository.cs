@@ -378,72 +378,23 @@ namespace Papero.Models
                 .Id;
         }
 
-        public IEnumerable<Nazioni> LeggiNazioni()
-        {
-            return _contesto.Nazioni
-                .OrderBy(nazione => nazione.Nazione)
-                .ToList();
-        }
 
-        public IEnumerable<Regioni> LeggiRegioni()
-        {
-            return _contesto.Regioni
-                .OrderBy(regione => regione.Regione)
-                .ToList();
-        }
 
-        public IEnumerable<Regioni> LeggiRegioni(int idNazione)
-        {
-            return _contesto.Regioni
-                .Where(regione => regione.NazioneId == idNazione)
-                .OrderBy(regione => regione.Regione)
-                .ToList();
-        }
 
-        public IEnumerable<Province> LeggiProvince()
-        {
-            return _contesto.Province
-                .OrderBy(provincia => provincia.Provincia)
-                .ToList();
-        }
 
-        public IEnumerable<Province> LeggiProvince(int idRegione)
-        {
-            return _contesto.Province
-                .Where(provincia => provincia.RegioneId == idRegione)
-                .OrderBy(provincia => provincia.Provincia)
-                .ToList();
-        }
 
-        public IEnumerable<Citta> LeggiCitta()
-        {
-            return _contesto.Citta
-                .OrderBy(citta => citta.NomeCitta)
-                .ToList();
-        }
 
-        public IEnumerable<Citta> LeggiCitta(int idProvincia)
-        {
-            return _contesto.Citta
-                .Where(citta => citta.ProvinciaId == idProvincia)
-                .OrderBy(citta => citta.NomeCitta)
-                .ToList();
-        }
 
-        public IEnumerable<Localita> LeggiLocalita()
-        {
-            return _contesto.Localita
-                .OrderBy(localita => localita.NomeLocalita)
-                .ToList();
-        }
 
-        public IEnumerable<Localita> LeggiLocalita(int idCitta)
-        {
-            return _contesto.Localita
-                .Where(localita => localita.CittaId == idCitta)
-                .OrderBy(localita => localita.NomeLocalita)
-                .ToList();
-        }
+
+
+
+
+
+
+
+
+
 
         public IEnumerable<Nazioni> LeggiGeografia()
         {
@@ -455,12 +406,12 @@ namespace Papero.Models
                 .ToList();
         }
 
-        public IEnumerable<Localita> LeggiLocalitaDaNazione(int idNazione)
-        {
-            return _contesto.Localita
-                .Where(localita => localita.Citta.Provincia.Regione.NazioneId == idNazione)
-            .ToList();
-        }
+        //public IEnumerable<Localita> LeggiLocalitaDaNazione(int idNazione)
+        //{
+        //    return _contesto.Localita
+        //        .Where(localita => localita.Citta.Provincia.Regione.NazioneId == idNazione)
+        //    .ToList();
+        //}
 
         public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaNazione(int idNazione)
         {

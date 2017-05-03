@@ -195,4 +195,22 @@
   <data name="Vassoi" xml:space="preserve">
     <value>Trays</value>
   </data>
+  <data name="Città" xml:space="preserve">
+    <value>Cities</value>
+  </data>
+  <data name="Geografia" xml:space="preserve">
+    <value>Geography</value>
+  </data>
+  <data name="Località" xml:space="preserve">
+    <value>Places</value>
+  </data>
+  <data name="Nazioni" xml:space="preserve">
+    <value>Countries</value>
+  </data>
+  <data name="Province" xml:space="preserve">
+    <value>Provinces</value>
+  </data>
+  <data name="Regioni" xml:space="preserve">
+    <value>Regions</value>
+  </data>
 </root>

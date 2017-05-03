@@ -154,6 +154,10 @@
                      (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaDeterminatori"))
                      ||
                      (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaPreparatori"))
+                     ||
+                     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollocazione"))
+                     ||
+                     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaGeografia"))
                     )
                 {
                     <li class="nav-item nav-dropdown active">
@@ -216,6 +220,31 @@
                                         </li>
                                         <li>
                                             <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Vassoi">@localizzatore["Vassoi"]</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaGeografia"))
+                            {
+                                <li class="nav-item nav-dropdown active text-right">
+                                    <a class="nav-link nav-dropdown-toggle" href="#">
+                                        <i class="fa fa-globe fa-fw"></i>@localizzatore["Geografia"]<i class="fa arrow"></i>
+                                    </a>
+                                    <ul class="nav-dropdown-items">
+                                        <li>
+                                            <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Nazioni">@localizzatore["Nazioni"]</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Regioni">@localizzatore["Regioni"]</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Province">@localizzatore["Province"]</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Citta">@localizzatore["Città"]</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Localita">@localizzatore["Località"]</a>
                                         </li>
                                     </ul>
                                 </li>

@@ -126,68 +126,15 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiElencoSpecie());
         }
 
-        [Authorize]
-        [HttpGet("api/nazioni")]
-        public IActionResult GetNazioni()
-        {
-            return Ok(_repository.LeggiNazioni());
-        }
 
-        [Authorize]
-        [HttpGet("api/regioni")]
-        public IActionResult GetRegioni()
-        {
-            return Ok(_repository.LeggiRegioni());
-        }
 
-        [Authorize]
-        [HttpGet("api/regioni/{idNazione}")]
-        public IActionResult GetRegioni(int idNazione)
-        {
-            return Ok(_repository.LeggiRegioni(idNazione));
-        }
 
-        [Authorize]
-        [HttpGet("api/province")]
-        public IActionResult GetProvince()
-        {
-            return Ok(_repository.LeggiProvince());
-        }
 
-        [Authorize]
-        [HttpGet("api/province/{idRegione}")]
-        public IActionResult GetProvince(int idRegione)
-        {
-            return Ok(_repository.LeggiProvince(idRegione));
-        }
+ 
 
-        [Authorize]
-        [HttpGet("api/citta")]
-        public IActionResult GetCitta()
-        {
-            return Ok(_repository.LeggiCitta());
-        }
 
-        [Authorize]
-        [HttpGet("api/citta/{idProvincia}")]
-        public IActionResult GetCitta(int idProvincia)
-        {
-            return Ok(_repository.LeggiCitta(idProvincia));
-        }
 
-        [Authorize]
-        [HttpGet("api/localita")]
-        public IActionResult GetLocalita()
-        {
-            return Ok(_repository.LeggiLocalita());
-        }
 
-        [Authorize]
-        [HttpGet("api/localita/{idCitta}")]
-        public IActionResult GetLocalita(int idCitta)
-        {
-            return Ok(_repository.LeggiLocalita(idCitta));
-        }
 
         [Authorize]
         [HttpGet("api/geografia")]
@@ -238,12 +185,12 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiPreparazioni(idEsemplare));
         }
 
-        [Authorize]
-        [HttpGet("api/localitadanazione/{idNazione}")]
-        public IActionResult GetLocalitaDaNazione(int idNazione)
-        {
-            return Ok(_repository.LeggiLocalitaDaNazione(idNazione));
-        }
+        //[Authorize]
+        //[HttpGet("api/localitadanazione/{idNazione}")]
+        //public IActionResult GetLocalitaDaNazione(int idNazione)
+        //{
+        //    return Ok(_repository.LeggiLocalitaDaNazione(idNazione));
+        //}
 
         [Authorize(Policy = "VisualizzaElencoEsemplari")]
         [HttpGet("api/elencoesemplaridanazione/{idNazione}")]

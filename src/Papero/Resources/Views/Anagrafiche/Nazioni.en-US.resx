@@ -117,100 +117,64 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafiche" xml:space="preserve">
-    <value>Tables</value>
+  <data name="Anagrafica Nazioni" xml:space="preserve">
+    <value>Nations Table</value>
   </data>
-  <data name="Contatti" xml:space="preserve">
-    <value>Contacts</value>
+  <data name="Annulla" xml:space="preserve">
+    <value>Cancel</value>
   </data>
-  <data name="Esemplari" xml:space="preserve">
-    <value>Spécimens</value>
+  <data name="Azioni" xml:space="preserve">
+    <value>Actions</value>
   </data>
-  <data name="Impostazioni" xml:space="preserve">
-    <value>Paramètres</value>
+  <data name="Cancella" xml:space="preserve">
+    <value>Delete</value>
   </data>
-  <data name="Info su Papero" xml:space="preserve">
-    <value>À propos de Papero</value>
+  <data name="Cancella Nazione" xml:space="preserve">
+    <value>Delete Nation</value>
   </data>
-  <data name="Inglese" xml:space="preserve">
-    <value>Anglais</value>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
   </data>
-  <data name="Italiano" xml:space="preserve">
-    <value>Italien</value>
+  <data name="Impossibile cancellare la Nazione!" xml:space="preserve">
+    <value>Unable to delete the Nation!</value>
   </data>
-  <data name="Lingua" xml:space="preserve">
-    <value>Langue</value>
+  <data name="Inserisci" xml:space="preserve">
+    <value>Submit</value>
   </data>
-  <data name="linguaggioDatatables" xml:space="preserve">
-    <value>//cdn.datatables.net/plug-ins/1.10.12/i18n/French.json</value>
+  <data name="Inserisci nuova Nazione" xml:space="preserve">
+    <value>Insert new Nation</value>
   </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Déconnexion</value>
+  <data name="ISO 3166-1 alpha-2" xml:space="preserve">
+    <value>ISO 3166-1 alpha-2</value>
   </data>
-  <data name="Museo di Storia Naturale 'Giacomo Doria' - Genova" xml:space="preserve">
-    <value>Muséum d'histoire naturelle 'Giacomo Doria' - Gênes</value>
+  <data name="ISO 3166-1 alpha-3" xml:space="preserve">
+    <value>ISO 3166-1 alpha-3</value>
   </data>
-  <data name="Profilo Utente" xml:space="preserve">
-    <value>Profil utilisateur</value>
+  <data name="ISO 3166-1 numerico" xml:space="preserve">
+    <value>ISO 3166-1 numeric</value>
   </data>
-  <data name="Tassonomia" xml:space="preserve">
-    <value>Taxonomie</value>
+  <data name="Modifica" xml:space="preserve">
+    <value>Edit</value>
   </data>
-  <data name="Mostra/Nascondi Menu" xml:space="preserve">
-    <value>Basculer le Menu</value>
+  <data name="Modifica Nazione" xml:space="preserve">
+    <value>Edit Nation</value>
   </data>
-  <data name="Francese" xml:space="preserve">
-    <value>Français</value>
+  <data name="Nazione" xml:space="preserve">
+    <value>Nation</value>
   </data>
-  <data name="Classificatori" xml:space="preserve">
-    <value>Classificateurs</value>
-  </data>
-  <data name="Collezioni" xml:space="preserve">
-    <value>Collections</value>
-  </data>
-  <data name="Spedizioni" xml:space="preserve">
-    <value>Expéditions</value>
-  </data>
-  <data name="Raccoglitori" xml:space="preserve">
-    <value>Collecteurs</value>
-  </data>
-  <data name="Determinatori" xml:space="preserve">
-    <value>Déterminants</value>
-  </data>
-  <data name="Preparatori" xml:space="preserve">
-    <value>Préparateurs</value>
-  </data>
-  <data name="Armadi" xml:space="preserve">
-    <value>Armoires</value>
-  </data>
-  <data name="Cassetti" xml:space="preserve">
-    <value>Tiroirs</value>
-  </data>
-  <data name="Collocazione" xml:space="preserve">
-    <value>Position</value>
-  </data>
-  <data name="Sale" xml:space="preserve">
-    <value>Salles</value>
-  </data>
-  <data name="Vassoi" xml:space="preserve">
-    <value>Plateaux</value>
-  </data>
-  <data name="Città" xml:space="preserve">
-    <value>Villes</value>
-  </data>
-  <data name="Geografia" xml:space="preserve">
-    <value>Géographie</value>
-  </data>
-  <data name="Località" xml:space="preserve">
-    <value>Lieux</value>
+  <data name="Nazione già presente!" xml:space="preserve">
+    <value>Nation already present!</value>
   </data>
   <data name="Nazioni" xml:space="preserve">
     <value>Nations</value>
   </data>
-  <data name="Province" xml:space="preserve">
-    <value>Provinces</value>
+  <data name="Nuova" xml:space="preserve">
+    <value>New</value>
   </data>
   <data name="Regioni" xml:space="preserve">
-    <value>Régions</value>
+    <value>Regions</value>
+  </data>
+  <data name="Vi sono elementi dipendenti" xml:space="preserve">
+    <value>There are related elements</value>
   </data>
 </root>

@@ -135,9 +135,6 @@
   <data name="Cancella Sala" xml:space="preserve">
     <value>Supprimer la Salle</value>
   </data>
-  <data name="Collezione" xml:space="preserve">
-    <value>Salle</value>
-  </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
@@ -158,6 +155,9 @@
   </data>
   <data name="Nuova" xml:space="preserve">
     <value>Nouvelle</value>
+  </data>
+  <data name="Sala" xml:space="preserve">
+    <value>Salle</value>
   </data>
   <data name="Sala già presente!" xml:space="preserve">
     <value>Salle déjà présente!</value>

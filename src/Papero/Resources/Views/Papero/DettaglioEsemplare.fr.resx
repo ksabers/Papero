@@ -229,7 +229,7 @@
     <value>Partiallement leucistique</value>
   </data>
   <data name="Località di Cattura" xml:space="preserve">
-    <value>Lieux de Capture</value>
+    <value>Lieu de Capture</value>
   </data>
   <data name="Lunghezza Totale" xml:space="preserve">
     <value>Longueur totale</value>
@@ -418,7 +418,7 @@
     <value>Cédant</value>
   </data>
   <data name="Località" xml:space="preserve">
-    <value>Lieux</value>
+    <value>Lieu</value>
   </data>
   <data name="Raccoglitori" xml:space="preserve">
     <value>Collecteurs</value>
