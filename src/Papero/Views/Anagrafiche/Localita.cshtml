@@ -1,6 +1,6 @@
-﻿@model Papero.Models.Regioni
+﻿@model Papero.Models.Citta
 @{
-    ViewBag.Title = localizzatore["Anagrafica Province"];
+    ViewBag.Title = localizzatore["Anagrafica Località"];
 }
 @section css {
 
@@ -15,17 +15,17 @@
 
 @section scripts {
 
-    <script src="~/js/anagraficaProvinceController.js"></script>
+    <script src="~/js/anagraficaLocalitaController.js"></script>
 
 }
-<div ng-app="papero-app" ng-controller="anagraficaProvinceController as vm">
-    <input type="hidden" id="idRegioneHidden" name="idRegioneHidden" value="@Model.Id"/>
+<div ng-app="papero-app" ng-controller="anagraficaLocalitaController as vm">
+    <input type="hidden" id="idCittaHidden" name="idCittaHidden" value="@Model.Id"/>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        @localizzatore["Province"]&nbsp;&nbsp;&nbsp;
+                        @localizzatore["Località"]&nbsp;&nbsp;&nbsp;
                         @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
                         {
                             <a href="#" class="btn btn-success" ng-click="vm.apriPannelloInserimento()" ng-show="vm.pulsanteInserimentoVisibile"><i class="fa fa-plus"></i> @localizzatore["Nuova"]</a>
@@ -36,43 +36,58 @@
                 <div id="panelInserimento" class="panel-body panel-collapse collapse">
                     <div class="row">
                         <div class="form-group">
-                            <label for="inputInsertProvincia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuova Provincia"]:</label>
+                            <label for="inputInsertLocalita" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuova Località"]:</label>
                             <div class="col-lg-3">
                                 <input type="text" 
                                        class="form-control" 
-                                       ng-model="vm.inputInsertProvincia" 
-                                       ng-change="vm.verificaProvincia()" 
-                                       id="inputInsertProvincia" 
-                                       name="inputInsertProvincia" />
+                                       ng-model="vm.inputInsertLocalita" 
+                                       ng-change="vm.verificaLocalita()" 
+                                       id="inputInsertLocalita" 
+                                       name="inputInsertLocalita" />
                             </div>
                         </div>
                     </div>
                     <p></p>
                     <div class="row">
                         <div class="form-group">
-                            <label for="inputInsertSiglaProvincia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Sigla Provincia"]:</label>
+                            <label for="inputInsertLatitudine" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Latitudine"]:</label>
                             <div class="col-lg-3">
                                 <input type="text"
                                        class="form-control"
-                                       ng-model="vm.inputInsertSiglaProvincia"
-                                       ng-change="vm.verificaSiglaProvincia()"
-                                       id="inputInsertSiglaProvincia"
-                                       name="inputInsertSiglaProvincia" />
+                                       ng-model="vm.inputInsertLatitudine"
+                                       ng-change="vm.verificaLatitudine()"
+                                       id="inputInsertLatitudine"
+                                       name="inputInsertLatitudine" />
                             </div>
                         </div>
                     </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputInsertLongitudine" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Longitudine"]:</label>
+                            <div class="col-lg-3">
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="vm.inputInsertLongitudine"
+                                       ng-change="vm.verificaLongitudine()"
+                                       id="inputInsertLongitudine"
+                                       name="inputInsertLongitudine" />
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-3 col-lg-offset-4">
-                                    <div class="alert alert-danger" ng-show="vm.provinciaGiaPresente">
-                                        <strong>@localizzatore["Provincia già presente!"]</strong> (@localizzatore["Id"]: {{vm.provinciaDoppia.id}})
+                                    <div class="alert alert-danger" ng-show="vm.localitaGiaPresente">
+                                        <strong>@localizzatore["Località già presente!"]</strong> (@localizzatore["Id"]: {{vm.localitaDoppia.id}})
                                     </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-lg-2">
                                     <div class="pull-right">
                                         <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimento()">@localizzatore["Annulla"]</button>
-                                        <button type="submit" class="btn btn-success" ng-click="vm.inserisciProvincia()" ng-disabled="vm.pulsanteInsertDisabilitato">@localizzatore["Inserisci"]</button>
+                                        <button type="submit" class="btn btn-success" ng-click="vm.inserisciLocalita()" ng-disabled="vm.pulsanteInsertDisabilitato">@localizzatore["Inserisci"]</button>
                                     </div>
                                 </div>
                             </div>
@@ -82,36 +97,51 @@
                 <div id="panelEdit" class="panel-body panel-collapse collapse">
                     <div class="row">
                         <div class="form-group">
-                            <label for="inputEditProvincia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Provincia"]:</label>
+                            <label for="inputEditLocalita" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Località"]:</label>
                             <div class="col-lg-3">
                                 <input type="text"
                                        class="form-control"
-                                       ng-model="vm.inputEditProvincia"
-                                       ng-change="vm.verificaEditProvincia()"
-                                       id="inputEditProvincia"
-                                       name="inputEditProvincia" />
+                                       ng-model="vm.inputEditLocalita"
+                                       ng-change="vm.verificaEditLocalita()"
+                                       id="inputEditLocalita"
+                                       name="inputEditLocalita" />
                             </div>
                         </div>
                     </div>
                     <p></p>
                     <div class="row">
                         <div class="form-group">
-                            <label for="inputEditSiglaProvincia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Sigla Provincia"]:</label>
+                            <label for="inputEditLatitudine" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Latitudine"]:</label>
                             <div class="col-lg-3">
                                 <input type="text"
                                        class="form-control"
-                                       ng-model="vm.inputEditSiglaProvincia"
-                                       ng-change="vm.verificaEditSiglaProvincia()"
-                                       id="inputEditSiglaProvincia"
-                                       name="inputEditSiglaProvincia" />
+                                       ng-model="vm.inputEditLatitudine"
+                                       ng-change="vm.verificaLatitudine()"
+                                       id="inputEditLatitudine"
+                                       name="inputEditLatitudine" />
                             </div>
                         </div>
                     </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputEditLongitudine" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Longitudine"]:</label>
+                            <div class="col-lg-3">
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="vm.inputEditLongitudine"
+                                       ng-change="vm.verificaLongitudine()"
+                                       id="inputEditLongitudine"
+                                       name="inputEditLongitudine" />
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-3 col-lg-offset-4">
-                                <div class="alert alert-danger" ng-show="vm.provinciaGiaPresente">
-                                    <strong>@localizzatore["Provincia già presente!"]</strong> (@localizzatore["Id"]: {{vm.provinciaDoppia.id}})
+                                <div class="alert alert-danger" ng-show="vm.localitaGiaPresente">
+                                    <strong>@localizzatore["Località già presente!"]</strong> (@localizzatore["Id"]: {{vm.localitaDoppia.id}})
                                 </div>
                             </div>
                             <div class="form-group">
@@ -122,7 +152,7 @@
                                                 ng-click="vm.annullaEdit()">@localizzatore["Annulla"]</button>
                                         <button type="submit" 
                                                 class="btn btn-success" 
-                                                ng-click="vm.editProvincia()" 
+                                                ng-click="vm.editLocalita()" 
                                                 ng-disabled="vm.pulsanteEditDisabilitato">@localizzatore["Modifica"]</button>
                                     </div>
                                 </div>
@@ -133,17 +163,17 @@
                 <div id="panelCancella" class="panel-body panel-collapse collapse">
                     <div class="row">
                         <div class="form-group">
-                            <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Provincia"]:</label>
+                            <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Località"]:</label>
                             <div class="col-lg-3" >
-                                <h4>{{vm.provinciaDaCancellare}}</h4>
+                                <h4>{{vm.localitaDaCancellare}}</h4>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-3 col-lg-offset-4">
-                                <div class="alert alert-danger" ng-show="vm.provincianonCancellabile">
-                                    <strong>@localizzatore["Impossibile cancellare la Provincia!"]</strong> (@localizzatore["Vi sono elementi dipendenti"])
+                                <div class="alert alert-danger" ng-show="vm.localitanonCancellabile">
+                                    <strong>@localizzatore["Impossibile cancellare la Località!"]</strong> (@localizzatore["Vi sono elementi dipendenti"])
                                 </div>
                             </div>
                             <div class="form-group">
@@ -156,7 +186,7 @@
                                         </button>
                                         <button type="submit"
                                                 class="btn btn-danger"
-                                                ng-click="vm.cancellaProvincia()"
+                                                ng-click="vm.cancellaLocalita()"
                                                 ng-show="vm.pulsanteCancellaVisibile">
                                                 @localizzatore["Cancella"]
                                         </button>
@@ -192,9 +222,9 @@
         <div class="form-group">
             <label for="uiSelectRegione" class="col-lg-1 col-lg-offset-3 control-label text-primary">@localizzatore["Regione"]:</label>
             <div class="col-lg-3">
-                <ui-select id="uiSelectRegione"
-                           ng-model="vm.regioneSelezionata"
-                           ng-change="vm.selezionaRegione()"
+                <ui-select id="uiSelectRegione" 
+                           ng-model="vm.regioneSelezionata" 
+                           ng-change="vm.selezionaRegione()" 
                            ng-disabled="vm.dropdownDisabilitate">
                     <ui-select-match>
                         <span ng-bind="$select.selected.regione"></span>
@@ -204,10 +234,48 @@
                     </ui-select-choices>
                 </ui-select>
             </div>
+        </div>
+    </div>
+    <p></p>
+    <div class="row">
+        <div class="form-group">
+            <label for="uiSelectProvincia" class="col-lg-1 col-lg-offset-3 control-label text-primary">@localizzatore["Provincia"]:</label>
+            <div class="col-lg-3">
+                <ui-select id="uiSelectProvincia" 
+                           ng-model="vm.provinciaSelezionata" 
+                           ng-change="vm.selezionaProvincia()" 
+                           ng-disabled="vm.dropdownDisabilitate">
+                    <ui-select-match>
+                        <span ng-bind="$select.selected.provincia"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="provincia in (vm.province | filter: $select.search) track by provincia.id">
+                        <span ng-bind="provincia.provincia"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <div class="row">
+        <div class="form-group">
+            <label for="uiSelectCitta" class="col-lg-1 col-lg-offset-3 control-label text-primary">@localizzatore["Città"]:</label>
+            <div class="col-lg-3">
+                <ui-select id="uiSelectCitta"
+                           ng-model="vm.cittaSelezionata"
+                           ng-change="vm.selezionaCitta()"
+                           ng-disabled="vm.dropdownDisabilitate">
+                    <ui-select-match>
+                        <span ng-bind="$select.selected.nomeCitta"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="citta in (vm.citta | filter: $select.search) track by citta.id">
+                        <span ng-bind="citta.nomeCitta"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
             <div class="col-lg-1">
                 <a class="btn btn-sm btn-primary"
-                   ng-href="/Anagrafiche/Regioni/{{vm.nazioneSelezionata.id}}">
-                    <i class="fa fa-arrow-left"></i><text>&nbsp;</text>@localizzatore["Regioni"]
+                   ng-href="/Anagrafiche/Citta/{{vm.provinciaSelezionata.id}}">
+                    <i class="fa fa-arrow-left"></i><text>&nbsp;</text>@localizzatore["Città"]
                 </a>
             </div>
         </div>
@@ -217,41 +285,38 @@
         <div class="col-lg-12">
             <table datatable="ng"
                    class="table table-striped table-bordered table-hover"
-                   id="tabellaProvince"
-                   dt-options="vm.opzioniTabellaProvince"
-                   dt-column-defs="vm.colonneTabellaProvince">
+                   id="tabellaLocalita"
+                   dt-options="vm.opzioniTabellaLocalita"
+                   dt-column-defs="vm.colonneTabellaLocalita">
                 <thead>
                     <tr>
                         <th>@localizzatore["Id"]</th>
-                        <th>@localizzatore["Provincia"]</th>
-                        <th>@localizzatore["Sigla Provincia"]</th>
+                        <th>@localizzatore["Località"]</th>
+                        <th>@localizzatore["Latitudine"]</th>
+                        <th>@localizzatore["Longitudine"]</th>
                         <th>@localizzatore["Azioni"]</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="provincia in vm.province">
-                        <td>{{provincia.id}}</td>
-                        <td>{{provincia.provincia}}</td>
-                        <td>{{provincia.siglaProvincia}}</td>
+                    <tr ng-repeat="localita in vm.localita">
+                        <td>{{localita.id}}</td>
+                        <td>{{localita.nomeLocalita}}</td>
+                        <td>{{localita.latitudine}}</td>
+                        <td>{{localita.longitudine}}</td>
                         <td>
                             @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
                             {
                                 <a class="btn btn-sm btn-success text-white"
-                                   ng-click="vm.apriPannelloEdit(provincia)"
-                                   ng-hide="provincia.provincia == '-'">
+                                   ng-click="vm.apriPannelloEdit(localita)"
+                                   ng-hide="localita.nomeLocalita == '-'">
                                     <i class="fa fa-pencil"></i>&nbsp;@localizzatore["Modifica"]
                                 </a><text>&nbsp; &nbsp; &nbsp;</text>
                                 <a class="btn btn-sm btn-danger"
-                                   ng-click="vm.apriPannelloCancella(provincia)"
-                                   ng-hide="(provincia.provincia == '-') || (provincia.citta.length != 1)"
-                                   >
+                                   ng-click="vm.apriPannelloCancella(localita)"
+                                   ng-hide="(localita.nomeLocalita == '-')">
                                     <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
                                 </a>
                             }
-                            <a class="btn btn-sm btn-primary"
-                               ng-href="/Anagrafiche/Citta/{{provincia.id}}">
-                                <i class="fa fa-arrow-right"></i><text>&nbsp;</text>@localizzatore["Città"] ({{provincia.citta.length - 1}})
-                            </a>
                         </td>
                     </tr>
                 </tbody>

@@ -13,11 +13,12 @@
 
         vm.opzioniTabellaNazioni = DTOptionsBuilder.newOptions()       // Opzioni di visualizzazione della angular datatable
             .withOption("bLengthChange", false)
+            .withOption("order", [1, 'asc'])
             .withLanguageSource(stringaLinguaggioDatatables);                 // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
                                                                               // (come da specifiche delle angular datatables)
                                                                               // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
         vm.colonneTabellaNazioni = [
-            DTColumnDefBuilder.newColumnDef(2).notSortable()  // Impedisce l'ordinamento della tabella sulla colonna dei pulsanti
+            DTColumnDefBuilder.newColumnDef(5).notSortable()  // Impedisce l'ordinamento della tabella sulla colonna dei pulsanti
         ];
 
         vm.pulsanteInserimentoVisibile = true;  // Impostazione iniziale dei pulsanti e dei pannelli di alert
@@ -160,6 +161,7 @@
             else {                                                                   // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
                 $http.put("/api/nazioni",                                         // il valore si può modificare
                            {
+                               "id": nazioneCliccata.id,
                                "nazione": _.trim(vm.inputEditNazione),
                                "iso31661Alpha2": _.trim(vm.inputEditiso31661Alpha2),
                                "iso31661Alpha3": _.trim(vm.inputEditiso31661Alpha3),

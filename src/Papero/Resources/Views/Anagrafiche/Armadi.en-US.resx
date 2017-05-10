@@ -168,6 +168,9 @@
   <data name="Sala" xml:space="preserve">
     <value>Room</value>
   </data>
+  <data name="Sale" xml:space="preserve">
+    <value>Rooms</value>
+  </data>
   <data name="Vi sono elementi dipendenti" xml:space="preserve">
     <value>There are related elements</value>
   </data>

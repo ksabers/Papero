@@ -165,6 +165,9 @@
   <data name="Sala" xml:space="preserve">
     <value>Salle</value>
   </data>
+  <data name="Sale" xml:space="preserve">
+    <value>Salles</value>
+  </data>
   <data name="Vi sono elementi dipendenti" xml:space="preserve">
     <value>Il y a des éléments connectés</value>
   </data>

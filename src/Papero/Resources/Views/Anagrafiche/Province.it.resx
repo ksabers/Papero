@@ -132,6 +132,9 @@
   <data name="Cancella Provincia" xml:space="preserve">
     <value>Cancella Provincia</value>
   </data>
+  <data name="Città" xml:space="preserve">
+    <value>Città</value>
+  </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>

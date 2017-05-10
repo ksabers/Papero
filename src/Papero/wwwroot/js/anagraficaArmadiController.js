@@ -14,6 +14,7 @@
 
         vm.opzioniTabellaArmadi = DTOptionsBuilder.newOptions()       // Opzioni di visualizzazione della angular datatable
             .withOption("bLengthChange", false)
+            .withOption("order", [1, 'asc'])
             .withLanguageSource(stringaLinguaggioDatatables);                 // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
                                                                               // (come da specifiche delle angular datatables)
                                                                               // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
@@ -80,9 +81,12 @@
                 vm.armadioGiaPresente = true;   // mostro il pannello di alert
                 vm.pulsanteInsertDisabilitato = true;  // e disabilito la insert
             }
-            else {                                                                       // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
+            else {                                                               // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
                 $http.post("/api/armadi",                                        // il valore si può inserire
-                           { "armadio": _.trim(vm.inputInsertArmadio) })   // chiamo la API di inserimento
+                           {
+                               "salaId": vm.salaSelezionata.id,
+                               "armadio": _.trim(vm.inputInsertArmadio)          // chiamo la API di inserimento                 
+                           })
                     .then(function (response) {                                          // la chiamata alla API mi restituisce il JSON del valore appena inserito (soprattutto mi dice il nuovo ID)
                         vm.armadi.push(response.data);                           // Uso il JSON restituito dalla API per inserire il nuovo valore in tabella
                         $("#panelInserimento").collapse("hide");                         // chiudo il pannello di inserimento
@@ -141,8 +145,11 @@
             }
             else {                                                                       // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
                 $http.put("/api/armadi",                                         // il valore si può modificare
-                           { "id": armadioCliccato.id,
-                             "armadio": _.trim(vm.inputEditArmadio) })     // chiamo la API di modifica
+                           {
+                               "id": armadioCliccato.id,
+                               "salaId": vm.salaSelezionata.id,        // chiamo la API di modifica
+                               "armadio": _.trim(vm.inputEditArmadio)
+                           })
                     .then(function (response) {                                          
                         vm.armadi[_.findIndex(vm.armadi, ["id", armadioCliccato.id])].armadio = _.trim(vm.inputEditArmadio);
                         $("#panelEdit").collapse("hide");                                // chiudo il pannello di edit

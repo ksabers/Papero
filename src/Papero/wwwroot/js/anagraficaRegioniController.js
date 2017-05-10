@@ -14,6 +14,7 @@
 
         vm.opzioniTabellaRegioni = DTOptionsBuilder.newOptions()       // Opzioni di visualizzazione della angular datatable
             .withOption("bLengthChange", false)
+            .withOption("order", [1, 'asc'])
             .withLanguageSource(stringaLinguaggioDatatables);                 // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
                                                                               // (come da specifiche delle angular datatables)
                                                                               // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
@@ -29,7 +30,7 @@
         vm.dropdownDisabilitate = false;
 
 
-        vm.selezionaRegione = function selezionaRegione() {
+        vm.selezionaNazione = function selezionaNazione() {
             vm.regioni = _.filter(elencoRegioni, function (regione) { return regione.nazioneId == vm.nazioneSelezionata.id });
             vm.pulsanteInserimentoVisibile = (vm.nazioneSelezionata.nazione != "-");  // Si può inserire un regione solo in una nazione esistente, non nella nazione indeterminata
         };
@@ -82,7 +83,10 @@
             }
             else {                                                                       // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
                 $http.post("/api/regioni",                                        // il valore si può inserire
-                           { "regione": _.trim(vm.inputInsertRegione) })   // chiamo la API di inserimento
+                           {
+                               "regione": _.trim(vm.inputInsertRegione),
+                               "nazioneId": vm.nazioneSelezionata.id
+                           })   // chiamo la API di inserimento
                     .then(function (response) {                                          // la chiamata alla API mi restituisce il JSON del valore appena inserito (soprattutto mi dice il nuovo ID)
                         vm.regioni.push(response.data);                           // Uso il JSON restituito dalla API per inserire il nuovo valore in tabella
                         $("#panelInserimento").collapse("hide");                         // chiudo il pannello di inserimento
@@ -141,8 +145,11 @@
             }
             else {                                                                       // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
                 $http.put("/api/regioni",                                         // il valore si può modificare
-                           { "id": regioneCliccata.id,
-                             "regione": _.trim(vm.inputEditRegione) })     // chiamo la API di modifica
+                           {
+                               "id": regioneCliccata.id,
+                               "regione": _.trim(vm.inputEditRegione),      // chiamo la API di modifica
+                               "nazioneId": vm.nazioneSelezionata.id
+                           })
                     .then(function (response) {                                          
                         vm.regioni[_.findIndex(vm.regioni, ["id", regioneCliccata.id])].regione = _.trim(vm.inputEditRegione);
                         $("#panelEdit").collapse("hide");                                // chiudo il pannello di edit
@@ -188,7 +195,7 @@
                        else {
                            vm.nazioneSelezionata = _.find(vm.nazioni, function (nazione) { return nazione.nazione == "-" });
                        };
-                       vm.selezionaRegione();
+                       vm.selezionaNazione();
                    });
            });
     }

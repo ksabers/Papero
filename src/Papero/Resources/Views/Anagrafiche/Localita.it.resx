@@ -117,61 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafica Regioni" xml:space="preserve">
-    <value>Regions Table</value>
+  <data name="Anagrafica Località" xml:space="preserve">
+    <value>Anagrafica Località</value>
   </data>
   <data name="Annulla" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annulla</value>
   </data>
   <data name="Azioni" xml:space="preserve">
-    <value>Actions</value>
+    <value>Azioni</value>
   </data>
   <data name="Cancella" xml:space="preserve">
-    <value>Delete</value>
+    <value>Cancella</value>
   </data>
-  <data name="Cancella Regione" xml:space="preserve">
-    <value>Delete Region</value>
+  <data name="Cancella Località" xml:space="preserve">
+    <value>Cancella Località</value>
+  </data>
+  <data name="Città" xml:space="preserve">
+    <value>Città</value>
   </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
-  <data name="Impossibile cancellare la Regione!" xml:space="preserve">
-    <value>Unable to delete the Region!</value>
+  <data name="Impossibile cancellare la Località!" xml:space="preserve">
+    <value>Impossibile cancellare la Località!</value>
   </data>
   <data name="Inserisci" xml:space="preserve">
-    <value>Submit</value>
+    <value>Inserisci</value>
   </data>
-  <data name="Inserisci nuova Regione" xml:space="preserve">
-    <value>Insert new Region</value>
+  <data name="Inserisci nuova Località" xml:space="preserve">
+    <value>Inserisci nuova Località</value>
+  </data>
+  <data name="Località" xml:space="preserve">
+    <value>Località</value>
+  </data>
+  <data name="Località già presente!" xml:space="preserve">
+    <value>Località già presente!</value>
   </data>
   <data name="Modifica" xml:space="preserve">
-    <value>Edit</value>
+    <value>Modifica</value>
   </data>
-  <data name="Modifica Regione" xml:space="preserve">
-    <value>Edit Region</value>
+  <data name="Modifica Località" xml:space="preserve">
+    <value>Modifica Località</value>
   </data>
   <data name="Nazione" xml:space="preserve">
-    <value>Nation</value>
-  </data>
-  <data name="Nazioni" xml:space="preserve">
-    <value>Nations</value>
+    <value>Nazione</value>
   </data>
   <data name="Nuova" xml:space="preserve">
-    <value>New</value>
+    <value>Nuova</value>
   </data>
-  <data name="Province" xml:space="preserve">
-    <value>Provinces</value>
+  <data name="Provincia" xml:space="preserve">
+    <value>Provincia</value>
   </data>
   <data name="Regione" xml:space="preserve">
-    <value>Region</value>
-  </data>
-  <data name="Regione già presente!" xml:space="preserve">
-    <value>Region already present!</value>
-  </data>
-  <data name="Regioni" xml:space="preserve">
-    <value>Regions</value>
+    <value>Regione</value>
   </data>
   <data name="Vi sono elementi dipendenti" xml:space="preserve">
-    <value>There are related elements</value>
+    <value>Vi sono elementi dipendenti</value>
   </data>
 </root>

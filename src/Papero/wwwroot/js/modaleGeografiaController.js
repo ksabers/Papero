@@ -116,26 +116,22 @@
         $http.get("/api/nazioni")
             .then(function (response) {
                 vm.nazioni = response.data;
-            });
-
-        $http.get("/api/regioni")
-            .then(function (response) {
-                elencoRegioni = response.data;
-            });
-
-        $http.get("/api/province")
-            .then(function (response) {
-                elencoProvince = response.data;
-            });
-
-        $http.get("/api/citta")
-            .then(function (response) {
-                elencoCitta = response.data;
-            });
-
-        $http.get("/api/localita")
-            .then(function (response) {
-                elencoLocalita = response.data;
+                $http.get("/api/regioni")
+                    .then(function (response) {
+                        elencoRegioni = response.data;
+                        $http.get("/api/province")
+                            .then(function (response) {
+                                elencoProvince = response.data;
+                                $http.get("/api/citta")
+                                    .then(function (response) {
+                                        elencoCitta = response.data;
+                                        $http.get("/api/localita")
+                                            .then(function (response) {
+                                                elencoLocalita = response.data;
+                                            });
+                                    });
+                            });
+                    });
             });
 
         $http.get("/api/tipiacquisizione")

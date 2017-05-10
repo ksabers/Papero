@@ -16,6 +16,7 @@
 
         vm.opzioniTabellaVassoi = DTOptionsBuilder.newOptions()       // Opzioni di visualizzazione della angular datatable
             .withOption("bLengthChange", false)
+            .withOption("order", [1, 'asc'])
             .withLanguageSource(stringaLinguaggioDatatables);                 // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
                                                                               // (come da specifiche delle angular datatables)
                                                                               // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
@@ -96,9 +97,9 @@
             else {                                                                       // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
                 $http.post("/api/vassoi",                                        // il valore si può inserire
                            {
-                               "cassettoId" : vm.cassettoSelezionato.id,
+                               "cassettoId" : vm.cassettoSelezionato.id,    // chiamo la API di inserimento
                                "vassoio": _.trim(vm.inputInsertVassoio)
-                           })   // chiamo la API di inserimento
+                           })
                     .then(function (response) {                                  // la chiamata alla API mi restituisce il JSON del valore appena inserito (soprattutto mi dice il nuovo ID)
                         vm.vassoi.push(response.data);                           // Uso il JSON restituito dalla API per inserire il nuovo valore in tabella
                         $("#panelInserimento").collapse("hide");                 // chiudo il pannello di inserimento
@@ -155,10 +156,13 @@
                 vm.vassoioGiaPresente = true;   // mostro il pannello di alert
                 vm.pulsanteEditDisabilitato = true;  // e disabilito la insert
             }
-            else {                                                                       // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
-                $http.put("/api/vassoi",                                         // il valore si può modificare
-                           { "id": vassoioCliccato.id,
-                             "vassoio": _.trim(vm.inputEditVassoio) })     // chiamo la API di modifica
+            else {                                                          // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
+                $http.put("/api/vassoi",                                    // il valore si può modificare
+                           {
+                               "id": vassoioCliccato.id,
+                               "cassettoId": vm.cassettoSelezionato.id,     // chiamo la API di modifica
+                               "vassoio": _.trim(vm.inputEditVassoio)
+                           })
                     .then(function (response) {                                          
                         vm.vassoi[_.findIndex(vm.vassoi, ["id", vassoioCliccato.id])].vassoio = _.trim(vm.inputEditVassoio);
                         $("#panelEdit").collapse("hide");                                // chiudo il pannello di edit
