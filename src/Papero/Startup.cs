@@ -73,6 +73,7 @@ namespace Papero
             servizi.AddScoped<IPreparatoriRepository, PreparatoriRepository>();
             servizi.AddScoped<ICollocazioneRepository, CollocazioneRepository>();
             servizi.AddScoped<IGeografiaRepository, GeografiaRepository>();
+            servizi.AddScoped<IAuthRepository, AuthRepository>();
 
             servizi.AddIdentity<UtentePapero, IdentityRole>(configurazione =>  // Registrazione del servizio di autenticazione e configurazione dei suoi parametri.
             {  
@@ -128,6 +129,9 @@ namespace Papero
                 opzioni.AddPolicy("EditAnagraficaCollocazione", costruttorePolicy => costruttorePolicy.RequireClaim("EditAnagraficaCollocazione"));
                 opzioni.AddPolicy("VisualizzaAnagraficaGeografia", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaAnagraficaGeografia"));
                 opzioni.AddPolicy("EditAnagraficaGeografia", costruttorePolicy => costruttorePolicy.RequireClaim("EditAnagraficaGeografia"));
+
+                // Policy per la gestione degli utenti e dei ruoli
+                opzioni.AddPolicy("GestioneUtenti", costruttorePolicy => costruttorePolicy.RequireClaim("GestioneUtenti"));
             });
 
             servizi.AddLocalization(opzioni =>         // Aggiunta del supporto globale per la localizzazione e sua configurazione
