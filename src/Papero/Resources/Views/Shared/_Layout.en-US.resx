@@ -213,4 +213,13 @@
   <data name="Regioni" xml:space="preserve">
     <value>Regions</value>
   </data>
+  <data name="Ruoli" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="Sicurezza" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="Utenti" xml:space="preserve">
+    <value>Users</value>
+  </data>
 </root>

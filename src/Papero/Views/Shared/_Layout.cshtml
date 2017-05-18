@@ -144,21 +144,21 @@
                     </a>
                 </li>
                 @if ((await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori"))
-                     ||
-                     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollezioni"))
-                     ||
-                     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaSpedizioni"))
-                     ||
-                     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaRaccoglitori"))
-                     ||
-                     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaDeterminatori"))
-                     ||
-                     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaPreparatori"))
-                     ||
-                     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollocazione"))
-                     ||
-                     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaGeografia"))
-                    )
+                 ||
+                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollezioni"))
+                 ||
+                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaSpedizioni"))
+                 ||
+                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaRaccoglitori"))
+                 ||
+                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaDeterminatori"))
+                 ||
+                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaPreparatori"))
+                 ||
+                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollocazione"))
+                 ||
+                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaGeografia"))
+                )
                 {
                     <li class="nav-item nav-dropdown active">
                         <a class="nav-link nav-dropdown-toggle" href="#">
@@ -210,25 +210,25 @@
                                     </a>
                                     <ul class="nav-dropdown-items">
                                         <li>
-                                            <a class="nav-link text-right" 
-                                               asp-controller="Anagrafiche" 
+                                            <a class="nav-link text-right"
+                                               asp-controller="Anagrafiche"
                                                asp-action="Sale">@localizzatore["Sale"]</a>
                                         </li>
                                         <li>
-                                            <a class="nav-link text-right" 
-                                               asp-controller="Anagrafiche" 
+                                            <a class="nav-link text-right"
+                                               asp-controller="Anagrafiche"
                                                asp-action="Armadi"
                                                asp-route-Id="">@localizzatore["Armadi"]</a>
                                         </li>
                                         <li>
-                                            <a class="nav-link text-right" 
-                                               asp-controller="Anagrafiche" 
+                                            <a class="nav-link text-right"
+                                               asp-controller="Anagrafiche"
                                                asp-action="Cassetti"
                                                asp-route-Id="">@localizzatore["Cassetti"]</a>
                                         </li>
                                         <li>
-                                            <a class="nav-link text-right" 
-                                               asp-controller="Anagrafiche" 
+                                            <a class="nav-link text-right"
+                                               asp-controller="Anagrafiche"
                                                asp-action="Vassoi"
                                                asp-route-Id="">@localizzatore["Vassoi"]</a>
                                         </li>
@@ -243,32 +243,32 @@
                                     </a>
                                     <ul class="nav-dropdown-items">
                                         <li>
-                                            <a class="nav-link text-right" 
-                                               asp-controller="Anagrafiche" 
+                                            <a class="nav-link text-right"
+                                               asp-controller="Anagrafiche"
                                                asp-action="Nazioni">@localizzatore["Nazioni"]</a>
                                         </li>
                                         <li>
-                                            <a class="nav-link text-right" 
-                                               asp-controller="Anagrafiche" 
+                                            <a class="nav-link text-right"
+                                               asp-controller="Anagrafiche"
                                                asp-action="Regioni"
                                                asp-route-Id="">@localizzatore["Regioni"]</a>
                                         </li>
                                         <li>
-                                            <a class="nav-link text-right" 
-                                               asp-controller="Anagrafiche" 
-                                               asp-action="Province" 
+                                            <a class="nav-link text-right"
+                                               asp-controller="Anagrafiche"
+                                               asp-action="Province"
                                                asp-route-Id="">@localizzatore["Province"]</a>
                                         </li>
                                         <li>
-                                            <a class="nav-link text-right" 
-                                               asp-controller="Anagrafiche" 
+                                            <a class="nav-link text-right"
+                                               asp-controller="Anagrafiche"
                                                asp-action="Citta"
                                                asp-route-Id="">@localizzatore["Città"]</a>
                                         </li>
                                         <li>
-                                            <a class="nav-link text-right" 
-                                               asp-controller="Anagrafiche" 
-                                               asp-action="Localita"                                               
+                                            <a class="nav-link text-right"
+                                               asp-controller="Anagrafiche"
+                                               asp-action="Localita"
                                                asp-route-Id="">@localizzatore["Località"]</a>
                                         </li>
                                     </ul>
@@ -277,8 +277,28 @@
                         </ul>
                     </li>
                 }
+                @if (await autorizzatore.AuthorizeAsync(User, "GestioneUtenti"))
+                {
+                    <li class="nav-item nav-dropdown active">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="fa fa-lock fa-fw"></i>@localizzatore["Sicurezza"]<i class="fa arrow"></i>
+                        </a>
+                        <ul>
+                            <li>
+                                <a class="nav-link text-right" asp-controller="Auth" asp-action="Utenti">@localizzatore["Utenti"]</a>
+                            </li>
+                            <li>
+                                <a class="nav-link text-right" asp-controller="Auth" asp-action="Ruoli">@localizzatore["Ruoli"]</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
 
             </ul>
+
+
+
+
 
 
 

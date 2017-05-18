@@ -77,7 +77,7 @@ namespace Papero
 
             servizi.AddIdentity<UtentePapero, IdentityRole>(configurazione =>  // Registrazione del servizio di autenticazione e configurazione dei suoi parametri.
             {  
-                configurazione.User.RequireUniqueEmail = false;
+                configurazione.User.RequireUniqueEmail = true;
                 configurazione.Password.RequiredLength = 1;
                 configurazione.Password.RequireDigit = false;
                 configurazione.Password.RequireNonAlphanumeric = false;

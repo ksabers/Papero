@@ -1,0 +1,216 @@
+﻿
+@{
+    ViewBag.Title = localizzatore["Anagrafica Ruoli"];
+}
+@section css {
+
+}
+
+@section scripts {
+
+    <script src="~/js/anagraficaRuoliController.js"></script>
+
+}
+<div ng-app="papero-app" ng-controller="anagraficaRuoliController as vm">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        @localizzatore["Ruoli"]&nbsp;&nbsp;&nbsp;
+                        <a href="#" class="btn btn-success" ng-click="vm.apriPannelloInserimento()" ng-show="vm.pulsanteInserimentoVisibile"><i class="fa fa-plus"></i> @localizzatore["Nuovo"]</a>
+                    </div>
+                </div>
+                <div id="panelInserimento" class="panel-body panel-collapse collapse">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputInsertRuolo" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuovo Ruolo"]:</label>
+                            <div class="col-lg-3">
+                                <input type="text" 
+                                       class="form-control" 
+                                       ng-model="vm.inputInsertRuolo" 
+                                       ng-change="vm.verificaRuolo()" 
+                                       id="inputInsertRuolo" 
+                                       name="inputInsertRuolo" />
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-lg-6 col-lg-offset-2">
+                            <table datatable="ng"
+                                   class="table table-striped table-bordered table-hover"
+                                   id="tabellaInsertPolicies"
+                                   dt-options="vm.opzioniTabellaInsertPolicies"
+                                   dt-column-defs="vm.colonneTabellaInsertPolicies">
+                                <thead>
+                                    <tr>
+                                        <th>@localizzatore["Policy"]</th>
+                                        <th>@localizzatore["Autorizzazione"]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="policy in vm.insertPolicies">
+                                        <td>{{policy.policy}}</td>
+                                        <td><input class="form-control" type="checkbox" ng-model="policy.autorizzazione" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-3 col-lg-offset-4">
+                                    <div class="alert alert-danger" ng-show="vm.ruoloGiaPresente">
+                                        <strong>@localizzatore["Ruolo già presente!"]</strong> (@localizzatore["Id"]: {{vm.ruoloDoppio.id}})
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2">
+                                    <div class="pull-right">
+                                        <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimento()">@localizzatore["Annulla"]</button>
+                                        <button type="submit" class="btn btn-success" ng-click="vm.inserisciRuolo()" ng-disabled="vm.pulsanteInsertDisabilitato">@localizzatore["Inserisci"]</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panelEdit" class="panel-body panel-collapse collapse">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputEditSpedizione" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Ruolo"]:</label>
+                            <div class="col-lg-3">
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="vm.inputEditRuolo"
+                                       ng-change="vm.verificaEditRuolo()"
+                                       id="inputEditRuolo"
+                                       name="inputEditRuolo" />
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-lg-6 col-lg-offset-2">
+                            <table datatable="ng"
+                                   class="table table-striped table-bordered table-hover"
+                                   id="tabellaEditPolicies"
+                                   dt-options="vm.opzioniTabellaEditPolicies"
+                                   dt-column-defs="vm.colonneTabellaEditPolicies">
+                                <thead>
+                                    <tr>
+                                        <th>@localizzatore["Policy"]</th>
+                                        <th>@localizzatore["Autorizzazione"]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="policy in vm.editPolicies">
+                                        <td>{{policy.policy}}</td>
+                                        <td><input class="form-control"
+                                                   type="checkbox"
+                                                   ng-model="policy.autorizzazione"
+                                                   ng-change="vm.verificaEditPolicies()" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-3 col-lg-offset-4">
+                                <div class="alert alert-danger" ng-show="vm.ruoloGiaPresente">
+                                    <strong>@localizzatore["Ruolo già presente!"]</strong> (@localizzatore["Id"]: {{vm.ruoloDoppio.id}})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2">
+                                    <div class="pull-right">
+                                        <button type="reset" 
+                                                class="btn btn-outline-primary" 
+                                                ng-click="vm.annullaEdit()">@localizzatore["Annulla"]</button>
+                                        <button type="submit" 
+                                                class="btn btn-success" 
+                                                ng-click="vm.editRuolo()" 
+                                                ng-disabled="vm.pulsanteEditDisabilitato">@localizzatore["Modifica"]</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panelCancella" class="panel-body panel-collapse collapse">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Ruolo"]:</label>
+                            <div class="col-lg-3" >
+                                <h4>{{vm.ruoloDaCancellare}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-3 col-lg-offset-4">
+                                <div class="alert alert-danger" ng-show="vm.ruolononCancellabile">
+                                    <strong>@localizzatore["Impossibile cancellare il Ruolo!"]</strong> (@localizzatore["Già associata a taxa"])
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2">
+                                    <div class="pull-right">
+                                        <button type="reset"
+                                                class="btn btn-outline-primary"
+                                                ng-click="vm.annullaCancella()">
+                                            @localizzatore["Annulla"]
+                                        </button>
+                                        <button type="submit"
+                                                class="btn btn-danger"
+                                                ng-click="vm.cancellaRuolo()"
+                                                ng-show="vm.pulsanteCancellaVisibile">
+                                            @localizzatore["Cancella"]
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table datatable="ng"
+                   class="table table-striped table-bordered table-hover"
+                   id="tabellaRuoli"
+                   dt-options="vm.opzioniTabellaRuoli"
+                   dt-column-defs="vm.colonneTabellaRuoli">
+                <thead>
+                    <tr>
+                        <th>@localizzatore["Id"]</th>
+                        <th>@localizzatore["Ruolo"]</th>
+                        <th>@localizzatore["Azioni"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="ruolo in vm.ruoli">
+                        <td>{{ruolo.id}}</td>
+                        <td>{{ruolo.name}}</td>
+                        <td>
+                            <a class="btn btn-sm btn-success text-white"
+                                ng-click="vm.apriPannelloEdit(ruolo)">
+                                <i class="fa fa-pencil"></i>&nbsp;@localizzatore["Modifica"]
+                            </a><text>&nbsp; &nbsp; &nbsp;</text>
+                            <a class="btn btn-sm btn-danger"
+                                ng-click="vm.apriPannelloCancella(ruolo)">
+                                <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

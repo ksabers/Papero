@@ -2,7 +2,6 @@
 //
 // Interfaccia per AuthRepository
 
-using Papero.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +16,14 @@ namespace Papero.Models
         IEnumerable<UtentePapero> LeggiUtenti(string idUtente);
         void PostUtente(UtentePapero utente, string password);
         IEnumerable<IdentityRole> LeggiRuoli();
+        IEnumerable<IdentityRole> LeggiRuoli(string idRuolo);
         Task<IEnumerable<PolicyPapero>> LeggiPolicies();
 
 
 
+        Task PostRuolo(RuoloPapero ruolo);
 
+        Task PutRuolo(RuoloPapero ruolo);
 
 
         ///// <summary>

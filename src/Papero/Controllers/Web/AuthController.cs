@@ -78,22 +78,17 @@ namespace Papero.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
-
-        [Authorize]
-        [HttpGet("auth/utenti")]
-        public IActionResult GetUtenti()
+        [Authorize(Policy = "GestioneUtenti")]
+        public  IActionResult Utenti()
         {
-            return Ok(_gestoreUtenti.Users.ToList());
+            return View();
         }
 
-        [Authorize]
-        [HttpGet("auth/ruoli")]
-        public IActionResult GetRuoli()
+        [Authorize(Policy = "GestioneUtenti")]
+        public IActionResult Ruoli()
         {
-            return Ok(_gestoreRuoli.Roles.ToList());
+            return View();
         }
-
-
 
         [Authorize]
         public async Task<IActionResult> Test()
