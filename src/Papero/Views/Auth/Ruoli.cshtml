@@ -200,11 +200,13 @@
                         <td>{{ruolo.name}}</td>
                         <td>
                             <a class="btn btn-sm btn-success text-white"
-                                ng-click="vm.apriPannelloEdit(ruolo)">
+                               ng-click="vm.apriPannelloEdit(ruolo)"
+                               ng-hide="ruolo.name == 'Amministratore'">
                                 <i class="fa fa-pencil"></i>&nbsp;@localizzatore["Modifica"]
                             </a><text>&nbsp; &nbsp; &nbsp;</text>
                             <a class="btn btn-sm btn-danger"
-                                ng-click="vm.apriPannelloCancella(ruolo)">
+                               ng-click="vm.apriPannelloCancella(ruolo)"
+                               ng-hide="ruolo.name == 'Amministratore'">
                                 <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
                             </a>
                         </td>

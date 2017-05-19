@@ -54,5 +54,14 @@ namespace Papero.Controllers
             return Ok($"api/ruoli/{ruolo.Id}");
 
         }
+
+        [Authorize(Policy = "GestioneUtenti")]
+        [HttpDelete("api/ruoli/{idRuolo}")]
+        public async Task<IActionResult> CancellaRuolo(string idRuolo)
+        {
+            await _repository.DeleteRuolo(idRuolo);
+            return Ok();
+
+        }
     }
 }

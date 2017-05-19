@@ -92,11 +92,11 @@ namespace Papero.Models
 
         public async Task PostRuolo(RuoloPapero ruolo)
         {
-            var ruoloDaCreare = new IdentityRole();
-            ruoloDaCreare.Name = ruolo.Ruolo;
-            await _gestoreRuoli.CreateAsync(ruoloDaCreare);
-            ruolo.Id = ruoloDaCreare.Id;
-            for (int i = 0; i < ruolo.Policies.Length; i++)
+            var ruoloDaCreare = new IdentityRole();             // Istanzia il ruolo da creare...
+            ruoloDaCreare.Name = ruolo.Ruolo;                   // ...e gli dà il nome corretto
+            await _gestoreRuoli.CreateAsync(ruoloDaCreare);     // Crea il ruolo nel database
+            ruolo.Id = ruoloDaCreare.Id;                        // Tiene traccia dell'ID appena creato così da poterlo restituire
+            for (int i = 0; i < ruolo.Policies.Length; i++)     // Aggiunge al ruolo tutti i claim selezionati nella tabella
             {
                 await _gestoreRuoli.AddClaimAsync(ruoloDaCreare, new Claim(ruolo.Policies[i].Policy, "true"));
             }
@@ -107,26 +107,41 @@ namespace Papero.Models
             var ruoloDaAggiornare = await _gestoreRuoli.FindByIdAsync(ruolo.Id);  // Istanzia l'oggetto ruolo partendo dal suo Id
             var claimsDaEliminare = await _gestoreRuoli.GetClaimsAsync(ruoloDaAggiornare);  // Trova la lista dei claim del ruolo
 
-            await _gestoreRuoli.SetRoleNameAsync(ruoloDaAggiornare, ruolo.Ruolo);  // Modifica il nome del ruolo. IMPORTANTE: la modifica non ha effetto fino all'UpdateAsync finale
-
-            for (int i = 0; i < claimsDaEliminare.Count; i++)  // Elimina tutti i vecchi claim del ruolo 
+            if (ruoloDaAggiornare.Name != "Amministratore")  // Precauzione in più per evitare di modificare il ruolo amministratore. In realtà la UI già blocca
+                                                             // l'accesso nascondendo i pulsanti, ma così evitiamo hacking via client.
             {
-                await _gestoreRuoli.RemoveClaimAsync(ruoloDaAggiornare, claimsDaEliminare[i]);
-            };
+                await _gestoreRuoli.SetRoleNameAsync(ruoloDaAggiornare, ruolo.Ruolo);  // Modifica il nome del ruolo. IMPORTANTE: la modifica non ha effetto fino all'UpdateAsync finale
 
-            for (int i = 0; i < ruolo.Policies.Length; i++)  // Inserisce i nuovi claim
-            {
-                await _gestoreRuoli.AddClaimAsync(ruoloDaAggiornare, new Claim(ruolo.Policies[i].Policy, "true"));
+                for (int i = 0; i < claimsDaEliminare.Count; i++)  // Elimina tutti i vecchi claim del ruolo
+                {
+                    await _gestoreRuoli.RemoveClaimAsync(ruoloDaAggiornare, claimsDaEliminare[i]);
+                };
+
+                for (int i = 0; i < ruolo.Policies.Length; i++)  // Inserisce i nuovi claim
+                {
+                    await _gestoreRuoli.AddClaimAsync(ruoloDaAggiornare, new Claim(ruolo.Policies[i].Policy, "true"));
+                }
+
+                await _gestoreRuoli.UpdateAsync(ruoloDaAggiornare);  // Esegue l'effettivo update del ruolo
+
+                var utentiDaAggiornare = await _gestoreUtenti.GetUsersInRoleAsync(ruolo.Ruolo);  // Trova la lista degli utenti appartenenti al ruolo modificato
+
+                for (int i = 0; i < utentiDaAggiornare.Count; i++)  // Per ciascun utente, rigenera il cookie (cioè in pratica applica le nuove policies appena modificate)
+                {
+                    await _gestoreLogin.RefreshSignInAsync(utentiDaAggiornare[i]);
+                }
             }
+        }
 
-            await _gestoreRuoli.UpdateAsync(ruoloDaAggiornare);  // Esegue l'effettivo update del ruolo
+        public async Task DeleteRuolo(string idRuolo)
+        {
+            var ruoloDaCancellare = await _gestoreRuoli.FindByIdAsync(idRuolo);  // Istanzia l'oggetto ruolo partendo dal suo Id
 
-            var utentiDaAggiornare = await _gestoreUtenti.GetUsersInRoleAsync(ruolo.Ruolo);  // Trova la lista degli utenti appartenenti al ruolo modificato
-
-            for (int i = 0; i < utentiDaAggiornare.Count; i++)  // Per ciascun utente, rigenera il cookie (cioè in pratica applica le nuove policies appena modificate)
+            if (ruoloDaCancellare.Name != "Amministratore")  // Precauzione in più per evitare di cancellare il ruolo amministratore. In realtà la UI già blocca
+                                                             // l'accesso nascondendo i pulsanti, ma così evitiamo hacking via client.
             {
-                await _gestoreLogin.RefreshSignInAsync(utentiDaAggiornare[i]);
-            }
+                await _gestoreRuoli.DeleteAsync(ruoloDaCancellare);  // E' sufficiente così: i claim associati al ruolo vengono cancellati "gratis" dal delete
+            }  
         }
 
     }

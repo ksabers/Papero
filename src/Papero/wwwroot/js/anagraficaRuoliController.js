@@ -154,7 +154,7 @@
             vm.ruolononCancellabile = false;
             vm.pulsanteInserimentoVisibile = false;
             $("#panelCancella").collapse("show");
-            vm.ruoloDaCancellare = ruolo.ruolo;
+            vm.ruoloDaCancellare = ruolo.name;
             vm.pulsanteCancellaVisibile = true;
             ruoloCliccato = ruolo;  // memorizzo globalmente il ruolo da cancellare perché servirà quando verrà cliccato il tasto di cancellazione
         };
