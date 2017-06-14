@@ -40,6 +40,14 @@ namespace Papero.Controllers
             return BadRequest("Errore");
         }
 
+        [Authorize(Policy = "GestioneUtenti")]
+        [HttpPut("api/utenti")]
+        public async Task<IActionResult> PutUtente([FromBody]UtentePaperoConAutorizzazioni utente)
+        {
+            await _repository.PutUtente(utente);
+            return Ok($"api/utenti/{utente.Id}");
+        }
+
 
 
         //[HttpPost("api/spedizioni")]

@@ -144,5 +144,30 @@ namespace Papero.Models
             }  
         }
 
+        public async Task PutUtente(UtentePaperoConAutorizzazioni utente)
+        {
+            var utenteDaAggiornare = await _gestoreUtenti.FindByIdAsync(utente.Id);  // Istanzia l'oggetto utente partendo dal suo Id
+            var ruoliDaEliminare = await _gestoreUtenti.GetRolesAsync(utenteDaAggiornare);
+
+
+
+            utenteDaAggiornare.Nome = utente.Nome;
+            utenteDaAggiornare.Cognome = utente.Cognome;
+            //utenteDaAggiornare.UserName = utente.UserName;
+            utenteDaAggiornare.Email = utente.Email;
+            utenteDaAggiornare.PhoneNumber = utente.PhoneNumber;
+
+
+            await _gestoreUtenti.RemoveFromRolesAsync(utenteDaAggiornare, ruoliDaEliminare);
+
+            for (int i = 0; i < utente.Ruoli.Length; i++)
+            {
+                await _gestoreUtenti.AddToRoleAsync(utenteDaAggiornare, utente.Ruoli[i].Name);
+            }
+
+            await _gestoreUtenti.UpdateAsync(utenteDaAggiornare);
+    
+        }
+
     }
 }

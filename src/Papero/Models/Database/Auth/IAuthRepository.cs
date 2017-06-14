@@ -27,6 +27,8 @@ namespace Papero.Models
 
         Task DeleteRuolo(string idRuolo);
 
+        Task PutUtente(UtentePaperoConAutorizzazioni utente);
+
 
         ///// <summary>
         ///// Restituisce l'elenco delle Spedizioni

@@ -9,21 +9,34 @@
     function anagraficaUtentiController($http, DTOptionsBuilder, DTColumnDefBuilder) {
 
         var utenteCliccato = {};
+        var elencoRuoli = {};
+
         var vm = this;
 
         vm.utenti = {};
-        vm.ruoli = {};
+        vm.editRuoli = [];
 
-        vm.opzioniTabellaUtenti = DTOptionsBuilder.newOptions()       // Opzioni di visualizzazione della angular datatable
+        vm.opzioniTabellaUtenti = DTOptionsBuilder.newOptions()   // Opzioni di visualizzazione della angular datatable
             .withOption("bLengthChange", false)
             .withOption("order", [1, 'asc'])
-            .withLanguageSource(stringaLinguaggioDatatables);                 // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
-                                                                              // (come da specifiche delle angular datatables)
-                                                                              // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
+            .withLanguageSource(stringaLinguaggioDatatables);     // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
+                                                                  // (come da specifiche delle angular datatables)
+                                                                  // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
 
         vm.colonneTabellaUtenti = [
-            DTColumnDefBuilder.newColumnDef(3).notSortable(), // Impedisce l'ordinamento della tabella sulle colonne dei pulsanti e dell'email
+            DTColumnDefBuilder.newColumnDef(3).notSortable(),     // Impedisce l'ordinamento della tabella sulle colonne dei pulsanti e dell'email
             DTColumnDefBuilder.newColumnDef(4).notSortable()
+        ];
+
+        vm.opzioniTabellaEditRuoli = DTOptionsBuilder.newOptions()   // Opzioni di visualizzazione della angular datatable
+            .withOption("bLengthChange", false)
+            .withOption("order", [0, 'asc'])
+            .withLanguageSource(stringaLinguaggioDatatables);     // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
+        // (come da specifiche delle angular datatables)
+        // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
+
+        vm.colonneTabellaEditRuoli = [
+            DTColumnDefBuilder.newColumnDef(1).notSortable()     // Impedisce l'ordinamento della tabella sulle colonne dei pulsanti e dell'email
         ];
 
         vm.pulsanteInserimentoVisibile = true;  // Impostazione iniziale dei pulsanti e dei pannelli di alert
@@ -34,7 +47,7 @@
 
         vm.apriPannelloInserimento = function apriPannelloInserimento() {   // Quando viene aperto il pannello di inserimento...
             vm.annullaEdit();                                               // ...chiudo il pannello di edit (in realtà eseguo solo le azioni di chiusura, il pannello non può
-            // essere aperto perché il pulsante di inserimento a questo punto è già invisibile)
+                                                                            // essere aperto perché il pulsante di inserimento a questo punto è già invisibile)
             vm.annullaCancella();
             vm.pulsanteInserimentoVisibile = false;                         // ...rendo invisibile il pulsante di inserimento
             $("#panelInserimento").collapse("show");                        // ...e mostro il pannello di inserimento
@@ -61,9 +74,21 @@
             vm.utenteGiaPresente = false;
         };
 
-        vm.verificaEditUtente = function verificaEditUtente() {  // Controllo che il campo edit sia valido (non vuoto, non spazi, non trattino)
-            vm.pulsanteEditDisabilitato = (_.trim(vm.inputEditUtente) == "" || _.trim(vm.inputEditUtente) == "-");
-            vm.utenteGiaPresente = false;  // Se modifico il campo, faccio sparire l'alert
+        vm.verificaEditUtente = function verificaEditUtente() {  // Controllo che il campo edit sia valido (non vuoto, non spazi)
+            vm.pulsanteEditDisabilitato = (_.trim(vm.inputEditNome) == "" || _.trim(vm.inputEditCognome) == "");
+        };
+
+        vm.verificaEditLogin = function verificaEditLogin() {  // Controllo che il campo edit sia valido (non vuoto, non spazi)
+            vm.pulsanteEditDisabilitato = (_.trim(vm.inputEditLogin) == "");
+            vm.utenteGiaPresente = false;
+        };
+
+        vm.verificaEditEmail = function verificaEditEmail() {  // Controllo che il campo edit sia valido (non vuoto, non spazi)
+            vm.pulsanteEditDisabilitato = (_.trim(vm.inputEditEmail) == "");
+        };
+
+        vm.verificaEditTelefono = function verificaEditTelefono() {  // Controllo che il campo edit sia valido (non vuoto, non spazi)
+            vm.pulsanteEditDisabilitato = false;
         };
 
         vm.inserisciUtente = function inserisciUtente() {
@@ -93,13 +118,30 @@
         };
 
         vm.apriPannelloEdit = function apriPannelloEdit(utente) {
-            vm.annullaInserimento();                   // Chiude il pannello di inserimento se è aperto quando si inizia un edit
-            vm.annullaCancella();
-            vm.pulsanteInserimentoVisibile = false;
-            $("#panelEdit").collapse("show");
-            vm.inputEditUtente = utente.utente;
-            vm.pulsanteEditDisabilitato = true;
-            utenteCliccato = utente;  // memorizzo globalmente il utente da modificare perché servirà quando verrà cliccato il tasto di edit
+
+            $http.get("/api/ruoli")
+                .then(function (response) {
+                    elencoRuoli = response.data;
+                    vm.inputEditNome = utente.nome;
+                    vm.inputEditCognome = utente.cognome;
+                    vm.inputEditLogin = utente.userName;
+                    vm.inputEditEmail = utente.email;
+                    vm.inputEditTelefono = utente.phoneNumber;
+                    for (var i = 0; i < elencoRuoli.length; i++) {  // riempio la tabella settando la checkbox sui ruoli posseduti
+                        vm.editRuoli.push({                         // dall'utente corrente
+                            "name": elencoRuoli[i].name,
+                            "autorizzazione": _.find(elencoRuoli[i].users, ["userId", utente.id]) == undefined ? false : true
+                        })
+                    };
+                    vm.annullaInserimento();                   // Chiude il pannello di inserimento se è aperto quando si inizia un edit
+                    vm.annullaCancella();
+                    vm.pulsanteInserimentoVisibile = false;
+                    $("#panelEdit").collapse("show");
+                    vm.inputEditUtente = utente.utente;
+                    vm.pulsanteEditDisabilitato = true;
+                    utenteCliccato = utente;  // memorizzo globalmente il utente da modificare perché servirà quando verrà cliccato il tasto di edit
+                });
+
         };
 
         vm.apriPannelloCancella = function apriPannelloCancella(utente) {
@@ -125,20 +167,35 @@
             // Verifico se il utente che sto editando, dopo l'editazione, esisteva già nella tabella (ignorando maiuscole, minuscole, spazi prima, dopo e in mezzo)
             // (ovvero: lo sto modificando ma rendendolo uguale ad uno già esistente? Non posso farlo)
             // Se esiste, lo salvo in vm.utenteDoppio in modo da poterne mostrare l'ID nel pannello di alert
-            vm.utenteDoppio = _.find(vm.utenti, function (utente) { return funzioni.confrontaStringhe(utente.utente, vm.inputEditUtente) });
-            if (vm.utenteDoppio) {  // se esiste un doppione, _.find ritorna un utente, quindi la if è true
+            vm.utenteDoppio = _.find(vm.utenti, function (utente) { return funzioni.confrontaStringhe(utente.login, vm.inputEditUtente) });
+            if (vm.utenteDoppio && (vm.inputEditLogin != utenteCliccato.userName)) {  // se esiste un doppione, _.find ritorna un utente, quindi la if è true
                 vm.utenteGiaPresente = true;   // mostro il pannello di alert
                 vm.pulsanteEditDisabilitato = true;  // e disabilito la insert
             }
-            else {                                                                       // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque
-                $http.put("/api/utenti",                                         // il valore si può modificare
-                           { "id": utenteCliccato.id,
-                             "utente": _.trim(vm.inputEditUtente) })     // chiamo la API di modifica
+            else {                         // se il valore non è un doppione, la _.find ritorna undefined, quindi la if è false e dunque il valore si può modificare
+                var temp = _.filter(vm.editRuoli, ["autorizzazione", true]);
+                $http.put("/api/utenti",   // chiamo la API di modifica
+                           {
+                               "id": utenteCliccato.id,
+                               "nome": _.trim(vm.inputEditNome),
+                               "cognome": _.trim(vm.inputEditCognome),
+                               "email": _.trim(vm.inputEditEmail),
+                               "phoneNumber": _.trim(vm.inputEditTelefono),
+                               "password": vm.inputEditPassword,
+                               "ruoli": _.filter(vm.editRuoli, ["autorizzazione", true])
+                           })
                     .then(function (response) {                                          
-                        vm.utenti[_.findIndex(vm.utenti, ["id", utenteCliccato.id])].utente = _.trim(vm.inputEditUtente);
+                        vm.utenti[_.findIndex(vm.utenti, ["id", utenteCliccato.id])].nome = _.trim(vm.inputEditNome);
+                        vm.utenti[_.findIndex(vm.utenti, ["id", utenteCliccato.id])].cognome = _.trim(vm.inputEditCognome);
+                        vm.utenti[_.findIndex(vm.utenti, ["id", utenteCliccato.id])].email = _.trim(vm.inputEditEmail);
+                        vm.utenti[_.findIndex(vm.utenti, ["id", utenteCliccato.id])].phoneNumber = _.trim(vm.inputEditTelefono);
                         $("#panelEdit").collapse("hide");                                // chiudo il pannello di edit
                         vm.pulsanteInserimentoVisibile = true;                           // riabilito il pulsante nel panel heading
-                        vm.inputEditUtente = "";                                // e cancello il campo
+                        vm.inputEditNome = "";                                // e cancello i campi
+                        vm.inputEditCognome = "";
+                        vm.inputEditEmail = "";
+                        vm.inputEditTelefono = "";
+                        vm.inputEditPassword = "";
                     }, function () {
                         alert("Errore non gestito durante l'editazione");
                     })
@@ -165,10 +222,10 @@
             })
         };
 
-        vm.elencoRuoli = function elencoRuoli(utente) {
+        vm.elencoRuoliUtente = function elencoRuoliUtente(utente) {
             var elenco = "";
             for (var i = 0; i < utente.roles.length; i++) {
-                elenco = elenco + vm.ruoli[_.findIndex(vm.ruoli, ["id", utente.roles[i].roleId])].name + ", ";
+                elenco = elenco + elencoRuoli[_.findIndex(elencoRuoli, ["id", utente.roles[i].roleId])].name + ", ";
             }
             elenco = elenco.slice(0, -2);
             return elenco;
@@ -176,7 +233,7 @@
 
         $http.get("/api/ruoli")
             .then(function (response) {
-                vm.ruoli = response.data;
+                elencoRuoli = response.data;
                 $http.get("/api/utenti")
                     .then(function (response) {
                         vm.utenti = response.data;

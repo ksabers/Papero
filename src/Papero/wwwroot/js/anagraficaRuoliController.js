@@ -21,9 +21,9 @@
         vm.opzioniTabellaRuoli = DTOptionsBuilder.newOptions()       // Opzioni di visualizzazione della angular datatable
             .withOption("bLengthChange", false)
             .withOption("order", [1, 'asc'])
-            .withLanguageSource(stringaLinguaggioDatatables);                 // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
-                                                                              // (come da specifiche delle angular datatables)
-                                                                              // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
+            .withLanguageSource(stringaLinguaggioDatatables);        // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
+                                                                     // (come da specifiche delle angular datatables)
+                                                                     // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
 
         vm.colonneTabellaRuoli = [
             DTColumnDefBuilder.newColumnDef(1).notSortable() // Impedisce l'ordinamento della tabella sulla colonna dei pulsanti
@@ -33,9 +33,9 @@
             .withOption("bLengthChange", false)
             .withOption("order", [0, 'asc'])
             .withOption("pageLength", 5)
-            .withLanguageSource(stringaLinguaggioDatatables);                 // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
-        // (come da specifiche delle angular datatables)
-        // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
+            .withLanguageSource(stringaLinguaggioDatatables);       // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
+                                                                    // (come da specifiche delle angular datatables)
+                                                                    // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
 
         vm.colonneTabellaEditPolicies = [
             DTColumnDefBuilder.newColumnDef(1).notSortable() // Impedisce l'ordinamento della tabella sulla colonna dei pulsanti
