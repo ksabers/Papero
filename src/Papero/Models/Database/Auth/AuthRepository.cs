@@ -85,9 +85,27 @@ namespace Papero.Models
                 ).ToList();
         }
 
-        public void PostUtente(UtentePapero utente, string password)
+        public async Task<bool> PostUtente(UtentePaperoConAutorizzazioni utente)
         {
-            _gestoreUtenti.CreateAsync(utente, password);
+            var utenteDaInserire = new UtentePapero();  // variabile temporanea perché passiamo un utente con i ruoli mentre CreateAsync si aspetta un utente senza ruoli
+
+            utenteDaInserire.Nome = utente.Nome;  // riempiamo i campi della variabile temporanea
+            utenteDaInserire.Cognome = utente.Cognome;
+            utenteDaInserire.Email = utente.Email;
+            utenteDaInserire.PhoneNumber = utente.PhoneNumber;
+            utenteDaInserire.UserName = utente.UserName;
+
+            var risultato = await _gestoreUtenti.CreateAsync(utenteDaInserire, utente.password);  // tentiamo di creare il nuovo utente
+
+            if (risultato.Succeeded)  // se ci siamo riusciti...
+            {
+                for (int i = 0; i < utente.Ruoli.Length; i++)  // ...cicliamo sui ruoli da aggiungere...
+                {
+                    risultato = await _gestoreUtenti.AddToRoleAsync(utenteDaInserire, utente.Ruoli[i].Name);  // ...e li aggiungiamo tutti
+                    if (!risultato.Succeeded) break;  // ma se si verifica un errore interrompiamo immediatamente
+                }
+            }
+            return risultato.Succeeded;
         }
 
         public async Task PostRuolo(RuoloPapero ruolo)
@@ -149,14 +167,10 @@ namespace Papero.Models
             var utenteDaAggiornare = await _gestoreUtenti.FindByIdAsync(utente.Id);  // Istanzia l'oggetto utente partendo dal suo Id
             var ruoliDaEliminare = await _gestoreUtenti.GetRolesAsync(utenteDaAggiornare);
 
-
-
             utenteDaAggiornare.Nome = utente.Nome;
             utenteDaAggiornare.Cognome = utente.Cognome;
-            //utenteDaAggiornare.UserName = utente.UserName;
             utenteDaAggiornare.Email = utente.Email;
             utenteDaAggiornare.PhoneNumber = utente.PhoneNumber;
-
 
             await _gestoreUtenti.RemoveFromRolesAsync(utenteDaAggiornare, ruoliDaEliminare);
 
@@ -165,9 +179,18 @@ namespace Papero.Models
                 await _gestoreUtenti.AddToRoleAsync(utenteDaAggiornare, utente.Ruoli[i].Name);
             }
 
-            await _gestoreUtenti.UpdateAsync(utenteDaAggiornare);
-    
+            await _gestoreUtenti.UpdateAsync(utenteDaAggiornare);    
         }
 
+        public async Task DeleteUtente(string idUtente)
+        {
+            var utenteDaCancellare = await _gestoreUtenti.FindByIdAsync(idUtente);  // Istanzia l'oggetto utente partendo dal suo Id
+
+            if (utenteDaCancellare.UserName != "amministratore")  // Precauzione in più per evitare di cancellare l'amministratore. In realtà la UI già blocca
+                                                                  // l'accesso nascondendo i pulsanti, ma così evitiamo hacking via client.
+            {
+                await _gestoreUtenti.DeleteAsync(utenteDaCancellare);  // E' sufficiente così: i ruoli associati all'utente vengono cancellati "gratis" dal delete
+            }
+        }
     }
 }

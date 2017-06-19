@@ -24,15 +24,114 @@
                 <div id="panelInserimento" class="panel-body panel-collapse collapse">
                     <div class="row">
                         <div class="form-group">
-                            <label for="inputInsertUtente" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuovo Utente"]:</label>
+                            <label for="inputInsertNome" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome"]:</label>
                             <div class="col-lg-3">
-                                <input type="text" 
-                                       class="form-control" 
-                                       ng-model="vm.inputInsertUtente" 
-                                       ng-change="vm.verificaUtente()" 
-                                       id="inputInsertUtente" 
-                                       name="inputInsertUtente" />
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="vm.inputInsertNome"
+                                       ng-change="vm.verificaInsertUtente()"
+                                       id="inputInsertNome"
+                                       name="inputInsertNome" />
                             </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputInsertCognome" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Cognome"]:</label>
+                            <div class="col-lg-3">
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="vm.inputInsertCognome"
+                                       ng-change="vm.verificaInsertUtente()"
+                                       id="inputInsertCognome"
+                                       name="inputInsertCognome" />
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputInsertLogin" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Login"]:</label>
+                            <div class="col-lg-3">
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="vm.inputInsertLogin"
+                                       ng-change="vm.verificaInsertLogin()"
+                                       id="inputInsertLogin"
+                                       name="inputInsertLogin" />
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputInsertEmail" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Email"]:</label>
+                            <div class="col-lg-3">
+                                <input type="email"
+                                       class="form-control"
+                                       ng-model="vm.inputInsertEmail"
+                                       ng-change="vm.verificaInsertEmail()"
+                                       id="inputInsertEmail"
+                                       name="inputInsertEmail" />
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputInsertTelefono" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Telefono"]:</label>
+                            <div class="col-lg-3">
+                                <input type="tel"
+                                       class="form-control"
+                                       ng-model="vm.inputInsertTelefono"
+                                       ng-change="vm.verificaInsertTelefono()"
+                                       id="inputInsertTelefono"
+                                       name="inputInsertTelefono" />
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputInsertPassword" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Password"]:</label>
+                            <div class="col-lg-3">
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="vm.inputInsertPassword"
+                                       ng-change="vm.verificaInsertPassword()"
+                                       id="inputInsertPassword"
+                                       name="inputInsertPassword" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <p></p>
+                    <div class="row">
+                        <div class="col-lg-6 col-lg-offset-2">
+                            <table datatable="ng"
+                                   class="table table-striped table-bordered table-hover"
+                                   id="tabellaInsertRuoli"
+                                   dt-options="vm.opzioniTabellaInsertRuoli"
+                                   dt-column-defs="vm.colonneTabellaInsertRuoli">
+                                <thead>
+                                    <tr>
+                                        <th>@localizzatore["Ruolo"]</th>
+                                        <th>@localizzatore["Attivo"]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="ruolo in vm.insertRuoli">
+                                        <td>{{ruolo.name}}</td>
+                                        <td>
+                                            <input class="form-control"
+                                                   type="checkbox"
+                                                   ng-model="ruolo.autorizzazione"
+                                                   ng-change="vm.verificaInsertRuoli()"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="row">
@@ -266,7 +365,8 @@
                                 <i class="fa fa-pencil"></i>&nbsp;@localizzatore["Modifica"]
                             </a><text>&nbsp; &nbsp; &nbsp;</text>
                             <a class="btn btn-sm btn-danger"
-                                ng-click="vm.apriPannelloCancella(utente)">
+                                ng-click="vm.apriPannelloCancella(utente)"
+                                ng-hide="utente.userName == 'amministratore'">
                                 <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
                             </a>
                         </td>

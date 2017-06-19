@@ -31,12 +31,13 @@ namespace Papero.Controllers
         }
 
         [Authorize(Policy = "GestioneUtenti")]
-        [HttpPost("api/utenti/{password}")]
-        public async Task<IActionResult> PostUtente([FromBody]UtentePapero utente, string password)
+        [HttpPost("api/utenti")]
+        public async Task<IActionResult> PostUtente([FromBody]UtentePaperoConAutorizzazioni utente)
         {
-            _repository.PostUtente(utente, password);
-            if (await _repositoryComune.SalvaModifiche())
+            if (await _repository.PostUtente(utente))
+            {
                 return Created($"api/utenti/{utente.Id}", utente);
+            }
             return BadRequest("Errore");
         }
 
@@ -48,7 +49,13 @@ namespace Papero.Controllers
             return Ok($"api/utenti/{utente.Id}");
         }
 
-
+        [Authorize(Policy = "GestioneUtenti")]
+        [HttpDelete("api/utenti/{idUtente}")]
+        public async Task<IActionResult> CancellaUtente(string idUtente)
+        {
+            await _repository.DeleteUtente(idUtente);
+            return Ok();
+        }
 
         //[HttpPost("api/spedizioni")]
         //public async Task<IActionResult> PostSpedizione([FromBody]Spedizioni spedizione)

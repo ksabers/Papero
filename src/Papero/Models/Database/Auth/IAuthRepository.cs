@@ -14,7 +14,7 @@ namespace Papero.Models
     {
         IEnumerable<UtentePapero> LeggiUtenti();
         IEnumerable<UtentePapero> LeggiUtenti(string idUtente);
-        void PostUtente(UtentePapero utente, string password);
+        Task<bool> PostUtente(UtentePaperoConAutorizzazioni utente);
         IEnumerable<IdentityRole> LeggiRuoli();
         IEnumerable<IdentityRole> LeggiRuoli(string idRuolo);
         Task<IEnumerable<PolicyPapero>> LeggiPolicies();
@@ -28,6 +28,8 @@ namespace Papero.Models
         Task DeleteRuolo(string idRuolo);
 
         Task PutUtente(UtentePaperoConAutorizzazioni utente);
+
+        Task DeleteUtente(string idUtente);
 
 
         ///// <summary>
