@@ -121,6 +121,10 @@
             vm.pulsanteEditDisabilitato = false;
         };
 
+        vm.verificaEditPassword = function verificaEditPassword() {  // Controllo che il campo edit sia valido (non vuoto, non spazi)
+            vm.pulsanteEditDisabilitato = (_.trim(vm.inputEditPassword) == "");
+        };
+
         vm.inserisciUtente = function inserisciUtente() {
 
             // Verifico se il utente che sto cercando di inserire esiste già nella tabella (ignorando maiuscole, minuscole, spazi prima, dopo e in mezzo)

@@ -179,7 +179,13 @@ namespace Papero.Models
                 await _gestoreUtenti.AddToRoleAsync(utenteDaAggiornare, utente.Ruoli[i].Name);
             }
 
-            await _gestoreUtenti.UpdateAsync(utenteDaAggiornare);    
+            if (utente.password.Trim() != "")
+            {
+                await _gestoreUtenti.RemovePasswordAsync(utenteDaAggiornare);
+                await _gestoreUtenti.AddPasswordAsync(utenteDaAggiornare, utente.password.Trim());
+            }
+
+            await _gestoreUtenti.UpdateAsync(utenteDaAggiornare);
         }
 
         public async Task DeleteUtente(string idUtente)

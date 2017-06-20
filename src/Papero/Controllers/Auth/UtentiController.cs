@@ -56,36 +56,5 @@ namespace Papero.Controllers
             await _repository.DeleteUtente(idUtente);
             return Ok();
         }
-
-        //[HttpPost("api/spedizioni")]
-        //public async Task<IActionResult> PostSpedizione([FromBody]Spedizioni spedizione)
-        //{
-        //    _repository.PostSpedizione(spedizione);
-
-        //    if (await _repositoryComune.SalvaModifiche())
-        //        return Created($"api/spedizioni/{spedizione.Id}", spedizione);
-        //    return BadRequest("Errore");
-        //}
-
-        //[HttpPut("api/spedizioni")]
-        //public async Task<IActionResult> PutSpedizione([FromBody]Spedizioni spedizione)
-        //{
-        //    _repository.PutSpedizione(spedizione);
-
-        //    if (await _repositoryComune.SalvaModifiche())
-        //        return Ok($"api/spedizioni/{spedizione.Id}");
-        //    return BadRequest("Errore");
-        //}
-
-        //[HttpDelete("api/spedizioni/{idSpedizione}")]
-        //public async Task<IActionResult> CancellaSpedizione(int idSpedizione)
-        //{
-        //    _repository.CancellaSpedizione(idSpedizione);
-
-        //    if (await _repositoryComune.SalvaModifiche())
-        //        return Ok();
-        //    return BadRequest("Errore");
-        //}
-
     }
 }

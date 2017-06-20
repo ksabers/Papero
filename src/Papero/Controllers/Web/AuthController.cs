@@ -97,6 +97,33 @@ namespace Papero.Controllers
         }
 
         [Authorize]
+        public async Task<IActionResult> AggiornaProfilo(string inputInsertNome, 
+                                                         string inputInsertCognome,
+                                                         string inputInsertEmail,
+                                                         string inputInsertTelefono,
+                                                         string inputInsertPassword)
+        {
+
+            var utenteAttuale = await _gestoreUtenti.FindByNameAsync(User.Identity.Name);                       // troviamo l'utente corrente dal suo username
+
+            utenteAttuale.Nome = string.IsNullOrEmpty(inputInsertNome) ? "" : inputInsertNome.Trim();           // aggiorniamo i suoi campi
+            utenteAttuale.Cognome = string.IsNullOrEmpty(inputInsertCognome)? "" : inputInsertCognome.Trim();
+            utenteAttuale.Email = string.IsNullOrEmpty(inputInsertEmail) ? "" : inputInsertEmail.Trim();
+            utenteAttuale.PhoneNumber = string.IsNullOrEmpty(inputInsertTelefono) ? "" : inputInsertTelefono.Trim();
+
+            if ((string.IsNullOrEmpty(inputInsertPassword) ? "" : inputInsertPassword.Trim()) != "")            // eventualmente aggiorniamo anche la sua password
+            {                                                                                                   // (cancellando la vecchia e mettendone una nuova)
+                await _gestoreUtenti.RemovePasswordAsync(utenteAttuale);
+                await _gestoreUtenti.AddPasswordAsync(utenteAttuale, inputInsertPassword.Trim());
+            }
+
+            await _gestoreUtenti.UpdateAsync(utenteAttuale);                                                    // aggiorniamo l'utente corrente
+            await _gestoreLogin.RefreshSignInAsync(await _gestoreUtenti.FindByNameAsync(User.Identity.Name));   // e ne rigeneriamo i token
+
+            return RedirectToAction("Profilo");
+        }
+
+        [Authorize]
         public async Task<IActionResult> Test()
         {
             await _gestoreUtenti.AddClaimAsync(await _gestoreUtenti.FindByNameAsync(User.Identity.Name), new Claim("CancellazioneEsemplare", "true"));
