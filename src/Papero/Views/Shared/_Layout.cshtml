@@ -109,6 +109,11 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item"
+                               asp-controller="Auth"
+                               asp-action="Profilo">
+                                <i class="fa fa-user fa-fw"></i> @localizzatore["Profilo Utente"]
+                            </a>
+                            <a class="dropdown-item"
                                asp-controller="Papero"
                                asp-action="Contatti">
                                 <i class="fa fa-envelope fa-fw"></i> @localizzatore["Contatti"]
@@ -349,6 +354,7 @@
 
     @RenderSection("scripts", false)
 
+    @*Attivazione dei tooltip e dei popover nell'intera applicazione*@
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();

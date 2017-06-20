@@ -91,6 +91,12 @@ namespace Papero.Controllers
         }
 
         [Authorize]
+        public async Task<IActionResult> Profilo()
+        {
+            return View(await _gestoreUtenti.FindByNameAsync(User.Identity.Name));
+        }
+
+        [Authorize]
         public async Task<IActionResult> Test()
         {
             await _gestoreUtenti.AddClaimAsync(await _gestoreUtenti.FindByNameAsync(User.Identity.Name), new Claim("CancellazioneEsemplare", "true"));
