@@ -170,15 +170,11 @@
                                 }
                                 @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaQRCodeScheda"))
                                 {
-                                    @*<a asp-controller="QRCode" asp-action="QRCodeScheda" asp-route-id="@Model.Id" style="text-decoration:none" target="_blank">
-                                        <i role="button" class="fa fa-qrcode fa-2x text-white"></i>
-                                    </a>*@
-
                                     <div class="btn-group" role="group">
-                                        <button id="btnGroupDrop1" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fa fa-qrcode fa-2x text-white"></i>
                                         </button>
-                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                        <div class="dropdown-menu">
                                             @for (int i = 0; i < _opzioni.Formati.Count; i++)
                                             {
                                                 <a class="dropdown-item" 
@@ -186,15 +182,12 @@
                                                    asp-action="QRCodeScheda" 
                                                    asp-route-id="@Model.Id" 
                                                    asp-route-formato="@i">@localizzatore[_opzioni.Formati[i].Misura]</a>
-                                            }
-                                            
+                                            }                                            
                                         </div>
                                     </div>
                                 }
                             }
-
                         </form>
-
                     </div>
 
                     @*
