@@ -50,11 +50,7 @@ namespace Papero.Controllers
                 var modello = _repository.LeggiEsemplare(id);                  // Legge tutti i dati dell'esemplare
                 var vista = Mapper.Map<QRCodeViewModel>(modello);              // Mappa i dati dell'esemplare sul ViewModel che usiamo per comunicare con la vista
 
-            //vista.urlQRCode = "https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=";
-
             vista.urlQRCode = _opzioni.URLScheda + "/?size=" + _opzioni.Formati[formato].Pixel + "x" + _opzioni.Formati[formato].Pixel + "&data=";
-
-            //vista.urlQRCode = _opzioni.URLScheda + "/?size=80x80&data=";
 
             var testoQRCode = System.Text.Encodings.Web.UrlEncoder.Default.Encode(  // La stringa viene url-encodata prima di essere aggiunta all'URL 
                 funzioni.FormattaNomeScientifico(modello.Sottospecie.Specie.Genere.Nome, modello.Sottospecie.Specie.Nome, modello.Sottospecie.Nome) +
@@ -67,8 +63,6 @@ namespace Papero.Controllers
                 _localizzatore["Tipo"] + ": " + _localizzatore[modello.Tipo.Tipo] + Environment.NewLine +
                 _localizzatore["Aberrazione"] + ": " + _localizzatore[modello.Aberrazione.Aberrazione]
                 );
-
-            //var testoQRCode = "http://localhost:55072/Papero/DettaglioEsemplare/" + modello.Id;
 
             if (testoQRCode.Length < _opzioni.CaratteriMassimi)
             {

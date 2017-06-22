@@ -7,12 +7,7 @@
     var _opzioni = opzioni.Value;
 }
 
-
-
-
 @section css {
-
-
     <style type="text/css">
         .dt-loading h3 {
             display: none;
@@ -21,11 +16,7 @@
 }
 
 @section scripts {
-
-
     <script src="~/js/alberoController.js"></script>
-
-
 }
 
 <div class="row" ng-app="papero-app" ng-controller="alberoController as vm">
@@ -35,13 +26,14 @@
             <div class="panel-heading">
 
                 <h3 class="panel-title">@localizzatore["Albero tassonomico"]</h3>@localizzatore["Specie selezionate"]: <span class="badge" ng-cloak>{{vm.numeroSpecie}}</span>
+                <button class="btn btn-danger btn-sm" ng-click="vm.deseleziona()"><i class="fa fa-minus-circle"></i> @localizzatore["Deseleziona"]</button>
                 <div class="text-white">@localizzatore["Selezione diretta"]:</div>
                 <div>
-                    <ui-select ng-model="vm.specieSelezionata" ng-change="vm.selezionaSpecie()">
+                    <ui-select ng-model="vm.specieSelezionata" ng-change="vm.selezionaSingolaSpecie()">
                         <ui-select-match>
                             <span ng-bind="$select.selected.nome"></span>
                         </ui-select-match>
-                        <ui-select-choices repeat="specie in (vm.datiElencoSpecie | filter: $select.search) track by specie.id">
+                        <ui-select-choices repeat = "specie in (vm.datiElencoSpecie | filter: $select.search) track by specie.id" >
                             <span ng-bind="specie.nome"></span>
                         </ui-select-choices>
                     </ui-select>
@@ -59,7 +51,6 @@
                              selected-nodes="vm.nodiSelezionati">
                     {{node.nome}}
                 </treecontrol>
-
             </div>
         </div>
     </div>
@@ -487,6 +478,20 @@
                     <span ng-show="vm.filtroSuSpedizioneAttivo"> - @localizzatore["Spedizione"]</span>
                     <span ng-show="vm.filtroSuCollezioneAttivo"> - @localizzatore["Collezione"]</span>
                 </div>
+                <input type="hidden" id="arrayIdEsemplari" name="arrayIdEsemplari" ng-model="vm.arrayIdEsemplari" />
+                <button class="btn btn-success btn-sm" ng-show="vm.esemplariSelezionati.length" ng-cloak><i class="fa fa-list"></i></button>
+                <div class="btn-group" role="group" ng-show="vm.esemplariSelezionati.length" ng-cloak>
+                    <button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-qrcode text-white"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        @for (int i = 0; i < _opzioni.Formati.Count; i++)
+                        {
+                            <a class="dropdown-item">@localizzatore[_opzioni.Formati[i].Misura]</a>
+                        }
+                    </div>
+                </div>
+
             </div>
             <div class="panel-body">
 

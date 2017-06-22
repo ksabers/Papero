@@ -8,7 +8,6 @@
 
     function alberoController($http, DTOptionsBuilder, DTColumnDefBuilder) {
 
-
         var elencoEsemplari = [];                 // Elenco completo non filtrato degli esemplari 
         var elencoFiltratoEsemplari = [];         // Elenco filtrato degli esemplari 
 
@@ -40,8 +39,6 @@
         var inizialeDataA = null;
         var inizialeTipoDataDa = "";
         var inizialeTipoDataA = "";
-
-
 
         var esemplariFiltratiSuGeografia = [];     // elenchi di esemplari restituiti dai singoli filtri
         var esemplariFiltratiSuRaccoglitori = [];
@@ -134,7 +131,6 @@
         vm.filtroDataDa = false;
         vm.filtroDataA = false;
 
-
         vm.datiAlbero = [];            // Albero tassonomico
         vm.datiElencoSpecie = [];      // Elenco delle specie che compare nella dropdown di selezione diretta
         vm.esemplariSelezionati = [];  // Contenuto della tabella
@@ -144,6 +140,7 @@
         vm.MSNGpresente = false;       // Flag che indica se visualizzare o no l'alert di MSNG già presente
         vm.numeroRigheOK = true;       // Flag che indica se i filtri visualizzebbero troppe righe nella tabella e quindi richiede un'ulteriore conferma
         vm.sottospecieSelezionate = [];  // Elenco degli ID delle sottospecie selezionate nell'albero
+        vm.arrayIdEsemplari = [];
 
         vm.opzioniAlbero = {          // Opzioni di visualizzazione dell'angular treeview
             multiSelection: true,
@@ -160,7 +157,6 @@
                 labelSelected: "a8"
             }
         };
-
 
         vm.opzioniTabella = DTOptionsBuilder.newOptions()       // Opzioni di visualizzazione della angular datatable
             .withOption("lengthMenu", [10, 25])
@@ -198,6 +194,24 @@
             vm.applicaFiltri();
         };
 
+        vm.deseleziona = function deseleziona() {
+            vm.nodiSelezionati = [];
+            vm.specieSelezionata = [];
+            vm.sottospecieSelezionate = [];
+            vm.numeroSpecie = 0;
+            vm.foglia = false;
+            vm.applicaFiltri();
+        };
+
+        vm.selezionaSingolaSpecie = function selezionaSingolaSpecie() {
+            vm.nodiSelezionati = [];
+            vm.sottospecieSelezionate = [];
+            vm.sottospecieSelezionate.push(vm.specieSelezionata.id);
+            vm.numeroSpecie = 1;
+            vm.foglia = true;
+            vm.sottospecie = vm.specieSelezionata.id;
+            vm.applicaFiltri();
+        };
 
         vm.revertFiltri = function revertFiltri() {
 
@@ -231,7 +245,6 @@
             vm.impostaFiltriDataDa();
             vm.impostaFiltriDataA();
         };
-
 
         vm.applicaFiltri = function applicaFiltri() {
 
@@ -280,6 +293,11 @@
 
         vm.eseguiFiltro = function eseguiFiltro() {  // Esegue effettivamente il riempimento della tabella esemplari
             vm.esemplariSelezionati = elencoFiltratoEsemplari;
+
+            vm.arrayIdEsemplari = [];
+            for (var i = 0; i < elencoFiltratoEsemplari.length; i++) {
+                vm.arrayIdEsemplari.push(elencoFiltratoEsemplari[i].id)
+            };
         };
 
 

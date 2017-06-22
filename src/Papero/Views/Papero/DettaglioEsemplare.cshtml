@@ -171,7 +171,11 @@
                                 @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaQRCodeScheda"))
                                 {
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button type="button" 
+                                                class="btn btn-success dropdown-toggle" 
+                                                data-toggle="dropdown" 
+                                                aria-haspopup="true" 
+                                                aria-expanded="false">
                                             <i class="fa fa-qrcode fa-2x text-white"></i>
                                         </button>
                                         <div class="dropdown-menu">
