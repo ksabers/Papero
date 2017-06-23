@@ -17,6 +17,7 @@ using AutoMapper;
 using Papero.Funzioni;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace Papero.Controllers
 {
@@ -73,6 +74,14 @@ namespace Papero.Controllers
                 vista.testoQRCode = testoQRCode.Substring(0, _opzioni.CaratteriMassimi);
             }
                 return View(vista);        // Restituisce la vista di dettaglio passandole il ViewModel riempito di dati   
+        }
+
+        [Authorize(Policy = "VisualizzaQRCodeScheda")]
+        public IActionResult ListaQRCodeScheda(string arrayIdEsemplariQRCode, string formatoQRCode)
+        {
+            var elencoEsemplari = JsonConvert.DeserializeObject<int[]>(arrayIdEsemplariQRCode);
+
+            return View();
         }
 
     }

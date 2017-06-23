@@ -14,7 +14,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Papero.ViewModels;
 using AutoMapper;
-
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Papero.Controllers
 {
@@ -75,6 +76,24 @@ namespace Papero.Controllers
 
             return RedirectToAction("DettaglioEsemplare", new { id = idEsemplare });  // Con questa sintassi passiamo il parametro alla action come se avessimo scritto
         }                                                                             // "DettaglioEsemplare/id"
+
+        [Authorize(Policy = "VisualizzaListe")]
+        public IActionResult ListaTesto(string arrayIdEsemplariLista, string formatoLista)
+        {
+            var elencoEsemplari = JsonConvert.DeserializeObject<int[]>("[" + arrayIdEsemplariLista + "]");
+
+            List<Esemplari> modello = new List<Esemplari>();
+            //modello.Clear();
+
+            for (int i = 0; i < elencoEsemplari.Length; i++)
+            {
+                modello.Add(_repository.LeggiEsemplare(elencoEsemplari[i]));
+            }
+
+            ViewBag.formato = formatoLista;
+            return View(modello);
+        }
+
 
         public IActionResult Info()  // Pagina statica di informazioni sull'applicazione: restituisce semplicemente la sua vista
         {

@@ -93,6 +93,7 @@ namespace Papero
                 // Policies della vista di elenco esemplari (e del relativo controller)
                 opzioni.AddPolicy("VisualizzaElencoEsemplari", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaElencoEsemplari"));
                 opzioni.AddPolicy("InserimentoEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("InserimentoEsemplare"));
+                opzioni.AddPolicy("VisualizzaListe", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaListe"));
 
                 // Policies della vista di dettaglio del singolo esemplare (e del relativo controller)
                 opzioni.AddPolicy("VisualizzaDettaglioEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaDettaglioEsemplare"));

@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "";
+}
+@using Papero.Models
+@model List<Esemplari>
+
+@if (ViewBag.formato == "0")
+{
+    <p>Lista Sintetica</p>
+}
+
+@if (ViewBag.formato == "1")
+{
+    <p>Lista Dettagliata</p>
+}
+
+@for (int i = 0; i < Model.Count; i++)
+{
+    <p>@Model[i].Msng - @funzioni.FormattaNomeScientifico(Model[i].Sottospecie.Specie.Genere.Nome,
+                                         Model[i].Sottospecie.Specie.Nome,
+                                         Model[i].Sottospecie.Nome,
+                                         Model[i].Sottospecie.ElencoAutori)</p>
+    if (ViewBag.formato == "1")
+    {
+        <p>Informazioni supplementari</p>
+    }
+}

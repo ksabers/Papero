@@ -209,7 +209,7 @@ namespace Papero.Funzioni
         /// <returns></returns>
         public static string FormattaNomeScientifico(string genere, string specie, string sottospecie)
         {
-            return genere + " " + specie + " " + (specie == "-" ? "" : sottospecie);
+            return genere + " " + specie + (sottospecie == "-" ? "" : " " + sottospecie);
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace Papero.Funzioni
         /// <returns></returns>
         public static string FormattaNomeScientifico(string genere, string specie, string sottospecie, string elencoAutori)
         {
-            return genere + " " + specie + " " + (specie == "-" ? "" : sottospecie) + " " + elencoAutori;
+            return genere + " " + specie + (sottospecie == "-" ? "" : " " + sottospecie) + " " + elencoAutori;
         }
     }
 }

@@ -228,4 +228,28 @@
   <data name="Da" xml:space="preserve">
     <value>De</value>
   </data>
+  <data name="Deseleziona tutti" xml:space="preserve">
+    <value>Désélectionner tout</value>
+  </data>
+  <data name="Grande" xml:space="preserve">
+    <value>Grand</value>
+  </data>
+  <data name="Lista Dettagliata" xml:space="preserve">
+    <value>Liste Détaillée</value>
+  </data>
+  <data name="Lista Sintetica" xml:space="preserve">
+    <value>Liste Concise</value>
+  </data>
+  <data name="Liste" xml:space="preserve">
+    <value>Listes</value>
+  </data>
+  <data name="Medio" xml:space="preserve">
+    <value>Moyen</value>
+  </data>
+  <data name="Piccolo" xml:space="preserve">
+    <value>Petit</value>
+  </data>
+  <data name="QRCode Scheda" xml:space="preserve">
+    <value>Codes QR Carte</value>
+  </data>
 </root>

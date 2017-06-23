@@ -26,14 +26,19 @@
             <div class="panel-heading">
 
                 <h3 class="panel-title">@localizzatore["Albero tassonomico"]</h3>@localizzatore["Specie selezionate"]: <span class="badge" ng-cloak>{{vm.numeroSpecie}}</span>
-                <button class="btn btn-danger btn-sm" ng-click="vm.deseleziona()"><i class="fa fa-minus-circle"></i> @localizzatore["Deseleziona"]</button>
+                <button class="btn btn-danger btn-sm"
+                        ng-click="vm.deseleziona()"
+                        ng-show="vm.numeroSpecie"
+                        ng-cloak>
+                    <i class="fa fa- fa-minus-circle"></i> @localizzatore["Deseleziona tutti"]
+                </button>
                 <div class="text-white">@localizzatore["Selezione diretta"]:</div>
                 <div>
                     <ui-select ng-model="vm.specieSelezionata" ng-change="vm.selezionaSingolaSpecie()">
                         <ui-select-match>
                             <span ng-bind="$select.selected.nome"></span>
                         </ui-select-match>
-                        <ui-select-choices repeat = "specie in (vm.datiElencoSpecie | filter: $select.search) track by specie.id" >
+                        <ui-select-choices repeat="specie in (vm.datiElencoSpecie | filter: $select.search) track by specie.id">
                             <span ng-bind="specie.nome"></span>
                         </ui-select-choices>
                     </ui-select>
@@ -94,7 +99,7 @@
                 }
                 <div class="well well-sm text-primary" ng-hide="vm.foglia">
 
-<!--#region modaleFiltriElencoEsemplari -->
+                    <!--#region modaleFiltriElencoEsemplari -->
 
                     <div class="modal fade" id="modaleFiltriElencoEsemplari" role="dialog">
                         <div class="modal-dialog modal-lg">
@@ -244,7 +249,7 @@
                                                                             <input type="radio" name="tipoDataCatturaDa" ng-model="vm.tipoDataCatturaDa" ng-change="vm.impostaFiltriDataDa()" value="Data completa" />
                                                                             <input type="radio" name="tipoDataCatturaDa" ng-model="vm.tipoDataCatturaDa" ng-change="vm.impostaFiltriDataDa()" value="Ignora mese/giorno" />
                                                                             <input type="radio" name="tipoDataCatturaDa" ng-model="vm.tipoDataCatturaDa" ng-change="vm.impostaFiltriDataDa()" value="Ignora giorno" />
-                                                                            <span role="button" 
+                                                                            <span role="button"
                                                                                   style="width:20ch;display: inline-block;"
                                                                                   ng-show="vm.tipoDataCatturaDa == 'Data completa'"
                                                                                   ng-click="vm.tipoDataCatturaDa = 'Ignora mese/giorno'">
@@ -462,7 +467,7 @@
                             </div>
                         </div>
                     </div>
-<!--#endregion -->
+                    <!--#endregion -->
 
                     <span class="fa-stack fa-lg" role="button" data-toggle="modal" data-target="#modaleFiltriElencoEsemplari" ng-click="vm.aprimodaleFiltriElencoEsemplari()">
                         <i class="fa fa-square-o fa-stack-2x"></i>
@@ -478,27 +483,56 @@
                     <span ng-show="vm.filtroSuSpedizioneAttivo"> - @localizzatore["Spedizione"]</span>
                     <span ng-show="vm.filtroSuCollezioneAttivo"> - @localizzatore["Collezione"]</span>
                 </div>
-                <input type="hidden" id="arrayIdEsemplari" name="arrayIdEsemplari" ng-model="vm.arrayIdEsemplari" />
-                <button class="btn btn-success btn-sm" ng-show="vm.esemplariSelezionati.length" ng-cloak><i class="fa fa-list"></i></button>
-                <div class="btn-group" role="group" ng-show="vm.esemplariSelezionati.length" ng-cloak>
-                    <button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-qrcode text-white"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                        @for (int i = 0; i < _opzioni.Formati.Count; i++)
-                        {
-                            <a class="dropdown-item">@localizzatore[_opzioni.Formati[i].Misura]</a>
-                        }
+                <form id="formLista"
+                      asp-controller="Papero"
+                      asp-action="ListaTesto"
+                      target="_blank">
+                    <input type="hidden" id="arrayIdEsemplariLista" name="arrayIdEsemplariLista" />
+                    <input type="hidden" id="formatoLista" name="formatoLista" />
+                </form>
+                <form id="formQRCode"
+                      asp-controller="QRCode"
+                      asp-action="ListaQRCodeScheda"
+                      target="_blank">
+                    <input type="hidden" id="arrayIdEsemplariQRCode" name="arrayIdEsemplariQRCode" />
+                    <input type="hidden" id="formatoQRCode" name="formatoQRCode" />
+                </form>
+
+                @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaListe"))
+                {
+                    <div class="btn-group" role="group" ng-show="vm.esemplariSelezionati.length" ng-cloak>
+                        <button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-list text-white"></i> @localizzatore["Liste"]
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" ng-click="vm.serializzaEsemplariPerLista(0)">@localizzatore["Lista Sintetica"]</a>
+                            <a class="dropdown-item" href="#" ng-click="vm.serializzaEsemplariPerLista(1)">@localizzatore["Lista Dettagliata"]</a>
+                        </div>
                     </div>
-                </div>
+                }
+
+                @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaQRCodeScheda"))
+                {
+                    <div class="btn-group" role="group" ng-show="vm.esemplariSelezionati.length" ng-cloak>
+                        <button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-qrcode text-white"></i> @localizzatore["QRCode Scheda"]
+                        </button>
+                        <div class="dropdown-menu">
+                            @for (int i = 0; i < _opzioni.Formati.Count; i++)
+                            {
+                                <a class="dropdown-item" href="#" ng-click="vm.serializzaEsemplariPerQRCode(@i)">@localizzatore[_opzioni.Formati[i].Misura]</a>
+                            }
+                        </div>
+                    </div>
+                }
 
             </div>
             <div class="panel-body">
 
-                <table datatable="ng" 
-                       class="table table-striped table-bordered table-hover" 
-                       id="tabellaEsemplari" 
-                       dt-options="vm.opzioniTabella" 
+                <table datatable="ng"
+                       class="table table-striped table-bordered table-hover"
+                       id="tabellaEsemplari"
+                       dt-options="vm.opzioniTabella"
                        dt-column-defs="vm.colonneTabella">
                     <thead>
                         <tr>
@@ -522,7 +556,7 @@
                                         <button type="button" class="btn btn-sm btn-primary dropdown-toggle pull-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fa fa-qrcode text-white"></i>
                                         </button>
-                                        <div class="dropdown-menu" >
+                                        <div class="dropdown-menu">
                                             @for (int i = 0; i < _opzioni.Formati.Count; i++)
                                             {
                                                 <a class="dropdown-item"

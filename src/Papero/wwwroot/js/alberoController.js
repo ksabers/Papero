@@ -194,6 +194,20 @@
             vm.applicaFiltri();
         };
 
+        vm.controllaMSNG = function controllaMSNG() {  // Funzione chiamata ad ogni pressione di tasto nella casella MSNG. Controlla la correttezza
+            vm.MSNGpresente = false;                   // tramite regular expression e abilita/disabilita il pulsante di submit
+            return !re.test(vm.inputMSNG);
+        }
+
+        vm.verificaMSNG = function verificaMSNG(eventoSubmit) {  // Funzione chiamata al momento del submit del form di inserimento nuovo MSNG
+            // Verifica se esiste già l'MSNG inserito: se sì, intercetta l'evento di submit e lo blocca
+            if (_.find(elencoEsemplari, function (esemplare) { return esemplare.msng == _.trim(vm.inputMSNG); })) {
+                vm.MSNGpresente = true;
+                eventoSubmit.preventDefault();
+                return false;
+            }
+        }
+
         vm.deseleziona = function deseleziona() {
             vm.nodiSelezionati = [];
             vm.specieSelezionata = [];
@@ -293,13 +307,27 @@
 
         vm.eseguiFiltro = function eseguiFiltro() {  // Esegue effettivamente il riempimento della tabella esemplari
             vm.esemplariSelezionati = elencoFiltratoEsemplari;
-
-            vm.arrayIdEsemplari = [];
-            for (var i = 0; i < elencoFiltratoEsemplari.length; i++) {
-                vm.arrayIdEsemplari.push(elencoFiltratoEsemplari[i].id)
-            };
         };
 
+        vm.serializzaEsemplariPerLista = function serializzaEsemplariPerLista(formato) {
+            var arrayIdEsemplari = [];
+            for (var i = 0; i < elencoFiltratoEsemplari.length; i++) {
+                arrayIdEsemplari.push(elencoFiltratoEsemplari[i].id)
+            };
+            $("#arrayIdEsemplariLista").val(arrayIdEsemplari);
+            $("#formatoLista").val(formato);
+            $("#formLista").submit();
+        };
+
+        vm.serializzaEsemplariPerQRCode = function serializzaEsemplariPerQRCode(formato) {
+            var arrayIdEsemplari = [];
+            for (var i = 0; i < elencoFiltratoEsemplari.length; i++) {
+                arrayIdEsemplari.push(elencoFiltratoEsemplari[i].id)
+            };
+            $("#arrayIdEsemplariQRCode").val(arrayIdEsemplari);
+            $("#formatoQRCode").val(formato);
+            $("#formQRCode").submit();
+        };
 
         vm.aprimodaleFiltriElencoEsemplari = function aprimodaleFiltriElencoEsemplari() {
             vm.numeroRigheOK = true;
