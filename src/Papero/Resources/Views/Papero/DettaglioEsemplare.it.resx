@@ -456,4 +456,13 @@
   <data name="Piccolo" xml:space="preserve">
     <value>Piccolo</value>
   </data>
+  <data name="Aggiorna" xml:space="preserve">
+    <value>Aggiorna</value>
+  </data>
+  <data name="Inserire nuovo Taxa" xml:space="preserve">
+    <value>Inserire nuovo Taxa</value>
+  </data>
+  <data name="Taxa" xml:space="preserve">
+    <value>Taxa</value>
+  </data>
 </root>

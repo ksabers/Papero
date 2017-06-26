@@ -383,6 +383,22 @@ namespace Papero.Controllers
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
         }
 
+        [Authorize(Policy = "CambioTaxaEsemplare")]
+        [HttpPost]
+        public async Task<IActionResult> CambioTaxaEsemplare(int Id, int sottospeciehiddenCambioTaxa)
+        {
+            var esemplareDaModificare = _repository.LeggiEsemplare(Id);
+
+            esemplareDaModificare.SottospecieId = sottospeciehiddenCambioTaxa;
+
+            if (await _repository.SalvaModifiche())
+            {
+                return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });
+            }
+            return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
+
+        }
+
         [Authorize(Policy = "ModificaMorfologiaEsemplare")]
         [HttpPost]
         public async Task<IActionResult> AggiornaMorfologia(int Id, 

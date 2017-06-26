@@ -98,6 +98,7 @@ namespace Papero
                 // Policies della vista di dettaglio del singolo esemplare (e del relativo controller)
                 opzioni.AddPolicy("VisualizzaDettaglioEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaDettaglioEsemplare"));
                 opzioni.AddPolicy("CancellazioneEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("CancellazioneEsemplare"));
+                opzioni.AddPolicy("CambioTaxaEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("CambioTaxaEsemplare"));
                 opzioni.AddPolicy("ModificaElencoAutori", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaElencoAutori"));
                 opzioni.AddPolicy("ModificaNomiSottospecie", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaNomiSottospecie"));
                 opzioni.AddPolicy("ModificaPresenzaEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaPresenzaEsemplare"));

@@ -139,6 +139,14 @@
             vm.autoreSelezionato = vm.datiDropdownAutori[0];
         };
 
+        vm.apriModaleCambioTaxa = function apriModaleCambioTaxa(esemplareId, sottospecieId) {
+            vm.SpecieSelezionataCambioTaxa = _.find(vm.ElencoSpecieCambioTaxa, ["id", sottospecieId]);
+            $("#sottospeciehiddenCambioTaxa").val(vm.SpecieSelezionataCambioTaxa.id);
+        };
+
+        vm.selezionaSpecieCambioTaxa = function selezionaSpecieCambioTaxa() {
+            $("#sottospeciehiddenCambioTaxa").val(vm.SpecieSelezionataCambioTaxa.id);
+        };
 
         $http.get("/api/classificatori")
             .then(function (response) {
@@ -148,7 +156,13 @@
         $http.get("/api/classificazioni/" + inputIdSottospecie.value)
             .then(function (response) {
                 vm.datiTabellaAutori = response.data;
-        });
+            });
+
+        $http.get("/api/elencospecie")
+            .then(function (response) {
+                vm.ElencoSpecieCambioTaxa = response.data;
+            });
+
     }
 
 })();

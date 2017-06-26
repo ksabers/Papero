@@ -33,9 +33,7 @@
             white-space: normal;
         }
 
-        @* Questi due stili servono per trasformare "ng-show" da "display:none" a "visibility:hidden" e quindi incolonnare giuste le frecce per muovere su e giù le righe nelle tabelle *@ 
-
-        .fa.fa-arrow-up.ng-hide {
+        @* Questi due stili servono per trasformare "ng-show" da "display:none" a "visibility:hidden" e quindi incolonnare giuste le frecce per muovere su e giù le righe nelle tabelle *@ .fa.fa-arrow-up.ng-hide {
             display: inline-block !important;
             visibility: hidden;
         }
@@ -53,13 +51,11 @@
     <script src="~/js/modali/modaleElencoAutoriController.js"></script>
     <script src="~/js/modali/modaleModiPreparazioneController.js"></script>
     <script src="~/js/pulsanteMSNGController.js"></script>
-    <script src="~/js/modaleVecchieDeterminazioniController.js"></script>
+    <script src="~/js/modali/modaleVecchieDeterminazioniController.js"></script>
     <script src="~/js/modali/modaleGeografiaController.js"></script>
     <script src="~/js/modali/modaleDatiGeneraliController.js"></script>
     <script src="~/js/modali/modaleDeterminazioniController.js"></script>
     <script src="~/js/modali/modalePreparazioneController.js"></script>
-
-
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
@@ -171,22 +167,22 @@
                                 @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaQRCodeScheda"))
                                 {
                                     <div class="btn-group" role="group">
-                                        <button type="button" 
-                                                class="btn btn-success dropdown-toggle" 
-                                                data-toggle="dropdown" 
-                                                aria-haspopup="true" 
+                                        <button type="button"
+                                                class="btn btn-success dropdown-toggle"
+                                                data-toggle="dropdown"
+                                                aria-haspopup="true"
                                                 aria-expanded="false">
                                             <i class="fa fa-qrcode fa-2x text-white"></i>
                                         </button>
                                         <div class="dropdown-menu">
                                             @for (int i = 0; i < _opzioni.Formati.Count; i++)
                                             {
-                                                <a class="dropdown-item" 
-                                                   asp-controller="QRCode" 
-                                                   asp-action="QRCodeScheda" 
-                                                   asp-route-id="@Model.Id" 
+                                                <a class="dropdown-item"
+                                                   asp-controller="QRCode"
+                                                   asp-action="QRCodeScheda"
+                                                   asp-route-id="@Model.Id"
                                                    asp-route-formato="@i">@localizzatore[_opzioni.Formati[i].Misura]</a>
-                                            }                                            
+                                            }
                                         </div>
                                     </div>
                                 }
@@ -326,6 +322,67 @@
                                 </div>
                             </div>
                             <!-- #endregion -->
+
+                            <!--#region modaleCambioTaxa -->
+                            <div class="modal fade" id="modaleCambioTaxa" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">@localizzatore["Inserire nuovo Taxa"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                                                </div>
+                                                <div class="panel-body text-primary">
+
+                                                    <form class="form-horizontal"
+                                                          id="formCambioTaxa"
+                                                          name="formCambioTaxa"
+                                                          asp-controller="UpdateDettaglioEsemplare"
+                                                          asp-action="CambioTaxaEsemplare">
+                                                        <fieldset>
+                                                            <input type="hidden" id="sottospeciehiddenCambioTaxa" name="sottospeciehiddenCambioTaxa" />
+                                                            <input type="hidden" id="esemplarehiddenCambioTaxa" asp-for="Id" value="@Model.Id" />
+
+                                                            <div class="form-group">
+                                                                <label for="uiselectSingolaSpecie" class="col-lg-1 col-lg-offset-2 control-label text-primary">@localizzatore["Taxa"]:</label>
+                                                                <div class="col-lg-7">
+
+                                                                    <div>
+                                                                        <ui-select id="uiselectSingolaSpecie" ng-model="vm.SpecieSelezionataCambioTaxa" ng-change="vm.selezionaSpecieCambioTaxa()">
+                                                                            <ui-select-match>
+                                                                                <span ng-bind="$select.selected.nome"></span>
+                                                                            </ui-select-match>
+                                                                            <ui-select-choices repeat="specie in (vm.ElencoSpecieCambioTaxa | filter: $select.search) track by specie.id">
+                                                                                <span ng-bind="specie.nome"></span>
+                                                                            </ui-select-choices>
+                                                                        </ui-select>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+
+
+
+                                                            <div class="form-group">
+                                                                <div class="col-lg-12">
+                                                                    <div class="pull-right">
+                                                                        <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
+                                                                        <button type="submit" id="submitCambioTaxa" class="btn btn-success">@localizzatore["Aggiorna"]</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- #endregion -->
+
                             <h4>
                                 @funzioni.FormattaNomeScientifico(Model.Sottospecie.Specie.Genere.Nome,
                                                                   Model.Sottospecie.Specie.Nome,
@@ -341,6 +398,12 @@
                                     case "Prob. Femmina":<text>&nbsp;?&nbsp;</text><i class="fa fa-venus"></i>
                                         break;
                                 }
+
+                                @if (await autorizzatore.AuthorizeAsync(User, "CambioTaxaEsemplare"))
+                                {
+                                    <i role="button" class="fa fa-pencil text-muted" data-toggle="modal" data-target="#modaleCambioTaxa" ng-click="vm.apriModaleCambioTaxa(@Model.Id, @Model.SottospecieId)"></i>
+                                }
+
                                 <br />
                                 @Model.Sottospecie.ElencoAutori
 
