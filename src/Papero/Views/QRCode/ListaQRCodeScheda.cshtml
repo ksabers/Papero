@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "";
+}
+@using Papero.ViewModels
+@model List<QRCodeListaViewModel>
+
+<body>
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <a href="#" class="btn btn-primary hidden-print" onclick="window.print()"><i class="fa fa-qrcode"></i>  @localizzatore["Stampa QRCode"]</a>
+        </div>
+    </div>
+@for (int i = 0; i < Model.Count; i++)
+{
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4">
+            <div class="panel panel-success center-block" style="width:250px;box-shadow:10px 10px 5px grey;">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@localizzatore["MSNG"]: <strong>@Model[i].MSNG</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <img src="@(Model[i].urlQRCode + Model[i].testoQRCode)" alt="" title="" />
+                    <img class="pull-right" src="~/img/logo_museo.png" height="80px" />
+                </div>
+            </div>
+        </div>
+    </div>
+        
+}
+</body>

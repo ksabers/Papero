@@ -83,7 +83,6 @@ namespace Papero.Controllers
             var elencoEsemplari = JsonConvert.DeserializeObject<int[]>("[" + arrayIdEsemplariLista + "]");
 
             List<Esemplari> modello = new List<Esemplari>();
-            //modello.Clear();
 
             for (int i = 0; i < elencoEsemplari.Length; i++)
             {
