@@ -45,6 +45,8 @@ namespace Papero.Models
             return _gestoreUtenti.Users
                 .Include(utente => utente.Roles)
                 .Include(utente => utente.Claims)
+                .OrderBy(utente => utente.Cognome)
+                .ThenBy(utente => utente.Nome)
                 .ToList();
 
         }
@@ -63,6 +65,7 @@ namespace Papero.Models
             return _gestoreRuoli.Roles
                 .Include(ruolo => ruolo.Users)
                 .Include(ruolo => ruolo.Claims)
+                .OrderBy(ruolo => ruolo.Name)
                 .ToList();
         }
 
@@ -82,7 +85,9 @@ namespace Papero.Models
                 {
                     Policy = claim.Type
                 }
-                ).ToList();
+                )
+                .OrderBy(policy => policy.Policy)
+                .ToList();
         }
 
         public async Task<bool> PostUtente(UtentePaperoConAutorizzazioni utente)
