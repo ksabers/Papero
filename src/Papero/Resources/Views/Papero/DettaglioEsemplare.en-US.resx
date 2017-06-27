@@ -465,4 +465,10 @@
   <data name="Taxa" xml:space="preserve">
     <value>Taxa</value>
   </data>
+  <data name="Inserire nuovo MSNG" xml:space="preserve">
+    <value>Insert new MSNG</value>
+  </data>
+  <data name="MSNG già esistente!" xml:space="preserve">
+    <value>MSNG already present!</value>
+  </data>
 </root>

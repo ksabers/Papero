@@ -396,7 +396,21 @@ namespace Papero.Controllers
                 return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });
             }
             return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
+        }
 
+        [Authorize(Policy = "CambioMSNGEsemplare")]
+        [HttpPost]
+        public async Task<IActionResult> CambioMSNGEsemplare(int Id, int inputCambioMSNG)
+        {
+            var esemplareDaModificare = _repository.LeggiEsemplare(Id);
+
+            esemplareDaModificare.Msng = inputCambioMSNG;
+
+            if (await _repository.SalvaModifiche())
+            {
+                return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });
+            }
+            return RedirectToAction("DettaglioEsemplare", "Papero", new { id = esemplareDaModificare.Id });  // TODO scrivere pagina di errore
         }
 
         [Authorize(Policy = "ModificaMorfologiaEsemplare")]

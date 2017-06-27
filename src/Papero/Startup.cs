@@ -99,6 +99,7 @@ namespace Papero
                 opzioni.AddPolicy("VisualizzaDettaglioEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaDettaglioEsemplare"));
                 opzioni.AddPolicy("CancellazioneEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("CancellazioneEsemplare"));
                 opzioni.AddPolicy("CambioTaxaEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("CambioTaxaEsemplare"));
+                opzioni.AddPolicy("CambioMSNGEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("CambioMSNGEsemplare"));
                 opzioni.AddPolicy("ModificaElencoAutori", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaElencoAutori"));
                 opzioni.AddPolicy("ModificaNomiSottospecie", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaNomiSottospecie"));
                 opzioni.AddPolicy("ModificaPresenzaEsemplare", costruttorePolicy => costruttorePolicy.RequireClaim("ModificaPresenzaEsemplare"));

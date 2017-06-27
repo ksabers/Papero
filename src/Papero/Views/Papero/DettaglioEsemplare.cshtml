@@ -97,6 +97,7 @@
 
                         @if (ViewBag.trovato)
                         {
+ <!--#region modaleConfermaCancellazione -->
                             <div class="modal fade" id="modaleConfermaCancellazione" role="dialog">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
@@ -145,11 +146,74 @@
                                     </div>
                                 </div>
                             </div>
+<!-- #endregion -->
+
+<!--#region modaleCambioMSNG -->
+                            <div class="modal fade" id="modaleCambioMSNG" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">@localizzatore["Inserire nuovo MSNG"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                                                </div>
+                                                <div class="panel-body text-primary">
+
+                                                    <form class="form-horizontal"
+                                                          id="formCambioMSNG"
+                                                          name="formCambioMSNG"
+                                                          asp-controller="UpdateDettaglioEsemplare"
+                                                          asp-action="CambioMSNGEsemplare">
+                                                        <fieldset>
+                                                            <input type="hidden" id="MSNGhiddenCambioMSNG" name="MSNGhiddenCambioMSNG" value="@Model.Msng" />
+                                                            <input type="hidden" id="esemplarehiddenCambioMSNG" asp-for="Id" value="@Model.Id" />
+
+                                                            <div class="form-group">
+                                                                <label for="inputCambioMSNG" class="col-lg-1 col-lg-offset-4 control-label text-primary">@localizzatore["MSNG"]:</label>
+                                                                <div class="col-lg-3">
+                                                                    @*<input class="form-control" type="number" id="inputCambioMSNG" name="inputCambioMSNG" value="@Model.Msng" />*@
+
+                                                                    <input type="text" pattern="([1-9][0-9]*)" id="inputCambioMSNG" name="inputCambioMSNG" ng-model="vm.cambioMSNG" ng-change="vm.controllaCambioMSNG()" class="form-control" required>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="alert alert-danger col-lg-4 col-lg-offset-4" ng-show="vm.MSNGdoppio">
+                                                                <strong>@localizzatore["MSNG già esistente!"]</strong>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <div class="col-lg-12">
+                                                                    <div class="pull-right">
+                                                                        <button type="reset" class="btn btn-outline-primary" data-dismiss="modal">@localizzatore["Annulla"]</button>
+                                                                        <button type="button" id="submitCambioMSNG" ng-disabled="vm.submitCambioMSNGdisabilitato" ng-click="vm.verificaPresenzaMSNG()" class="btn btn-success">@localizzatore["Aggiorna"]</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+<!-- #endregion -->
                         }
                         <form asp-controller="Papero"
                               asp-action="DettaglioEsemplareByMSNG"
                               id="formMSNG"
                               name="formMSNG">
+                        @if (await autorizzatore.AuthorizeAsync(User, "CambioMSNGEsemplare"))
+                        {
+                            <i role="button" 
+                               class="fa fa-pencil text-muted" 
+                               data-toggle="modal" 
+                               data-target="#modaleCambioMSNG" 
+                               ng-click="vm.apriModaleCambioMSNG(@Model.Id, @Model.Msng)">
+                            </i>
+                        }
                             <div class="form-group">
                                 <div class="input-group input-group-lg">
                                     <input type="text" pattern="([1-9][0-9]*)" id="inputMSNG" ng-model="vm.MSNG" ng-change="vm.controllaMSNG()" class="form-control form-control-lg" asp-for="Msng" required>
@@ -322,7 +386,6 @@
                                 </div>
                             </div>
                             <!-- #endregion -->
-
                             <!--#region modaleCambioTaxa -->
                             <div class="modal fade" id="modaleCambioTaxa" role="dialog">
                                 <div class="modal-dialog modal-lg">
