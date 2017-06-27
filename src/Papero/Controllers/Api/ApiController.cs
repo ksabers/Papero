@@ -53,6 +53,18 @@ namespace Papero.Controllers
         }
 
         /// <summary>
+        /// API che restituisce l'ID dell'esemplare a partire dal suo MSNG
+        /// </summary>
+        /// <param name="msng"></param>
+        /// <returns>Intero ID dell'esemplare, o -1 se non esiste</returns>
+        [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
+        [HttpGet("api/msng/{msng}")]
+        public IActionResult GetEsemplaredaMSNG(int msng)
+        {
+            return Ok(_repository.EsemplareIdDaMSNG(msng));
+        }
+
+        /// <summary>
         /// API che restituisce gli stati di conservazione
         /// </summary>
         /// <returns></returns>
