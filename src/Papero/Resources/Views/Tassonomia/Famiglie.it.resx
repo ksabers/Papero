@@ -117,121 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafiche" xml:space="preserve">
-    <value>Tables</value>
+  <data name="Azioni" xml:space="preserve">
+    <value>Azioni</value>
   </data>
-  <data name="Contatti" xml:space="preserve">
-    <value>Contacts</value>
+  <data name="Famiglia" xml:space="preserve">
+    <value>Famiglia</value>
   </data>
-  <data name="Esemplari" xml:space="preserve">
-    <value>Specimens</value>
-  </data>
-  <data name="Impostazioni" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="Info su Papero" xml:space="preserve">
-    <value>About Papero</value>
-  </data>
-  <data name="Inglese" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="Italiano" xml:space="preserve">
-    <value>Italian</value>
-  </data>
-  <data name="Lingua" xml:space="preserve">
-    <value>Language</value>
-  </data>
-  <data name="linguaggioDatatables" xml:space="preserve">
-    <value>//cdn.datatables.net/plug-ins/1.10.12/i18n/English.json</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
-  </data>
-  <data name="Museo di Storia Naturale 'Giacomo Doria' - Genova" xml:space="preserve">
-    <value>Natural History Museum 'Giacomo Doria' - Genoa</value>
-  </data>
-  <data name="Profilo Utente" xml:space="preserve">
-    <value>User Profile</value>
-  </data>
-  <data name="Tassonomia" xml:space="preserve">
-    <value>Taxonomy</value>
-  </data>
-  <data name="Mostra/Nascondi Menu" xml:space="preserve">
-    <value>Toggle Menu</value>
-  </data>
-  <data name="Francese" xml:space="preserve">
-    <value>French</value>
-  </data>
-  <data name="Classificatori" xml:space="preserve">
-    <value>Classifiers</value>
-  </data>
-  <data name="Collezioni" xml:space="preserve">
-    <value>Collections</value>
-  </data>
-  <data name="Spedizioni" xml:space="preserve">
-    <value>Expeditions</value>
-  </data>
-  <data name="Raccoglitori" xml:space="preserve">
-    <value>Collectors</value>
-  </data>
-  <data name="Determinatori" xml:space="preserve">
-    <value>Determiners</value>
-  </data>
-  <data name="Preparatori" xml:space="preserve">
-    <value>Preparers</value>
-  </data>
-  <data name="Armadi" xml:space="preserve">
-    <value>Cabinets</value>
-  </data>
-  <data name="Cassetti" xml:space="preserve">
-    <value>Drawers</value>
-  </data>
-  <data name="Collocazioni" xml:space="preserve">
-    <value>Positions</value>
-  </data>
-  <data name="Sale" xml:space="preserve">
-    <value>Rooms</value>
-  </data>
-  <data name="Vassoi" xml:space="preserve">
-    <value>Trays</value>
-  </data>
-  <data name="Città" xml:space="preserve">
-    <value>Cities</value>
-  </data>
-  <data name="Geografia" xml:space="preserve">
-    <value>Geography</value>
-  </data>
-  <data name="Località" xml:space="preserve">
-    <value>Places</value>
-  </data>
-  <data name="Nazioni" xml:space="preserve">
-    <value>Countries</value>
-  </data>
-  <data name="Province" xml:space="preserve">
-    <value>Provinces</value>
-  </data>
-  <data name="Regioni" xml:space="preserve">
-    <value>Regions</value>
-  </data>
-  <data name="Ruoli" xml:space="preserve">
-    <value>Roles</value>
-  </data>
-  <data name="Sicurezza" xml:space="preserve">
-    <value>Security</value>
-  </data>
-  <data name="Utenti" xml:space="preserve">
-    <value>Users</value>
+  <data name="Famiglia già presente!" xml:space="preserve">
+    <value>Famiglia già presente!</value>
   </data>
   <data name="Famiglie" xml:space="preserve">
-    <value>Families</value>
+    <value>Famiglie</value>
   </data>
-  <data name="Sottofamiglie" xml:space="preserve">
-    <value>Subfamilies</value>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
   </data>
-  <data name="Generi" xml:space="preserve">
-    <value>Genera</value>
+  <data name="Modifica" xml:space="preserve">
+    <value>Modifica</value>
   </data>
-  <data name="Specie" xml:space="preserve">
-    <value>Species</value>
+  <data name="Modifica Famiglia" xml:space="preserve">
+    <value>Modifica Famiglia</value>
+  </data>
+  <data name="Tassonomia Famiglie" xml:space="preserve">
+    <value>Tassonomia Famiglie</value>
   </data>
 </root>

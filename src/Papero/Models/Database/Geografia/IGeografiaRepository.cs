@@ -15,6 +15,8 @@ namespace Papero.Models
 
         #region Get
 
+        IEnumerable<AlberoNazioneViewModel> LeggiGeografia();
+
         /// <summary>
         /// Restituisce l'elenco completo delle Nazioni
         /// </summary>

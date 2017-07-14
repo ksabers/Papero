@@ -22,12 +22,12 @@ namespace Papero.Controllers
         /// API che restituisce l'albero tassonomico
         /// </summary>
         /// <returns></returns>
-        [Authorize]
-        [HttpGet("api/albero")]
-        public IActionResult GetAlbero()
-        {
-            return Ok(_repository.LeggiAlbero());
-        }
+        //[Authorize]
+        //[HttpGet("api/albero")]
+        //public IActionResult GetAlbero()
+        //{
+        //    return Ok(_repository.LeggiAlbero());
+        //}
 
         /// <summary>
         /// API che restituisce l'elenco degli esemplari in formato sinteticoVisualizzaElencoEsemplari
@@ -148,12 +148,12 @@ namespace Papero.Controllers
 
 
 
-        [Authorize]
-        [HttpGet("api/geografia")]
-        public IActionResult GetGeografia()
-        {
-            return Ok(_repository.LeggiGeografia());
-        }
+        //[Authorize]
+        //[HttpGet("api/geografia")]
+        //public IActionResult GetGeografia()
+        //{
+        //    return Ok(_repository.LeggiGeografia());
+        //}
 
         [Authorize]
         [HttpGet("api/tipiacquisizione")]

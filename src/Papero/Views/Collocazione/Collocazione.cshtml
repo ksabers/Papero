@@ -1,0 +1,543 @@
+﻿
+@{
+    ViewBag.Title = localizzatore["Gestione Collocazioni"];
+}
+
+@section css {
+    <style type="text/css">
+        .dt-loading h3 {
+            display: none;
+        }
+    </style>
+}
+
+@section scripts {
+    <script src="~/js/collocazione/collocazioneController.js"></script>
+}
+
+<div class="row" ng-app="papero-app" ng-controller="collocazioneController as vm">
+    <div class="col-lg-3">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    @localizzatore["Albero delle collocazioni"]
+                </h3>
+            </div>
+
+            <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
+                <treecontrol class="tree-boot"
+                             id="alberoCollocazioni"
+                             ng-cloak
+                             tree-model="vm.datiAlbero"
+                             options="vm.opzioniAlbero"
+                             on-selection="vm.nodoSelezionato(node, $path(), selected)"
+                             selected-node="vm.selectedNode">
+                    {{node.nome}}
+                </treecontrol>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-9">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+
+                    <span ng-show="vm.panelInserimentoSalaVisibile" ng-cloak>@localizzatore["Inserisci nuova Sala"]</span>
+                    <span ng-show="vm.panelInserimentoArmadioVisibile" ng-cloak>@localizzatore["Inserisci nuovo Armadio"]</span>
+                    <span ng-show="vm.panelInserimentoCassettoVisibile" ng-cloak>@localizzatore["Inserisci nuovo Cassetto"]</span>
+                    <span ng-show="vm.panelInserimentoVassoioVisibile" ng-cloak>@localizzatore["Inserisci nuovo Vassoio"]</span>
+                    <span ng-hide="vm.livello > 0">@localizzatore["Selezionare un elemento dell'albero"]</span>
+                    <span ng-show="vm.livello == 1 && !vm.panelInserimentoSalaVisibile" ng-cloak>
+                        @localizzatore["Sala"]: {{vm.testo}}
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
+                        {
+                            <text>&nbsp;&nbsp;&nbsp;</text>
+                            <a href="#"
+                               class="btn btn-success"
+                               ng-click="vm.apriPannelloInserimentoSala()"
+                               ng-show="vm.pulsanteInserimentoSalaVisibile">
+                                <i class="fa fa-plus"></i> @localizzatore["Nuova Sala"]
+                            </a>
+                            <a href="#"
+                               class="btn btn-danger"
+                               ng-click="vm.apriPannelloCancellaSala()"
+                               ng-show="vm.pulsanteCancellazioneSalaVisibile">
+                                <i class="fa fa-minus"></i> @localizzatore["Cancella Sala"]
+                            </a>
+                        }
+                    </span>
+                    <span ng-show="vm.livello == 2 && !vm.panelInserimentoArmadioVisibile" ng-cloak>
+                        @localizzatore["Armadio"]: {{vm.testo}}
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
+                        {
+                            <text>&nbsp;&nbsp;&nbsp;</text>
+                            <a href="#"
+                               class="btn btn-success"
+                               ng-click="vm.apriPannelloInserimentoArmadio()"
+                               ng-show="vm.pulsanteInserimentoArmadioVisibile">
+                                <i class="fa fa-plus"></i> @localizzatore["Nuovo Armadio"]
+                            </a>
+                            <a href="#"
+                               class="btn btn-danger"
+                               ng-click="vm.apriPannelloCancellaArmadio()"
+                               ng-show="vm.pulsanteCancellazioneArmadioVisibile">
+                                <i class="fa fa-minus"></i> @localizzatore["Cancella Armadio"]
+                            </a>
+                        }
+                    </span>
+                    <span ng-show="vm.livello == 3 && !vm.panelInserimentoCassettoVisibile" ng-cloak>
+                        @localizzatore["Cassetto"]: {{vm.testo}}
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
+                        {
+                            <text>&nbsp;&nbsp;&nbsp;</text>
+                            <a href="#"
+                               class="btn btn-success"
+                               ng-click="vm.apriPannelloInserimentoCassetto()"
+                               ng-show="vm.pulsanteInserimentoCassettoVisibile">
+                                <i class="fa fa-plus"></i> @localizzatore["Nuovo Cassetto"]
+                            </a>
+                            <a href="#"
+                               class="btn btn-danger"
+                               ng-click="vm.apriPannelloCancellaCassetto()"
+                               ng-show="vm.pulsanteCancellazioneCassettoVisibile">
+                                <i class="fa fa-minus"></i> @localizzatore["Cancella Cassetto"]
+                            </a>
+                        }
+                    </span>
+                    <span ng-show="vm.livello == 4  && !vm.panelInserimentoVassoioVisibile" ng-cloak>
+                        @localizzatore["Vassoio"]: {{vm.testo}}
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
+                        {
+                            <text>&nbsp;&nbsp;&nbsp;</text>
+                            <a href="#"
+                               class="btn btn-success"
+                               ng-click="vm.apriPannelloInserimentoVassoio()"
+                               ng-show="vm.pulsanteInserimentoVassoioVisibile">
+                                <i class="fa fa-plus"></i> @localizzatore["Nuovo Vassoio"]
+                            </a>
+                            <a href="#"
+                               class="btn btn-danger"
+                               ng-click="vm.apriPannelloCancellaVassoio()"
+                               ng-show="vm.pulsanteCancellazioneVassoioVisibile">
+                                <i class="fa fa-minus"></i> @localizzatore["Cancella Vassoio"]
+                            </a>
+                        }
+                    </span>
+                </h3>
+            </div>
+            <div class="panel-body">
+
+                @*Pannello delle Sale*@
+                <div ng-show="vm.livello==1">
+
+                    @*Inserimento Sala*@
+                    <div id="panelInserimentoSala" class="panel-body" ng-show="vm.panelInserimentoSalaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertSala" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome Sala"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertSala"
+                                           ng-change="vm.verificaInsertSala()"
+                                           id="inputInsertSala"
+                                           name="inputInsertSala" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-offset-6 col-lg-3">
+                                        <div class="pull-right">
+                                            <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimentoSala()">@localizzatore["Annulla"]</button>
+                                            <button type="submit" class="btn btn-success" ng-click="vm.inserisciSala()" ng-disabled="vm.pulsanteInsertSalaDisabilitato">@localizzatore["Inserisci"]</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Edit Sala*@
+                    <div id="panelEditSala" class="panel-body" ng-show="vm.panelEditSalaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditSala" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Nome Sala"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditSala"
+                                           ng-change="vm.verificaEditSala()"
+                                           ng-disabled="vm.inputEditSala == '-'"
+                                           id="inputEditSala"
+                                           name="inputEditSala" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-offset-6 col-lg-3">
+                                        <div class="pull-right">
+                                            <button type="submit"
+                                                    class="btn btn-success"
+                                                    ng-click="vm.editSala()"
+                                                    ng-disabled="vm.pulsanteEditSalaDisabilitato">
+                                                @localizzatore["Modifica"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Cancella Sala*@
+                    <div id="panelCancellaSala" class="panel-body" ng-show="vm.panelCancellaSalaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Sala"]:</label>
+                                <div class="col-lg-3">
+                                    <h4>{{vm.salaDaCancellare}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="reset"
+                                                    class="btn btn-outline-primary"
+                                                    ng-click="vm.annullaCancellaSala()">
+                                                @localizzatore["Annulla"]
+                                            </button>
+                                            <button type="submit"
+                                                    class="btn btn-danger"
+                                                    ng-click="vm.cancellaSala()">
+                                                @localizzatore["Conferma Cancellazione Sala"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Pannello degli Armadi*@
+                <div ng-show="vm.livello==2">
+
+                    @*Inserimento Armadio*@
+                    <div id="panelInserimentoArmadio" class="panel-body" ng-show="vm.panelInserimentoArmadioVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertArmadio" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome Armadio"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertArmadio"
+                                           ng-change="vm.verificaInsertArmadio()"
+                                           id="inputInsertArmadio"
+                                           name="inputInsertArmadio" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimentoArmadio()">@localizzatore["Annulla"]</button>
+                                            <button type="submit" class="btn btn-success" ng-click="vm.inserisciArmadio()" ng-disabled="vm.pulsanteInsertArmadioDisabilitato">@localizzatore["Inserisci"]</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Edit Armadio*@
+                    <div id="panelEditArmadio" class="panel-body" ng-show="vm.panelEditArmadioVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditArmadio" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Nome Armadio"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditArmadio"
+                                           ng-change="vm.verificaEditArmadio()"
+                                           ng-disabled="vm.inputEditArmadio == '-'"
+                                           id="inputEditArmadio"
+                                           name="inputEditArmadio" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="submit"
+                                                    class="btn btn-success"
+                                                    ng-click="vm.editArmadio()"
+                                                    ng-disabled="vm.pulsanteEditArmadioDisabilitato">
+                                                @localizzatore["Modifica"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Cancella Armadio*@
+                    <div id="panelCancellaArmadio" class="panel-body" ng-show="vm.panelCancellaArmadioVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Armadio"]:</label>
+                                <div class="col-lg-3">
+                                    <h4>{{vm.armadioDaCancellare}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-4">
+                                        <div class="pull-right">
+                                            <button type="reset"
+                                                    class="btn btn-outline-primary"
+                                                    ng-click="vm.annullaCancellaArmadio()">
+                                                @localizzatore["Annulla"]
+                                            </button>
+                                            <button type="submit"
+                                                    class="btn btn-danger"
+                                                    ng-click="vm.cancellaArmadio()">
+                                                @localizzatore["Conferma Cancellazione Armadio"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Pannello dei Cassetti*@
+                <div ng-show="vm.livello==3">
+
+                    @*Inserimento Cassetto*@
+                    <div id="panelInserimentoCassetto" class="panel-body" ng-show="vm.panelInserimentoCassettoVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertCassetto" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome Cassetto"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertCassetto"
+                                           ng-change="vm.verificaInsertCassetto()"
+                                           id="inputInsertCassetto"
+                                           name="inputInsertCassetto" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimentoCassetto()">@localizzatore["Annulla"]</button>
+                                            <button type="submit" class="btn btn-success" ng-click="vm.inserisciCassetto()" ng-disabled="vm.pulsanteInsertCassettoDisabilitato">@localizzatore["Inserisci"]</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Edit Cassetto*@
+                    <div id="panelEditCassetto" class="panel-body" ng-show="vm.panelEditCassettoVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditCassetto" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Nome Cassetto"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditCassetto"
+                                           ng-change="vm.verificaEditCassetto()"
+                                           ng-disabled="vm.inputEditCassetto == '-'"
+                                           id="inputEditCassetto"
+                                           name="inputEditCassetto" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="submit"
+                                                    class="btn btn-success"
+                                                    ng-click="vm.editCassetto()"
+                                                    ng-disabled="vm.pulsanteEditCassettoDisabilitato">
+                                                @localizzatore["Modifica"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Cancella Cassetto*@
+                    <div id="panelCancellaCassetto" class="panel-body" ng-show="vm.panelCancellaCassettoVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Cassetto"]:</label>
+                                <div class="col-lg-3">
+                                    <h4>{{vm.cassettoDaCancellare}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-4">
+                                        <div class="pull-right">
+                                            <button type="reset"
+                                                    class="btn btn-outline-primary"
+                                                    ng-click="vm.annullaCancellaCassetto()">
+                                                @localizzatore["Annulla"]
+                                            </button>
+                                            <button type="submit"
+                                                    class="btn btn-danger"
+                                                    ng-click="vm.cancellaCassetto()">
+                                                @localizzatore["Conferma Cancellazione Cassetto"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Pannello dei Vassoi*@
+                <div ng-show="vm.livello==4">
+
+                    @*Inserimento Vassoio*@
+                    <div id="panelInserimentoVassoio" class="panel-body" ng-show="vm.panelInserimentoVassoioVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertVassoio" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome Vassoio"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertVassoio"
+                                           ng-change="vm.verificaInsertVassoio()"
+                                           id="inputInsertVassoio"
+                                           name="inputInsertVassoio" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimentoVassoio()">@localizzatore["Annulla"]</button>
+                                            <button type="submit" class="btn btn-success" ng-click="vm.inserisciVassoio()" ng-disabled="vm.pulsanteInsertVassoioDisabilitato">@localizzatore["Inserisci"]</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Edit Vassoio*@
+                    <div id="panelEditVassoio" class="panel-body" ng-show="vm.panelEditVassoioVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditVassoio" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Nome Vassoio"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditVassoio"
+                                           ng-change="vm.verificaEditVassoio()"
+                                           ng-disabled="vm.inputEditVassoio == '-'"
+                                           id="inputEditVassoio"
+                                           name="inputEditVassoio" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="submit"
+                                                    class="btn btn-success"
+                                                    ng-click="vm.editVassoio()"
+                                                    ng-disabled="vm.pulsanteEditVassoioDisabilitato">
+                                                @localizzatore["Modifica"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Cancella Vassoio*@
+                    <div id="panelCancellaVassoio" class="panel-body" ng-show="vm.panelCancellaVassoioVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Vassoio"]:</label>
+                                <div class="col-lg-3">
+                                    <h4>{{vm.vassoioDaCancellare}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="reset"
+                                                    class="btn btn-outline-primary"
+                                                    ng-click="vm.annullaCancellaVassoio()">
+                                                @localizzatore["Annulla"]
+                                            </button>
+                                            <button type="submit"
+                                                    class="btn btn-danger"
+                                                    ng-click="vm.cancellaVassoio()">
+                                                @localizzatore["Conferma Cancellazione Vassoio"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

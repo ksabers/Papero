@@ -186,8 +186,8 @@
   <data name="Cassetti" xml:space="preserve">
     <value>Cassetti</value>
   </data>
-  <data name="Collocazione" xml:space="preserve">
-    <value>Collocazione</value>
+  <data name="Collocazioni" xml:space="preserve">
+    <value>Collocazioni</value>
   </data>
   <data name="Sale" xml:space="preserve">
     <value>Sale</value>
@@ -221,5 +221,20 @@
   </data>
   <data name="Utenti" xml:space="preserve">
     <value>Utenti</value>
+  </data>
+  <data name="Famiglie" xml:space="preserve">
+    <value>Famiglie</value>
+  </data>
+  <data name="Sottofamiglie" xml:space="preserve">
+    <value>Sottofamiglie</value>
+  </data>
+  <data name="Tribù" xml:space="preserve">
+    <value>Tribù</value>
+  </data>
+  <data name="Generi" xml:space="preserve">
+    <value>Generi</value>
+  </data>
+  <data name="Specie" xml:space="preserve">
+    <value>Specie</value>
   </data>
 </root>

@@ -138,17 +138,47 @@
     <div class="sidebar">
         <nav class="sidebar-nav">
             <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fa fa-sitemap fa-fw"></i> @localizzatore["Tassonomia"]
-                    </a>
-                </li>
+                @*<li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fa fa-sitemap fa-fw"></i> @localizzatore["Tassonomia"]
+                </a>
+            </li>*@
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Papero" asp-action="ElencoEsemplari">
                         <i class="fa fa-tags fa-fw"></i> @localizzatore["Esemplari"]
                     </a>
                 </li>
-                @if ((await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori"))
+
+                @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaTassonomia"))
+                {
+                    <li class="nav-item nav-dropdown active">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                        <i class="fa fa-sitemap fa-fw"></i>@localizzatore["Tassonomia"]<i class="fa arrow"></i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a class="nav-link text-right" asp-controller="Tassonomia" asp-action="Tassonomia">@localizzatore["Tassonomia"]</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-right" asp-controller="Tassonomia" asp-action="Famiglie">@localizzatore["Famiglie"]</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-right" asp-controller="Tassonomia" asp-action="Sottofamiglie">@localizzatore["Sottofamiglie"]</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-right" asp-controller="Tassonomia" asp-action="Tribu">@localizzatore["Tribù"]</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-right" asp-controller="Tassonomia" asp-action="Generi">@localizzatore["Generi"]</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-right" asp-controller="Tassonomia" asp-action="Specie">@localizzatore["Specie"]</a>
+                        </li>
+                    </ul>
+                    </li>
+                }
+
+                @if((await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori"))
                  ||
                  (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollezioni"))
                  ||
@@ -173,116 +203,62 @@
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori"))
                             {
                                 <li>
-                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Classificatori">@localizzatore["Classificatori"]</a>
+                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Classificatori"><i class="fa fa-binoculars fa-fw"></i>@localizzatore["Classificatori"]</a>
                                 </li>
                             }
 
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollezioni"))
                             {
                                 <li>
-                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Collezioni">@localizzatore["Collezioni"]</a>
+                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Collezioni"><i class="fa fa-trophy fa-fw"></i>@localizzatore["Collezioni"]</a>
                                 </li>
                             }
+
+                            @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollocazione"))
+                            {
+                                <li>
+
+                                    <a class="nav-link text-right" asp-controller="Collocazione" asp-action="Collocazione"><i class="fa fa-university fa-fw"></i>@localizzatore["Collocazioni"]</a>
+                                </li>
+                            }
+
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaDeterminatori"))
                             {
                                 <li>
-                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Determinatori">@localizzatore["Determinatori"]</a>
+                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Determinatori"><i class="fa fa-search fa-fw"></i>@localizzatore["Determinatori"]</a>
                                 </li>
                             }
+
+                            @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaGeografia"))
+                            {
+                                <li>
+                                    <a class="nav-link text-right" asp-controller="Geografia" asp-action="Geografia"><i class="fa fa-globe fa-fw"></i>@localizzatore["Geografia"]</a>
+                                </li>
+
+                            }
+
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaPreparatori"))
                             {
                                 <li>
-                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Preparatori">@localizzatore["Preparatori"]</a>
+                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Preparatori"><i class="fa fa-wrench fa-fw"></i>@localizzatore["Preparatori"]</a>
                                 </li>
                             }
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaRaccoglitori"))
                             {
                                 <li>
-                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Raccoglitori">@localizzatore["Raccoglitori"]</a>
+                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Raccoglitori"><i class="fa fa-shopping-basket fa-fw"></i>@localizzatore["Raccoglitori"]</a>
                                 </li>
                             }
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaSpedizioni"))
                             {
                                 <li>
-                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Spedizioni">@localizzatore["Spedizioni"]</a>
+                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Spedizioni"><i class="fa fa-plane fa-fw"></i>@localizzatore["Spedizioni"]</a>
                                 </li>
-                            }
-                            @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollocazione"))
-                            {
-                                <li class="nav-item nav-dropdown active text-right">
-                                    <a class="nav-link nav-dropdown-toggle" href="#">
-                                        <i class="fa fa-university fa-fw"></i>@localizzatore["Collocazione"]<i class="fa arrow"></i>
-                                    </a>
-                                    <ul class="nav-dropdown-items">
-                                        <li>
-                                            <a class="nav-link text-right"
-                                               asp-controller="Anagrafiche"
-                                               asp-action="Sale">@localizzatore["Sale"]</a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-right"
-                                               asp-controller="Anagrafiche"
-                                               asp-action="Armadi"
-                                               asp-route-Id="">@localizzatore["Armadi"]</a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-right"
-                                               asp-controller="Anagrafiche"
-                                               asp-action="Cassetti"
-                                               asp-route-Id="">@localizzatore["Cassetti"]</a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-right"
-                                               asp-controller="Anagrafiche"
-                                               asp-action="Vassoi"
-                                               asp-route-Id="">@localizzatore["Vassoi"]</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            }
-                            @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaGeografia"))
-                            {
-                                <li class="nav-item nav-dropdown active text-right">
-                                    <a class="nav-link nav-dropdown-toggle" href="#">
-                                        <i class="fa fa-globe fa-fw"></i>@localizzatore["Geografia"]<i class="fa arrow"></i>
-                                    </a>
-                                    <ul class="nav-dropdown-items">
-                                        <li>
-                                            <a class="nav-link text-right"
-                                               asp-controller="Anagrafiche"
-                                               asp-action="Nazioni">@localizzatore["Nazioni"]</a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-right"
-                                               asp-controller="Anagrafiche"
-                                               asp-action="Regioni"
-                                               asp-route-Id="">@localizzatore["Regioni"]</a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-right"
-                                               asp-controller="Anagrafiche"
-                                               asp-action="Province"
-                                               asp-route-Id="">@localizzatore["Province"]</a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-right"
-                                               asp-controller="Anagrafiche"
-                                               asp-action="Citta"
-                                               asp-route-Id="">@localizzatore["Città"]</a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-right"
-                                               asp-controller="Anagrafiche"
-                                               asp-action="Localita"
-                                               asp-route-Id="">@localizzatore["Località"]</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            }
+                            }                      
                         </ul>
                     </li>
                 }
-                @if (await autorizzatore.AuthorizeAsync(User, "GestioneUtenti"))
+                @if(await autorizzatore.AuthorizeAsync(User, "GestioneUtenti"))
                 {
                     <li class="nav-item nav-dropdown active">
                         <a class="nav-link nav-dropdown-toggle" href="#">
@@ -323,44 +299,44 @@
 
     <script>
         var linguaPapero = "@System.Globalization.CultureInfo.CurrentCulture.Name";
-        var stringaLinguaggioDatatables = "@localizzatore["linguaggioDatatables"]";
+                var stringaLinguaggioDatatables = "@localizzatore["linguaggioDatatables"]";
     </script>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
             asp-fallback-test="window.jQuery"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min.js" ></script >
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"
             asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
             asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js" ></script >
     <script src="~/lib/coreui/js/app.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"
             asp-fallback-src="~/lib/angular/angular.min.js"
             asp-fallback-test="window.angular"></script>
-    <script src="~/lib/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="~/lib/angular-sanitize/angular-sanitize.min.js" ></script >
     <script src="~/lib/angular-tree-control/angular-tree-control.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.5/angular-datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.5/angular-datatables.min.js" ></script >
     <script src="~/lib/angular-ui-select/dist/select.min.js"></script>
 
-    <script src="~/js/papero-app.js"></script>
+    <script src="~/js/papero-app.js" ></script >
     <script src="~/js/funzioni.js"></script>
 
     @RenderSection("scripts", false)
 
-    @*Attivazione dei tooltip e dei popover nell'intera applicazione*@
-    <script>
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-            $('[data-toggle="popover"]').popover();
-        });
-    </script>
+                    @*Attivazione dei tooltip e dei popover nell'intera applicazione*@
+                    <script>
+                        $(document).ready(function () {
+                            $('[data-toggle="tooltip"]').tooltip();
+                            $('[data-toggle="popover"]').popover();
+                        });
+                    </script>
 
 </body>
 

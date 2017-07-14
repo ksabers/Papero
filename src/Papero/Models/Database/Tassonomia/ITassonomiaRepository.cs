@@ -1,0 +1,38 @@
+﻿// ITassonomiaRepository.cs
+//
+// Interfaccia per TassonomiaRepository
+
+using Papero.ViewModels;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using System;
+
+namespace Papero.Models
+{
+    public interface ITassonomiaRepository
+    {
+        /// <summary>
+        /// Legge la struttura della tassonomia e la restituisce in formato albero
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Famiglie> LeggiAlbero();
+        IEnumerable<Famiglie> LeggiFamiglie();
+        IEnumerable<Famiglie> LeggiFamiglie(int idFamiglia);
+
+        IEnumerable<Sottofamiglie> LeggiSottofamiglie();
+        IEnumerable<Sottofamiglie> LeggiSottofamiglie(int idSottofamiglia);
+
+        IEnumerable<Tribu> LeggiTribu();
+        IEnumerable<Tribu> LeggiTribu(int idTribu);
+
+        IEnumerable<Generi> LeggiGeneri();
+        IEnumerable<Generi> LeggiGeneri(int idGenere);
+
+        IEnumerable<Specie> LeggiSpecie();
+        IEnumerable<Specie> LeggiSpecie(int idSpecie);
+
+        IEnumerable<Sottospecie> LeggiSottospecie();
+        IEnumerable<Sottospecie> LeggiSottospecie(int idSottospecie);
+    }
+}

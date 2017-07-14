@@ -1,0 +1,193 @@
+﻿@model Papero.Models.Sottofamiglie
+@{
+    ViewBag.Title = localizzatore["Tassonomia Tribù"];
+}
+@section css {
+
+<style type="text/css">
+    a.btn.btn-sm.ng-hide {
+        display: inline-block !important;
+        visibility: hidden;
+    }
+</style>
+
+}
+
+@section scripts {
+
+    <script src="~/js/tassonomia/tassonomiaTribuController.js"></script>
+
+}
+<div ng-app="papero-app" ng-controller="tassonomiaTribuController as vm">
+    <input type="hidden" id="idSottofamigliaHidden" name="idSottofamigliaHidden" value="@Model.Id"/>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        @localizzatore["Tribù"]
+                    </div>
+                </div>
+                <div id="panelEdit" class="panel-body panel-collapse collapse">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputEditTribu" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Tribù"]:</label>
+                            <div class="col-lg-3">
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="vm.inputEditTribu"
+                                       ng-change="vm.verificaEditTribu()"
+                                       id="inputEditTribu"
+                                       name="inputEditTribu" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-3 col-lg-offset-4">
+                                <div class="alert alert-danger" ng-show="vm.tribuGiaPresente">
+                                    <strong>@localizzatore["Tribù già presente!"]</strong> (@localizzatore["Id"]: {{vm.tribuDoppia.id}})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2">
+                                    <div class="pull-right">
+                                        <button type="reset" 
+                                                class="btn btn-outline-primary" 
+                                                ng-click="vm.annullaEdit()">@localizzatore["Annulla"]</button>
+                                        <button type="submit" 
+                                                class="btn btn-success" 
+                                                ng-click="vm.editTribu()" 
+                                                ng-disabled="vm.pulsanteEditDisabilitato">@localizzatore["Modifica"]</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panelCancella" class="panel-body panel-collapse collapse">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Tribù"]:</label>
+                            <div class="col-lg-3" >
+                                <h4>{{vm.tribuDaCancellare}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-3 col-lg-offset-4">
+                                <div class="alert alert-danger" ng-show="vm.tribunonCancellabile">
+                                    <strong>@localizzatore["Impossibile cancellare la Tribù!"]</strong> (@localizzatore["Vi sono elementi dipendenti"])
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2">
+                                    <div class="pull-right">
+                                        <button type="reset"
+                                                class="btn btn-outline-primary"
+                                                ng-click="vm.annullaCancella()">
+                                            @localizzatore["Annulla"]
+                                        </button>
+                                        <button type="submit"
+                                                class="btn btn-danger"
+                                                ng-click="vm.cancellaTribu()"
+                                                ng-show="vm.pulsanteCancellaVisibile">
+                                                @localizzatore["Cancella"]
+                                        </button>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label for="uiSelectFamiglia" class="col-lg-1 col-lg-offset-3 control-label text-primary">@localizzatore["Famiglia"]:</label>
+            <div class="col-lg-3">
+                <ui-select id="uiSelectFamiglia" 
+                           ng-model="vm.famigliaSelezionata" 
+                           ng-change="vm.selezionaFamiglia()" 
+                           ng-disabled="vm.dropdownDisabilitate">
+                    <ui-select-match>
+                        <span ng-bind="$select.selected.nome"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="famiglia in (vm.famiglie | filter: $select.search) track by famiglia.id">
+                        <span ng-bind="famiglia.nome"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <div class="row">
+        <div class="form-group">
+            <label for="uiSelectSottofamiglia" class="col-lg-1 col-lg-offset-3 control-label text-primary">@localizzatore["Sottofamiglia"]:</label>
+            <div class="col-lg-3">
+                <ui-select id="uiSelectSottofamiglia" 
+                           ng-model="vm.sottofamigliaSelezionata" 
+                           ng-change="vm.selezionaSottofamiglia()" 
+                           ng-disabled="vm.dropdownDisabilitate">
+                    <ui-select-match>
+                        <span ng-bind="$select.selected.nome"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="sottofamiglia in (vm.sottofamiglie | filter: $select.search) track by sottofamiglia.id">
+                        <span ng-bind="sottofamiglia.nome"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="col-lg-1">
+                <a class="btn btn-sm btn-primary"
+                   ng-href="/Tassonomia/Sottofamiglie/{{vm.famigliaSelezionata.id}}">
+                    <i class="fa fa-arrow-left"></i><text>&nbsp;</text>@localizzatore["Sottofamiglie"]
+                </a>
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <div class="row">
+        <div class="col-lg-12">
+            <table datatable="ng"
+                   class="table table-striped table-bordered table-hover"
+                   id="tabellaTribu"
+                   dt-options="vm.opzioniTabellaTribu"
+                   dt-column-defs="vm.colonneTabellaTribu">
+                <thead>
+                    <tr>
+                        <th>@localizzatore["Id"]</th>
+                        <th>@localizzatore["Tribù"]</th>
+                        <th>@localizzatore["Azioni"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="tribu in vm.tribu">
+                        <td>{{tribu.id}}</td>
+                        <td>{{tribu.nome}}</td>
+                        <td>
+                            @if (await autorizzatore.AuthorizeAsync(User, "EditTassonomia"))
+                            {
+                                <a class="btn btn-sm btn-success text-white"
+                                   ng-click="vm.apriPannelloEdit(tribu)"
+                                   ng-hide="tribu.nome == '-'">
+                                    <i class="fa fa-pencil"></i>&nbsp;@localizzatore["Modifica"]
+                                </a><text>&nbsp; &nbsp; &nbsp;</text>
+                                <a class="btn btn-sm btn-danger"
+                                   ng-click="vm.apriPannelloCancella(tribu)"
+                                   ng-hide="(tribu.nome == '-') || (tribu.figli.length != 1)">
+                                    <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
+                                </a>
+                            }
+                            <a class="btn btn-sm btn-primary"
+                               ng-href="/Tassonomia/Generi/{{tribu.id}}">
+                                <i class="fa fa-arrow-right"></i><text>&nbsp;</text>@localizzatore["Generi"] ({{tribu.figli.length - 1}})
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

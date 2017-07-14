@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Title = localizzatore["Gestione Tassonomia"];
+}
+
+@section css {
+    <style type="text/css">
+        .dt-loading h3 {
+            display: none;
+        }
+    </style>
+}
+
+@section scripts {
+    <script src="~/js/tassonomia/tassonomiaController.js"></script>
+}
+
+<div class="row" ng-app="papero-app" ng-controller="tassonomiaController as vm">
+    <div class="col-lg-3">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+
+                <h3 class="panel-title">@localizzatore["Albero tassonomico"]</h3>
+
+
+
+            </div>
+
+            <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
+                <treecontrol class="tree-boot"
+                             id="alberoTassonomia"
+                             ng-cloak
+                             tree-model="vm.datiAlbero"
+                             options="vm.opzioniAlbero"
+                             on-selection="vm.nodoSelezionato(node, $path().length)">
+                    {{node.nome}}{{node.passeriforme?" (p.)":""}}
+                </treecontrol>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-9">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <span ng-hide="vm.livello > 0">@localizzatore["Selezionare un elemento dell'albero"]</span>
+                    <span ng-show="vm.livello == 1" ng-cloak>@localizzatore["Famiglia"]: {{vm.testo}}</span>
+                    <span ng-show="vm.livello == 2" ng-cloak>@localizzatore["Sottofamiglia"]: {{vm.testo}}</span>
+                    <span ng-show="vm.livello == 3" ng-cloak>@localizzatore["Tribù"]: {{vm.testo}}</span>
+                    <span ng-show="vm.livello == 4" ng-cloak>@localizzatore["Genere"]: {{vm.testo}}</span>
+                    <span ng-show="vm.livello == 5" ng-cloak>@localizzatore["Specie"]: {{vm.testo}}</span>
+                    <span ng-show="vm.livello == 6" ng-cloak>@localizzatore["Sottospecie"]: {{vm.testo}}</span>
+                </h3>
+            </div>
+            <div class="panel-body">
+
+                <div ng-show="vm.livello==1">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputEditFamiglia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Famiglia"]:</label>
+                            <div class="col-lg-4">
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="vm.inputEditFamiglia"
+                                       ng-change="vm.verificaEditFamiglia()"
+                                       id="inputEditFamiglia"
+                                       name="inputEditFamiglia" />
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputPasseriforme" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Passeriforme"]:</label>
+                            <div class="col-lg-4">
+                                <input type="checkbox"
+                                       class="form-control"
+                                       ng-model="vm.passeriforme"
+                                       id="inputPasseriforme"
+                                       name="inputPasseriforme" />
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-4 col-lg-offset-4">
+                                <div class="alert alert-danger" ng-show="vm.famigliaGiaPresente">
+                                    <strong>@localizzatore["Famiglia già presente!"]</strong> (@localizzatore["Id"]: {{vm.famigliaDoppia.id}})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-3">
+                                    <div class="pull-right">
+                                        <button type="reset"
+                                                class="btn btn-outline-primary"
+                                                ng-click="vm.annullaEdit()">
+                                            @localizzatore["Annulla"]
+                                            </button>
+                                            <button type="submit"
+                                                    class="btn btn-success"
+                                                    ng-click="vm.editFamiglia()"
+                                                    ng-disabled="vm.pulsanteEditDisabilitato">
+                                                @localizzatore["Modifica"]
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+
+                <div ng-show="vm.livello==2">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputEditSottofamiglia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Sottofamiglia"]:</label>
+                            <div class="col-lg-4">
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="vm.inputEditSottofamiglia"
+                                       ng-change="vm.verificaEditSottofamiglia()"
+                                       ng-disabled="vm.inputEditSottofamiglia == '-'"
+                                       id="inputEditSottofamiglia"
+                                       name="inputEditSottofamiglia" />
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-4 col-lg-offset-4">
+                                <div class="alert alert-danger" ng-show="vm.sottofamigliaGiaPresente">
+                                    <strong>@localizzatore["Sottofamiglia già presente!"]</strong> (@localizzatore["Id"]: {{vm.sottofamigliaDoppia.id}})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-3">
+                                    <div class="pull-right">
+                                        <button type="reset"
+                                                class="btn btn-outline-primary"
+                                                ng-click="vm.annullaEdit()">
+                                            @localizzatore["Annulla"]
+                                        </button>
+                                        <button type="submit"
+                                                class="btn btn-success"
+                                                ng-click="vm.editSottofamiglia()"
+                                                ng-disabled="vm.inputEditSottofamiglia == '-'">
+                                            @localizzatore["Modifica"]
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

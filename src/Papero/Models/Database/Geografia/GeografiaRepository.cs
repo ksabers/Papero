@@ -7,6 +7,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Papero.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,43 @@ namespace Papero.Models
         }
 
         #region Get
+
+        public IEnumerable<AlberoNazioneViewModel> LeggiGeografia()
+        {
+            return _contesto.Nazioni
+                        .Include(nazione => nazione.Regioni)
+                            .ThenInclude(regione => regione.Province)
+                                .ThenInclude(provincia => provincia.Citta)
+                                    .ThenInclude(citta => citta.Localita)
+                .Select(nazione => new AlberoNazioneViewModel {
+                    idNazione = nazione.Id,
+                    Nome = nazione.Nazione,
+                    Iso31661 = nazione.Iso31661,
+                    Iso31661Alpha2 = nazione.Iso31661Alpha2,
+                    Iso31661Alpha3 = nazione.Iso31661Alpha3,
+                    Figli = nazione.Regioni.Select(regione => new AlberoRegioneViewModel {
+                        idRegione = regione.Id,
+                        Nome = regione.Regione,
+                        Figli = regione.Province.Select(provincia => new AlberoProvinciaViewModel {
+                            IdProvincia = provincia.Id,
+                            Nome = provincia.Provincia,
+                            SiglaProvincia = provincia.SiglaProvincia,
+                            Figli = provincia.Citta.Select(citta => new AlberoCittaViewModel {
+                                IdCitta = citta.Id,
+                                Nome = citta.NomeCitta,
+                                CodiceCatastale = citta.CodiceCatastale,
+                                CodiceIstat = citta.CodiceIstat,
+                                Figli = citta.Localita.Select(localita => new AlberoLocalitaViewModel {
+                                    IdLocalita = localita.Id,
+                                    Nome = localita.NomeLocalita,
+                                    Latitudine = localita.Latitudine,
+                                    Longitudine = localita.Longitudine
+                                }).ToList()})
+                            .ToList()})
+                        .ToList()})
+                    .ToList()})
+                .ToList();
+        }
 
         public IEnumerable<Nazioni> LeggiNazioni()
         {

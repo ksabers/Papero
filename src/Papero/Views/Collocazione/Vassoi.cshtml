@@ -1,0 +1,238 @@
+﻿@model Papero.Models.Cassetti
+@{
+    ViewBag.Title = localizzatore["Anagrafica Vassoi"];
+}
+@section css {
+
+}
+
+@section scripts {
+
+    <script src="~/js/collocazione/anagraficaVassoiController.js"></script>
+
+}
+<div ng-app="papero-app" ng-controller="anagraficaVassoiController as vm">
+    <input type="hidden" id="idCassettoHidden" name="idCassettoHidden" value="@Model.Id"/>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        @localizzatore["Vassoi"]&nbsp;&nbsp;&nbsp;
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
+                        {
+                            <a href="#" class="btn btn-success" ng-click="vm.apriPannelloInserimento()" ng-show="vm.pulsanteInserimentoVisibile"><i class="fa fa-plus"></i> @localizzatore["Nuovo"]</a>
+                        }
+
+                    </div>
+                </div>
+                <div id="panelInserimento" class="panel-body panel-collapse collapse">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputInsertVassoio" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuovo Vassoio"]:</label>
+                            <div class="col-lg-3">
+                                <input type="text" 
+                                       class="form-control" 
+                                       ng-model="vm.inputInsertVassoio" 
+                                       ng-change="vm.verificaVassoio()" 
+                                       id="inputInsertVassoio" 
+                                       name="inputInsertVassoio" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-3 col-lg-offset-4">
+                                    <div class="alert alert-danger" ng-show="vm.vassoioGiaPresente">
+                                        <strong>@localizzatore["Vassoio già presente!"]</strong> (@localizzatore["Id"]: {{vm.vassoioDoppio.id}})
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2">
+                                    <div class="pull-right">
+                                        <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimento()">@localizzatore["Annulla"]</button>
+                                        <button type="submit" class="btn btn-success" ng-click="vm.inserisciVassoio()" ng-disabled="vm.pulsanteInsertDisabilitato">@localizzatore["Inserisci"]</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panelEdit" class="panel-body panel-collapse collapse">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="inputEditVassoio" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Vassoio"]:</label>
+                            <div class="col-lg-3">
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="vm.inputEditVassoio"
+                                       ng-change="vm.verificaEditVassoio()"
+                                       id="inputEditVassoio"
+                                       name="inputEditVassoio" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-3 col-lg-offset-4">
+                                <div class="alert alert-danger" ng-show="vm.vassoioGiaPresente">
+                                    <strong>@localizzatore["Vassoio già presente!"]</strong> (@localizzatore["Id"]: {{vm.vassoioDoppio.id}})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2">
+                                    <div class="pull-right">
+                                        <button type="reset" 
+                                                class="btn btn-outline-primary" 
+                                                ng-click="vm.annullaEdit()">@localizzatore["Annulla"]</button>
+                                        <button type="submit" 
+                                                class="btn btn-success" 
+                                                ng-click="vm.editVassoio()" 
+                                                ng-disabled="vm.pulsanteEditDisabilitato">@localizzatore["Modifica"]</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panelCancella" class="panel-body panel-collapse collapse">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Vassoio"]:</label>
+                            <div class="col-lg-3" >
+                                <h4>{{vm.vassoioDaCancellare}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-3 col-lg-offset-4">
+                                <div class="alert alert-danger" ng-show="vm.vassoiononCancellabile">
+                                    <strong>@localizzatore["Impossibile cancellare il Vassoio!"]</strong> (@localizzatore["Vi sono elementi dipendenti"])
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-2">
+                                    <div class="pull-right">
+                                        <button type="reset"
+                                                class="btn btn-outline-primary"
+                                                ng-click="vm.annullaCancella()">
+                                            @localizzatore["Annulla"]
+                                        </button>
+                                        <button type="submit"
+                                                class="btn btn-danger"
+                                                ng-click="vm.cancellaVassoio()"
+                                                ng-show="vm.pulsanteCancellaVisibile">
+                                                @localizzatore["Cancella"]
+                                        </button>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label for="uiSelectSala" class="col-lg-1 col-lg-offset-3 control-label text-primary">@localizzatore["Sala"]:</label>
+            <div class="col-lg-3">
+                <ui-select id="uiSelectSala" 
+                           ng-model="vm.salaSelezionata" 
+                           ng-change="vm.selezionaSala()" 
+                           ng-disabled="vm.dropdownDisabilitate">
+                    <ui-select-match>
+                        <span ng-bind="$select.selected.sala"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="sala in (vm.sale | filter: $select.search) track by sala.id">
+                        <span ng-bind="sala.sala"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <div class="row">
+        <div class="form-group">
+            <label for="uiSelectArmadio" class="col-lg-1 col-lg-offset-3 control-label text-primary">@localizzatore["Armadio"]:</label>
+            <div class="col-lg-3">
+                <ui-select id="uiSelectArmadio" 
+                           ng-model="vm.armadioSelezionato" 
+                           ng-change="vm.selezionaArmadio()" 
+                           ng-disabled="vm.dropdownDisabilitate">
+                    <ui-select-match>
+                        <span ng-bind="$select.selected.armadio"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="armadio in (vm.armadi | filter: $select.search) track by armadio.id">
+                        <span ng-bind="armadio.armadio"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <div class="row">
+        <div class="form-group">
+            <label for="uiSelectCassetto" class="col-lg-1 col-lg-offset-3 control-label text-primary">@localizzatore["Cassetto"]:</label>
+            <div class="col-lg-3">
+                <ui-select id="uiSelectCassetto" 
+                           ng-model="vm.cassettoSelezionato" 
+                           ng-change="vm.selezionaCassetto()" 
+                           ng-disabled="vm.dropdownDisabilitate">
+                    <ui-select-match>
+                        <span ng-bind="$select.selected.cassetto"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="cassetto in (vm.cassetti | filter: $select.search) track by cassetto.id">
+                        <span ng-bind="cassetto.cassetto"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="col-lg-1">
+                <a class="btn btn-sm btn-primary"
+                   ng-href="/Collocazione/Cassetti/{{vm.armadioSelezionato.id}}">
+                    <i class="fa fa-arrow-left"></i><text>&nbsp;</text>@localizzatore["Cassetti"]
+                </a>
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <div class="row">
+        <div class="col-lg-12">
+            <table datatable="ng"
+                   class="table table-striped table-bordered table-hover"
+                   id="tabellaVassoi"
+                   dt-options="vm.opzioniTabellaVassoi"
+                   dt-column-defs="vm.colonneTabellaVassoi">
+                <thead>
+                    <tr>
+                        <th>@localizzatore["Id"]</th>
+                        <th>@localizzatore["Vassoio"]</th>
+                        <th>@localizzatore["Azioni"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="vassoio in vm.vassoi">
+                        <td>{{vassoio.id}}</td>
+                        <td>{{vassoio.vassoio}}</td>
+                        <td>
+                            @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
+                            {
+                                <a class="btn btn-sm btn-success text-white"
+                                   ng-click="vm.apriPannelloEdit(vassoio)"
+                                   ng-hide="vassoio.vassoio == '-'">
+                                    <i class="fa fa-pencil"></i>&nbsp;@localizzatore["Modifica"]
+                                </a><text>&nbsp; &nbsp; &nbsp;</text>
+                                <a class="btn btn-sm btn-danger"
+                                   ng-click="vm.apriPannelloCancella(vassoio)"
+                                   ng-hide="(vassoio.vassoio == '-') || (vassoio.preparati.length > 0)">
+                                    <i class="fa fa-trash"></i><text>&nbsp;</text>@localizzatore["Cancella"]
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

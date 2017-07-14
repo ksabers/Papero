@@ -16,6 +16,12 @@ namespace Papero.Models
         #region Get
 
         /// <summary>
+        /// Restituisce l'albero delle collocazioni
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<AlberoSalaViewModel> LeggiCollocazione();
+
+        /// <summary>
         /// Restituisce l'elenco delle Sale
         /// </summary>
         /// <returns></returns>

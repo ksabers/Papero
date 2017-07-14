@@ -7,6 +7,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Papero.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,37 @@ namespace Papero.Models
 
         #region Get
 
+        public IEnumerable<AlberoSalaViewModel> LeggiCollocazione()
+        {
+            return _contesto.Sale
+                        .Include(sala => sala.Armadi)
+                            .ThenInclude(armadio => armadio.Cassetti)
+                                .ThenInclude(cassetto => cassetto.Vassoi)
+                .Select(sala => new AlberoSalaViewModel
+                {
+                    idSala = sala.Id,
+                    Nome = sala.Sala,
+                    Figli = sala.Armadi.Select(armadio => new AlberoArmadioViewModel
+                    {
+                        idArmadio = armadio.Id,
+                        Nome = armadio.Armadio,
+                        Figli = armadio.Cassetti.Select(cassetto => new AlberoCassettoViewModel
+                        {
+                            idCassetto = cassetto.Id,
+                            Nome = cassetto.Cassetto,
+                            Figli = cassetto.Vassoi.Select(vassoio => new AlberoVassoioViewModel
+                            {
+                                idVassoio = vassoio.Id,
+                                Nome = vassoio.Vassoio
+                            })
+                            .ToList()
+                        })
+                        .ToList()
+                    })
+                    .ToList()
+                })
+                .ToList();
+        }
         public IEnumerable<Sale> LeggiSale()
         {
             return _contesto.Sale

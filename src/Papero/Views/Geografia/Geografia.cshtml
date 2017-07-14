@@ -1,0 +1,900 @@
+﻿
+@{
+    ViewBag.Title = localizzatore["Gestione Geografia"];
+}
+
+@section css {
+    <style type="text/css">
+        .dt-loading h3 {
+            display: none;
+        }
+    </style>
+}
+
+@section scripts {
+    <script src="~/js/geografia/geografiaController.js"></script>
+}
+
+<div class="row" ng-app="papero-app" ng-controller="geografiaController as vm">
+    <div class="col-lg-3">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    @localizzatore["Albero geografico"]
+                </h3>
+            </div>
+
+            <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
+                <treecontrol class="tree-boot"
+                             id="alberoGeografia"
+                             ng-cloak
+                             tree-model="vm.datiAlbero"
+                             options="vm.opzioniAlbero"
+                             on-selection="vm.nodoSelezionato(node, $path(), selected)"
+                             selected-node="vm.selectedNode">
+                    {{node.nome}}
+                </treecontrol>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-9">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <span ng-show="vm.panelInserimentoNazioneVisibile" ng-cloak>@localizzatore["Inserisci nuova Nazione"]</span>
+                    <span ng-show="vm.panelInserimentoRegioneVisibile" ng-cloak>@localizzatore["Inserisci nuova Regione"]</span>
+                    <span ng-show="vm.panelInserimentoProvinciaVisibile" ng-cloak>@localizzatore["Inserisci nuova Provincia"]</span>
+                    <span ng-show="vm.panelInserimentoCittaVisibile" ng-cloak>@localizzatore["Inserisci nuova Città"]</span>
+                    <span ng-show="vm.panelInserimentoLocalitaVisibile" ng-cloak>@localizzatore["Inserisci nuova Località"]</span>
+                    <span ng-hide="vm.livello > 0">@localizzatore["Selezionare un elemento dell'albero"]</span>
+
+                    @*Livello delle Nazioni*@
+                    <span ng-show="vm.livello == 1 && !vm.panelInserimentoNazioneVisibile" ng-cloak>
+                        @localizzatore["Nazione"]: {{vm.testo}}
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaGeografia"))
+                        {
+                            <text>&nbsp;&nbsp;&nbsp;</text>
+                            <a href="#"
+                               class="btn btn-success"
+                               ng-click="vm.apriPannelloInserimentoNazione()"
+                               ng-show="vm.pulsanteInserimentoNazioneVisibile">
+                                <i class="fa fa-plus"></i> @localizzatore["Nuova Nazione"]
+                            </a>
+                            <a href="#"
+                               class="btn btn-danger"
+                               ng-click="vm.apriPannelloCancellaNazione()"
+                               ng-show="vm.pulsanteCancellazioneNazioneVisibile">
+                                <i class="fa fa-minus"></i> @localizzatore["Cancella Nazione"]
+                            </a>
+                        }
+                    </span>
+
+                    @*Livello delle Regioni*@
+                    <span ng-show="vm.livello == 2 && !vm.panelInserimentoRegioneVisibile" ng-cloak>
+                        @localizzatore["Regione"]: {{vm.testo}}
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaGeografia"))
+                        {
+                            <text>&nbsp;&nbsp;&nbsp;</text>
+                            <a href="#"
+                               class="btn btn-success"
+                               ng-click="vm.apriPannelloInserimentoRegione()"
+                               ng-show="vm.pulsanteInserimentoRegioneVisibile">
+                                <i class="fa fa-plus"></i> @localizzatore["Nuova Regione"]
+                            </a>
+                            <a href="#"
+                               class="btn btn-danger"
+                               ng-click="vm.apriPannelloCancellaRegione()"
+                               ng-show="vm.pulsanteCancellazioneRegioneVisibile">
+                                <i class="fa fa-minus"></i> @localizzatore["Cancella Regione"]
+                            </a>
+                        }
+                    </span>
+
+                    @*Livello delle Province*@
+                    <span ng-show="vm.livello == 3 && !vm.panelInserimentoProvinciaVisibile" ng-cloak>
+                        @localizzatore["Provincia"]: {{vm.testo}}
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaGeografia"))
+                        {
+                            <text>&nbsp;&nbsp;&nbsp;</text>
+                            <a href="#"
+                               class="btn btn-success"
+                               ng-click="vm.apriPannelloInserimentoProvincia()"
+                               ng-show="vm.pulsanteInserimentoProvinciaVisibile">
+                                <i class="fa fa-plus"></i> @localizzatore["Nuova Provincia"]
+                            </a>
+                            <a href="#"
+                               class="btn btn-danger"
+                               ng-click="vm.apriPannelloCancellaProvincia()"
+                               ng-show="vm.pulsanteCancellazioneProvinciaVisibile">
+                                <i class="fa fa-minus"></i> @localizzatore["Cancella Provincia"]
+                            </a>
+                        }
+                    </span>
+
+                    @*Livello delle Città*@
+                    <span ng-show="vm.livello == 4 && !vm.panelInserimentoCittaVisibile" ng-cloak>
+                        @localizzatore["Città"]: {{vm.testo}}
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaGeografia"))
+                        {
+                            <text>&nbsp;&nbsp;&nbsp;</text>
+                            <a href="#"
+                               class="btn btn-success"
+                               ng-click="vm.apriPannelloInserimentoCitta()"
+                               ng-show="vm.pulsanteInserimentoCittaVisibile">
+                                <i class="fa fa-plus"></i> @localizzatore["Nuova Città"]
+                            </a>
+                            <a href="#"
+                               class="btn btn-danger"
+                               ng-click="vm.apriPannelloCancellaCitta()"
+                               ng-show="vm.pulsanteCancellazioneCittaVisibile">
+                                <i class="fa fa-minus"></i> @localizzatore["Cancella Città"]
+                            </a>
+                        }
+                    </span>
+
+                    @*Livello delle Località*@
+                    <span ng-show="vm.livello == 5 && !vm.panelInserimentoLocalitaVisibile" ng-cloak>
+                        @localizzatore["Località"]: {{vm.testo}}
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaGeografia"))
+                        {
+                            <text>&nbsp;&nbsp;&nbsp;</text>
+                            <a href="#"
+                               class="btn btn-success"
+                               ng-click="vm.apriPannelloInserimentoLocalita()"
+                               ng-show="vm.pulsanteInserimentoCittaVisibile">
+                                <i class="fa fa-plus"></i> @localizzatore["Nuova Località"]
+                            </a>
+                            <a href="#"
+                               class="btn btn-danger"
+                               ng-click="vm.apriPannelloCancellaCitta()"
+                               ng-show="vm.pulsanteCancellazioneCittaVisibile">
+                                <i class="fa fa-minus"></i> @localizzatore["Cancella Località"]
+                            </a>
+                        }
+                    </span>
+                </h3>
+            </div>
+            <div class="panel-body">
+
+                @*Pannello delle Nazioni*@
+                <div ng-show="vm.livello==1">
+
+                    @*Inserimento Nazione*@
+                    <div id="panelInserimentoNazione" class="panel-body" ng-show="vm.panelInserimentoNazioneVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertNazione" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome Nazione"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertNazione"
+                                           ng-change="vm.verificaInsertNazione()"
+                                           id="inputInsertNazione"
+                                           name="inputInsertNazione" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertiso31661Alpha2" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["ISO 3166-1 alpha-2"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertiso31661Alpha2"
+                                           ng-change="vm.verificaInsertNazione()"
+                                           id="inputInsertiso31661Alpha2"
+                                           name="inputInsertiso31661Alpha2" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertiso31661Alpha3" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["ISO 3166-1 alpha-3"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertiso31661Alpha3"
+                                           ng-change="vm.verificaInsertNazione()"
+                                           id="inputInsertiso31661Alpha3"
+                                           name="inputInsertiso31661Alpha3" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertiso31661" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["ISO 3166-1 numerico"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertiso31661"
+                                           ng-change="vm.verificaInsertNazione()"
+                                           id="inputInsertiso31661"
+                                           name="inputInsertiso31661" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-offset-6 col-lg-3">
+                                        <div class="pull-right">
+                                            <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimentoNazione()">@localizzatore["Annulla"]</button>
+                                            <button type="submit" class="btn btn-success" ng-click="vm.inserisciNazione()" ng-disabled="vm.pulsanteInsertNazioneDisabilitato">@localizzatore["Inserisci"]</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Edit Nazione*@
+                    <div id="panelEditNazione" class="panel-body" ng-show="vm.panelEditNazioneVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditNazione" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Nome Nazione"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditNazione"
+                                           ng-change="vm.verificaEditNazione()"
+                                           ng-disabled="vm.inputEditNazione == '-'"
+                                           id="inputEditNazione"
+                                           name="inputEditNazione" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditiso31661Alpha2" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["ISO 3166-1 alpha-2"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditiso31661Alpha2"
+                                           ng-change="vm.verificaEditNazione()"
+                                           ng-disabled="vm.inputEditNazione == '-'"
+                                           id="inputEditiso31661Alpha2"
+                                           name="inputEditiso31661Alpha2" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditiso31661Alpha3" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["ISO 3166-1 alpha-3"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditiso31661Alpha3"
+                                           ng-change="vm.verificaEditNazione()"
+                                           ng-disabled="vm.inputEditNazione == '-'"
+                                           id="inputEditiso31661Alpha3"
+                                           name="inputEditiso31661Alpha3" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditiso31661" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["ISO 3166-1 numerico"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditiso31661"
+                                           ng-change="vm.verificaEditNazione()"
+                                           ng-disabled="vm.inputEditNazione == '-'"
+                                           id="inputEditiso31661"
+                                           name="inputEditiso31661" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-offset-6 col-lg-3">
+                                        <div class="pull-right">
+                                            <button type="submit"
+                                                    class="btn btn-success"
+                                                    ng-click="vm.editNazione()"
+                                                    ng-disabled="vm.pulsanteEditNazioneDisabilitato">
+                                                @localizzatore["Modifica"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Cancella Nazione*@
+                    <div id="panelCancellaNazione" class="panel-body" ng-show="vm.panelCancellaNazioneVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Nazione"]:</label>
+                                <div class="col-lg-3">
+                                    <h4>{{vm.nazioneDaCancellare}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="reset"
+                                                    class="btn btn-outline-primary"
+                                                    ng-click="vm.annullaCancellaNazione()">
+                                                @localizzatore["Annulla"]
+                                            </button>
+                                            <button type="submit"
+                                                    class="btn btn-danger"
+                                                    ng-click="vm.cancellaNazione()">
+                                                @localizzatore["Conferma Cancellazione Nazione"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Pannello delle Regioni*@
+                <div ng-show="vm.livello==2">
+
+                    @*Inserimento Regione*@
+                    <div id="panelInserimentoRegione" class="panel-body" ng-show="vm.panelInserimentoRegioneVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertRegione" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome Regione"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertRegione"
+                                           ng-change="vm.verificaInsertRegione()"
+                                           id="inputInsertRegione"
+                                           name="inputInsertRegione" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimentoRegione()">@localizzatore["Annulla"]</button>
+                                            <button type="submit" class="btn btn-success" ng-click="vm.inserisciRegione()" ng-disabled="vm.pulsanteInsertRegioneDisabilitato">@localizzatore["Inserisci"]</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Edit Regione*@
+                    <div id="panelEditRegione" class="panel-body" ng-show="vm.panelEditRegioneVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditRegione" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Nome Regione"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditRegione"
+                                           ng-change="vm.verificaEditRegione()"
+                                           ng-disabled="vm.inputEditRegione == '-'"
+                                           id="inputEditRegione"
+                                           name="inputEditRegione" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="submit"
+                                                    class="btn btn-success"
+                                                    ng-click="vm.editRegione()"
+                                                    ng-disabled="vm.pulsanteEditRegioneDisabilitato">
+                                                @localizzatore["Modifica"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Cancella Regione*@
+                    <div id="panelCancellaRegione" class="panel-body" ng-show="vm.panelCancellaRegioneVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Regione"]:</label>
+                                <div class="col-lg-3">
+                                    <h4>{{vm.regioneDaCancellare}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-4">
+                                        <div class="pull-right">
+                                            <button type="reset"
+                                                    class="btn btn-outline-primary"
+                                                    ng-click="vm.annullaCancellaRegione()">
+                                                @localizzatore["Annulla"]
+                                            </button>
+                                            <button type="submit"
+                                                    class="btn btn-danger"
+                                                    ng-click="vm.cancellaRegione()">
+                                                @localizzatore["Conferma Cancellazione Regione"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Pannello delle Province*@
+                <div ng-show="vm.livello==3">
+
+                    @*Inserimento Provincia*@
+                    <div id="panelInserimentoProvincia" class="panel-body" ng-show="vm.panelInserimentoProvinciaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertProvincia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome Provincia"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertProvincia"
+                                           ng-change="vm.verificaInsertProvincia()"
+                                           id="inputInsertProvincia"
+                                           name="inputInsertProvincia" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertSiglaProvincia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuova Provincia"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertSiglaProvincia"
+                                           ng-change="vm.verificaInsertProvincia()"
+                                           id="inputInsertSiglaProvincia"
+                                           name="inputInsertSiglaProvincia" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimentoProvincia()">@localizzatore["Annulla"]</button>
+                                            <button type="submit" class="btn btn-success" ng-click="vm.inserisciProvincia()" ng-disabled="vm.pulsanteInsertProvinciaDisabilitato">@localizzatore["Inserisci"]</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Edit Provincia*@
+                    <div id="panelEditProvincia" class="panel-body" ng-show="vm.panelEditProvinciaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditProvincia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Nome Provincia"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditProvincia"
+                                           ng-change="vm.verificaEditProvincia()"
+                                           ng-disabled="vm.inputEditProvincia == '-'"
+                                           id="inputEditProvincia"
+                                           name="inputEditProvincia" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditSiglaProvincia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Sigla Provincia"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditSiglaProvincia"
+                                           ng-change="vm.verificaEditProvincia()"
+                                           ng-disabled="vm.inputEditProvincia == '-'"
+                                           id="inputEditSiglaProvincia"
+                                           name="inputEditSiglaProvincia" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="submit"
+                                                    class="btn btn-success"
+                                                    ng-click="vm.editProvincia()"
+                                                    ng-disabled="vm.pulsanteEditProvinciaDisabilitato">
+                                                @localizzatore["Modifica"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Cancella Provincia*@
+                    <div id="panelCancellaProvincia" class="panel-body" ng-show="vm.panelCancellaProvinciaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Provincia"]:</label>
+                                <div class="col-lg-3">
+                                    <h4>{{vm.provinciaDaCancellare}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-4">
+                                        <div class="pull-right">
+                                            <button type="reset"
+                                                    class="btn btn-outline-primary"
+                                                    ng-click="vm.annullaCancellaProvincia()">
+                                                @localizzatore["Annulla"]
+                                            </button>
+                                            <button type="submit"
+                                                    class="btn btn-danger"
+                                                    ng-click="vm.cancellaProvincia()">
+                                                @localizzatore["Conferma Cancellazione Provincia"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Pannello delle Città*@
+                <div ng-show="vm.livello==4">
+
+                    @*Inserimento Città*@
+                    <div id="panelInserimentoCitta" class="panel-body" ng-show="vm.panelInserimentoCittaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertCitta" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome Città"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertCitta"
+                                           ng-change="vm.verificaInsertCitta()"
+                                           id="inputInsertCitta"
+                                           name="inputInsertCitta" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertCodiceIstat" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Codice ISTAT"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertCodiceIstat"
+                                           ng-change="vm.verificaInsertCitta()"
+                                           id="inputInsertCodiceIstat"
+                                           name="inputInsertCodiceIstat" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertCodiceCatastale" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Codice Catastale"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertCodiceCatastale"
+                                           ng-change="vm.verificaInsertCitta()"
+                                           id="inputInsertCodiceCatastale"
+                                           name="inputInsertCodiceCatastale" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimentoCitta()">@localizzatore["Annulla"]</button>
+                                            <button type="submit" class="btn btn-success" ng-click="vm.inserisciCitta()" ng-disabled="vm.pulsanteInsertCittaDisabilitato">@localizzatore["Inserisci"]</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Edit Città*@
+                    <div id="panelEditCitta" class="panel-body" ng-show="vm.panelEditCittaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditCitta" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Nome Città"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditCitta"
+                                           ng-change="vm.verificaEditCitta()"
+                                           ng-disabled="vm.inputEditCitta == '-'"
+                                           id="inputEditCitta"
+                                           name="inputEditCitta" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditCodiceIstat" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Codice ISTAT"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditCodiceIstat"
+                                           ng-change="vm.verificaEditCitta()"
+                                           ng-disabled="vm.inputEditCitta == '-'"
+                                           id="inputEditCodiceIstat"
+                                           name="inputEditCodiceIstat" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditCodiceCatastale" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Codice Catastale"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditCodiceCatastale"
+                                           ng-change="vm.verificaEditCitta()"
+                                           ng-disabled="vm.inputEditCitta == '-'"
+                                           id="inputEditCodiceCatastale"
+                                           name="inputEditCodiceCatastale" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="submit"
+                                                    class="btn btn-success"
+                                                    ng-click="vm.editCitta()"
+                                                    ng-disabled="vm.pulsanteEditCittaDisabilitato">
+                                                @localizzatore["Modifica"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Cancella Città*@
+                    <div id="panelCancellaCitta" class="panel-body" ng-show="vm.panelCancellaCittaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Città"]:</label>
+                                <div class="col-lg-3">
+                                    <h4>{{vm.cittaDaCancellare}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="reset"
+                                                    class="btn btn-outline-primary"
+                                                    ng-click="vm.annullaCancellaCitta()">
+                                                @localizzatore["Annulla"]
+                                            </button>
+                                            <button type="submit"
+                                                    class="btn btn-danger"
+                                                    ng-click="vm.cancellaCitta()">
+                                                @localizzatore["Conferma Cancellazione Città"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Pannello delle Località*@
+                <div ng-show="vm.livello==5">
+
+                    @*Inserimento Località*@
+                    <div id="panelInserimentoLocalita" class="panel-body" ng-show="vm.panelInserimentoLocalitaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertLocalita" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome Località"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertLocalita"
+                                           ng-change="vm.verificaInsertLocalita()"
+                                           id="inputInsertLocalita"
+                                           name="inputInsertLocalita" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertLatitudine" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Latitudine"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertLatitudine"
+                                           ng-change="vm.verificaInsertLocalita()"
+                                           id="inputInsertLatitudine"
+                                           name="inputInsertLatitudine" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertLongitudine" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Longitudine"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputInsertLongitudine"
+                                           ng-change="vm.verificaInsertLocalita()"
+                                           id="inputInsertLongitudine"
+                                           name="inputInsertLongitudine" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimentoLocalita()">@localizzatore["Annulla"]</button>
+                                            <button type="submit" class="btn btn-success" ng-click="vm.inserisciLocalita()" ng-disabled="vm.pulsanteInsertLocalitaDisabilitato">@localizzatore["Inserisci"]</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Edit Località*@
+                    <div id="panelEditLocalita" class="panel-body" ng-show="vm.panelEditLocalitaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditLocalita" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Nome Località"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditLocalita"
+                                           ng-change="vm.verificaEditLocalita()"
+                                           ng-disabled="vm.inputEditLocalita == '-'"
+                                           id="inputEditLocalita"
+                                           name="inputEditLocalita" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditLatitudine" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Latitudine"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditLatitudine"
+                                           ng-change="vm.verificaEditLocalita()"
+                                           ng-disabled="vm.inputEditLocalita == '-'"
+                                           id="inputEditLatitudine"
+                                           name="inputEditLatitudine" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditLongitudine" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Longitudine"]:</label>
+                                <div class="col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditLongitudine"
+                                           ng-change="vm.verificaEditLocalita()"
+                                           ng-disabled="vm.inputEditLocalita == '-'"
+                                           id="inputEditLongitudine"
+                                           name="inputEditLongitudine" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="submit"
+                                                    class="btn btn-success"
+                                                    ng-click="vm.editLocalita()"
+                                                    ng-disabled="vm.pulsanteEditLocalitaDisabilitato">
+                                                @localizzatore["Modifica"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Cancella Località*@
+                    <div id="panelCancellaLocalita" class="panel-body" ng-show="vm.panelCancellaLocalitaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-lg-2 col-lg-offset-2 control-label text-danger">@localizzatore["Cancella Località"]:</label>
+                                <div class="col-lg-3">
+                                    <h4>{{vm.localitaDaCancellare}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            <button type="reset"
+                                                    class="btn btn-outline-primary"
+                                                    ng-click="vm.annullaCancellaLocalita()">
+                                                @localizzatore["Annulla"]
+                                            </button>
+                                            <button type="submit"
+                                                    class="btn btn-danger"
+                                                    ng-click="vm.cancellaLocalita()">
+                                                @localizzatore["Conferma Cancellazione Località"]
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,11 +12,7 @@ namespace Papero.Models
 {
     public interface IPaperoRepository
     {
-        /// <summary>
-        /// Legge la struttura della tassonomia e la restituisce in formato albero
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Famiglie> LeggiAlbero();
+
 
         /// <summary>
         /// Restituisce l'elenco sintetico degli esemplari usato nella tabella di ricerca
@@ -188,7 +184,7 @@ namespace Papero.Models
         /// Restituisce l'albero geografico
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Nazioni> LeggiGeografia();
+        //IEnumerable<Nazioni> LeggiGeografia();
 
         /// <summary>
         /// Restituisce l'elenco dei Tipi Acquisizione con un campo aggiuntivo localizzato in base alla lingua

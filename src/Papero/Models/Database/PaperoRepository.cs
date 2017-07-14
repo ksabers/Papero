@@ -53,18 +53,6 @@ namespace Papero.Models
                 });
         }
 
-        public IEnumerable<Famiglie> LeggiAlbero()
-        {
-            _log.LogInformation("Chiamata di _contesto.Famiglie.ToList() con Include e ThenInclude");
-
-            return _contesto.Famiglie
-                .Include(famiglia => famiglia.Figli)
-                    .ThenInclude(sottofamiglia => sottofamiglia.Figli)
-                        .ThenInclude(tribu => tribu.Figli)
-                            .ThenInclude(genere => genere.Figli)
-                                .ThenInclude(specie => specie.Figli)
-                .ToList();
-        }
 
         public Esemplari LeggiEsemplare(int idEsemplare)
         {
@@ -396,15 +384,15 @@ namespace Papero.Models
 
 
 
-        public IEnumerable<Nazioni> LeggiGeografia()
-        {
-            return _contesto.Nazioni
-                .Include(nazione => nazione.Regioni)
-                    .ThenInclude(regione => regione.Province)
-                        .ThenInclude(provincia => provincia.Citta)
-                            .ThenInclude(citta => citta.Localita)
-                .ToList();
-        }
+        //public IEnumerable<Nazioni> LeggiGeografia()
+        //{
+        //    return _contesto.Nazioni
+        //        .Include(nazione => nazione.Regioni)
+        //            .ThenInclude(regione => regione.Province)
+        //                .ThenInclude(provincia => provincia.Citta)
+        //                    .ThenInclude(citta => citta.Localita)
+        //        .ToList();
+        //}
 
         //public IEnumerable<Localita> LeggiLocalitaDaNazione(int idNazione)
         //{
