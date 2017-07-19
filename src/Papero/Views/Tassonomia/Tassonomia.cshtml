@@ -34,7 +34,7 @@
                              tree-model="vm.datiAlbero"
                              options="vm.opzioniAlbero"
                              on-selection="vm.nodoSelezionato(node, $path().length)">
-                    {{node.nome}}{{node.passeriforme?" (p.)":""}}
+                    <span ng-class="node.passeriforme?'text-danger':''">{{node.nome}}</span>
                 </treecontrol>
             </div>
         </div>

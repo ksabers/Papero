@@ -54,7 +54,7 @@
                              on-selection="vm.nodoSelezionato(node, selected)"
                              filter-expression="vm.filtroAlbero"
                              selected-nodes="vm.nodiSelezionati">
-                    {{node.nome}}
+                    <span ng-class="node.passeriforme?'text-danger':''">{{node.nome}}</span>
                 </treecontrol>
             </div>
         </div>
