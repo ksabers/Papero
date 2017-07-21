@@ -55,12 +55,16 @@ namespace Papero.Models
                                 idVassoio = vassoio.Id,
                                 Nome = vassoio.Vassoio
                             })
+                            .OrderBy(vassoio => vassoio.Nome)
                             .ToList()
                         })
+                        .OrderBy(cassetto => cassetto.Nome)
                         .ToList()
                     })
+                    .OrderBy(armadio => armadio.Nome)
                     .ToList()
                 })
+                .OrderBy(sala => sala.Nome)
                 .ToList();
         }
         public IEnumerable<Sale> LeggiSale()

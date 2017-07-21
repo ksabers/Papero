@@ -39,6 +39,13 @@
             if (selezionato) {
                 vm.percorso = percorso;
                 vm.livello = percorso.length;
+
+                vm.pulsanteEditNazioneDisabilitato = true;
+                vm.pulsanteEditRegioneDisabilitato = true;
+                vm.pulsanteEditProvinciaDisabilitato = true;
+                vm.pulsanteEditCittaDisabilitato = true;
+                vm.pulsanteEditLocalitaDisabilitato = true;
+
                 switch (vm.livello) {
                     case 1: // Clic su una Nazione
 
@@ -171,7 +178,6 @@
                                 vm.inputEditCitta = nodo.nome;
                                 vm.inputEditCodiceIstat = nodo.codiceIstat;
                                 vm.inputEditCodiceCatastale = nodo.codiceCatastale;
-
                             });
                         break;
 
@@ -208,7 +214,6 @@
                                 vm.inputEditLocalita = nodo.nome;
                                 vm.inputEditLatitudine = nodo.latitudine;
                                 vm.inputEditLongitudine = nodo.longitudine;
-
                             });
                         break;
                     default:
@@ -346,62 +351,40 @@
                 esisteNazioneDoppia = false
             }
             else {
-                if (nazioneDoppia.idNazione == vm.percorsoNazione.idNazione) {
-                    esisteNazioneDoppia = false
-                }
-                else {
-                    esisteNazioneDoppia = true;
-                }
+                esisteNazioneDoppia = true;
             };
 
             var iso31661Alpha2Doppia = _.find(vm.datiAlbero, function (nazione) { return funzioni.confrontaStringhe(nazione.iso31661Alpha2, vm.inputEditiso31661Alpha2) });
-            if (iso31661Alpha2Doppia == undefined) {
+            if ((iso31661Alpha2Doppia == undefined)|| (_.trim(vm.inputEditiso31661Alpha2) == "")){
                 esisteIso31661Alpha2Doppia = false
             }
             else {
-                if ((iso31661Alpha2Doppia.iso31661Alpha2 == vm.percorsoNazione.iso31661Alpha2) || _.trim(vm.inputEditiso31661Alpha2) == "") {
-                    esisteIso31661Alpha2Doppia = false
-                }
-                else {
-                    esisteIso31661Alpha2Doppia = true;
-                }
+                esisteIso31661Alpha2Doppia = true;
             };
 
-
             var iso31661Alpha3Doppia = _.find(vm.datiAlbero, function (nazione) { return funzioni.confrontaStringhe(nazione.iso31661Alpha3, vm.inputEditiso31661Alpha3) });
-            if (iso31661Alpha3Doppia == undefined) {
+            if ((iso31661Alpha3Doppia == undefined) || (_.trim(vm.inputEditiso31661Alpha3) == "")) {
                 esisteIso31661Alpha3Doppia = false
             }
             else {
-                if ((iso31661Alpha3Doppia.iso31661Alpha3 == vm.percorsoNazione.iso31661Alpha3) || _.trim(vm.inputEditiso31661Alpha3) == "") {
-                    esisteIso31661Alpha3Doppia = false
-                }
-                else {
-                    esisteIso31661Alpha3Doppia = true;
-                }
+                esisteIso31661Alpha3Doppia = true;
             };
 
             var iso31661Doppia = _.find(vm.datiAlbero, function (nazione) { return funzioni.confrontaStringhe(nazione.iso31661, vm.inputEditiso31661) });
-            if (iso31661Doppia == undefined) {
+            if ((iso31661Doppia == undefined) || (_.trim(vm.inputEditiso31661) == "")) {
                 esisteIso31661Doppia = false
             }
             else {
-                if ((iso31661Doppia.iso31661 == vm.percorsoNazione.iso31661) || _.trim(vm.inputEditiso31661) == "") {
-                    esisteIso31661Doppia = false
-                }
-                else {
-                    esisteIso31661Doppia = true;
-                }
+                esisteIso31661Doppia = true;
             };
-
 
             // Questa linea testa tutte le condizioni per abilitare o disabilitare il pulsante
             vm.pulsanteEditNazioneDisabilitato = (_.trim(vm.inputEditNazione) == "" ||
-                                                  _.trim(vm.inputEditNazione) == "-" ||
-                                                  esisteNazioneDoppia ||
-                                                  esisteIso31661Alpha2Doppia ||
-                                                  esisteIso31661Alpha3Doppia ||
-                                                  esisteIso31661Doppia);
+                                                  _.trim(vm.inputEditNazione) == "-" ||  // le condizioni sono: 1) la nazione non deve essere vuota o trattino
+                                                  (esisteNazioneDoppia &&                // 2) non deve esserci una nazione uguale ad un'altra
+                                                  esisteIso31661Alpha2Doppia &&          // 3) almeno una delle iso deve essere cambiata, ma
+                                                  esisteIso31661Alpha3Doppia &&          //    non può essere uguale ad una già esistente (però può essere vuota)
+                                                  esisteIso31661Doppia));                // NOTARE CHE E' UNA CONDIZIONE DIVERSA DALL'INSERT
 
             if (_.trim(vm.inputEditNazione) == "-") {
                 vm.inputEditNazione = "";
@@ -410,23 +393,53 @@
 
         vm.verificaInsertNazione = function verificaInsertNazione() {
 
+            var esisteNazioneDoppia = false;
+            var esisteIso31661Alpha2Doppia = false;
+            var esisteIso31661Alpha3Doppia = false;
+            var esisteIso31661Doppia = false;
+
             // Queste quattro variabili verificano se sono presenti elementi doppi nell'albero
             // Nel caso delle iso però è ammesso che siano vuote quindi vengono messe in AND con "diverso da vuoto"
+
             var nazioneDoppia = _.find(vm.datiAlbero, function (nazione) { return funzioni.confrontaStringhe(nazione.nome, vm.inputInsertNazione) });
-            var iso31661Alpha2Doppia = (_.find(vm.datiAlbero, function (nazione) { return funzioni.confrontaStringhe(nazione.iso31661Alpha2, vm.inputInsertiso31661Alpha2) }) &&
-                                        _.trim(vm.inputInsertiso31661Alpha2) != "");
-            var iso31661Alpha3Doppia = (_.find(vm.datiAlbero, function (nazione) { return funzioni.confrontaStringhe(nazione.iso31661Alpha3, vm.inputInsertiso31661Alpha3) }) &&
-                                        _.trim(vm.inputInsertiso31661Alpha3) != "");
-            var iso31661Doppia = (_.find(vm.datiAlbero, function (nazione) { return funzioni.confrontaStringhe(nazione.iso31661, vm.inputInsertiso31661) }) &&
-                                  _.trim(vm.inputInsertiso31661) != "");
+            if (nazioneDoppia == undefined) {
+                esisteNazioneDoppia = false
+            }
+            else {
+                esisteNazioneDoppia = true;
+            };
+
+            var iso31661Alpha2Doppia = _.find(vm.datiAlbero, function (nazione) { return funzioni.confrontaStringhe(nazione.iso31661Alpha2, vm.inputInsertiso31661Alpha2) });
+            if ((iso31661Alpha2Doppia == undefined) || (_.trim(vm.inputInsertiso31661Alpha2) == "")) {
+                esisteIso31661Alpha2Doppia = false
+            }
+            else {
+                esisteIso31661Alpha2Doppia = true;
+            };
+
+            var iso31661Alpha3Doppia = _.find(vm.datiAlbero, function (nazione) { return funzioni.confrontaStringhe(nazione.iso31661Alpha3, vm.inputInsertiso31661Alpha3) });
+            if ((iso31661Alpha3Doppia == undefined) || (_.trim(vm.inputInsertiso31661Alpha3) == "")) {
+                esisteIso31661Alpha3Doppia = false
+            }
+            else {
+                esisteIso31661Alpha3Doppia = true;
+            };
+
+            var iso31661Doppia = _.find(vm.datiAlbero, function (nazione) { return funzioni.confrontaStringhe(nazione.iso31661, vm.inputInsertiso31661) });
+            if ((iso31661Doppia == undefined) || (_.trim(vm.inputInsertiso31661) == "")) {
+                esisteIso31661Doppia = false
+            }
+            else {
+                esisteIso31661Doppia = true;
+            };
 
             // Questa linea testa tutte le condizioni per abilitare o disabilitare il pulsante
             vm.pulsanteInsertNazioneDisabilitato = (_.trim(vm.inputInsertNazione) == "" ||
-                                                  _.trim(vm.inputInsertNazione) == "-" ||
-                                                  nazioneDoppia ||
-                                                  iso31661Alpha2Doppia ||
-                                                  iso31661Alpha3Doppia ||
-                                                  iso31661Doppia);
+                                                  _.trim(vm.inputInsertNazione) == "-" ||  // le condizioni sono: 1) la nazione non deve essere vuota o trattino
+                                                  esisteNazioneDoppia ||                   // 2) la nazione non può essere uguale ad una esistente
+                                                  esisteIso31661Alpha2Doppia ||            // 3) nessuna delle iso può essere uguale ad una già esistente
+                                                  esisteIso31661Alpha3Doppia ||            //    (però possono essere vuote)
+                                                  esisteIso31661Doppia);                   //  NOTARE CHE E' UNA CONDIZIONE DIVERSA DALL'EDIT
         };
 
         vm.editNazione = function editNazione() {
@@ -761,12 +774,7 @@
                 esisteProvinciaDoppia = false
             }
             else {
-                if (provinciaDoppia.idProvincia == vm.percorsoProvincia.idProvincia) {
-                    esisteProvinciaDoppia = false
-                }
-                else {
                     esisteProvinciaDoppia = true;
-                }
             };
 
             var siglaProvinciaDoppia = _.find(vm.percorsoRegione.figli, function (provincia) { return funzioni.confrontaStringhe(provincia.siglaProvincia, vm.inputEditSiglaProvincia) });
@@ -785,8 +793,8 @@
 
             vm.pulsanteEditProvinciaDisabilitato = (_.trim(vm.inputEditProvincia) == "" ||
                                                     _.trim(vm.inputEditProvincia) == "-" ||
-                                                    esisteProvinciaDoppia ||
-                                                    esisteSiglaProvinciaDoppia);
+                                                    (esisteProvinciaDoppia &&
+                                                    esisteSiglaProvinciaDoppia));
             if (_.trim(vm.inputEditProvincia) == "-") {
                 vm.inputEditProvincia = "";
             }
@@ -794,15 +802,32 @@
 
         vm.verificaInsertProvincia = function verificaInsertProvincia() {
 
+            var esisteProvinciaDoppia = false;
+            var esisteSiglaProvinciaDoppia = false;
+
             // Queste due variabili verificano se sono presenti elementi doppi nell'albero
             // Nel caso della sigla provincia però è ammesso che sia vuota quindi viene messa in AND con "diverso da vuoto"
             var provinciaDoppia = _.find(vm.percorsoRegione.figli, function (provincia) { return funzioni.confrontaStringhe(provincia.nome, vm.inputInsertProvincia) });
-            var siglaProvinciaDoppia = (_.find(vm.percorsoRegione.figli, function (provincia) { return funzioni.confrontaStringhe(provincia.siglaProvincia, vm.inputInsertSiglaProvincia) }) &&
-                           _.trim(vm.inputInsertSiglaProvincia) != "");
+            if (provinciaDoppia == undefined) {
+                esisteProvinciaDoppia = false
+            }
+            else {
+                esisteProvinciaDoppia = true;
+            };
+
+            var siglaProvinciaDoppia = _.find(vm.percorsoRegione.figli, function (provincia) { return funzioni.confrontaStringhe(provincia.siglaProvincia, vm.inputInsertSiglaProvincia) });
+            if ((siglaProvinciaDoppia == undefined) || (_.trim(vm.inputInsertSiglaProvincia) == "")) {
+                esisteSiglaProvinciaDoppia = false
+            }
+            else {
+                esisteSiglaProvinciaDoppia = true;
+            };
+
+
             vm.pulsanteInsertProvinciaDisabilitato = (_.trim(vm.inputInsertProvincia) == "" ||
                                                     _.trim(vm.inputInsertProvincia) == "-" ||
-                                                    provinciaDoppia ||
-                                                    siglaProvinciaDoppia);
+                                                    esisteProvinciaDoppia ||
+                                                    esisteSiglaProvinciaDoppia);
             if (_.trim(vm.inputInsertProvincia) == "-") {
                 vm.inputInsertProvincia = "";
             }
@@ -974,17 +999,31 @@
             // Queste tre variabili verificano se sono presenti elementi doppi nell'albero
             // Nel caso dei codici Istat e catastali però è ammesso che siano vuoti quindi vengono messi in AND con "diverso da vuoto"
             var cittaDoppia = _.find(vm.percorsoProvincia.figli, function (citta) { return funzioni.confrontaStringhe(citta.nome, vm.inputEditCitta) });
-            var istatDoppio = _.find(vm.percorsoProvincia.figli, function (citta) { return funzioni.confrontaStringhe(citta.codiceIstat, vm.inputEditCodiceIstat) }) &&
-                              _.trim(vm.inputEditCodiceIstat) != "";
-            var catastaleDoppio = _.find(vm.percorsoProvincia.figli, function (citta) { return funzioni.confrontaStringhe(citta.codiceCatastale, vm.inputEditCodiceCatastale) }) &&
-                              _.trim(vm.inputEditCodiceCatastale) != "";
+
+            var codiceCatastaleDoppio = false;
+
+            if ((_.trim(vm.inputEditCodiceCatastale) == "") || (_.trim(vm.inputEditCodiceCatastale) != vm.percorsoCitta.codiceCatastale)) {
+                codiceCatastaleDoppio = false;
+            }
+            else {
+                codiceCatastaleDoppio = true;
+            };
+
+            var codiceIstatdoppio = false;
+
+            if ((_.trim(vm.inputEditCodiceIstat) == "") || (_.trim(vm.inputEditCodiceIstat) != vm.percorsoCitta.codiceIstat)) {
+                codiceIstatdoppio = false;
+            }
+            else {
+                codiceIstatdoppio = true;
+            };
 
             // Questa linea testa tutte le condizioni per abilitare o disabilitare il pulsante
             vm.pulsanteEditCittaDisabilitato = (_.trim(vm.inputEditCitta) == "" ||
                                                 _.trim(vm.inputEditCitta) == "-" ||
-                                                cittaDoppia ||
-                                                istatDoppio ||
-                                                catastaleDoppio);
+                                                (cittaDoppia &&
+                                                codiceCatastaleDoppio &&
+                                                codiceIstatdoppio));
 
             if (_.trim(vm.inputEditCitta) == "-") {
                 vm.inputEditCitta = "";
@@ -996,17 +1035,31 @@
             // Queste tre variabili verificano se sono presenti elementi doppi nell'albero
             // Nel caso dei codici Istat e catastali però è ammesso che siano vuoti quindi vengono messi in AND con "diverso da vuoto"
             var cittaDoppia = _.find(vm.percorsoProvincia.figli, function (citta) { return funzioni.confrontaStringhe(citta.nome, vm.inputInsertCitta) });
-            var istatDoppio = _.find(vm.percorsoProvincia.figli, function (citta) { return funzioni.confrontaStringhe(citta.codiceIstat, vm.inputInsertCodiceIstat) }) &&
-                              _.trim(vm.inputInsertCodiceIstat) != "";
-            var catastaleDoppio = _.find(vm.percorsoProvincia.figli, function (citta) { return funzioni.confrontaStringhe(citta.codiceCatastale, vm.inputInsertCodiceCatastale) }) &&
-                              _.trim(vm.inputInsertCodiceCatastale) != "";
+
+            var codiceCatastaleDoppio = false;
+
+            if ((_.trim(vm.inputInsertCodiceCatastale) == "") || (_.trim(vm.inputInsertCodiceCatastale) != vm.percorsoCitta.codiceCatastale)) {
+                codiceCatastaleDoppio = false;
+            }
+            else {
+                codiceCatastaleDoppio = true;
+            };
+
+            var codiceIstatdoppio = false;
+
+            if ((_.trim(vm.inputInsertCodiceIstat) == "") || (_.trim(vm.inputInsertCodiceIstat) != vm.percorsoCitta.codiceIstat)) {
+                codiceIstatdoppio = false;
+            }
+            else {
+                codiceIstatdoppio = true;
+            };
 
             // Questa linea testa tutte le condizioni per abilitare o disabilitare il pulsante
             vm.pulsanteInsertCittaDisabilitato = (_.trim(vm.inputInsertCitta) == "" ||
                                                   _.trim(vm.inputInsertCitta) == "-" ||
                                                   cittaDoppia ||
-                                                  istatDoppio ||
-                                                  catastaleDoppio);
+                                                  codiceCatastaleDoppio ||
+                                                  codiceIstatdoppio);
 
             if (_.trim(vm.inputInsertCitta) == "-") {
                 vm.inputInsertCitta = "";
@@ -1176,7 +1229,26 @@
 
         vm.verificaEditLocalita = function verificaEditLocalita() {
             var localitaDoppia = _.find(vm.percorsoCitta.figli, function (localita) { return funzioni.confrontaStringhe(localita.nome, vm.inputEditLocalita) });
-            vm.pulsanteEditLocalitaDisabilitato = (_.trim(vm.inputEditLocalita) == "" || _.trim(vm.inputEditLocalita) == "-" || localitaDoppia);
+
+            var latitudineDoppia = false;
+
+            if ((_.trim(vm.inputEditLatitudine) == "") || (_.trim(vm.inputEditLatitudine) != vm.percorsoLocalita.latitudine)) {
+                latitudineDoppia = false;
+            }
+            else {
+                latitudineDoppia = true;
+            };
+
+            var longitudineDoppia = false;
+
+            if ((_.trim(vm.inputEditLongitudine) == "") || (_.trim(vm.inputEditLongitudine) != vm.percorsoLocalita.longitudine)) {
+                longitudineDoppia = false;
+            }
+            else {
+                longitudineDoppia = true;
+            };
+
+            vm.pulsanteEditLocalitaDisabilitato = (_.trim(vm.inputEditLocalita) == "" || _.trim(vm.inputEditLocalita) == "-" || (localitaDoppia && latitudineDoppia && longitudineDoppia));
             if (_.trim(vm.inputEditLocalita) == "-") {
                 vm.inputEditLocalita = "";
             }
@@ -1184,7 +1256,31 @@
 
         vm.verificaInsertLocalita = function verificaInsertLocalita() {
             var localitaDoppia = _.find(vm.percorsoCitta.figli, function (localita) { return funzioni.confrontaStringhe(localita.nome, vm.inputInsertLocalita) });
-            vm.pulsanteInsertLocalitaDisabilitato = (_.trim(vm.inputInsertLocalita) == "" || _.trim(vm.inputInsertLocalita) == "-" || localitaDoppia);
+
+            var latitudineDoppia = false;
+
+            if ((_.trim(vm.inputEditLatitudine) == "") || (_.trim(vm.inputEditLatitudine) != vm.percorsoLocalita.latitudine)) {
+                latitudineDoppia = false;
+            }
+            else {
+                latitudineDoppia = true;
+            };
+
+            var longitudineDoppia = false;
+
+            if ((_.trim(vm.inputEditLongitudine) == "") || (_.trim(vm.inputEditLongitudine) != vm.percorsoLocalita.longitudine)) {
+                longitudineDoppia = false;
+            }
+            else {
+                longitudineDoppia = true;
+            };
+
+            vm.pulsanteInsertLocalitaDisabilitato = (_.trim(vm.inputInsertLocalita) == "" ||
+                                                     _.trim(vm.inputInsertLocalita) == "-" ||
+                                                     localitaDoppia ||
+                                                     latitudineDoppia ||
+                                                     longitudineDoppia);
+
             if (_.trim(vm.inputInsertLocalita) == "-") {
                 vm.inputInsertLocalita = "";
             }

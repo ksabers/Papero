@@ -143,13 +143,13 @@
                             <a href="#"
                                class="btn btn-success"
                                ng-click="vm.apriPannelloInserimentoLocalita()"
-                               ng-show="vm.pulsanteInserimentoCittaVisibile">
+                               ng-show="vm.pulsanteInserimentoLocalitaVisibile">
                                 <i class="fa fa-plus"></i> @localizzatore["Nuova Località"]
                             </a>
                             <a href="#"
                                class="btn btn-danger"
-                               ng-click="vm.apriPannelloCancellaCitta()"
-                               ng-show="vm.pulsanteCancellazioneCittaVisibile">
+                               ng-click="vm.apriPannelloCancellaLocalita()"
+                               ng-show="vm.pulsanteCancellazioneLocalitaVisibile">
                                 <i class="fa fa-minus"></i> @localizzatore["Cancella Località"]
                             </a>
                         }
@@ -467,7 +467,7 @@
                         <p></p>
                         <div class="row">
                             <div class="form-group">
-                                <label for="inputInsertSiglaProvincia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Inserisci nuova Provincia"]:</label>
+                                <label for="inputInsertSiglaProvincia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Sigla Provincia"]:</label>
                                 <div class="col-lg-3">
                                     <input type="text"
                                            class="form-control"

@@ -41,6 +41,12 @@
             if (selezionato) {
                 vm.percorso = percorso;
                 vm.livello = percorso.length;
+
+                vm.pulsanteEditSalaDisabilitato = true;
+                vm.pulsanteEditArmadioDisabilitato = true;
+                vm.pulsanteEditCassettoDisabilitato = true;
+                vm.pulsanteEditVassoioDisabilitato = true;
+
                 switch (vm.livello) {
                     case 1: // Clic su una Sala
 
@@ -67,7 +73,7 @@
                                     vm.pulsanteCancellazioneSalaVisibile = true;
                                 };
 
-                                vm.inputEditSala = nodo.nome;
+                                vm.inputEditSala = nodo.nome;                               
                             });
                         break;
 
@@ -98,7 +104,7 @@
                                     vm.pulsanteCancellazioneArmadioVisibile = true;
                                 };
 
-                                vm.inputEditArmadio = nodo.nome;
+                                vm.inputEditArmadio = nodo.nome;                          
                             });
                         break;
 

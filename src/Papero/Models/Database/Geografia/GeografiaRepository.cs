@@ -62,10 +62,15 @@ namespace Papero.Models
                                     Nome = localita.NomeLocalita,
                                     Latitudine = localita.Latitudine,
                                     Longitudine = localita.Longitudine
-                                }).ToList()})
+                                }).OrderBy(localita => localita.Nome)
+                                  .ToList()})
+                            .OrderBy(citta => citta.Nome)
                             .ToList()})
+                        .OrderBy(provincia => provincia.Nome)
                         .ToList()})
+                    .OrderBy(regione => regione.Nome)
                     .ToList()})
+                .OrderBy(nazione => nazione.Nome)
                 .ToList();
         }
 
