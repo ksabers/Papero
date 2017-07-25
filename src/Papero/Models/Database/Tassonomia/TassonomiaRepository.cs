@@ -39,7 +39,48 @@ namespace Papero.Models
                         .ThenInclude(tribu => tribu.Figli)
                             .ThenInclude(genere => genere.Figli)
                                 .ThenInclude(specie => specie.Figli)
-                .ToList();
+                .Select(famiglia => new Famiglie                     //  La proiezione in una nuova .Select serve per poter fare l'.OrderBy
+                {                                                    //  perché Entity Framework non permette di fare, ad esempio:
+                    Id = famiglia.Id,                                //  .Include(famiglia => famiglia.Figli.OrderBy(sottofamiglia => sottofamiglia.Nome))
+                    Nome = famiglia.Nome,                            //  (cioè non si può fare "filtered include" o sorting sulle entità collegate)
+                    Passeriforme = famiglia.Passeriforme,
+                    Figli = famiglia.Figli.Select(sottofamiglia => new Sottofamiglie
+                    {
+                        Id = sottofamiglia.Id,
+                        Nome = sottofamiglia.Nome,
+                        FamigliaId = sottofamiglia.FamigliaId,
+                        Figli = sottofamiglia.Figli.Select(tribu => new Tribu
+                        {
+                            Id = tribu.Id,
+                            Nome = tribu.Nome,
+                            SottofamigliaId = tribu.SottofamigliaId,
+                            Figli = tribu.Figli.Select(genere => new Generi
+                            {
+                                Id = genere.Id,
+                                Nome = genere.Nome,
+                                TribuId = genere.TribuId,
+                                Figli = genere.Figli.Select(specie => new Specie
+                                {
+                                    Id = specie.Id,
+                                    Nome = specie.Nome,
+                                    GenereId = specie.GenereId,
+                                    Figli = specie.Figli.Select(sottospecie => new Sottospecie
+                                    {
+                                        Id = sottospecie.Id,
+                                        Nome = sottospecie.Nome,
+                                        SpecieId = sottospecie.SpecieId,
+                                        StatoConservazioneId = sottospecie.StatoConservazioneId,
+                                        NomeItaliano = sottospecie.NomeItaliano,
+                                        NomeInglese = sottospecie.NomeInglese,
+                                        AnnoClassificazione = sottospecie.AnnoClassificazione,
+                                        ClassificazioneOriginale = sottospecie.ClassificazioneOriginale,
+                                        ElencoAutori = sottospecie.ElencoAutori
+                                    }).OrderBy(sottospecie => sottospecie.Nome).ToList()
+                                }).OrderBy(specie => specie.Nome).ToList()
+                            }).OrderBy(genere => genere.Nome).ToList()
+                        }).OrderBy(tribu => tribu.Nome).ToList()
+                    }).OrderBy(sottofamiglia => sottofamiglia.Nome).ToList()
+                }).OrderBy(famiglia => famiglia.Nome).ToList();
         }
 
         public IEnumerable<Famiglie> LeggiFamiglie()

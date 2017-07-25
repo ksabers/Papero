@@ -20,11 +20,7 @@
 
         <div class="panel panel-primary">
             <div class="panel-heading">
-
                 <h3 class="panel-title">@localizzatore["Albero tassonomico"]</h3>
-
-
-
             </div>
 
             <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
@@ -33,7 +29,7 @@
                              ng-cloak
                              tree-model="vm.datiAlbero"
                              options="vm.opzioniAlbero"
-                             on-selection="vm.nodoSelezionato(node, $path().length)">
+                             on-selection="vm.nodoSelezionato(node, $path(), selected)">
                     <span ng-class="node.passeriforme?'text-danger':''">{{node.nome}}</span>
                 </treecontrol>
             </div>
@@ -55,99 +51,139 @@
             </div>
             <div class="panel-body">
 
+                @*Pannello delle Famiglie*@
                 <div ng-show="vm.livello==1">
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="inputEditFamiglia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Famiglia"]:</label>
-                            <div class="col-lg-4">
-                                <input type="text"
-                                       class="form-control"
-                                       ng-model="vm.inputEditFamiglia"
-                                       ng-change="vm.verificaEditFamiglia()"
-                                       id="inputEditFamiglia"
-                                       name="inputEditFamiglia" />
-                            </div>
-                        </div>
-                    </div>
-                    <p></p>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="inputPasseriforme" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Passeriforme"]:</label>
-                            <div class="col-lg-4">
-                                <input type="checkbox"
-                                       class="form-control"
-                                       ng-model="vm.passeriforme"
-                                       id="inputPasseriforme"
-                                       name="inputPasseriforme" />
-                            </div>
-                        </div>
-                    </div>
-                    <p></p>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="col-lg-4 col-lg-offset-4">
-                                <div class="alert alert-danger" ng-show="vm.famigliaGiaPresente">
-                                    <strong>@localizzatore["Famiglia già presente!"]</strong> (@localizzatore["Id"]: {{vm.famigliaDoppia.id}})
+
+                    @*Edit Famiglia*@
+                    <div class="panel-body" ng-show="vm.panelEditFamigliaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditFamiglia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Famiglia"]:</label>
+                                <div class="col-lg-4">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditFamiglia"
+                                           ng-change="vm.verificaEditFamiglia()"
+                                           id="inputEditFamiglia"
+                                           name="inputEditFamiglia" />
                                 </div>
                             </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
                             <div class="form-group">
-                                <div class="col-lg-3">
+                                <label for="inputPasseriforme" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Passeriforme"]:</label>
+                                <div class="col-lg-1">
+                                    <input type="checkbox"
+                                           class="form-control"
+                                           ng-model="vm.passeriforme"
+                                           ng-change="vm.verificaEditFamiglia()"
+                                           id="inputPasseriforme"
+                                           name="inputPasseriforme" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-lg-2 col-lg-offset-6">
                                     <div class="pull-right">
-                                        <button type="reset"
-                                                class="btn btn-outline-primary"
-                                                ng-click="vm.annullaEdit()">
-                                            @localizzatore["Annulla"]
-                                            </button>
+                                        @if (await autorizzatore.AuthorizeAsync(User, "EditTassonomia"))
+                                        {
                                             <button type="submit"
                                                     class="btn btn-success"
                                                     ng-click="vm.editFamiglia()"
-                                                    ng-disabled="vm.pulsanteEditDisabilitato">
+                                                    ng-disabled="vm.pulsanteEditFamigliaDisabilitato">
                                                 @localizzatore["Modifica"]
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                @*Pannello delle Sottofamiglie*@
+                <div ng-show="vm.livello==2">
+
+                    @*Edit Sottofamiglia*@
+                    <div class="panel-body" ng-show="vm.panelEditSottofamigliaVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditSottofamiglia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Sottofamiglia"]:</label>
+                                <div class="col-lg-4">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditSottofamiglia"
+                                           ng-change="vm.verificaEditSottofamiglia()"
+                                           ng-disabled="vm.inputEditSottofamiglia == '-'"
+                                           id="inputEditSottofamiglia"
+                                           name="inputEditSottofamiglia" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            @if (await autorizzatore.AuthorizeAsync(User, "EditTassonomia"))
+                                            {
+                                                <button type="submit"
+                                                        class="btn btn-success"
+                                                        ng-click="vm.editSottofamiglia()"
+                                                        ng-disabled="vm.pulsanteEditSottofamigliaDisabilitato">
+                                                    @localizzatore["Modifica"]
                                                 </button>
-                                            </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                </div>
-
-                <div ng-show="vm.livello==2">
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="inputEditSottofamiglia" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Sottofamiglia"]:</label>
-                            <div class="col-lg-4">
-                                <input type="text"
-                                       class="form-control"
-                                       ng-model="vm.inputEditSottofamiglia"
-                                       ng-change="vm.verificaEditSottofamiglia()"
-                                       ng-disabled="vm.inputEditSottofamiglia == '-'"
-                                       id="inputEditSottofamiglia"
-                                       name="inputEditSottofamiglia" />
-                            </div>
                         </div>
                     </div>
-                    <p></p>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="col-lg-4 col-lg-offset-4">
-                                <div class="alert alert-danger" ng-show="vm.sottofamigliaGiaPresente">
-                                    <strong>@localizzatore["Sottofamiglia già presente!"]</strong> (@localizzatore["Id"]: {{vm.sottofamigliaDoppia.id}})
+
+
+                </div>
+
+                @*Pannello delle Tribù*@
+                <div ng-show="vm.livello==3">
+
+                    @*Edit Tribù*@
+                    <div class="panel-body" ng-show="vm.panelEditTribuVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditTribu" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Tribù"]:</label>
+                                <div class="col-lg-4">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditTribu"
+                                           ng-change="vm.verificaEditTribu()"
+                                           ng-disabled="vm.inputEditTribu == '-'"
+                                           id="inputEditTribu"
+                                           name="inputEditTribu" />
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-lg-3">
-                                    <div class="pull-right">
-                                        <button type="reset"
-                                                class="btn btn-outline-primary"
-                                                ng-click="vm.annullaEdit()">
-                                            @localizzatore["Annulla"]
-                                        </button>
-                                        <button type="submit"
-                                                class="btn btn-success"
-                                                ng-click="vm.editSottofamiglia()"
-                                                ng-disabled="vm.inputEditSottofamiglia == '-'">
-                                            @localizzatore["Modifica"]
-                                        </button>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            @if (await autorizzatore.AuthorizeAsync(User, "EditTassonomia"))
+                                            {
+                                                <button type="submit"
+                                                        class="btn btn-success"
+                                                        ng-click="vm.editTribu()"
+                                                        ng-disabled="vm.pulsanteEditTribuDisabilitato">
+                                                    @localizzatore["Modifica"]
+                                                </button>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -155,9 +191,266 @@
                     </div>
                 </div>
 
+                @*Pannello dei Generi*@
+                <div ng-show="vm.livello==4">
 
+                    @*Edit Genere*@
+                    <div class="panel-body" ng-show="vm.panelEditGenereVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditGenere" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Genere"]:</label>
+                                <div class="col-lg-4">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditGenere"
+                                           ng-change="vm.verificaEditGenere()"
+                                           ng-disabled="vm.inputEditGenere == '-'"
+                                           id="inputEditGenere"
+                                           name="inputEditGenere" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            @if (await autorizzatore.AuthorizeAsync(User, "EditTassonomia"))
+                                            {
+                                                <button type="submit"
+                                                        class="btn btn-success"
+                                                        ng-click="vm.editGenere()"
+                                                        ng-disabled="vm.pulsanteEditGenereDisabilitato">
+                                                    @localizzatore["Modifica"]
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
+
+                @*Pannello delle Specie*@
+                <div ng-show="vm.livello==5">
+
+                    @*Edit Specie*@
+                    <div class="panel-body" ng-show="vm.panelEditSpecieVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditSpecie" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Specie"]:</label>
+                                <div class="col-lg-4">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditSpecie"
+                                           ng-change="vm.verificaEditSpecie()"
+                                           ng-disabled="vm.inputEditSpecie == '-'"
+                                           id="inputEditSpecie"
+                                           name="inputEditSpecie" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            @if (await autorizzatore.AuthorizeAsync(User, "EditTassonomia"))
+                                            {
+                                                <button type="submit"
+                                                        class="btn btn-success"
+                                                        ng-click="vm.editSpecie()"
+                                                        ng-disabled="vm.pulsanteEditSpecieDisabilitato">
+                                                    @localizzatore["Modifica"]
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Pannello delle Sottospecie*@
+                <div ng-show="vm.livello==6">
+
+                    @*Edit Sottospecie*@
+                    <div class="panel-body" ng-show="vm.panelEditSottospecieVisibile">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditSottospecie" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Modifica Sottospecie"]:</label>
+                                <div class="col-lg-4">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditSottospecie"
+                                           ng-change="vm.verificaEditSottospecie()"
+                                           ng-disabled="vm.inputEditSottospecie == '-'"
+                                           id="inputEditSottospecie"
+                                           name="inputEditSottospecie" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditNomeItaliano" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome Italiano"]:</label>
+                                <div class="col-lg-4">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditNomeItaliano"
+                                           ng-change="vm.verificaEditSottospecie()"
+                                           id="inputEditNomeItaliano"
+                                           name="inputEditNomeItaliano" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputEditNomeInglese" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome Inglese"]:</label>
+                                <div class="col-lg-4">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="vm.inputEditNomeInglese"
+                                           ng-change="vm.verificaEditSottospecie()"
+                                           id="inputEditNomeInglese"
+                                           name="inputEditNomeInglese" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="uiselectStatoConservazione" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Stato di Conservazione"]:</label>
+                                <div class="col-lg-4">
+                                    <ui-select ng-model="vm.statoDiConservazioneSelezionato" ng-change="vm.verificaEditSottospecie()" id="uiselectStatoConservazione">
+                                        <ui-select-match>
+                                            <span ng-bind="$select.selected.statoConservazione + ($select.selected.sigla=='-'?'':' (' + $select.selected.sigla + ')')"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="stato in (vm.elencoStatiConservazione | filter: $select.search) track by stato.id">
+                                            <span ng-bind="stato.statoConservazione + (stato.sigla=='-'?'':' (' + stato.sigla + ')')"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="testoElencoAutori" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Autori"]:</label>
+                                <div class="col-lg-6">
+                                    <span id="testoElencoAutori" class="text-primary"><strong>{{vm.stringaElencoAutori}}</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputAnnoClassificazione" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Anno Classificazione"]:</label>
+                                <div class="col-lg-2">
+                                    <input type="number"
+                                           min="1700" max="2100"
+                                           class="form-control"
+                                           ng-model="vm.inputEditAnnoClassificazione"
+                                           ng-change="vm.verificaEditSottospecie()"
+                                           id="inputAnnoClassificazione"
+                                           name="inputAnnoClassificazione" 
+                                           required/>
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputClassificazioneOriginale" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Classificazione Originale"]:</label>
+                                <div class="col-lg-1">
+                                    <input type="checkbox"
+                                           class="form-control"
+                                           ng-model="vm.classificazioneOriginale"
+                                           ng-change="vm.verificaEditSottospecie()"
+                                           id="inputClassificazioneOriginale"
+                                           name="inputClassificazioneOriginale" />
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="uiselectClassificatore" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Classificatori"]:</label>
+                                <div class="col-lg-4">
+                                    <ui-select ng-model="vm.classificatoreSelezionato" id="uiselectClassificatore">
+                                        <ui-select-match>
+                                            <span ng-bind="$select.selected.classificatore"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="classificatore in (vm.dropdownClassificatori | filter: $select.search) track by classificatore.id">
+                                            <span ng-bind="classificatore.classificatore"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="col-lg-1">
+                                    <i role="button" ng-click="vm.aggiungiClassificatore()" class="fa fa-plus-square fa-2x text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-lg-6 col-lg-offset-2">
+                                    <table datatable="ng"
+                                           class="table table-striped table-bordered table-hover text-primary"
+                                           id="tabellaElencoClassificatori"
+                                           dt-options="vm.opzioniTabellaElencoClassificatori">
+                                        <thead>
+                                            <tr>
+                                                <th>@localizzatore["Ordinamento"]</th>
+                                                <th>@localizzatore["Classificatore"]</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="classificatore in vm.datiTabellaClassificatori">
+                                                <td>{{$index+1}}</td>
+                                                <td>{{classificatore.classificatore}}</td>
+                                                <td>
+                                                    <div class="btn-group fa-pull-right">
+                                                        <i role="button" ng-show="!$first" ng-click="vm.spostaSu($index)" class="fa fa-arrow-up fa-2x text-success"></i>
+                                                        <i role="button" ng-show="!$last" ng-click="vm.spostaGiu($index)" class="fa fa-arrow-down fa-2x text-success"></i>
+                                                        <i role="button" ng-click="vm.rimuoviClassificatore(classificatore)" class="fa fa-minus-square fa-2x text-danger"></i>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-6">
+                                        <div class="pull-right">
+                                            @if (await autorizzatore.AuthorizeAsync(User, "EditTassonomia"))
+                                            {
+                                                <button type="submit"
+                                                        class="btn btn-success"
+                                                        ng-click="vm.editSottospecie()"
+                                                        ng-disabled="vm.pulsanteEditSottospecieDisabilitato">
+                                                    @localizzatore["Modifica"]
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>

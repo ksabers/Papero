@@ -14,7 +14,7 @@
 
         var vm = this;
 
-// #region Funzioni Albero
+//#region Funzioni Albero
 
         vm.datiAlbero = [];            // Albero geografico
 
@@ -231,7 +231,7 @@
 
 // #endregion
 
-// #region Variabili Nazioni
+//#region Variabili Nazioni
 
         vm.panelEditNazioneVisibile = false;
         vm.panelInserimentoNazioneVisibile = false;

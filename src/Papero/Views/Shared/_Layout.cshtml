@@ -138,47 +138,25 @@
     <div class="sidebar">
         <nav class="sidebar-nav">
             <ul class="nav">
-                @*<li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fa fa-sitemap fa-fw"></i> @localizzatore["Tassonomia"]
-                </a>
-            </li>*@
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Papero" asp-action="ElencoEsemplari">
-                        <i class="fa fa-tags fa-fw"></i> @localizzatore["Esemplari"]
-                    </a>
-                </li>
-
-                @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaTassonomia"))
+                @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaElencoEsemplari"))
                 {
-                    <li class="nav-item nav-dropdown active">
-                    <a class="nav-link nav-dropdown-toggle" href="#">
-                        <i class="fa fa-sitemap fa-fw"></i>@localizzatore["Tassonomia"]<i class="fa arrow"></i>
-                    </a>
-                    <ul>
-                        <li>
-                            <a class="nav-link text-right" asp-controller="Tassonomia" asp-action="Tassonomia">@localizzatore["Tassonomia"]</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-right" asp-controller="Tassonomia" asp-action="Famiglie">@localizzatore["Famiglie"]</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-right" asp-controller="Tassonomia" asp-action="Sottofamiglie">@localizzatore["Sottofamiglie"]</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-right" asp-controller="Tassonomia" asp-action="Tribu">@localizzatore["Tribù"]</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-right" asp-controller="Tassonomia" asp-action="Generi">@localizzatore["Generi"]</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-right" asp-controller="Tassonomia" asp-action="Specie">@localizzatore["Specie"]</a>
-                        </li>
-                    </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Papero" asp-action="ElencoEsemplari">
+                            <i class="fa fa-tags fa-fw"></i> @localizzatore["Esemplari"]
+                        </a>
                     </li>
                 }
 
-                @if((await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori"))
+                @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaTassonomia"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Tassonomia" asp-action="Tassonomia">
+                            <i class="fa fa-sitemap fa-fw"></i> @localizzatore["Tassonomia"]
+                        </a>
+                    </li>
+                }
+
+                @if ((await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori"))
                  ||
                  (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollezioni"))
                  ||
@@ -254,11 +232,11 @@
                                 <li>
                                     <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Spedizioni"><i class="fa fa-plane fa-fw"></i>@localizzatore["Spedizioni"]</a>
                                 </li>
-                            }                      
+                            }
                         </ul>
                     </li>
                 }
-                @if(await autorizzatore.AuthorizeAsync(User, "GestioneUtenti"))
+                @if (await autorizzatore.AuthorizeAsync(User, "GestioneUtenti"))
                 {
                     <li class="nav-item nav-dropdown active">
                         <a class="nav-link nav-dropdown-toggle" href="#">
@@ -276,6 +254,42 @@
                 }
 
             </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

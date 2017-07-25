@@ -82,7 +82,8 @@
      * @param {stringa} stringaDaConfrontare
      */
     function confrontaStringhe(stringaOriginale, stringaDaConfrontare) {
-        return (_.lowerCase(_.trim(stringaOriginale)) == _.lowerCase(_.trim(stringaDaConfrontare)))
+
+        return (_.toLower(_.trim(stringaOriginale)) == _.toLower(_.trim(stringaDaConfrontare)))
     };
 
     function pubblicaFunzioniEsterne(funzioni) {
