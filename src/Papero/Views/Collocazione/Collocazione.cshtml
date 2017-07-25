@@ -21,7 +21,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    @localizzatore["Albero delle collocazioni"]
+                    @localizzatore["Albero delle Collocazioni"]
                 </h3>
             </div>
 
@@ -267,7 +267,10 @@
                                             <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimentoArmadio()">@localizzatore["Annulla"]</button>
                                             @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
                                             {
-                                                <button type="submit" class="btn btn-success" ng-click="vm.inserisciArmadio()" ng-disabled="vm.pulsanteInsertArmadioDisabilitato">@localizzatore["Inserisci"]</button>
+                                                <button type="submit" 
+                                                        class="btn btn-success" 
+                                                        ng-click="vm.inserisciArmadio()" 
+                                                        ng-disabled="vm.pulsanteInsertArmadioDisabilitato">@localizzatore["Inserisci"]</button>
                                             }
                                         </div>
                                     </div>
@@ -489,7 +492,10 @@
                                             <button type="reset" class="btn btn-outline-primary" ng-click="vm.annullaInserimentoVassoio()">@localizzatore["Annulla"]</button>
                                             @if (await autorizzatore.AuthorizeAsync(User, "EditAnagraficaCollocazione"))
                                             {
-                                                <button type="submit" class="btn btn-success" ng-click="vm.inserisciVassoio()" ng-disabled="vm.pulsanteInsertVassoioDisabilitato">@localizzatore["Inserisci"]</button>
+                                                <button type="submit" 
+                                                        class="btn btn-success" 
+                                                        ng-click="vm.inserisciVassoio()" 
+                                                        ng-disabled="vm.pulsanteInsertVassoioDisabilitato">@localizzatore["Inserisci"]</button>
                                             }
                                         </div>
                                     </div>

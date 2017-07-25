@@ -117,64 +117,148 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafica Cassetti" xml:space="preserve">
-    <value>Drawers Table</value>
+  <data name="Albero geografico" xml:space="preserve">
+    <value>Albero geografico</value>
   </data>
   <data name="Annulla" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annulla</value>
   </data>
-  <data name="Armadi" xml:space="preserve">
-    <value>Cabinets</value>
+  <data name="Cancella Città" xml:space="preserve">
+    <value>Cancella Città</value>
   </data>
-  <data name="Armadio" xml:space="preserve">
-    <value>Cabinet</value>
+  <data name="Cancella Località" xml:space="preserve">
+    <value>Cancella Località</value>
   </data>
-  <data name="Azioni" xml:space="preserve">
-    <value>Actions</value>
+  <data name="Cancella Nazione" xml:space="preserve">
+    <value>Cancella Nazione</value>
   </data>
-  <data name="Cancella" xml:space="preserve">
-    <value>Delete</value>
+  <data name="Cancella Provincia" xml:space="preserve">
+    <value>Cancella Provincia</value>
   </data>
-  <data name="Cancella Cassetto" xml:space="preserve">
-    <value>Delete Drawer</value>
+  <data name="Cancella Regione" xml:space="preserve">
+    <value>Cancella Regione</value>
   </data>
-  <data name="Cassetti" xml:space="preserve">
-    <value>Drawers</value>
+  <data name="Città" xml:space="preserve">
+    <value>Città</value>
   </data>
-  <data name="Cassetto" xml:space="preserve">
-    <value>Drawer</value>
+  <data name="Codice Catastale" xml:space="preserve">
+    <value>Codice Catastale</value>
   </data>
-  <data name="Cassetto già presente!" xml:space="preserve">
-    <value>Drawer already present!</value>
+  <data name="Codice ISTAT" xml:space="preserve">
+    <value>Codice ISTAT</value>
   </data>
-  <data name="Id" xml:space="preserve">
-    <value>Id</value>
+  <data name="Conferma Cancellazione Città" xml:space="preserve">
+    <value>Conferma Cancellazione Città</value>
   </data>
-  <data name="Impossibile cancellare il Cassetto!" xml:space="preserve">
-    <value>Unable to delete the Drawer!</value>
+  <data name="Conferma Cancellazione Località" xml:space="preserve">
+    <value>Conferma Cancellazione Località</value>
+  </data>
+  <data name="Conferma Cancellazione Nazione" xml:space="preserve">
+    <value>Conferma Cancellazione Nazione</value>
+  </data>
+  <data name="Conferma Cancellazione Provincia" xml:space="preserve">
+    <value>Conferma Cancellazione Provincia</value>
+  </data>
+  <data name="Conferma Cancellazione Regione" xml:space="preserve">
+    <value>Conferma Cancellazione Regione</value>
+  </data>
+  <data name="Gestione Geografia" xml:space="preserve">
+    <value>Gestione Geografia</value>
   </data>
   <data name="Inserisci" xml:space="preserve">
-    <value>Submit</value>
+    <value>Inserisci</value>
   </data>
-  <data name="Inserisci nuovo Cassetto" xml:space="preserve">
-    <value>Insert new Drawer</value>
+  <data name="Inserisci nuova Città" xml:space="preserve">
+    <value>Inserisci nuova Città</value>
   </data>
-  <data name="Modifica" xml:space="preserve">
-    <value>Edit</value>
+  <data name="Inserisci nuova Località" xml:space="preserve">
+    <value>Inserisci nuova Località</value>
   </data>
-  <data name="Modifica Cassetto" xml:space="preserve">
-    <value>Edit Drawer</value>
+  <data name="Inserisci nuova Nazione" xml:space="preserve">
+    <value>Inserisci nuova Nazione</value>
   </data>
-  <data name="Nuovo" xml:space="preserve">
-    <value>New</value>
+  <data name="Inserisci nuova Provincia" xml:space="preserve">
+    <value>Inserisci nuova Provincia</value>
   </data>
-  <data name="Sala" xml:space="preserve">
-    <value>Room</value>
+  <data name="Inserisci nuova Regione" xml:space="preserve">
+    <value>Inserisci nuova Regione</value>
   </data>
-  <data name="Vassoi" xml:space="preserve">
-    <value>Trays</value>
+  <data name="ISO 3166-1 alpha-2" xml:space="preserve">
+    <value>ISO 3166-1 alpha-2</value>
   </data>
-  <data name="Vi sono elementi dipendenti" xml:space="preserve">
-    <value>There are related elements</value>
+  <data name="ISO 3166-1 alpha-3" xml:space="preserve">
+    <value>ISO 3166-1 alpha-3</value>
+  </data>
+  <data name="ISO 3166-1 numerico" xml:space="preserve">
+    <value>ISO 3166-1 numerico</value>
+  </data>
+  <data name="Latitudine" xml:space="preserve">
+    <value>Latitudine</value>
+  </data>
+  <data name="Località" xml:space="preserve">
+    <value>Località</value>
+  </data>
+  <data name="Longitudine" xml:space="preserve">
+    <value>Longitudine</value>
+  </data>
+  <data name="Modifica Nome Città" xml:space="preserve">
+    <value>Modifica Nome Città</value>
+  </data>
+  <data name="Modifica Nome Località" xml:space="preserve">
+    <value>Modifica Nome Località</value>
+  </data>
+  <data name="Modifica Nome Nazione" xml:space="preserve">
+    <value>Modifica Nome Nazione</value>
+  </data>
+  <data name="Modifica Nome Provincia" xml:space="preserve">
+    <value>Modifica Nome Provincia</value>
+  </data>
+  <data name="Modifica Nome Regione" xml:space="preserve">
+    <value>Modifica Nome Regione</value>
+  </data>
+  <data name="Nazione" xml:space="preserve">
+    <value>Nazione</value>
+  </data>
+  <data name="Nome Città" xml:space="preserve">
+    <value>Nome Città</value>
+  </data>
+  <data name="Nome Località" xml:space="preserve">
+    <value>Nome Località</value>
+  </data>
+  <data name="Nome Nazione" xml:space="preserve">
+    <value>Nome Nazione</value>
+  </data>
+  <data name="Nome Provincia" xml:space="preserve">
+    <value>Nome Provincia</value>
+  </data>
+  <data name="Nome Regione" xml:space="preserve">
+    <value>Nome Regione</value>
+  </data>
+  <data name="Nuova Città" xml:space="preserve">
+    <value>Nuova Città</value>
+  </data>
+  <data name="Nuova Località" xml:space="preserve">
+    <value>Nuova Località</value>
+  </data>
+  <data name="Nuova Nazione" xml:space="preserve">
+    <value>Nuova Nazione</value>
+  </data>
+  <data name="Nuova Provincia" xml:space="preserve">
+    <value>Nuova Provincia</value>
+  </data>
+  <data name="Nuova Regione" xml:space="preserve">
+    <value>Nuova Regione</value>
+  </data>
+  <data name="Provincia" xml:space="preserve">
+    <value>Provincia</value>
+  </data>
+  <data name="Regione" xml:space="preserve">
+    <value>Regione</value>
+  </data>
+  <data name="Selezionare un elemento dell'albero" xml:space="preserve">
+    <value>Selezionare un elemento dell'albero</value>
+  </data>
+  <data name="Sigla Provincia" xml:space="preserve">
+    <value>Sigla Provincia</value>
   </data>
 </root>

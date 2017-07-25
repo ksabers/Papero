@@ -117,70 +117,151 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafica Città" xml:space="preserve">
-    <value>Anagrafica Città</value>
+  <data name="Albero geografico" xml:space="preserve">
+    <value>Arborescence géographique</value>
   </data>
   <data name="Annulla" xml:space="preserve">
-    <value>Annulla</value>
-  </data>
-  <data name="Azioni" xml:space="preserve">
-    <value>Azioni</value>
-  </data>
-  <data name="Cancella" xml:space="preserve">
-    <value>Cancella</value>
+    <value>Annuler</value>
   </data>
   <data name="Cancella Città" xml:space="preserve">
-    <value>Cancella Città</value>
+    <value>Supprimer la Ville</value>
+  </data>
+  <data name="Cancella Località" xml:space="preserve">
+    <value>Supprimer le Lieu</value>
+  </data>
+  <data name="Cancella Nazione" xml:space="preserve">
+    <value>Supprimer la Nation</value>
+  </data>
+  <data name="Cancella Provincia" xml:space="preserve">
+    <value>Supprimer la Province</value>
+  </data>
+  <data name="Cancella Regione" xml:space="preserve">
+    <value>Supprimer la Région</value>
   </data>
   <data name="Città" xml:space="preserve">
-    <value>Città</value>
-  </data>
-  <data name="Città già presente!" xml:space="preserve">
-    <value>Città già presente!</value>
+    <value>Ville</value>
   </data>
   <data name="Codice Catastale" xml:space="preserve">
-    <value>Codice Catastale</value>
+    <value>Code Cadastral</value>
   </data>
   <data name="Codice ISTAT" xml:space="preserve">
-    <value>Codice ISTAT</value>
+    <value>Code ISTAT</value>
   </data>
-  <data name="Id" xml:space="preserve">
-    <value>Id</value>
+  <data name="Conferma Cancellazione Città" xml:space="preserve">
+    <value>Confirmer la suppression de la Ville</value>
   </data>
-  <data name="Impossibile cancellare la Città!" xml:space="preserve">
-    <value>Impossibile cancellare la Città!</value>
+  <data name="Conferma Cancellazione Località" xml:space="preserve">
+    <value>Confirmer la suppression du Lieu</value>
+  </data>
+  <data name="Conferma Cancellazione Nazione" xml:space="preserve">
+    <value>Confirmer la suppression de la Nation</value>
+  </data>
+  <data name="Conferma Cancellazione Provincia" xml:space="preserve">
+    <value>Confirmer la suppression de la Province</value>
+  </data>
+  <data name="Conferma Cancellazione Regione" xml:space="preserve">
+    <value>Confirmer la suppression de la Région</value>
+  </data>
+  <data name="Gestione Geografia" xml:space="preserve">
+    <value>Gestion de la Géographie</value>
   </data>
   <data name="Inserisci" xml:space="preserve">
-    <value>Inserisci</value>
+    <value>Appliquer</value>
   </data>
   <data name="Inserisci nuova Città" xml:space="preserve">
-    <value>Inserisci nuova Città</value>
+    <value>Insérer la nouvelle Ville</value>
+  </data>
+  <data name="Inserisci nuova Località" xml:space="preserve">
+    <value>Insérer le nouveau Lieu</value>
+  </data>
+  <data name="Inserisci nuova Nazione" xml:space="preserve">
+    <value>Insérer la nouvelle Nation</value>
+  </data>
+  <data name="Inserisci nuova Provincia" xml:space="preserve">
+    <value>Insérer le nouvelle Province</value>
+  </data>
+  <data name="Inserisci nuova Regione" xml:space="preserve">
+    <value>Insérer le nouvelle Région</value>
+  </data>
+  <data name="ISO 3166-1 alpha-2" xml:space="preserve">
+    <value>ISO 3166-1 alpha-2</value>
+  </data>
+  <data name="ISO 3166-1 alpha-3" xml:space="preserve">
+    <value>ISO 3166-1 alpha-3</value>
+  </data>
+  <data name="ISO 3166-1 numerico" xml:space="preserve">
+    <value>ISO 3166-1 numérique</value>
+  </data>
+  <data name="Latitudine" xml:space="preserve">
+    <value>Latitude</value>
   </data>
   <data name="Località" xml:space="preserve">
-    <value>Località</value>
+    <value>Lieu</value>
   </data>
-  <data name="Modifica" xml:space="preserve">
-    <value>Modifica</value>
+  <data name="Longitudine" xml:space="preserve">
+    <value>Longitude</value>
   </data>
-  <data name="Modifica Città" xml:space="preserve">
-    <value>Modifica Città</value>
+  <data name="Modifica Nome Città" xml:space="preserve">
+    <value>Éditer le nom de la Ville</value>
+  </data>
+  <data name="Modifica Nome Località" xml:space="preserve">
+    <value>Éditer le nom du Lieu</value>
+  </data>
+  <data name="Modifica Nome Nazione" xml:space="preserve">
+    <value>Éditer le nom de la Nation</value>
+  </data>
+  <data name="Modifica Nome Provincia" xml:space="preserve">
+    <value>Éditer le nom de la Province</value>
+  </data>
+  <data name="Modifica Nome Regione" xml:space="preserve">
+    <value>Éditer le nom de la Région</value>
   </data>
   <data name="Nazione" xml:space="preserve">
-    <value>Nazione</value>
+    <value>Nation</value>
   </data>
-  <data name="Nuova" xml:space="preserve">
-    <value>Nuova</value>
+  <data name="Nome Città" xml:space="preserve">
+    <value>Nom de la Ville</value>
   </data>
-  <data name="Province" xml:space="preserve">
-    <value>Province</value>
+  <data name="Nome Località" xml:space="preserve">
+    <value>Nom du Lieu</value>
+  </data>
+  <data name="Nome Nazione" xml:space="preserve">
+    <value>Nom de la Nation</value>
+  </data>
+  <data name="Nome Provincia" xml:space="preserve">
+    <value>Nom de la Province</value>
+  </data>
+  <data name="Nome Regione" xml:space="preserve">
+    <value>Nom de la Région</value>
+  </data>
+  <data name="Nuova Città" xml:space="preserve">
+    <value>Nouvelle Ville</value>
+  </data>
+  <data name="Nuova Località" xml:space="preserve">
+    <value>Nouveau Lieu</value>
+  </data>
+  <data name="Nuova Nazione" xml:space="preserve">
+    <value>Nouvelle Nation</value>
+  </data>
+  <data name="Nuova Provincia" xml:space="preserve">
+    <value>Nouvelle Province</value>
+  </data>
+  <data name="Nuova Regione" xml:space="preserve">
+    <value>Nouvelle Région</value>
   </data>
   <data name="Provincia" xml:space="preserve">
-    <value>Provincia</value>
+    <value>Province</value>
   </data>
   <data name="Regione" xml:space="preserve">
-    <value>Regione</value>
+    <value>Région</value>
   </data>
-  <data name="Vi sono elementi dipendenti" xml:space="preserve">
-    <value>Vi sono elementi dipendenti</value>
+  <data name="Selezionare un elemento dell'albero" xml:space="preserve">
+    <value>Sélectionner un élément de l'arborescence</value>
+  </data>
+  <data name="Sigla Provincia" xml:space="preserve">
+    <value>Sigle de la Province</value>
+  </data>
+  <data name="Modifica" xml:space="preserve">
+    <value>Éditer</value>
   </data>
 </root>

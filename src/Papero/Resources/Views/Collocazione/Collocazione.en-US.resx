@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Anagrafica Vassoi" xml:space="preserve">
-    <value>Trays Table</value>
+  <data name="Albero delle Collocazioni" xml:space="preserve">
+    <value>Positions Tree</value>
   </data>
   <data name="Annulla" xml:space="preserve">
     <value>Cancel</value>
@@ -126,29 +126,47 @@
   <data name="Armadio" xml:space="preserve">
     <value>Cabinet</value>
   </data>
-  <data name="Azioni" xml:space="preserve">
-    <value>Actions</value>
+  <data name="Cancella Armadio" xml:space="preserve">
+    <value>Delete Cabinet</value>
   </data>
-  <data name="Cancella" xml:space="preserve">
-    <value>Delete</value>
+  <data name="Cancella Cassetto" xml:space="preserve">
+    <value>Delete Drawer</value>
+  </data>
+  <data name="Cancella Sala" xml:space="preserve">
+    <value>Delete Room</value>
   </data>
   <data name="Cancella Vassoio" xml:space="preserve">
     <value>Delete Tray</value>
   </data>
-  <data name="Cassetti" xml:space="preserve">
-    <value>Drawers</value>
-  </data>
   <data name="Cassetto" xml:space="preserve">
     <value>Drawer</value>
   </data>
-  <data name="Id" xml:space="preserve">
-    <value>Id</value>
+  <data name="Conferma Cancellazione Armadio" xml:space="preserve">
+    <value>Confirm Cabinet Deletion</value>
   </data>
-  <data name="Impossibile cancellare il Vassoio!" xml:space="preserve">
-    <value>Unable to delete the Tray!</value>
+  <data name="Conferma Cancellazione Cassetto" xml:space="preserve">
+    <value>Confirm Drawer Deletion</value>
+  </data>
+  <data name="Conferma Cancellazione Sala" xml:space="preserve">
+    <value>Confirm Room Deletion</value>
+  </data>
+  <data name="Conferma Cancellazione Vassoio" xml:space="preserve">
+    <value>Confirm Tray Deletion</value>
+  </data>
+  <data name="Gestione Collocazioni" xml:space="preserve">
+    <value>Positions Manager</value>
   </data>
   <data name="Inserisci" xml:space="preserve">
     <value>Submit</value>
+  </data>
+  <data name="Inserisci nuova Sala" xml:space="preserve">
+    <value>Insert new Room</value>
+  </data>
+  <data name="Inserisci nuovo Armadio" xml:space="preserve">
+    <value>Insert new Cabinet</value>
+  </data>
+  <data name="Inserisci nuovo Cassetto" xml:space="preserve">
+    <value>Insert new Drawer</value>
   </data>
   <data name="Inserisci nuovo Vassoio" xml:space="preserve">
     <value>Insert new Tray</value>
@@ -156,25 +174,49 @@
   <data name="Modifica" xml:space="preserve">
     <value>Edit</value>
   </data>
-  <data name="Modifica Vassoio" xml:space="preserve">
-    <value>Edit Tray</value>
+  <data name="Modifica Nome Armadio" xml:space="preserve">
+    <value>Edit Cabinet Name</value>
   </data>
-  <data name="Nuovo" xml:space="preserve">
-    <value>New</value>
+  <data name="Modifica Nome Cassetto" xml:space="preserve">
+    <value>Edit Drawer Name</value>
+  </data>
+  <data name="Modifica Nome Sala" xml:space="preserve">
+    <value>Edit Room Name</value>
+  </data>
+  <data name="Modifica Nome Vassoio" xml:space="preserve">
+    <value>Edit Tray Name</value>
+  </data>
+  <data name="Nome Armadio" xml:space="preserve">
+    <value>Cabinet Name</value>
+  </data>
+  <data name="Nome Cassetto" xml:space="preserve">
+    <value>Drawer name</value>
+  </data>
+  <data name="Nome Sala" xml:space="preserve">
+    <value>Room Name</value>
+  </data>
+  <data name="Nome Vassoio" xml:space="preserve">
+    <value>Tray Name</value>
+  </data>
+  <data name="Nuova Sala" xml:space="preserve">
+    <value>New Room</value>
+  </data>
+  <data name="Nuovo Armadio" xml:space="preserve">
+    <value>New Cabinet</value>
+  </data>
+  <data name="Nuovo Cassetto" xml:space="preserve">
+    <value>New Drawer</value>
+  </data>
+  <data name="Nuovo Vassoio" xml:space="preserve">
+    <value>New Tray</value>
   </data>
   <data name="Sala" xml:space="preserve">
     <value>Room</value>
   </data>
-  <data name="Vassoi" xml:space="preserve">
-    <value>Trays</value>
+  <data name="Selezionare un elemento dell'albero" xml:space="preserve">
+    <value>Select an element from the tree</value>
   </data>
   <data name="Vassoio" xml:space="preserve">
     <value>Tray</value>
-  </data>
-  <data name="Vassoio già presente!" xml:space="preserve">
-    <value>Tray already present!</value>
-  </data>
-  <data name="Vi sono elementi dipendenti" xml:space="preserve">
-    <value>There are related elements</value>
   </data>
 </root>
