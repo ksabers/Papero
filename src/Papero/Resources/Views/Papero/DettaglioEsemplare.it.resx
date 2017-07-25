@@ -471,4 +471,7 @@
   <data name="MSNG già esistente!" xml:space="preserve">
     <value>MSNG già esistente!</value>
   </data>
+  <data name="Ordinamento" xml:space="preserve">
+    <value>Ordinamento</value>
+  </data>
 </root>

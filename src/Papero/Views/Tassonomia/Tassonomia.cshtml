@@ -20,7 +20,7 @@
 
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">@localizzatore["Albero tassonomico"]</h3>
+                <h3 class="panel-title"><i class="fa fa-sitemap fa-fw"></i> @localizzatore["Albero tassonomico"]</h3>
             </div>
 
             <div class="panel-body" style="max-height: 80vh; overflow-y: scroll">
@@ -342,9 +342,9 @@
                         <hr>
                         <div class="row">
                             <div class="form-group">
-                                <label for="testoElencoAutori" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Autori"]:</label>
+                                <label for="testoElencoClassificatori" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Classificatori"]:</label>
                                 <div class="col-lg-6">
-                                    <span id="testoElencoAutori" class="text-primary"><strong>{{vm.stringaElencoAutori}}</strong></span>
+                                    <span id="testoElencoClassificatori" class="text-primary"><strong>{{vm.stringaElencoAutori}}</strong></span>
                                 </div>
                             </div>
                         </div>
@@ -381,8 +381,8 @@
                         <p></p>
                         <div class="row">
                             <div class="form-group">
-                                <label for="uiselectClassificatore" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Classificatori"]:</label>
-                                <div class="col-lg-4">
+                                <label for="uiselectClassificatore" class="col-lg-3 col-lg-offset-2 control-label text-primary">@localizzatore["Classificatore da aggiungere"]:</label>
+                                <div class="col-lg-3">
                                     <ui-select ng-model="vm.classificatoreSelezionato" id="uiselectClassificatore">
                                         <ui-select-match>
                                             <span ng-bind="$select.selected.classificatore"></span>

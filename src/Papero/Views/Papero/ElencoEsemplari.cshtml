@@ -25,7 +25,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
 
-                <h3 class="panel-title">@localizzatore["Albero tassonomico"]</h3>@localizzatore["Specie selezionate"]: <span class="badge" ng-cloak>{{vm.numeroSpecie}}</span>
+                <h3 class="panel-title"><i class="fa fa-sitemap fa-fw"></i> @localizzatore["Albero tassonomico"]</h3>@localizzatore["Specie selezionate"]: <span class="badge" ng-cloak>{{vm.numeroSpecie}}</span>
                 <button class="btn btn-danger btn-sm"
                         ng-click="vm.deseleziona()"
                         ng-show="vm.numeroSpecie"
@@ -63,7 +63,7 @@
     <div class="col-lg-9">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">@localizzatore["Esemplari"]</h3><br />
+                <h3 class="panel-title"><i class="fa fa-tags fa-fw"></i> @localizzatore["Esemplari"]</h3><br />
 
                 @* Visualizza il box per l'inserimento dell'esemplare nuovo solo se autorizzato *@
                 @if (await autorizzatore.AuthorizeAsync(User, "InserimentoEsemplare"))

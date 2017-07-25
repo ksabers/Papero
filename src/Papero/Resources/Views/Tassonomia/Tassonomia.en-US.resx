@@ -117,20 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Azioni" xml:space="preserve">
-    <value>Actions</value>
+  <data name="Albero tassonomico" xml:space="preserve">
+    <value>Taxonomical Tree</value>
+  </data>
+  <data name="Anno Classificazione" xml:space="preserve">
+    <value>Classification Year</value>
+  </data>
+  <data name="Classificatore" xml:space="preserve">
+    <value>Classifier</value>
+  </data>
+  <data name="Classificatore da aggiungere" xml:space="preserve">
+    <value>Add Classifier</value>
+  </data>
+  <data name="Classificatori" xml:space="preserve">
+    <value>Classifiers</value>
+  </data>
+  <data name="Classificazione Originale" xml:space="preserve">
+    <value>Original Classification</value>
   </data>
   <data name="Famiglia" xml:space="preserve">
     <value>Family</value>
   </data>
-  <data name="Famiglia già presente!" xml:space="preserve">
-    <value>Family already present!</value>
+  <data name="Genere" xml:space="preserve">
+    <value>Genus</value>
   </data>
-  <data name="Famiglie" xml:space="preserve">
-    <value>Families</value>
-  </data>
-  <data name="Id" xml:space="preserve">
-    <value>Id</value>
+  <data name="Gestione Tassonomia" xml:space="preserve">
+    <value>Taxonomy Manager</value>
   </data>
   <data name="Modifica" xml:space="preserve">
     <value>Edit</value>
@@ -138,7 +150,49 @@
   <data name="Modifica Famiglia" xml:space="preserve">
     <value>Edit Family</value>
   </data>
-  <data name="Tassonomia Famiglie" xml:space="preserve">
-    <value>Families Taxonomy</value>
+  <data name="Modifica Genere" xml:space="preserve">
+    <value>Edit Genus</value>
+  </data>
+  <data name="Modifica Sottofamiglia" xml:space="preserve">
+    <value>Edit Subfamily</value>
+  </data>
+  <data name="Modifica Sottospecie" xml:space="preserve">
+    <value>Edit Subspecies</value>
+  </data>
+  <data name="Modifica Specie" xml:space="preserve">
+    <value>Edit Species</value>
+  </data>
+  <data name="Modifica Tribù" xml:space="preserve">
+    <value>Edit Tribe</value>
+  </data>
+  <data name="Nome Inglese" xml:space="preserve">
+    <value>English Name</value>
+  </data>
+  <data name="Nome Italiano" xml:space="preserve">
+    <value>Italian Name</value>
+  </data>
+  <data name="Ordinamento" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="Passeriforme" xml:space="preserve">
+    <value>Passerine</value>
+  </data>
+  <data name="Selezionare un elemento dell'albero" xml:space="preserve">
+    <value>Select an element from the tree</value>
+  </data>
+  <data name="Sottofamiglia" xml:space="preserve">
+    <value>Subfamily</value>
+  </data>
+  <data name="Sottospecie" xml:space="preserve">
+    <value>Subspecies</value>
+  </data>
+  <data name="Specie" xml:space="preserve">
+    <value>Species</value>
+  </data>
+  <data name="Stato di Conservazione" xml:space="preserve">
+    <value>Conservation Status</value>
+  </data>
+  <data name="Tribù" xml:space="preserve">
+    <value>Tribe</value>
   </data>
 </root>
