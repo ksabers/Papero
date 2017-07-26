@@ -292,6 +292,11 @@
                             };
 
                             vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
+                            vm.percorsoSottofamiglia = null;
+                            vm.percorsoTribu = null;
+                            vm.percorsoGenere = null;
+                            vm.percorsoSpecie = null;
+                            vm.percorsoSottospecie = null;
 
                             vm.testo = _.toUpper(_.trim(vm.inputEditFamiglia));
                             vm.inputEditFamiglia = _.toUpper(_.trim(vm.inputEditFamiglia));
@@ -345,6 +350,10 @@
 
                             vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
                             vm.percorsoSottofamiglia = _.find(vm.percorsoFamiglia.figli, ["id", vm.percorsoSottofamiglia.id]);
+                            vm.percorsoTribu = null;
+                            vm.percorsoGenere = null;
+                            vm.percorsoSpecie = null;
+                            vm.percorsoSottospecie = null;
 
                             vm.testo = _.upperFirst(_.trim(vm.inputEditSottofamiglia));
                             vm.inputEditSottofamiglia = vm.testo;
@@ -397,7 +406,10 @@
                             };
                             vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
                             vm.percorsoSottofamiglia = _.find(vm.percorsoFamiglia.figli, ["id", vm.percorsoSottofamiglia.id]);
-                            vm.percorsoTribu = _.find(vm.percorsoSottofamiglia.figli, ["id", vm.percorsoTribu.id]);;
+                            vm.percorsoTribu = _.find(vm.percorsoSottofamiglia.figli, ["id", vm.percorsoTribu.id]);
+                            vm.percorsoGenere = null;
+                            vm.percorsoSpecie = null;
+                            vm.percorsoSottospecie = null;
 
                             vm.testo = _.upperFirst(_.trim(vm.inputEditTribu));
                             vm.inputEditTribu = vm.testo;
@@ -430,6 +442,45 @@
             };
         }
 
+        vm.editGenere = function editGenere() {
+
+            $http.put("/api/generi",
+                {
+                    "id": vm.percorsoGenere.id,
+                    "tribuId": vm.percorsoGenere.tribuId,
+                    "nome": _.upperFirst(_.trim(vm.inputEditGenere))
+                })
+                .then(function (response) {
+                    $http.get("/api/albero")
+                        .then(function (response) {
+                            vm.datiAlbero = response.data;
+                            vm.selectedNode = {
+                                "id": vm.percorsoTribu.id,
+                                "tribuId": vm.percorsoGenere.tribuId,
+                                "nome": _.upperFirst(_.trim(vm.inputEditGenere)),
+                                "tribu": null
+                            };
+                            vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
+                            vm.percorsoSottofamiglia = _.find(vm.percorsoFamiglia.figli, ["id", vm.percorsoSottofamiglia.id]);
+                            vm.percorsoTribu = _.find(vm.percorsoSottofamiglia.figli, ["id", vm.percorsoTribu.id]);
+                            vm.percorsoGenere = _.find(vm.percorsoTribu.figli, ["id", vm.percorsoGenere.id]);
+                            vm.percorsoSpecie = null;
+                            vm.percorsoSottospecie = null;
+
+                            vm.testo = _.upperFirst(_.trim(vm.inputEditGenere));
+                            vm.inputEditGenere = vm.testo;
+
+                            vm.pulsanteEditGenereDisabilitato = true;
+                        });
+
+                }, function () {
+                    alert("Errore non gestito durante l'editazione");
+                })
+                .finally(function () {
+
+                })
+        };
+
 //#endregion
 
 //#region Funzioni Specie
@@ -446,6 +497,45 @@
                 vm.inputEditSpecie = "";
             };
         }
+
+        vm.editSpecie = function editSpecie() {
+
+            $http.put("/api/specie",
+                {
+                    "id": vm.percorsoGenere.id,
+                    "genereId": vm.percorsoSpecie.genereId,
+                    "nome": _.upperFirst(_.trim(vm.inputEditSpecie))
+                })
+                .then(function (response) {
+                    $http.get("/api/albero")
+                        .then(function (response) {
+                            vm.datiAlbero = response.data;
+                            vm.selectedNode = {
+                                "id": vm.percorsoTribu.id,
+                                "genereId": vm.percorsoSpecie.genereId,
+                                "nome": _.upperFirst(_.trim(vm.inputEditSpecie)),
+                                "genere": null
+                            };
+                            vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
+                            vm.percorsoSottofamiglia = _.find(vm.percorsoFamiglia.figli, ["id", vm.percorsoSottofamiglia.id]);
+                            vm.percorsoTribu = _.find(vm.percorsoSottofamiglia.figli, ["id", vm.percorsoTribu.id]);
+                            vm.percorsoGenere = _.find(vm.percorsoTribu.figli, ["id", vm.percorsoGenere.id]);
+                            vm.percorsoSpecie = _.find(vm.percorsoGenere.figli, ["id", vm.percorsoSpecie.id]);
+                            vm.percorsoSottospecie = null;
+
+                            vm.testo = _.upperFirst(_.trim(vm.inputEditSpecie));
+                            vm.inputEditSpecie = vm.testo;
+
+                            vm.pulsanteEditSpecieDisabilitato = true;
+                        });
+
+                }, function () {
+                    alert("Errore non gestito durante l'editazione");
+                })
+                .finally(function () {
+
+                })
+        };
 
 //#endregion
 

@@ -221,6 +221,28 @@ namespace Papero.Models
             }
         }
 
+        public void PutGenere(Generi genere)
+        {
+            try
+            {
+                _contesto.Update(genere);
+            }
+            catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+            }
+        }
+
+        public void PutSpecie(Specie specie)
+        {
+            try
+            {
+                _contesto.Update(specie);
+            }
+            catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+            }
+        }
+
         #endregion
 
 

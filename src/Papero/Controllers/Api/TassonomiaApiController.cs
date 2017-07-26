@@ -109,7 +109,6 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiSottospecie(idSottospecie));
         }
 
-
         #endregion
 
         #region Put
@@ -144,6 +143,28 @@ namespace Papero.Controllers
 
             if (await _repositoryComune.SalvaModifiche())
                 return Ok($"api/tribu/{tribu.Id}");
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpPut("/api/generi")]
+        public async Task<IActionResult> PutGenere([FromBody]Generi genere)
+        {
+            _repository.PutGenere(genere);
+
+            if (await _repositoryComune.SalvaModifiche())
+                return Ok($"api/generi/{genere.Id}");
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpPut("/api/specie")]
+        public async Task<IActionResult> PutSpecie([FromBody]Specie specie)
+        {
+            _repository.PutSpecie(specie);
+
+            if (await _repositoryComune.SalvaModifiche())
+                return Ok($"api/specie/{specie.Id}");
             return BadRequest("Errore");
         }
 

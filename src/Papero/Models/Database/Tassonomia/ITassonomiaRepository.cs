@@ -45,6 +45,8 @@ namespace Papero.Models
         void PutFamiglia(Famiglie famiglia);
         void PutSottofamiglia(Sottofamiglie sottofamiglia);
         void PutTribu(Tribu tribu);
+        void PutGenere(Generi genere);
+        void PutSpecie(Specie specie);
 
         #endregion
 
