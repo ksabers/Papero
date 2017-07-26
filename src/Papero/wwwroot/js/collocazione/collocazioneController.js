@@ -310,6 +310,12 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idSala": vm.percorsoSala.idSala, "nome": _.trim(vm.inputEditSala) };
+
+                            vm.percorsoSala = _.find(vm.datiAlbero, ["idSala", vm.percorsoSala.idSala]);
+                            vm.percorsoArmadio = null;
+                            vm.percorsoCassetto = null;
+                            vm.percorsoVassoio = null;
+
                             vm.testo = _.trim(vm.inputEditSala);
                         });
 
@@ -333,6 +339,11 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idSala": nodoInserito.id, "nome": _.trim(vm.inputInsertSala) };
+
+                            vm.percorsoSala = _.find(vm.datiAlbero, ["idSala", vm.percorsoSala.idSala]);
+                            vm.percorsoArmadio = null;
+                            vm.percorsoCassetto = null;
+                            vm.percorsoVassoio = null;
 
                             vm.testo = _.trim(vm.inputInsertSala);
 
@@ -464,6 +475,12 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idArmadio": vm.percorsoArmadio.idArmadio, "nome": _.trim(vm.inputEditArmadio) };
+
+                            vm.percorsoSala = _.find(vm.datiAlbero, ["idSala", vm.percorsoSala.idSala]);
+                            vm.percorsoArmadio = _.find(vm.percorsoSala.figli, ["idArmadio", vm.percorsoArmadio.idArmadio]);
+                            vm.percorsoCassetto = null;
+                            vm.percorsoVassoio = null;
+
                             vm.testo = _.trim(vm.inputEditArmadio) +
                                 " (" + vm.percorsoSala.nome + "/" +
                                 _.trim(vm.inputEditArmadio) + ")";
@@ -490,6 +507,11 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idArmadio": nodoInserito.id, "nome": _.trim(vm.inputInsertArmadio) };
+
+                            vm.percorsoSala = _.find(vm.datiAlbero, ["idSala", vm.percorsoSala.idSala]);
+                            vm.percorsoArmadio = _.find(vm.percorsoSala.figli, ["idArmadio", vm.percorsoArmadio.idArmadio]);
+                            vm.percorsoCassetto = null;
+                            vm.percorsoVassoio = null;
 
                             vm.testo = _.trim(vm.inputInsertArmadio) + " (" +
                                 vm.percorsoSala.nome + "/" +
@@ -627,6 +649,12 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idCassetto": vm.percorsoCassetto.idCassetto, "nome": _.trim(vm.inputEditCassetto) };
+
+                            vm.percorsoSala = _.find(vm.datiAlbero, ["idSala", vm.percorsoSala.idSala]);
+                            vm.percorsoArmadio = _.find(vm.percorsoSala.figli, ["idArmadio", vm.percorsoArmadio.idArmadio]);
+                            vm.percorsoCassetto = _.find(vm.percorsoArmadio.figli, ["idCassetto", vm.percorsoCassetto.idCassetto]);
+                            vm.percorsoVassoio = null;
+
                             vm.testo = _.trim(vm.inputEditCassetto) +
                                 " (" + vm.percorsoSala.nome + "/" +
                                 vm.percorsoArmadio.nome + "/" +
@@ -654,6 +682,11 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idCassetto": nodoInserito.id, "nome": _.trim(vm.inputInsertCassetto) };
+
+                            vm.percorsoSala = _.find(vm.datiAlbero, ["idSala", vm.percorsoSala.idSala]);
+                            vm.percorsoArmadio = _.find(vm.percorsoSala.figli, ["idArmadio", vm.percorsoArmadio.idArmadio]);
+                            vm.percorsoCassetto = _.find(vm.percorsoArmadio.figli, ["idCassetto", vm.percorsoCassetto.idCassetto]);
+                            vm.percorsoVassoio = null;
 
                             vm.testo = _.trim(vm.inputInsertCassetto) + " (" +
                                 vm.percorsoSala.nome + "/" +
@@ -793,6 +826,12 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idVassoio": vm.percorsoVassoio.idVassoio, "nome": _.trim(vm.inputEditVassoio) };
+
+                            vm.percorsoSala = _.find(vm.datiAlbero, ["idSala", vm.percorsoSala.idSala]);
+                            vm.percorsoArmadio = _.find(vm.percorsoSala.figli, ["idArmadio", vm.percorsoArmadio.idArmadio]);
+                            vm.percorsoCassetto = _.find(vm.percorsoArmadio.figli, ["idCassetto", vm.percorsoCassetto.idCassetto]);
+                            vm.percorsoVassoio = _.find(vm.percorsoCassetto.figli, ["idVassoio", vm.percorsoVassoio.idVassoio]);
+
                             vm.testo = _.trim(vm.inputEditVassoio) + " (" +
                                vm.percorsoSala.nome + "/" +
                                vm.percorsoArmadio.nome + "/" +
@@ -821,6 +860,11 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idVassoio": nodoInserito.id, "nome": _.trim(vm.inputInsertVassoio) };
+
+                            vm.percorsoSala = _.find(vm.datiAlbero, ["idSala", vm.percorsoSala.idSala]);
+                            vm.percorsoArmadio = _.find(vm.percorsoSala.figli, ["idArmadio", vm.percorsoArmadio.idArmadio]);
+                            vm.percorsoCassetto = _.find(vm.percorsoArmadio.figli, ["idCassetto", vm.percorsoCassetto.idCassetto]);
+                            vm.percorsoVassoio = _.find(vm.percorsoCassetto.figli, ["idVassoio", vm.percorsoVassoio.idVassoio]);
 
                             vm.testo = _.trim(vm.inputInsertVassoio) + " (" +
                                 vm.percorsoSala.nome + "/" +

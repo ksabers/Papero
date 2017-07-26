@@ -12,6 +12,9 @@ namespace Papero.Models
 {
     public interface ITassonomiaRepository
     {
+
+        #region Get
+
         /// <summary>
         /// Legge la struttura della tassonomia e la restituisce in formato albero
         /// </summary>
@@ -34,5 +37,16 @@ namespace Papero.Models
 
         IEnumerable<Sottospecie> LeggiSottospecie();
         IEnumerable<Sottospecie> LeggiSottospecie(int idSottospecie);
+
+        #endregion
+
+        #region Put
+
+        void PutFamiglia(Famiglie famiglia);
+        void PutSottofamiglia(Sottofamiglie sottofamiglia);
+        void PutTribu(Tribu tribu);
+
+        #endregion
+
     }
 }

@@ -29,6 +29,7 @@ namespace Papero.Models
             _localizzatore = localizzatore;
         }
 
+        #region Get
         public IEnumerable<Famiglie> LeggiAlbero()
         {
             _log.LogInformation("Chiamata di _contesto.Famiglie.ToList() con Include e ThenInclude");
@@ -182,6 +183,48 @@ namespace Papero.Models
                 .OrderBy(specie => specie.Nome)
                 .ToList();
         }
+
+        #endregion
+
+        #region Put
+
+        public void PutFamiglia(Famiglie famiglia)
+        {
+            try
+            {
+                _contesto.Update(famiglia);
+            }
+            catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+            }
+        }
+
+        public void PutSottofamiglia(Sottofamiglie sottofamiglia)
+        {
+            try
+            {
+                _contesto.Update(sottofamiglia);
+            }
+            catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+            }
+        }
+
+        public void PutTribu(Tribu tribu)
+        {
+            try
+            {
+                _contesto.Update(tribu);
+            }
+            catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+            }
+        }
+
+        #endregion
+
+
+
 
         //public IEnumerable<Classificatori> LeggiClassificatori()
         //{

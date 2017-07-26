@@ -29,6 +29,7 @@
                              ng-cloak
                              tree-model="vm.datiAlbero"
                              options="vm.opzioniAlbero"
+                             selected-node="vm.selectedNode"
                              on-selection="vm.nodoSelezionato(node, $path(), selected)">
                     <span ng-class="node.passeriforme?'text-danger':''">{{node.nome}}</span>
                 </treecontrol>
@@ -344,7 +345,7 @@
                             <div class="form-group">
                                 <label for="testoElencoClassificatori" class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Classificatori"]:</label>
                                 <div class="col-lg-6">
-                                    <span id="testoElencoClassificatori" class="text-primary"><strong>{{vm.stringaElencoAutori}}</strong></span>
+                                    <span id="testoElencoClassificatori" class="text-primary"><strong>{{vm.stringaElencoClassificatori}}</strong></span>
                                 </div>
                             </div>
                         </div>

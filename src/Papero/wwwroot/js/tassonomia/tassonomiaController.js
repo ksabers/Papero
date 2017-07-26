@@ -251,7 +251,7 @@
                 esisteFamigliaDoppia = false
             }
             else {
-                if (funzioni.confrontaStringhe(vm.percorsoFamiglia.nome, vm.inputEditFamiglia)) {
+                if (funzioni.confrontaStringhe(vm.selectedNode.nome, vm.inputEditFamiglia)) {
                     esisteFamigliaDoppia = false
                 }
                 else {
@@ -259,7 +259,7 @@
                 }
             };
 
-            passeriformeDoppio = (vm.passeriforme == vm.percorsoFamiglia.passeriforme);
+            passeriformeDoppio = (vm.passeriforme == vm.selectedNode.passeriforme);
 
             if (passeriformeDoppio) {
                 vm.pulsanteEditFamigliaDisabilitato = (_.trim(vm.inputEditFamiglia) == "" ||
@@ -271,7 +271,41 @@
                                                        _.trim(vm.inputEditFamiglia) == "-" ||
                                                        esisteFamigliaDoppia);
             }
-        }
+        };
+
+        vm.editFamiglia = function editFamiglia() {
+
+            $http.put("/api/famiglie",
+                {
+                    "id": vm.percorsoFamiglia.id,
+                    "nome": _.toUpper(_.trim(vm.inputEditFamiglia)),
+                    "passeriforme": vm.passeriforme
+                })
+                .then(function (response) {
+                    $http.get("/api/albero")
+                        .then(function (response) {
+                            vm.datiAlbero = response.data;
+                            vm.selectedNode = {
+                                "id": vm.percorsoFamiglia.id,
+                                "nome": _.toUpper(_.trim(vm.inputEditFamiglia)),
+                                "passeriforme": vm.passeriforme
+                            };
+
+                            vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
+
+                            vm.testo = _.toUpper(_.trim(vm.inputEditFamiglia));
+                            vm.inputEditFamiglia = _.toUpper(_.trim(vm.inputEditFamiglia));
+
+                            vm.pulsanteEditFamigliaDisabilitato = true;
+                        });
+
+                }, function () {
+                    alert("Errore non gestito durante l'editazione");
+                })
+                .finally(function () {
+
+                })
+        };
 
 //#endregion
 
@@ -290,6 +324,42 @@
             };
         }
 
+        vm.editSottofamiglia = function editSottofamiglia() {
+
+            $http.put("/api/sottofamiglie",
+                {
+                    "id": vm.percorsoSottofamiglia.id,
+                    "famigliaId": vm.percorsoSottofamiglia.famigliaId,
+                    "nome": _.upperFirst(_.trim(vm.inputEditSottofamiglia))
+                })
+                .then(function (response) {
+                    $http.get("/api/albero")
+                        .then(function (response) {
+                            vm.datiAlbero = response.data;
+                            vm.selectedNode = {
+                                "id": vm.percorsoSottofamiglia.id,
+                                "famigliaId": vm.percorsoSottofamiglia.famigliaId,
+                                "nome": _.upperFirst(_.trim(vm.inputEditSottofamiglia)),
+                                "famiglia": null
+                            };
+
+                            vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
+                            vm.percorsoSottofamiglia = _.find(vm.percorsoFamiglia.figli, ["id", vm.percorsoSottofamiglia.id]);
+
+                            vm.testo = _.upperFirst(_.trim(vm.inputEditSottofamiglia));
+                            vm.inputEditSottofamiglia = vm.testo;
+
+                            vm.pulsanteEditSottofamigliaDisabilitato = true;
+                        });
+
+                }, function () {
+                    alert("Errore non gestito durante l'editazione");
+                })
+                .finally(function () {
+
+                })
+        };
+
 //#endregion
 
 //#region Funzioni Tribù
@@ -307,20 +377,98 @@
             };
         }
 
+        vm.editTribu = function editTribu() {
+
+            $http.put("/api/tribu",
+                {
+                    "id": vm.percorsoTribu.id,
+                    "sottofamigliaId": vm.percorsoTribu.sottofamigliaId,
+                    "nome": _.upperFirst(_.trim(vm.inputEditTribu))
+                })
+                .then(function (response) {
+                    $http.get("/api/albero")
+                        .then(function (response) {
+                            vm.datiAlbero = response.data;
+                            vm.selectedNode = {
+                                "id": vm.percorsoTribu.id,
+                                "sottofamigliaId": vm.percorsoTribu.sottofamigliaId,
+                                "nome": _.upperFirst(_.trim(vm.inputEditTribu)),
+                                "sottofamiglia": null
+                            };
+                            vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
+                            vm.percorsoSottofamiglia = _.find(vm.percorsoFamiglia.figli, ["id", vm.percorsoSottofamiglia.id]);
+                            vm.percorsoTribu = _.find(vm.percorsoSottofamiglia.figli, ["id", vm.percorsoTribu.id]);;
+
+                            vm.testo = _.upperFirst(_.trim(vm.inputEditTribu));
+                            vm.inputEditTribu = vm.testo;
+
+                            vm.pulsanteEditTribuDisabilitato = true;
+                        });
+
+                }, function () {
+                    alert("Errore non gestito durante l'editazione");
+                })
+                .finally(function () {
+
+                })
+        };
+
 //#endregion
 
+//#region Funzioni Generi
+
+        vm.verificaEditGenere = function verificaEditGenere() {
+
+            var genereDoppio = _.find(vm.percorsoTribu.figli, function (genere) { return funzioni.confrontaStringhe(genere.nome, vm.inputEditGenere) });
+
+            vm.pulsanteEditGenereDisabilitato = (_.trim(vm.inputEditGenere) == "" ||
+                                                 _.trim(vm.inputEditGenere) == "-" ||
+                                                 genereDoppio);
+
+            if (_.trim(vm.inputEditGenere) == "-") {
+                vm.inputEditGenere = "";
+            };
+        }
+
+//#endregion
+
+//#region Funzioni Specie
+
+        vm.verificaEditSpecie = function verificaEditSpecie() {
+
+            var specieDoppia = _.find(vm.percorsoGenere.figli, function (specie) { return funzioni.confrontaStringhe(specie.nome, vm.inputEditSpecie) });
+
+            vm.pulsanteEditSpecieDisabilitato = (_.trim(vm.inputEditSpecie) == "" ||
+                                                 _.trim(vm.inputEditSpecie) == "-" ||
+                                                 specieDoppia);
+
+            if (_.trim(vm.inputEditSpecie) == "-") {
+                vm.inputEditSpecie = "";
+            };
+        }
+
+//#endregion
 
 //#region Funzioni Sottospecie
 
         vm.verificaEditSottospecie = function verificaEditSottospecie() {
             vm.aggiornaElencoClassificatori();
+
+            vm.pulsanteEditSottospecieDisabilitato = (_.trim(vm.inputEditSottospecie) == "" ||
+                                                      _.trim(vm.inputEditSottospecie) == "-" ||
+                                                      _.trim(vm.inputEditAnnoClassificazione) == "" ||
+                                                      vm.stringaElencoClassificatori == "-");
+
+            if (_.trim(vm.inputEditSottospecie) == "-") {
+                vm.inputEditSottospecie = "";
+            };
         }
 
         vm.aggiungiClassificatore = function aggiungiClassificatore() {
             vm.datiTabellaClassificatori.push(vm.classificatoreSelezionato);
             aggiornaDropdownClassificatori();
-            vm.aggiornaElencoClassificatori();
-            vm.classificatoreSelezionato = vm.datiDropdownClassificatori[0];
+            vm.verificaEditSottospecie();
+            vm.classificatoreSelezionato = vm.dropdownClassificatori[0];
         }
 
         function aggiornaDropdownClassificatori() {
@@ -347,7 +495,7 @@
             arrayRiordinato = arrayRiordinato.concat(arrayPrimaParte, elementoDaSpostare, elementoPrecedente, arraySecondaParte);
 
             vm.datiTabellaClassificatori = arrayRiordinato;
-            vm.aggiornaElencoClassificatori();
+            vm.verificaEditSottospecie();
         };
 
         vm.spostaGiu = function spostaGiu(indice) {
@@ -363,13 +511,13 @@
             arrayRiordinato = arrayRiordinato.concat(arrayPrimaParte, elementoSuccessivo, elementoDaSpostare, arraySecondaParte);
 
             vm.datiTabellaClassificatori = arrayRiordinato;
-            vm.aggiornaElencoClassificatori();
+            vm.verificaEditSottospecie();
         };
 
         vm.rimuoviClassificatore = function rimuoviClassificatore(classificatoreSelezionato) {
             vm.datiTabellaClassificatori = _.remove(vm.datiTabellaClassificatori, function (classificatore) { return classificatore.id != classificatoreSelezionato.id });
             aggiornaDropdownClassificatori();
-            vm.aggiornaElencoClassificatori();
+            vm.verificaEditSottospecie();
         };
 
         vm.aggiornaElencoClassificatori = function aggiornaElencoClassificatori() {
@@ -407,7 +555,7 @@
                 elenco = "-"
             };
 
-            vm.stringaElencoAutori = elenco;
+            vm.stringaElencoClassificatori = elenco;
             serializzazione = "";
             for (var i = 0; i < lunghezza; i++) {
                 serializzazione += vm.datiTabellaClassificatori[i].id + ",";
@@ -419,7 +567,6 @@
         };
 
 //#endregion
-
 
         $http.get("/api/albero")
             .then(function (response) {

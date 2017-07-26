@@ -463,6 +463,13 @@
                                 "iso31661Alpha3": _.trim(vm.inputEditiso31661Alpha3),
                                 "iso31661": _.trim(vm.inputEditiso31661)
                             };
+
+                            vm.percorsoNazione = _.find(vm.datiAlbero, ["idNazione", vm.percorsoNazione.idNazione]);
+                            vm.percorsoRegione = null;
+                            vm.percorsoProvincia = null;
+                            vm.percorsoCitta = null;
+                            vm.percorsoLocalita = null;
+
                             vm.testo = _.trim(vm.inputEditNazione);
                             vm.pulsanteEditNazioneDisabilitato = true;
                         });
@@ -490,6 +497,12 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idNazione": nodoInserito.id, "nome": _.trim(vm.inputInsertNazione) };
+
+                            vm.percorsoNazione = _.find(vm.datiAlbero, ["idNazione", vm.percorsoNazione.idNazione]);
+                            vm.percorsoRegione = null;
+                            vm.percorsoProvincia = null;
+                            vm.percorsoCitta = null;
+                            vm.percorsoLocalita = null;
 
                             vm.testo = _.trim(vm.inputInsertNazione);
 
@@ -520,6 +533,13 @@
                                 .then(function (response) {
                                     numeroEsemplari = response.data.length;
                                     vm.selectedNode = vm.datiAlbero[0];
+
+                                    vm.percorsoNazione = _.find(vm.datiAlbero, ["idNazione", vm.percorsoNazione.idNazione]);
+                                    vm.percorsoRegione = null;
+                                    vm.percorsoProvincia = null;
+                                    vm.percorsoCitta = null;
+                                    vm.percorsoLocalita = null;
+
                                     vm.testo = vm.selectedNode.nome;
 
                                     vm.panelCancellaNazioneVisibile = false;
@@ -625,6 +645,13 @@
                                 "nazioneId": vm.percorsoNazione.idNazione,
                                 "nome": _.trim(vm.inputEditRegione)
                             };
+
+                            vm.percorsoNazione = _.find(vm.datiAlbero, ["idNazione", vm.percorsoNazione.idNazione]);
+                            vm.percorsoRegione = _.find(vm.percorsoNazione.figli, ["idRegione", vm.percorsoRegione.idRegione]);
+                            vm.percorsoProvincia = null;
+                            vm.percorsoCitta = null;
+                            vm.percorsoLocalita = null;
+
                             vm.testo = _.trim(vm.inputEditRegione) +
                                 " (" + vm.percorsoNazione.nome + "/" +
                                 _.trim(vm.inputEditRegione) + ")";
@@ -652,6 +679,12 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idRegione": nodoInserito.id, "nome": _.trim(vm.inputInsertRegione) };
+
+                            vm.percorsoNazione = _.find(vm.datiAlbero, ["idNazione", vm.percorsoNazione.idNazione]);
+                            vm.percorsoRegione = _.find(vm.percorsoNazione.figli, ["idRegione", vm.percorsoRegione.idRegione]);
+                            vm.percorsoProvincia = null;
+                            vm.percorsoCitta = null;
+                            vm.percorsoLocalita = null;
 
                             vm.testo = _.trim(vm.inputInsertRegione) + " (" +
                                 vm.percorsoNazione.nome + "/" +
@@ -853,6 +886,13 @@
                                 "provincia": _.trim(vm.inputEditProvincia),
                                 "siglaProvincia": _.trim(vm.inputEditSiglaProvincia)
                             };
+
+                            vm.percorsoNazione = _.find(vm.datiAlbero, ["idNazione", vm.percorsoNazione.idNazione]);
+                            vm.percorsoRegione = _.find(vm.percorsoNazione.figli, ["idRegione", vm.percorsoRegione.idRegione]);
+                            vm.percorsoProvincia = _.find(vm.percorsoRegione.figli, ["idProvincia", vm.percorsoProvincia.idProvincia]);
+                            vm.percorsoCitta = null;
+                            vm.percorsoLocalita = null;
+
                             vm.testo = _.trim(vm.inputEditProvincia) +
                                 " (" + vm.percorsoNazione.nome + "/" +
                                 vm.percorsoRegione.nome + "/" +
@@ -881,6 +921,12 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idProvincia": nodoInserito.id, "nome": _.trim(vm.inputInsertProvincia) };
+
+                            vm.percorsoNazione = _.find(vm.datiAlbero, ["idNazione", vm.percorsoNazione.idNazione]);
+                            vm.percorsoRegione = _.find(vm.percorsoNazione.figli, ["idRegione", vm.percorsoRegione.idRegione]);
+                            vm.percorsoProvincia = _.find(vm.percorsoRegione.figli, ["idProvincia", vm.percorsoProvincia.idProvincia]);
+                            vm.percorsoCitta = null;
+                            vm.percorsoLocalita = null;
 
                             vm.testo = _.trim(vm.inputInsertProvincia) + " (" +
                                 vm.percorsoNazione.nome + "/" +
@@ -1081,6 +1127,13 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idCitta": vm.percorsoCitta.idCitta, "nome": _.trim(vm.inputEditCitta) };
+
+                            vm.percorsoNazione = _.find(vm.datiAlbero, ["idNazione", vm.percorsoNazione.idNazione]);
+                            vm.percorsoRegione = _.find(vm.percorsoNazione.figli, ["idRegione", vm.percorsoRegione.idRegione]);
+                            vm.percorsoProvincia = _.find(vm.percorsoRegione.figli, ["idProvincia", vm.percorsoProvincia.idProvincia]);
+                            vm.percorsoCitta = _.find(vm.percorsoProvincia.figli, ["idCitta", vm.percorsoCitta.idCitta]);
+                            vm.percorsoLocalita = null;
+
                             vm.testo = _.trim(vm.inputEditCitta) + " (" +
                                vm.percorsoNazione.nome + "/" +
                                vm.percorsoRegione.nome + "/" +
@@ -1111,6 +1164,12 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idCitta": nodoInserito.id, "nome": _.trim(vm.inputInsertCitta) };
+
+                            vm.percorsoNazione = _.find(vm.datiAlbero, ["idNazione", vm.percorsoNazione.idNazione]);
+                            vm.percorsoRegione = _.find(vm.percorsoNazione.figli, ["idRegione", vm.percorsoRegione.idRegione]);
+                            vm.percorsoProvincia = _.find(vm.percorsoRegione.figli, ["idProvincia", vm.percorsoProvincia.idProvincia]);
+                            vm.percorsoCitta = _.find(vm.percorsoProvincia.figli, ["idCitta", vm.percorsoCitta.idCitta]);
+                            vm.percorsoLocalita = null;
 
                             vm.testo = _.trim(vm.inputInsertCitta) + " (" +
                                 vm.percorsoNazione.nome + "/" +
@@ -1301,6 +1360,13 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idLocalita": vm.percorsoCitta.idCitta, "nome": _.trim(vm.inputEditLocalita) };
+
+                            vm.percorsoNazione = _.find(vm.datiAlbero, ["idNazione", vm.percorsoNazione.idNazione]);
+                            vm.percorsoRegione = _.find(vm.percorsoNazione.figli, ["idRegione", vm.percorsoRegione.idRegione]);
+                            vm.percorsoProvincia = _.find(vm.percorsoRegione.figli, ["idProvincia", vm.percorsoProvincia.idProvincia]);
+                            vm.percorsoCitta = _.find(vm.percorsoProvincia.figli, ["idCitta", vm.percorsoCitta.idCitta]);
+                            vm.percorsoLocalita = _.find(vm.percorsoCitta.figli, ["idLocalita", vm.percorsoLocalita.idLocalita]);
+
                             vm.testo = _.trim(vm.inputEditLocalita) + " (" +
                                vm.percorsoNazione.nome + "/" +
                                vm.percorsoRegione.nome + "/" +
@@ -1332,6 +1398,12 @@
                         .then(function (response) {
                             vm.datiAlbero = response.data;
                             vm.selectedNode = { "idLocalita": nodoInserito.id, "nome": _.trim(vm.inputInsertLocalita) };
+
+                            vm.percorsoNazione = _.find(vm.datiAlbero, ["idNazione", vm.percorsoNazione.idNazione]);
+                            vm.percorsoRegione = _.find(vm.percorsoNazione.figli, ["idRegione", vm.percorsoRegione.idRegione]);
+                            vm.percorsoProvincia = _.find(vm.percorsoRegione.figli, ["idProvincia", vm.percorsoProvincia.idProvincia]);
+                            vm.percorsoCitta = _.find(vm.percorsoProvincia.figli, ["idCitta", vm.percorsoCitta.idCitta]);
+                            vm.percorsoLocalita = _.find(vm.percorsoCitta.figli, ["idLocalita", vm.percorsoLocalita.idLocalita]);
 
                             vm.testo = _.trim(vm.inputInsertLocalita) + " (" +
                                 vm.percorsoNazione.nome + "/" +

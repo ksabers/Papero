@@ -112,6 +112,44 @@ namespace Papero.Controllers
 
         #endregion
 
+        #region Put
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpPut("/api/famiglie")]
+        public async Task<IActionResult> PutFamiglia([FromBody]Famiglie famiglia)
+        {
+            _repository.PutFamiglia(famiglia);
+
+            if (await _repositoryComune.SalvaModifiche())
+                return Ok($"api/famiglie/{famiglia.Id}");
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpPut("/api/sottofamiglie")]
+        public async Task<IActionResult> PutSottofamiglia([FromBody]Sottofamiglie sottofamiglia)
+        {
+            _repository.PutSottofamiglia(sottofamiglia);
+
+            if (await _repositoryComune.SalvaModifiche())
+                return Ok($"api/sottofamiglie/{sottofamiglia.Id}");
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpPut("/api/tribu")]
+        public async Task<IActionResult> PutTribu([FromBody]Tribu tribu)
+        {
+            _repository.PutTribu(tribu);
+
+            if (await _repositoryComune.SalvaModifiche())
+                return Ok($"api/tribu/{tribu.Id}");
+            return BadRequest("Errore");
+        }
+
+        #endregion
+
+
         //[Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         //[HttpGet("api/classificatori")]
         //public IActionResult GetClassificatori()
