@@ -237,4 +237,7 @@
   <data name="Specie" xml:space="preserve">
     <value>Espèces</value>
   </data>
+  <data name="Help" xml:space="preserve">
+    <value>Aide en ligne</value>
+  </data>
 </root>

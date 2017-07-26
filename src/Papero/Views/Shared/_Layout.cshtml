@@ -52,6 +52,30 @@
 
 <body class="navbar-fixed sidebar-nav fixed-nav">
 
+    @if (ViewBag.PaginaHelp != "")
+    {
+        var percorso = "~/Views/Help/" + ViewBag.PaginaHelp + "." + System.Globalization.CultureInfo.CurrentCulture.Name + ".cshtml";
+
+        <div class="modal fade" id="modaleHelpOnline" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">@localizzatore["Help"]<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i></h3>
+                            </div>
+                            <div class="panel-body">                                  
+                                    @Html.Partial((string)percorso)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
     <header class="navbar">
         <div class="container-fluid">
             <div class="navbar-brand text-primary">
@@ -63,6 +87,18 @@
             </div>
 
             <ul class="nav navbar-nav pull-right hidden-md-down">
+                @if (ViewBag.PaginaHelp != "")
+                {
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           role="button"
+                           data-toggle="modal"
+                           data-target="#modaleHelpOnline">
+                            <i class="fa fa-question-circle fa-fw text-muted"></i> <span class="text-muted">@localizzatore["Help"]</span>
+                        </a>
+                    </li>
+                }
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle nav-link"
                        data-toggle="dropdown"
@@ -130,7 +166,7 @@
                             </a>
                         </div>
                     </li>
-                 }
+                }
             </ul>
         </div>
     </header>
@@ -157,21 +193,21 @@
                 }
 
                 @if ((await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori"))
-                 ||
-                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollezioni"))
-                 ||
-                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaSpedizioni"))
-                 ||
-                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaRaccoglitori"))
-                 ||
-                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaDeterminatori"))
-                 ||
-                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaPreparatori"))
-                 ||
-                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollocazione"))
-                 ||
-                 (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaGeografia"))
-                )
+         ||
+         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollezioni"))
+         ||
+         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaSpedizioni"))
+         ||
+         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaRaccoglitori"))
+         ||
+         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaDeterminatori"))
+         ||
+         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaPreparatori"))
+         ||
+         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollocazione"))
+         ||
+         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaGeografia"))
+        )
                 {
                     <li class="nav-item nav-dropdown active">
                         <a class="nav-link nav-dropdown-toggle" href="#">
@@ -252,51 +288,7 @@
                         </ul>
                     </li>
                 }
-
             </ul>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </nav>
     </div>
     <footer class="footer">
@@ -313,45 +305,51 @@
 
     <script>
         var linguaPapero = "@System.Globalization.CultureInfo.CurrentCulture.Name";
-                var stringaLinguaggioDatatables = "@localizzatore["linguaggioDatatables"]";
+        var stringaLinguaggioDatatables = "@localizzatore["linguaggioDatatables"]";
     </script>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
             asp-fallback-test="window.jQuery"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min.js" ></script >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"
             asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
             asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js" ></script >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
     <script src="~/lib/coreui/js/app.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"
             asp-fallback-src="~/lib/angular/angular.min.js"
             asp-fallback-test="window.angular"></script>
-    <script src="~/lib/angular-sanitize/angular-sanitize.min.js" ></script >
+    <script src="~/lib/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="~/lib/angular-tree-control/angular-tree-control.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/fh-3.1.2/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.5/angular-datatables.min.js" ></script >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.5.5/angular-datatables.min.js"></script>
     <script src="~/lib/angular-ui-select/dist/select.min.js"></script>
 
-    <script src="~/js/papero-app.js" ></script >
+    <script src="~/js/papero-app.js"></script>
     <script src="~/js/funzioni.js"></script>
 
     @RenderSection("scripts", false)
 
-                    @*Attivazione dei tooltip e dei popover nell'intera applicazione*@
-                    <script>
-                        $(document).ready(function () {
-                            $('[data-toggle="tooltip"]').tooltip();
-                            $('[data-toggle="popover"]').popover();
-                        });
-                    </script>
+    @*Attivazione dei tooltip e dei popover nell'intera applicazione*@
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
 
 </body>
+
+
+
+
+
+
 
 </html>

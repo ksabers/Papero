@@ -150,9 +150,9 @@ namespace Papero
             servizi.Configure<RequestLocalizationOptions>(opzioni =>  // Configurazione della localizzazione
             {
                 var lingueSupportate = new[]  // Elenco delle lingue supportate. Per aggiungere una lingua, aggiungere un new CultureInfo("") con il codice della lingua (es. "de")
-                {                             // e poi ovviamente aggiungere tutti i file di risorse. Va aggiornata anche la dropdown in _Layout.cshtml
-                    new CultureInfo("it"),
-                    new CultureInfo("en-US"),
+                {                             // e poi ovviamente aggiungere tutti i file di risorse. Va aggiornata anche la dropdown in _Layout.cshtml e vanno aggiunte le viste
+                    new CultureInfo("it"),    // dell'help contestuale in ~/Views/Help/ - ATTENZIONE che vanno sempre aggiunte tutte: se una pagina di help localizzato manca, ci sarà 
+                    new CultureInfo("en-US"), // un errore al momento di richiamarla
                     new CultureInfo("fr")
                 };
 
