@@ -7,6 +7,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Papero.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -184,6 +185,37 @@ namespace Papero.Models
                 .ToList();
         }
 
+        public SottospecieViewModel LeggiSottospecieConAutori(int idSottospecie)
+        {
+             return _contesto.Classificazioni
+                            .Include(classificazione => classificazione.Sottospecie)
+                            .Include(classificazione => classificazione.Classificatore)
+                            .Where(classificazione => classificazione.SottospecieId == idSottospecie)
+                            .Select(classificazione => new SottospecieViewModel
+                            {
+                                Id = classificazione.SottospecieId,
+                                SpecieId = classificazione.Sottospecie.SpecieId,
+                                Nome = classificazione.Sottospecie.Nome,
+                                AnnoClassificazione = classificazione.Sottospecie.AnnoClassificazione,
+                                ClassificazioneOriginale = classificazione.Sottospecie.ClassificazioneOriginale,
+                                NomeItaliano = classificazione.Sottospecie.NomeItaliano,
+                                NomeInglese = classificazione.Sottospecie.NomeInglese,
+                                ElencoAutori = classificazione.Sottospecie.ElencoAutori,
+                                StatoConservazioneId = classificazione.Sottospecie.StatoConservazioneId,
+                                Classificatori = _contesto.Classificazioni
+                                                 .Where(classificazioneinterna => classificazioneinterna.SottospecieId == idSottospecie)
+                                                 .Select(classificazioneinterna => new ClassificatoreViewModel
+                                                 {
+                                                     Id = classificazioneinterna.ClassificatoreId,
+                                                     Classificatore = classificazioneinterna.Classificatore.Classificatore,
+                                                     Ordinamento = classificazioneinterna.Ordinamento
+                                                 }).OrderBy(classificazioneinterna => classificazioneinterna.Ordinamento).ToList()
+                            })
+                            .FirstOrDefault();
+        }
+
+
+
         #endregion
 
         #region Put
@@ -237,6 +269,48 @@ namespace Papero.Models
             try
             {
                 _contesto.Update(specie);
+            }
+            catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+            }
+        }
+
+        public void PutSottospecieConAutori(SottospecieViewModel sottospecieconautori)
+        {
+            try
+            {
+                // Identifichiamo l'elemento su cui lavorare
+                var sottospecieDaModificare = _contesto.Sottospecie.Single(sottospecie => sottospecie.Id == sottospecieconautori.Id);
+
+                // Togliamo tutte le classificazioni esistenti per la sottospecie corrente
+                // (più semplice che cercare e modificare le pre-esistenti)
+                _contesto.Classificazioni
+                    .RemoveRange(_contesto.Classificazioni
+                        .Where(classificazione => classificazione.SottospecieId == sottospecieconautori.Id));
+                _contesto.SaveChanges();
+
+                // Aggiungiamo una alla volta le nuove classificazioni
+                foreach (var classificatore in sottospecieconautori.Classificatori)
+                {
+                    var classificazioneDaAggiungere = new Classificazioni();
+                    classificazioneDaAggiungere.SottospecieId = sottospecieconautori.Id;
+                    classificazioneDaAggiungere.ClassificatoreId = classificatore.Id;
+                    classificazioneDaAggiungere.Ordinamento = classificatore.Ordinamento;
+                    sottospecieDaModificare.Classificazioni.Add(classificazioneDaAggiungere);
+                }
+
+                // Aggiorniamo i campi della sottospecie
+                sottospecieDaModificare.Nome = sottospecieconautori.Nome;
+                sottospecieDaModificare.AnnoClassificazione = sottospecieconautori.AnnoClassificazione;
+                sottospecieDaModificare.ClassificazioneOriginale = sottospecieconautori.ClassificazioneOriginale;
+                sottospecieDaModificare.NomeItaliano = sottospecieconautori.NomeItaliano;
+                sottospecieDaModificare.NomeInglese = sottospecieconautori.NomeInglese;
+                sottospecieDaModificare.ElencoAutori = sottospecieconautori.ElencoAutori;
+                sottospecieDaModificare.StatoConservazioneId = sottospecieconautori.StatoConservazioneId;
+
+                // ...e infine salviamo nel database
+                _contesto.Update(sottospecieDaModificare);
+
             }
             catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
             {

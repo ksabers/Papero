@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Papero.Models;
+using Papero.ViewModels;
 using System.Threading.Tasks;
 
 namespace Papero.Controllers
@@ -109,6 +110,14 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiSottospecie(idSottospecie));
         }
 
+        [Authorize(Policy = "VisualizzaTassonomia")]
+        [HttpGet("api/sottospecieconautori/{idSottospecie}")]
+        public IActionResult GetSottospecieConAutori(int idSottospecie)
+        {
+            return Ok(_repository.LeggiSottospecieConAutori(idSottospecie));
+        }
+
+
         #endregion
 
         #region Put
@@ -165,6 +174,17 @@ namespace Papero.Controllers
 
             if (await _repositoryComune.SalvaModifiche())
                 return Ok($"api/specie/{specie.Id}");
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpPut("/api/sottospecieconautori")]
+        public async Task<IActionResult> PutSottospecieConAutori([FromBody]SottospecieViewModel sottospecie)
+        {
+            _repository.PutSottospecieConAutori(sottospecie);
+
+            if (await _repositoryComune.SalvaModifiche())
+                return Ok($"api/sottospecieconautori/{sottospecie.Id}");
             return BadRequest("Errore");
         }
 

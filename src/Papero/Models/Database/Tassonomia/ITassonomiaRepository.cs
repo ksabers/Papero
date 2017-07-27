@@ -37,6 +37,7 @@ namespace Papero.Models
 
         IEnumerable<Sottospecie> LeggiSottospecie();
         IEnumerable<Sottospecie> LeggiSottospecie(int idSottospecie);
+        SottospecieViewModel LeggiSottospecieConAutori(int idSottospecie);
 
         #endregion
 
@@ -47,6 +48,7 @@ namespace Papero.Models
         void PutTribu(Tribu tribu);
         void PutGenere(Generi genere);
         void PutSpecie(Specie specie);
+        void PutSottospecieConAutori(SottospecieViewModel sottospecie);
 
         #endregion
 
