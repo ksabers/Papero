@@ -25,8 +25,14 @@
                                                                  // (come da specifiche delle angular datatables)
                                                                  // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
 
+        vm.opzioniTabellaElencoSpecieClassificatori = DTOptionsBuilder.newOptions()
+            .withOption('searching', false)
+            .withOption('paging', false)
+            .withOption('info', false)
+            .withOption('ordering', false)
+            .withLanguageSource(stringaLinguaggioDatatables);
 
-        vm.opzioniTabellaElencoSpecieClassificatori = DTOptionsBuilder.newOptions()   // Opzioni di visualizzazione della angular datatable
+        vm.opzioniTabellaElencoSottospecieClassificatori = DTOptionsBuilder.newOptions()
             .withOption('searching', false)
             .withOption('paging', false)
             .withOption('info', false)
@@ -185,6 +191,8 @@
                                 vm.panelEditSpecieVisibile = false;
                                 vm.panelEditSottospecieVisibile = true;
                                 vm.panelInsertSpecieVisibile = false;
+                                vm.panelInsertSottospecieVisibile = false;
+                                vm.pulsanteInserimentoSottospecieVisibile = true;
 
                                 vm.percorsoFamiglia = percorso[5];             // Memorizziamo i percorsi del nodo selezionato
                                 vm.percorsoSottofamiglia = percorso[4];
@@ -260,6 +268,9 @@
 // #region Variabili Sottospecie
 
         vm.panelEditSottospecieVisibile = false;
+        vm.panelInsertSpecieVisibile = false;
+        vm.pulsanteInserimentoSottospecieVisibile = true;
+        vm.inputInsertSottospecieReadonly = false;
 
 // #endregion
 
@@ -777,6 +788,43 @@
 
 //#region Funzioni Sottospecie
 
+        vm.apriPannelloInserimentoSottospecie = function apriPannelloInserimentoSottospecie() {
+
+            vm.panelEditSottospecieVisibile = false;
+            vm.panelInsertSottospecieVisibile = true;
+            vm.pulsanteInserimentoSottospecieVisibile = false;
+
+            // Questa if serve a forzare l'utente a inserire per prima una sottospecie che abbia il nome della specie:
+            // se nell'elenco dei figli della specie non viene trovata, allora viene obbligatoriamente inserita nella
+            // casella di testo e non può essere cambiata. Se invece esiste già, si può inserire un'altra sottospecie
+            if (_.find(vm.percorsoSpecie.figli, ["nome", vm.percorsoSpecie.nome])) {
+                vm.inputInsertSottospecie = "";
+                vm.inputInsertSottospecieReadonly = false;
+            }
+            else {
+                vm.inputInsertSottospecie = vm.percorsoSpecie.nome;
+                vm.inputInsertSottospecieReadonly = true;
+            };
+        
+            vm.inputInsertSottospecieNomeItaliano = "";
+            vm.inputInsertSottospecieNomeInglese = "";
+            vm.statoDiConservazioneSottospecieSelezionato = _.find(vm.elencoStatiConservazione, ["statoConservazione", "-"]);
+            vm.dropdownSottospecieClassificatori = vm.elencoClassificatori;
+            vm.classificatoreSottospecieSelezionato = vm.elencoClassificatori[0];
+            vm.inputInsertSottospecieAnnoClassificazione = "";
+            vm.sottospecieClassificazioneOriginale = false;
+            vm.datiTabellaSottospecieClassificatori = [];
+            vm.stringaElencoSottospecieClassificatori = "-";
+
+            vm.pulsanteInsertSottospecieDisabilitato = true;
+        };
+
+        vm.annullaInserimentoSottospecie = function annullaInserimentoSottospecie() {
+            vm.panelEditSottospecieVisibile = true;
+            vm.panelInsertSottospecieVisibile = false;
+            vm.pulsanteInserimentoSottospecieVisibile = true;
+        };
+
         vm.verificaEditSottospecie = function verificaEditSottospecie() {
             vm.aggiornaElencoClassificatori();
 
@@ -788,7 +836,121 @@
             if (_.trim(vm.inputEditSottospecie) == "-") {
                 vm.inputEditSottospecie = "";
             };
-        }
+        };
+
+        vm.verificaInsertSottospecie = function verificaInsertSottospecie() {
+            vm.aggiornaElencoSottospecieClassificatori();
+        };
+
+        vm.inserisciSottospecie = function inserisciSottospecie() {
+
+        };
+
+        vm.spostaSuSottospecie = function spostaSuSottospecie(indice) {
+            var arrayRiordinato = [];
+            var arrayPrimaParte = [];
+            var arraySecondaParte = [];
+            var elementoDaSpostare = vm.datiTabellaSottospecieClassificatori[indice];
+            var elementoPrecedente = vm.datiTabellaSottospecieClassificatori[indice - 1];
+
+            arrayPrimaParte = _.dropRight(vm.datiTabellaSottospecieClassificatori, vm.datiTabellaSottospecieClassificatori.length -indice +1);
+            arraySecondaParte = _.drop(vm.datiTabellaSottospecieClassificatori, indice + 1);
+            arrayRiordinato = arrayRiordinato.concat(arrayPrimaParte, elementoDaSpostare, elementoPrecedente, arraySecondaParte);
+
+            vm.datiTabellaSottospecieClassificatori = arrayRiordinato;
+            vm.verificaInsertSottospecie();
+        };
+
+        vm.spostaGiuSottospecie = function spostaGiuSottospecie(indice) {
+            var arrayRiordinato = [];
+            var arrayPrimaParte = [];
+            var arraySecondaParte = [];
+            var elementoDaSpostare = vm.datiTabellaSottospecieClassificatori[indice];
+            var elementoSuccessivo = vm.datiTabellaSottospecieClassificatori[indice + 1];
+
+            arrayPrimaParte = _.dropRight(vm.datiTabellaSottospecieClassificatori, vm.datiTabellaSottospecieClassificatori.length - indice);
+            arraySecondaParte = _.drop(vm.datiTabellaSottospecieClassificatori, indice + 2);
+
+            arrayRiordinato = arrayRiordinato.concat(arrayPrimaParte, elementoSuccessivo, elementoDaSpostare, arraySecondaParte);
+
+            vm.datiTabellaSottospecieClassificatori = arrayRiordinato;
+            vm.verificaInsertSottospecie();
+        };
+
+        vm.aggiungiSottospecieClassificatore = function aggiungiSottospecieClassificatore() {
+            vm.datiTabellaSottospecieClassificatori.push(vm.classificatoreSottospecieSelezionato);
+            aggiornaDropdownSottospecieClassificatori();
+            vm.verificaInsertSottospecie();
+            vm.classificatoreSottospecieSelezionato = vm.dropdownSottospecieClassificatori[0];
+        };
+
+        function aggiornaDropdownSottospecieClassificatori() {
+            var arrayClassificatori = [];   // Array di servizio che serve per tenere l'elenco degli id dei Classificatori selezionati nella tabella. Viene usato per filtrare la dropdown
+            // togliendo i Classificatori già presenti nella tabella.
+
+            for (var i = 0; i < vm.datiTabellaSottospecieClassificatori.length; i++)           // Riempimento dell'array di servizio
+                arrayClassificatori.push(vm.datiTabellaSottospecieClassificatori[i].id);
+
+            vm.dropdownSottospecieClassificatori = _.filter(vm.elencoClassificatori, function (classificatore) { return !arrayClassificatori.includes(classificatore.id) });
+            vm.classificatoreSottospecieSelezionato = vm.dropdownSottospecieClassificatori[0];
+            vm.invalido = vm.datiTabellaSottospecieClassificatori.length == 0;
+        };
+
+        vm.rimuoviClassificatoreSottospecie = function rimuoviClassificatoreSottospecie(classificatoreSelezionato) {
+            vm.datiTabellaSottospecieClassificatori = _.remove(vm.datiTabellaSottospecieClassificatori, function (classificatore) { return classificatore.id != classificatoreSelezionato.id });
+            aggiornaDropdownSottospecieClassificatori();
+            vm.verificaInsertSottospecie();
+        };
+
+        vm.aggiornaElencoSottospecieClassificatori = function aggiornaElencoSottospecieClassificatori() {
+            var elenco = "";
+            var serializzazione = "";
+            if (vm.datiTabellaSottospecieClassificatori == undefined) {  // Questa if serve perché la funzione viene chiamata implicitamente da Angular
+                var lunghezza = 0;                                  // quando si apre il panel, e in quel momento la tabella non è ancora popolata,
+            }                                                       // quindi è undefined e bisogna considerarla come se fosse vuota
+            else {
+                var lunghezza = vm.datiTabellaSottospecieClassificatori.length;
+            }
+
+            var sequenza = 1;
+
+            for (var i = 0; i < lunghezza; i++) {
+                if (sequenza < lunghezza - 1) {
+                    elenco = elenco + vm.datiTabellaSottospecieClassificatori[i].classificatore + ", ";
+                    sequenza += 1;
+                    continue;
+                };
+                if (sequenza == lunghezza - 1) {
+                    elenco = elenco + vm.datiTabellaSottospecieClassificatori[i].classificatore + " & ";
+                    sequenza += 1;
+                    continue;
+                };
+                if (sequenza == lunghezza) {
+                    elenco = elenco + vm.datiTabellaSottospecieClassificatori[i].classificatore;
+                    sequenza += 1;
+                    break;
+                };
+            }
+
+            if (vm.inputInsertSottospecieAnnoClassificazione != null)
+                elenco = elenco + ", " + vm.inputInsertSottospecieAnnoClassificazione.toString();
+
+            if (!vm.sottospecieClassificazioneOriginale) {
+                elenco = "(" + elenco + ")";
+            }
+
+            if (lunghezza == 0) {
+                elenco = "-"
+            };
+
+            vm.stringaElencoSottospecieClassificatori = elenco;
+            serializzazione = "";
+            for (var i = 0; i < lunghezza; i++) {
+                serializzazione += vm.datiTabellaSottospecieClassificatori[i].id + ",";
+            };
+            serializzazione = "[" + serializzazione.substring(0, serializzazione.length - 1) + "]";
+
+        };
 
         vm.aggiungiClassificatore = function aggiungiClassificatore() {
             vm.datiTabellaClassificatori.push(vm.classificatoreSelezionato);

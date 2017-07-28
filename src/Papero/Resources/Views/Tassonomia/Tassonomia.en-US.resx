@@ -153,6 +153,9 @@
   <data name="Inserisci" xml:space="preserve">
     <value>Submit</value>
   </data>
+  <data name="Inserisci nuova Sottospecie" xml:space="preserve">
+    <value>Insert new Subspecies</value>
+  </data>
   <data name="Inserisci nuova Specie" xml:space="preserve">
     <value>Insert new Species</value>
   </data>
@@ -185,6 +188,9 @@
   </data>
   <data name="Nuova" xml:space="preserve">
     <value>New</value>
+  </data>
+  <data name="Nuova Sottospecie" xml:space="preserve">
+    <value>New Subspecies</value>
   </data>
   <data name="Nuova Specie" xml:space="preserve">
     <value>New Species</value>

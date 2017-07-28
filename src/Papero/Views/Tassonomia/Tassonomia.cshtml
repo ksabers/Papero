@@ -61,8 +61,19 @@
                                 </a>
                             }
                         </span>
-                        <span ng-show="vm.livello == 6" ng-cloak>
+                    <span ng-show="vm.livello == 6 && vm.panelInsertSottospecieVisibile == true" ng-cloak>@localizzatore["Inserisci nuova Sottospecie"]</span>
+                        <span ng-show="vm.livello == 6 && vm.panelInsertSottospecieVisibile == false" ng-cloak>
                             @localizzatore["Sottospecie"]: {{vm.testo}}
+                            @if (await autorizzatore.AuthorizeAsync(User, "EditTassonomia"))
+                            {
+                                <text>&nbsp;&nbsp;&nbsp;</text>
+                                <a href="#"
+                                   class="btn btn-success"
+                                   ng-show="vm.pulsanteInserimentoSottospecieVisibile"
+                                   ng-click="vm.apriPannelloInserimentoSottospecie()">
+                                    <i class="fa fa-plus"></i> @localizzatore["Nuova Sottospecie"]
+                                </a>
+                            }
                         </span>
 </h3>
             </div>
@@ -639,6 +650,205 @@
 
                 @*Pannello delle Sottospecie*@
                 <div ng-show="vm.livello==6">
+
+                    @*Insert Sottospecie*@
+                    <div class="panel-body" ng-show="vm.panelInsertSottospecieVisibile">
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertSottospecie"
+                                        class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nuova Sottospecie"]:</label>
+                                    <div class="col-lg-4">
+                                        <input type="text"
+                                               class="form-control"
+                                               ng-model="vm.inputInsertSottospecie"
+                                               ng-change="vm.verificaInsertSottospecie()"
+                                               ng-readonly="vm.inputInsertSottospecieReadonly"
+                                                id="inputInsertSottospecie"
+                                                name="inputInsertSottospecie" />
+                                    </div>
+                                </div>
+                            </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertSottospecieNomeItaliano"
+                                        class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome Italiano"]:</label>
+                                    <div class="col-lg-4">
+                                        <input type="text"
+                                                class="form-control"
+                                                ng-model="vm.inputInsertSottospecieNomeItaliano"
+                                                ng-change="vm.verificaInsertSottospecie()"
+                                                id="inputInsertSottospecieNomeItaliano"
+                                                name="inputInsertSottospecieNomeItaliano" />
+                                    </div>
+                                </div>
+                            </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputInsertSottospecieNomeInglese"
+                                        class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Nome Inglese"]:</label>
+                                    <div class="col-lg-4">
+                                        <input type="text"
+                                                class="form-control"
+                                                ng-model="vm.inputInsertSottospecieNomeInglese"
+                                                ng-change="vm.verificaInsertSottospecie()"
+                                                id="inputInsertSottospecieNomeInglese"
+                                                name="inputInsertSottospecieNomeInglese" />
+                                    </div>
+                                </div>
+                            </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="uiselectSottospecieStatoConservazione"
+                                        class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Stato di Conservazione"]:</label>
+                                    <div class="col-lg-4">
+                                        <ui-select ng-model="vm.statoDiConservazioneSottospecieSelezionato"
+                                                    ng-change="vm.verificaInsertSottospecie()"
+                                                    id="uiselectSottospecieStatoConservazione">
+                                            <ui-select-match>
+                                                <span ng-bind="$select.selected.statoConservazione + ($select.selected.sigla=='-'?'':' (' + $select.selected.sigla + ')')"></span>
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="stato in (vm.elencoStatiConservazione | filter: $select.search) track by stato.id">
+                                                <span ng-bind="stato.statoConservazione + (stato.sigla=='-'?'':' (' + stato.sigla + ')')"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </div>
+                        <hr>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="testoElencoSottospecieClassificatori"
+                                        class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Classificatori"]:</label>
+                                    <div class="col-lg-6">
+                                        <span id="testoElencoSottospecieClassificatori"
+                                                class="text-primary"><strong>{{vm.stringaElencoSottospecieClassificatori}}</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputSottospecieAnnoClassificazione"
+                                        class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Anno Classificazione"]:</label>
+                                    <div class="col-lg-2">
+                                        <input type="number"
+                                                min="1700" max="2100"
+                                                class="form-control"
+                                                ng-model="vm.inputInsertSottospecieAnnoClassificazione"
+                                                ng-change="vm.verificaInsertSottospecie()"
+                                                id="inputSottospecieAnnoClassificazione"
+                                                name="inputSottospecieAnnoClassificazione"
+                                                required />
+                                    </div>
+                                </div>
+                            </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputSottospecieClassificazioneOriginale"
+                                        class="col-lg-2 col-lg-offset-2 control-label text-primary">@localizzatore["Classificazione Originale"]:</label>
+                                    <div class="col-lg-1">
+                                        <input type="checkbox"
+                                                class="form-control"
+                                                ng-model="vm.sottospecieClassificazioneOriginale"
+                                                ng-change="vm.verificaInsertSottospecie()"
+                                                id="inputSottospecieClassificazioneOriginale"
+                                                name="inputSottospecieClassificazioneOriginale" />
+                                    </div>
+                                </div>
+                            </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="uiselectSottospecieClassificatore"
+                                        class="col-lg-3 col-lg-offset-2 control-label text-primary">@localizzatore["Classificatore da aggiungere"]:</label>
+                                    <div class="col-lg-3">
+                                        <ui-select ng-model="vm.classificatoreSottospecieSelezionato" 
+                                                    id="uiselectSottospecieClassificatore">
+                                            <ui-select-match>
+                                                <span ng-bind="$select.selected.classificatore"></span>
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="classificatore in (vm.dropdownSottospecieClassificatori | filter: $select.search) track by classificatore.id">
+                                                <span ng-bind="classificatore.classificatore"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <i role="button" 
+                                            ng-click="vm.aggiungiSottospecieClassificatore()" 
+                                            class="fa fa-plus-square fa-2x text-success"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-lg-6 col-lg-offset-2">
+                                    <table datatable="ng"
+                                            class="table table-striped table-bordered table-hover text-primary"
+                                            id="tabellaElencoSottospecieClassificatori"
+                                            dt-options="vm.opzioniTabellaElencoSottospecieClassificatori">
+                                        <thead>
+                                            <tr>
+                                                <th>@localizzatore["Ordinamento"]</th>
+                                                <th>@localizzatore["Classificatore"]</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="classificatore in vm.datiTabellaSottospecieClassificatori">
+                                                <td>{{$index+1}}</td>
+                                                <td>{{classificatore.classificatore}}</td>
+                                                <td>
+                                                    <div class="btn-group fa-pull-right">
+                                                        <i role="button" 
+                                                            ng-show="!$first" 
+                                                            ng-click="vm.spostaSuSottospecie($index)" 
+                                                            class="fa fa-arrow-up fa-2x text-success"></i>
+                                                        <i role="button" 
+                                                            ng-show="!$last" 
+                                                            ng-click="vm.spostaGiuSottospecie($index)" 
+                                                            class="fa fa-arrow-down fa-2x text-success"></i>
+                                                        <i role="button" 
+                                                            ng-click="vm.rimuoviClassificatoreSottospecie(classificatore)" 
+                                                            class="fa fa-minus-square fa-2x text-danger"></i>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-offset-6 col-lg-3">
+                                        <div class="pull-right">
+                                            <button type="reset" 
+                                                    class="btn btn-outline-primary" 
+                                                    ng-click="vm.annullaInserimentoSottospecie()">@localizzatore["Annulla"]</button>
+                                            @if (await autorizzatore.AuthorizeAsync(User, "EditTassonomia"))
+                                            {
+                                                <button type="submit"
+                                                        class="btn btn-success"
+                                                        ng-click="vm.inserisciSottospecie()"
+                                                        ng-disabled="vm.pulsanteInsertSottospecieDisabilitato">
+                                                    @localizzatore["Inserisci"]
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
 
                     @*Edit Sottospecie*@
                     <div class="panel-body" ng-show="vm.panelEditSottospecieVisibile">
