@@ -30,7 +30,7 @@ namespace Papero.Models
             _localizzatore = localizzatore;
         }
 
-        #region Get
+#region Get
         public IEnumerable<Famiglie> LeggiAlbero()
         {
             _log.LogInformation("Chiamata di _contesto.Famiglie.ToList() con Include e ThenInclude");
@@ -187,38 +187,36 @@ namespace Papero.Models
 
         public SottospecieViewModel LeggiSottospecieConAutori(int idSottospecie)
         {
-             return _contesto.Classificazioni
-                            .Include(classificazione => classificazione.Sottospecie)
-                            .Include(classificazione => classificazione.Classificatore)
-                            .Where(classificazione => classificazione.SottospecieId == idSottospecie)
-                            .Select(classificazione => new SottospecieViewModel
-                            {
-                                Id = classificazione.SottospecieId,
-                                SpecieId = classificazione.Sottospecie.SpecieId,
-                                Nome = classificazione.Sottospecie.Nome,
-                                AnnoClassificazione = classificazione.Sottospecie.AnnoClassificazione,
-                                ClassificazioneOriginale = classificazione.Sottospecie.ClassificazioneOriginale,
-                                NomeItaliano = classificazione.Sottospecie.NomeItaliano,
-                                NomeInglese = classificazione.Sottospecie.NomeInglese,
-                                ElencoAutori = classificazione.Sottospecie.ElencoAutori,
-                                StatoConservazioneId = classificazione.Sottospecie.StatoConservazioneId,
-                                Classificatori = _contesto.Classificazioni
-                                                 .Where(classificazioneinterna => classificazioneinterna.SottospecieId == idSottospecie)
-                                                 .Select(classificazioneinterna => new ClassificatoreViewModel
-                                                 {
-                                                     Id = classificazioneinterna.ClassificatoreId,
-                                                     Classificatore = classificazioneinterna.Classificatore.Classificatore,
-                                                     Ordinamento = classificazioneinterna.Ordinamento
-                                                 }).OrderBy(classificazioneinterna => classificazioneinterna.Ordinamento).ToList()
-                            })
-                            .FirstOrDefault();
+            return _contesto.Classificazioni
+                           .Include(classificazione => classificazione.Sottospecie)
+                           .Include(classificazione => classificazione.Classificatore)
+                           .Where(classificazione => classificazione.SottospecieId == idSottospecie)
+                           .Select(classificazione => new SottospecieViewModel
+                           {
+                               Id = classificazione.SottospecieId,
+                               SpecieId = classificazione.Sottospecie.SpecieId,
+                               Nome = classificazione.Sottospecie.Nome,
+                               AnnoClassificazione = classificazione.Sottospecie.AnnoClassificazione,
+                               ClassificazioneOriginale = classificazione.Sottospecie.ClassificazioneOriginale,
+                               NomeItaliano = classificazione.Sottospecie.NomeItaliano,
+                               NomeInglese = classificazione.Sottospecie.NomeInglese,
+                               ElencoAutori = classificazione.Sottospecie.ElencoAutori,
+                               StatoConservazioneId = classificazione.Sottospecie.StatoConservazioneId,
+                               Classificatori = _contesto.Classificazioni
+                                                .Where(classificazioneinterna => classificazioneinterna.SottospecieId == idSottospecie)
+                                                .Select(classificazioneinterna => new ClassificatoreViewModel
+                                                {
+                                                    Id = classificazioneinterna.ClassificatoreId,
+                                                    Classificatore = classificazioneinterna.Classificatore.Classificatore,
+                                                    Ordinamento = classificazioneinterna.Ordinamento
+                                                }).OrderBy(classificazioneinterna => classificazioneinterna.Ordinamento).ToList()
+                           })
+                           .FirstOrDefault();
         }
 
+#endregion
 
-
-        #endregion
-
-        #region Put
+#region Put
 
         public void PutFamiglia(Famiglie famiglia)
         {
@@ -317,52 +315,77 @@ namespace Papero.Models
             }
         }
 
+#endregion
+
+#region Post
+
+        public void PostFamiglia(Famiglie famiglia)
+        {
+            try
+            {
+                _contesto.Add(famiglia);
+            }
+            catch (Exception)  // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+            }
+        }
+
+        public void PostSottofamiglia(Sottofamiglie sottofamiglia)
+        {
+            try
+            {
+                _contesto.Add(sottofamiglia);
+            }
+            catch (Exception)  // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+            }
+        }
+
+        public void PostTribu(Tribu tribu)
+        {
+            try
+            {
+                _contesto.Add(tribu);
+            }
+            catch (Exception)  // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+            }
+        }
+
+        public void PostGenere(Generi genere)
+        {
+            try
+            {
+                _contesto.Add(genere);
+            }
+            catch (Exception)  // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+            }
+        }
+
+        public void PostSpecie(Specie specie)
+        {
+            try
+            {
+                _contesto.Add(specie);
+            }
+            catch (Exception)  // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+            }
+        }
+
+        public void PostSottospecie(Sottospecie sottospecie)
+        {
+            try
+            {
+                _contesto.Add(sottospecie);
+            }
+            catch (Exception)  // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+            }
+        }
+
         #endregion
 
-
-
-
-        //public IEnumerable<Classificatori> LeggiClassificatori()
-        //{
-        //    return _contesto.Classificatori
-        //            .OrderBy(classificatore => classificatore.Classificatore)
-        //            .ToList();
-        //}
-
-        //public IEnumerable<Classificatori> LeggiClassificatori(int idClassificatore)
-        //{
-        //    return _contesto.Classificatori
-        //        .Where(classificatore => classificatore.Id == idClassificatore)
-        //            .OrderBy(classificatore => classificatore.Classificatore)
-        //            .ToList();
-        //}
-
-        //public void PostClassificatore(Classificatori classificatore)
-        //{
-        //    try
-        //    {
-        //        _contesto.Add(classificatore);
-        //    }
-        //    catch (Exception)  // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
-        //    {
-        //    }
-        //}
-
-        //public void PutClassificatore(Classificatori classificatore)
-        //{
-        //    try
-        //    {
-        //        _contesto.Update(classificatore);
-        //    }
-        //    catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
-        //    {
-        //    }
-        //}
-
-        //public void CancellaClassificatore(int idClassificatore)
-        //{
-        //    _contesto.Classificatori
-        //        .RemoveRange(_contesto.Classificatori.Where(classificatore => classificatore.Id == idClassificatore));
-        //}
     }
 }

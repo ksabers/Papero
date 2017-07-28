@@ -123,6 +123,9 @@
   <data name="Anno Classificazione" xml:space="preserve">
     <value>Classification Year</value>
   </data>
+  <data name="Annulla" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="Classificatore" xml:space="preserve">
     <value>Classifier</value>
   </data>
@@ -135,6 +138,9 @@
   <data name="Classificazione Originale" xml:space="preserve">
     <value>Original Classification</value>
   </data>
+  <data name="Corrente" xml:space="preserve">
+    <value>Current</value>
+  </data>
   <data name="Famiglia" xml:space="preserve">
     <value>Family</value>
   </data>
@@ -143,6 +149,12 @@
   </data>
   <data name="Gestione Tassonomia" xml:space="preserve">
     <value>Taxonomy Manager</value>
+  </data>
+  <data name="Inserisci" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="Inserisci nuova Specie" xml:space="preserve">
+    <value>Insert new Species</value>
   </data>
   <data name="Modifica" xml:space="preserve">
     <value>Edit</value>
@@ -170,6 +182,15 @@
   </data>
   <data name="Nome Italiano" xml:space="preserve">
     <value>Italian Name</value>
+  </data>
+  <data name="Nuova" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Nuova Specie" xml:space="preserve">
+    <value>New Species</value>
+  </data>
+  <data name="Nuovo" xml:space="preserve">
+    <value>New</value>
   </data>
   <data name="Ordinamento" xml:space="preserve">
     <value>Order</value>

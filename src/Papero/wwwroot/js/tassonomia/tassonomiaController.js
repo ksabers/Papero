@@ -16,7 +16,7 @@
 
         var vm = this;
 
-        vm.opzioniTabellaElencoClassificatori = DTOptionsBuilder.newOptions()   // Opzioni di visualizzazione della angular datatable
+        vm.opzioniTabellaElencoClassificatori = DTOptionsBuilder.newOptions()   // Opzioni di visualizzazione delle angular datatable
             .withOption('searching', false)
             .withOption('paging', false)
             .withOption('info', false)
@@ -24,6 +24,14 @@
             .withLanguageSource(stringaLinguaggioDatatables);    // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
                                                                  // (come da specifiche delle angular datatables)
                                                                  // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
+
+
+        vm.opzioniTabellaElencoSpecieClassificatori = DTOptionsBuilder.newOptions()   // Opzioni di visualizzazione della angular datatable
+            .withOption('searching', false)
+            .withOption('paging', false)
+            .withOption('info', false)
+            .withOption('ordering', false)
+            .withLanguageSource(stringaLinguaggioDatatables);
 
 // #region Funzioni Albero
 
@@ -68,6 +76,7 @@
                         vm.panelEditGenereVisibile = false;
                         vm.panelEditSpecieVisibile = false;
                         vm.panelEditSottospecieVisibile = false;
+                        vm.panelInsertSpecieVisibile = false;
 
                         vm.percorsoFamiglia = nodo;                    // Memorizziamo i percorsi del nodo selezionato
                         vm.percorsoSottofamiglia = null;
@@ -89,6 +98,7 @@
                         vm.panelEditGenereVisibile = false;
                         vm.panelEditSpecieVisibile = false;
                         vm.panelEditSottospecieVisibile = false;
+                        vm.panelInsertSpecieVisibile = false;
 
                         vm.percorsoFamiglia = percorso[1];             // Memorizziamo i percorsi del nodo selezionato
                         vm.percorsoSottofamiglia = percorso[0];
@@ -108,6 +118,7 @@
                         vm.panelEditGenereVisibile = false;
                         vm.panelEditSpecieVisibile = false;
                         vm.panelEditSottospecieVisibile = false;
+                        vm.panelInsertSpecieVisibile = false;
 
                         vm.percorsoFamiglia = percorso[2];             // Memorizziamo i percorsi del nodo selezionato
                         vm.percorsoSottofamiglia = percorso[1];
@@ -127,6 +138,7 @@
                         vm.panelEditGenereVisibile = true;
                         vm.panelEditSpecieVisibile = false;
                         vm.panelEditSottospecieVisibile = false;
+                        vm.panelInsertSpecieVisibile = false;
 
                         vm.percorsoFamiglia = percorso[3];             // Memorizziamo i percorsi del nodo selezionato
                         vm.percorsoSottofamiglia = percorso[2];
@@ -146,6 +158,9 @@
                         vm.panelEditGenereVisibile = false;
                         vm.panelEditSpecieVisibile = true;
                         vm.panelEditSottospecieVisibile = false;
+                        vm.panelInsertSpecieVisibile = false;
+
+                        vm.pulsanteInserimentoSpecieVisibile = true;
 
                         vm.percorsoFamiglia = percorso[4];             // Memorizziamo i percorsi del nodo selezionato
                         vm.percorsoSottofamiglia = percorso[3];
@@ -169,6 +184,7 @@
                                 vm.panelEditGenereVisibile = false;
                                 vm.panelEditSpecieVisibile = false;
                                 vm.panelEditSottospecieVisibile = true;
+                                vm.panelInsertSpecieVisibile = false;
 
                                 vm.percorsoFamiglia = percorso[5];             // Memorizziamo i percorsi del nodo selezionato
                                 vm.percorsoSottofamiglia = percorso[4];
@@ -230,6 +246,14 @@
 // #region Variabili Specie
 
         vm.panelEditSpecieVisibile = false;
+        vm.panelInsertSpecieVisibile = false;
+        vm.pulsanteInsertSpecieDisabilitato = true;
+        vm.pulsanteInserimentoSpecieVisibile = true;
+
+        vm.labelPulsanteFamigliaCorrente = true;
+        vm.labelPulsanteSottofamigliaCorrente = true;
+        vm.labelPulsanteTribuCorrente = true;
+        vm.labelPulsanteGenereCorrente = true;
 
 // #endregion
 
@@ -496,7 +520,24 @@
             if (_.trim(vm.inputEditSpecie) == "-") {
                 vm.inputEditSpecie = "";
             };
-        }
+        };
+
+        vm.verificaInsertSpecie = function verificaInsertSpecie() {
+
+            vm.aggiornaElencoSpecieClassificatori();
+
+            vm.pulsanteInsertSpecieDisabilitato = (_.trim(vm.inputInsertSpecie) == "" ||
+                                                      _.trim(vm.inputInsertSpecie) == "-" ||
+                                                      _.trim(vm.inputInsertSpecieAnnoClassificazione) == "" ||
+                                                      vm.stringaElencoSpecieClassificatori == "-" ||
+                                                      vm.stringaElencoSpecieClassificatori == "" ||
+                                                      ((!vm.labelPulsanteFamigliaCorrente) && (_.trim(vm.inputInsertSpecieFamiglia) == "")) ||
+                                                      ((!vm.labelPulsanteGenereCorrente) && (_.trim(vm.inputInsertSpecieGenere) == "")));
+
+            if (_.trim(vm.inputEditSottospecie) == "-") {
+                vm.inputEditSottospecie = "";
+            };
+        };
 
         vm.editSpecie = function editSpecie() {
 
@@ -537,6 +578,201 @@
                 })
         };
 
+        vm.apriPannelloInserimentoSpecie = function apriPannelloInserimentoSpecie() {
+
+            vm.panelEditSpecieVisibile = false;
+            vm.panelInsertSpecieVisibile = true;
+            vm.pulsanteInserimentoSpecieVisibile = false;
+
+            vm.selezionaFamigliaCorrente();
+            vm.selezionaSottofamigliaCorrente();
+            vm.selezionaTribuCorrente();
+            vm.selezionaGenereCorrente();
+
+            vm.inputInsertSpecie = "";
+            vm.inputInsertSpecieNomeItaliano = "";
+            vm.inputInsertSpecieNomeInglese = "";
+            vm.statoDiConservazioneSpecieSelezionato = _.find(vm.elencoStatiConservazione, ["statoConservazione", "-"]);
+            vm.dropdownSpecieClassificatori = vm.elencoClassificatori;
+            vm.classificatoreSpecieSelezionato = vm.elencoClassificatori[0];
+            vm.inputInsertSpecieAnnoClassificazione = "";
+            vm.specieClassificazioneOriginale = false;
+            vm.datiTabellaSpecieClassificatori = [];
+            vm.stringaElencoSpecieClassificatori = "-";
+
+            vm.pulsanteInsertSpecieDisabilitato = true;
+
+        };
+
+        vm.annullaInserimentoSpecie = function annullaInserimentoSpecie() {
+
+            vm.panelEditSpecieVisibile = true;
+            vm.panelInsertSpecieVisibile = false;
+            vm.pulsanteInserimentoSpecieVisibile = true;
+
+        };
+
+        vm.inserisciSpecie = function inserisciSpecie() {
+
+        };
+
+        vm.selezionaFamigliaCorrente = function selezionaFamigliaCorrente() {
+            vm.labelPulsanteFamigliaCorrente = true;
+            vm.inputInsertSpecieFamiglia = vm.percorsoFamiglia.nome;
+            vm.verificaInsertSpecie();
+        };
+
+        vm.selezionaFamigliaNuova = function selezionaFamigliaNuova() {
+            vm.labelPulsanteFamigliaCorrente = false;
+            vm.inputInsertSpecieFamiglia = "";
+            vm.selezionaSottofamigliaNuova();
+            vm.verificaInsertSpecie();
+        };
+
+        vm.selezionaSottofamigliaCorrente = function selezionaSottofamigliaCorrente() {
+            vm.labelPulsanteSottofamigliaCorrente = true;
+            vm.inputInsertSpecieSottofamiglia = vm.percorsoSottofamiglia.nome;
+            vm.verificaInsertSpecie();
+        };
+
+        vm.selezionaSottofamigliaNuova = function selezionaSottofamigliaNuova() {
+            vm.labelPulsanteSottofamigliaCorrente = false;
+            vm.inputInsertSpecieSottofamiglia = "-";
+            vm.selezionaTribuNuova();
+            vm.verificaInsertSpecie();
+        };
+
+        vm.selezionaTribuCorrente = function selezionaTribuCorrente() {
+            vm.labelPulsanteTribuCorrente = true;
+            vm.inputInsertSpecieTribu = vm.percorsoTribu.nome;
+            vm.verificaInsertSpecie();
+        };
+
+        vm.selezionaTribuNuova = function selezionaTribuNuova() {
+            vm.labelPulsanteTribuCorrente = false;
+            vm.inputInsertSpecieTribu = "-";
+            vm.selezionaGenereNuovo();
+            vm.verificaInsertSpecie();
+        };
+
+        vm.selezionaGenereCorrente = function selezionaGenereCorrente() {
+            vm.labelPulsanteGenereCorrente = true;
+            vm.inputInsertSpecieGenere = vm.percorsoGenere.nome;
+            vm.verificaInsertSpecie();
+        };
+
+        vm.selezionaGenereNuovo = function selezionaGenereNuovo() {
+            vm.labelPulsanteGenereCorrente = false;
+            vm.inputInsertSpecieGenere = "";
+            vm.verificaInsertSpecie();
+        };
+
+        vm.spostaSuSpecie = function spostaSuSpecie(indice) {
+            var arrayRiordinato = [];
+            var arrayPrimaParte = [];
+            var arraySecondaParte = [];
+            var elementoDaSpostare = vm.datiTabellaSpecieClassificatori[indice];
+            var elementoPrecedente = vm.datiTabellaSpecieClassificatori[indice - 1];
+
+            arrayPrimaParte = _.dropRight(vm.datiTabellaSpecieClassificatori, vm.datiTabellaSpecieClassificatori.length - indice + 1);
+            arraySecondaParte = _.drop(vm.datiTabellaSpecieClassificatori, indice + 1);
+            arrayRiordinato = arrayRiordinato.concat(arrayPrimaParte, elementoDaSpostare, elementoPrecedente, arraySecondaParte);
+
+            vm.datiTabellaSpecieClassificatori = arrayRiordinato;
+            vm.verificaInsertSpecie();
+        };
+
+        vm.spostaGiuSpecie = function spostaGiuSpecie(indice) {
+            var arrayRiordinato = [];
+            var arrayPrimaParte = [];
+            var arraySecondaParte = [];
+            var elementoDaSpostare = vm.datiTabellaSpecieClassificatori[indice];
+            var elementoSuccessivo = vm.datiTabellaSpecieClassificatori[indice + 1];
+
+            arrayPrimaParte = _.dropRight(vm.datiTabellaSpecieClassificatori, vm.datiTabellaSpecieClassificatori.length - indice);
+            arraySecondaParte = _.drop(vm.datiTabellaSpecieClassificatori, indice + 2);
+
+            arrayRiordinato = arrayRiordinato.concat(arrayPrimaParte, elementoSuccessivo, elementoDaSpostare, arraySecondaParte);
+
+            vm.datiTabellaSpecieClassificatori = arrayRiordinato;
+            vm.verificaInsertSpecie();
+        };
+
+        vm.aggiungiSpecieClassificatore = function aggiungiSpecieClassificatore() {
+            vm.datiTabellaSpecieClassificatori.push(vm.classificatoreSpecieSelezionato);
+            aggiornaDropdownSpecieClassificatori();
+            vm.verificaInsertSpecie();
+            vm.classificatoreSpecieSelezionato = vm.dropdownSpecieClassificatori[0];
+        };
+
+        function aggiornaDropdownSpecieClassificatori() {
+            var arrayClassificatori = [];   // Array di servizio che serve per tenere l'elenco degli id dei Classificatori selezionati nella tabella. Viene usato per filtrare la dropdown
+            // togliendo i Classificatori già presenti nella tabella.
+
+            for (var i = 0; i < vm.datiTabellaSpecieClassificatori.length; i++)           // Riempimento dell'array di servizio
+                arrayClassificatori.push(vm.datiTabellaSpecieClassificatori[i].id);
+
+            vm.dropdownSpecieClassificatori = _.filter(vm.elencoClassificatori, function (classificatore) { return !arrayClassificatori.includes(classificatore.id) });
+            vm.classificatoreSpecieSelezionato = vm.dropdownSpecieClassificatori[0];
+            vm.invalido = vm.datiTabellaSpecieClassificatori.length == 0;
+        };
+
+        vm.rimuoviClassificatoreSpecie = function rimuoviClassificatoreSpecie(classificatoreSelezionato) {
+            vm.datiTabellaSpecieClassificatori = _.remove(vm.datiTabellaSpecieClassificatori, function (classificatore) { return classificatore.id != classificatoreSelezionato.id });
+            aggiornaDropdownSpecieClassificatori();
+            vm.verificaInsertSpecie();
+        };
+
+        vm.aggiornaElencoSpecieClassificatori = function aggiornaElencoSpecieClassificatori() {
+            var elenco = "";
+            var serializzazione = "";
+            if (vm.datiTabellaSpecieClassificatori == undefined) {  // Questa if serve perché la funzione viene chiamata implicitamente da Angular
+                var lunghezza = 0;                                  // quando si apre il panel, e in quel momento la tabella non è ancora popolata,
+            }                                                       // quindi è undefined e bisogna considerarla come se fosse vuota
+            else {
+                var lunghezza = vm.datiTabellaSpecieClassificatori.length;
+            }
+
+            var sequenza = 1;
+
+            for (var i = 0; i < lunghezza; i++) {
+                if (sequenza < lunghezza - 1) {
+                    elenco = elenco + vm.datiTabellaSpecieClassificatori[i].classificatore + ", ";
+                    sequenza += 1;
+                    continue;
+                };
+                if (sequenza == lunghezza - 1) {
+                    elenco = elenco + vm.datiTabellaSpecieClassificatori[i].classificatore + " & ";
+                    sequenza += 1;
+                    continue;
+                };
+                if (sequenza == lunghezza) {
+                    elenco = elenco + vm.datiTabellaSpecieClassificatori[i].classificatore;
+                    sequenza += 1;
+                    break;
+                };
+            }
+
+            if (vm.inputInsertSpecieAnnoClassificazione != null)
+                elenco = elenco + ", " + vm.inputInsertSpecieAnnoClassificazione.toString();
+
+            if (!vm.specieClassificazioneOriginale) {
+                elenco = "(" + elenco + ")";
+            }
+
+            if (lunghezza == 0) {
+                elenco = "-"
+            };
+
+            vm.stringaElencoSpecieClassificatori = elenco;
+            serializzazione = "";
+            for (var i = 0; i < lunghezza; i++) {
+                serializzazione += vm.datiTabellaSpecieClassificatori[i].id + ",";
+            };
+            serializzazione = "[" + serializzazione.substring(0, serializzazione.length - 1) + "]";
+
+        };
+
 //#endregion
 
 //#region Funzioni Sottospecie
@@ -559,7 +795,7 @@
             aggiornaDropdownClassificatori();
             vm.verificaEditSottospecie();
             vm.classificatoreSelezionato = vm.dropdownClassificatori[0];
-        }
+        };
 
         function aggiornaDropdownClassificatori() {
             var arrayClassificatori = [];   // Array di servizio che serve per tenere l'elenco degli id dei Classificatori selezionati nella tabella. Viene usato per filtrare la dropdown
@@ -652,8 +888,6 @@
             };
             serializzazione = "[" + serializzazione.substring(0, serializzazione.length - 1) + "]";
 
-            //$("#parametroElencoAutori").val(elenco);
-            //$("#tabellaElencoAutoriSerializzata").val(serializzazione);
         };
 
         vm.editSottospecie = function editSottospecie() {

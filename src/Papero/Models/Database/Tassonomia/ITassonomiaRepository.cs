@@ -52,5 +52,15 @@ namespace Papero.Models
 
         #endregion
 
+        #region Post
+
+        void PostFamiglia(Famiglie famiglia);
+        void PostSottofamiglia(Sottofamiglie sottofamiglia);
+        void PostTribu(Tribu tribu);
+        void PostGenere(Generi genere);
+        void PostSpecie(Specie specie);
+        void PostSottospecie(Sottospecie sottospecie);
+
+        #endregion
     }
 }
