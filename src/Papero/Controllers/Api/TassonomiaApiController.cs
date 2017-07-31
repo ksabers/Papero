@@ -190,6 +190,21 @@ namespace Papero.Controllers
 
         #endregion
 
+        #region Post
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpPost("/api/sottospecieconautori")]
+        public async Task<IActionResult> PostSottospecieConAutori([FromBody]SottospecieViewModel sottospecie)
+        {
+            _repository.PostSottospecieConAutori(sottospecie);
+
+            if (await _repositoryComune.SalvaModifiche())
+                return Created($"api/sottospecieconautori/{sottospecie.Id}", sottospecie);
+            return BadRequest("Errore");
+        }
+
+        #endregion
+
 
         //[Authorize(Policy = "VisualizzaDettaglioEsemplare")]
         //[HttpGet("api/classificatori")]

@@ -48,7 +48,7 @@ namespace Papero.Models
         void PutTribu(Tribu tribu);
         void PutGenere(Generi genere);
         void PutSpecie(Specie specie);
-        void PutSottospecieConAutori(SottospecieViewModel sottospecie);
+        void PutSottospecieConAutori(SottospecieViewModel sottospecieconautori);
 
         #endregion
 
@@ -60,6 +60,7 @@ namespace Papero.Models
         void PostGenere(Generi genere);
         void PostSpecie(Specie specie);
         void PostSottospecie(Sottospecie sottospecie);
+        void PostSottospecieConAutori(SottospecieViewModel sottospecieconautori);
 
         #endregion
     }

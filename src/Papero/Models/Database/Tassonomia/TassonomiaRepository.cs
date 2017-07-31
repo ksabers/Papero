@@ -385,6 +385,45 @@ namespace Papero.Models
             }
         }
 
+        public void PostSottospecieConAutori(SottospecieViewModel sottospecieconautori)
+        {
+            try
+            {
+                // Creiamo l'entità da aggiungere
+                var sottospecieDaAggiungere = new Sottospecie();
+
+                // Aggiorniamo i campi della sottospecie
+                sottospecieDaAggiungere.Nome = sottospecieconautori.Nome;
+                sottospecieDaAggiungere.SpecieId = sottospecieconautori.SpecieId;
+                sottospecieDaAggiungere.AnnoClassificazione = sottospecieconautori.AnnoClassificazione;
+                sottospecieDaAggiungere.ClassificazioneOriginale = sottospecieconautori.ClassificazioneOriginale;
+                sottospecieDaAggiungere.NomeItaliano = sottospecieconautori.NomeItaliano;
+                sottospecieDaAggiungere.NomeInglese = sottospecieconautori.NomeInglese;
+                sottospecieDaAggiungere.ElencoAutori = sottospecieconautori.ElencoAutori;
+                sottospecieDaAggiungere.StatoConservazioneId = sottospecieconautori.StatoConservazioneId;
+
+                // ...e infine salviamo nel database
+                _contesto.Add(sottospecieDaAggiungere);
+                _contesto.SaveChanges();
+
+                sottospecieconautori.Id = sottospecieDaAggiungere.Id;       // IMPORTANTISSIMO perché abbiamo passato un viewmodel! Se non aggiornassimo a mano l'ID,
+                                                                            // non verrebbe passato alla Created() nella API e verrebbe restituito zero
+                // Aggiungiamo una alla volta le nuove classificazioni
+                foreach (var classificatore in sottospecieconautori.Classificatori)
+                {
+                    var classificazioneDaAggiungere = new Classificazioni();
+                    classificazioneDaAggiungere.SottospecieId = sottospecieDaAggiungere.Id;
+                    classificazioneDaAggiungere.ClassificatoreId = classificatore.Id;
+                    classificazioneDaAggiungere.Ordinamento = classificatore.Ordinamento;
+
+                    _contesto.Add(classificazioneDaAggiungere);              
+                }
+            }
+            catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
+            {
+            }
+        }
+
         #endregion
 
     }

@@ -183,6 +183,7 @@
                         $http.get("/api/classificazioni/" + nodo.id)
                             .then(function (response) {
                                 vm.datiTabellaClassificatori = response.data;
+
                                 aggiornaDropdownClassificatori();
                                 vm.panelEditFamigliaVisibile = false;          //  Rendiamo visibile solo il giusto pannello di edit
                                 vm.panelEditSottofamigliaVisibile = false;
@@ -200,6 +201,18 @@
                                 vm.percorsoGenere = percorso[2];
                                 vm.percorsoSpecie = percorso[1];
                                 vm.percorsoSottospecie = percorso[0];
+
+                                // Questa if serve a forzare l'utente a inserire per prima la sottospecie nominale (una sottospecie che abbia il nome della specie):
+                                // se nell'elenco dei figli della specie non viene trovata, allora viene obbligatoriamente inserita nella
+                                // casella di testo e non può essere cambiata. Se invece esiste già, si può inserire un'altra sottospecie
+                                if (_.find(vm.percorsoSpecie.figli, ["nome", vm.percorsoSpecie.nome])) {
+                                    vm.inputInsertSottospecie = "";
+                                    vm.inputInsertSottospecieReadonly = false;
+                                }
+                                else {
+                                    vm.inputInsertSottospecie = vm.percorsoSpecie.nome;
+                                    vm.inputInsertSottospecieReadonly = true;
+                                };
 
                                 vm.inputEditSottospecie = nodo.nome;
                                 vm.inputEditNomeItaliano = nodo.nomeItaliano;
@@ -320,11 +333,6 @@
                     $http.get("/api/albero")
                         .then(function (response) {
                             vm.datiAlbero = response.data;
-                            vm.selectedNode = {
-                                "id": vm.percorsoFamiglia.id,
-                                "nome": _.toUpper(_.trim(vm.inputEditFamiglia)),
-                                "passeriforme": vm.passeriforme
-                            };
 
                             vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
                             vm.percorsoSottofamiglia = null;
@@ -332,9 +340,10 @@
                             vm.percorsoGenere = null;
                             vm.percorsoSpecie = null;
                             vm.percorsoSottospecie = null;
+                            vm.selectedNode = vm.percorsoFamiglia;
 
-                            vm.testo = _.toUpper(_.trim(vm.inputEditFamiglia));
-                            vm.inputEditFamiglia = _.toUpper(_.trim(vm.inputEditFamiglia));
+                            vm.testo = vm.selectedNode.nome;
+                            vm.inputEditFamiglia = vm.testo;
 
                             vm.pulsanteEditFamigliaDisabilitato = true;
                         });
@@ -376,12 +385,6 @@
                     $http.get("/api/albero")
                         .then(function (response) {
                             vm.datiAlbero = response.data;
-                            vm.selectedNode = {
-                                "id": vm.percorsoSottofamiglia.id,
-                                "famigliaId": vm.percorsoSottofamiglia.famigliaId,
-                                "nome": _.upperFirst(_.trim(vm.inputEditSottofamiglia)),
-                                "famiglia": null
-                            };
 
                             vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
                             vm.percorsoSottofamiglia = _.find(vm.percorsoFamiglia.figli, ["id", vm.percorsoSottofamiglia.id]);
@@ -389,8 +392,9 @@
                             vm.percorsoGenere = null;
                             vm.percorsoSpecie = null;
                             vm.percorsoSottospecie = null;
+                            vm.selectedNode = vm.percorsoSottofamiglia;
 
-                            vm.testo = _.upperFirst(_.trim(vm.inputEditSottofamiglia));
+                            vm.testo = vm.selectedNode.nome;
                             vm.inputEditSottofamiglia = vm.testo;
 
                             vm.pulsanteEditSottofamigliaDisabilitato = true;
@@ -433,18 +437,19 @@
                     $http.get("/api/albero")
                         .then(function (response) {
                             vm.datiAlbero = response.data;
-                            vm.selectedNode = {
-                                "id": vm.percorsoTribu.id,
-                                "sottofamigliaId": vm.percorsoTribu.sottofamigliaId,
-                                "nome": _.upperFirst(_.trim(vm.inputEditTribu)),
-                                "sottofamiglia": null
-                            };
+                            //vm.selectedNode = {
+                            //    "id": vm.percorsoTribu.id,
+                            //    "sottofamigliaId": vm.percorsoTribu.sottofamigliaId,
+                            //    "nome": _.upperFirst(_.trim(vm.inputEditTribu)),
+                            //    "sottofamiglia": null
+                            //};
                             vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
                             vm.percorsoSottofamiglia = _.find(vm.percorsoFamiglia.figli, ["id", vm.percorsoSottofamiglia.id]);
                             vm.percorsoTribu = _.find(vm.percorsoSottofamiglia.figli, ["id", vm.percorsoTribu.id]);
                             vm.percorsoGenere = null;
                             vm.percorsoSpecie = null;
                             vm.percorsoSottospecie = null;
+                            vm.selectedNode = vm.percorsoTribu;
 
                             vm.testo = _.upperFirst(_.trim(vm.inputEditTribu));
                             vm.inputEditTribu = vm.testo;
@@ -489,20 +494,16 @@
                     $http.get("/api/albero")
                         .then(function (response) {
                             vm.datiAlbero = response.data;
-                            vm.selectedNode = {
-                                "id": vm.percorsoGenere.id,
-                                "tribuId": vm.percorsoGenere.tribuId,
-                                "nome": _.upperFirst(_.trim(vm.inputEditGenere)),
-                                "tribu": null
-                            };
+
                             vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
                             vm.percorsoSottofamiglia = _.find(vm.percorsoFamiglia.figli, ["id", vm.percorsoSottofamiglia.id]);
                             vm.percorsoTribu = _.find(vm.percorsoSottofamiglia.figli, ["id", vm.percorsoTribu.id]);
                             vm.percorsoGenere = _.find(vm.percorsoTribu.figli, ["id", vm.percorsoGenere.id]);
                             vm.percorsoSpecie = null;
                             vm.percorsoSottospecie = null;
+                            vm.selectedNode = vm.percorsoGenere;
 
-                            vm.testo = _.upperFirst(_.trim(vm.inputEditGenere));
+                            vm.testo = vm.selectedNode.nome;
                             vm.inputEditGenere = vm.testo;
 
                             vm.pulsanteEditGenereDisabilitato = true;
@@ -556,26 +557,22 @@
                 {
                     "id": vm.percorsoSpecie.id,
                     "genereId": vm.percorsoSpecie.genereId,
-                    "nome": _.upperFirst(_.trim(vm.inputEditSpecie))
+                    "nome": _.toLower(_.trim(vm.inputEditSpecie))
                 })
                 .then(function (response) {
                     $http.get("/api/albero")
                         .then(function (response) {
                             vm.datiAlbero = response.data;
-                            vm.selectedNode = {
-                                "id": vm.percorsoSpecie.id,
-                                "genereId": vm.percorsoSpecie.genereId,
-                                "nome": _.upperFirst(_.trim(vm.inputEditSpecie)),
-                                "genere": null
-                            };
+
                             vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
                             vm.percorsoSottofamiglia = _.find(vm.percorsoFamiglia.figli, ["id", vm.percorsoSottofamiglia.id]);
                             vm.percorsoTribu = _.find(vm.percorsoSottofamiglia.figli, ["id", vm.percorsoTribu.id]);
                             vm.percorsoGenere = _.find(vm.percorsoTribu.figli, ["id", vm.percorsoGenere.id]);
                             vm.percorsoSpecie = _.find(vm.percorsoGenere.figli, ["id", vm.percorsoSpecie.id]);
                             vm.percorsoSottospecie = null;
+                            vm.selectedNode = vm.percorsoSpecie;
 
-                            vm.testo = _.upperFirst(_.trim(vm.inputEditSpecie));
+                            vm.testo = vm.selectedNode.nome;
                             vm.inputEditSpecie = vm.testo;
 
                             vm.pulsanteEditSpecieDisabilitato = true;
@@ -793,18 +790,6 @@
             vm.panelEditSottospecieVisibile = false;
             vm.panelInsertSottospecieVisibile = true;
             vm.pulsanteInserimentoSottospecieVisibile = false;
-
-            // Questa if serve a forzare l'utente a inserire per prima una sottospecie che abbia il nome della specie:
-            // se nell'elenco dei figli della specie non viene trovata, allora viene obbligatoriamente inserita nella
-            // casella di testo e non può essere cambiata. Se invece esiste già, si può inserire un'altra sottospecie
-            if (_.find(vm.percorsoSpecie.figli, ["nome", vm.percorsoSpecie.nome])) {
-                vm.inputInsertSottospecie = "";
-                vm.inputInsertSottospecieReadonly = false;
-            }
-            else {
-                vm.inputInsertSottospecie = vm.percorsoSpecie.nome;
-                vm.inputInsertSottospecieReadonly = true;
-            };
         
             vm.inputInsertSottospecieNomeItaliano = "";
             vm.inputInsertSottospecieNomeInglese = "";
@@ -840,10 +825,90 @@
 
         vm.verificaInsertSottospecie = function verificaInsertSottospecie() {
             vm.aggiornaElencoSottospecieClassificatori();
+
+            vm.pulsanteInsertSottospecieDisabilitato = (_.trim(vm.inputInsertSottospecie) == "" ||
+                                          _.trim(vm.inputInsertSottospecie) == "-" ||
+                                          _.trim(vm.inputInsertSottospecieAnnoClassificazione) == "" ||
+                                          vm.stringaElencoSottospecieClassificatori == "-");
+
+            if (_.trim(vm.inputInsertSottospecie) == "-") {
+                vm.inputInsertSottospecie = "";
+            };
+
         };
 
         vm.inserisciSottospecie = function inserisciSottospecie() {
 
+            var listaClassificatori = [];  //  Array che conterrà la lista dei Classificatori
+
+            for (var i = 0; i < vm.datiTabellaSottospecieClassificatori.length; i++) {     // Riempiamo l'array in modo da poterlo poi assegnare alla
+                listaClassificatori.push({                                      // proprietà "classificatori" dell'entità da aggiungere
+                    "id": vm.datiTabellaSottospecieClassificatori[i].id,
+                    "classificatore": vm.datiTabellaSottospecieClassificatori[i].classificatore,
+                    "ordinamento": i + 1
+                })
+            }
+
+            $http.post("/api/sottospecieconautori",
+                {
+                    "specieId": vm.percorsoSottospecie.specieId,
+                    "nome": _.toLower(_.trim(vm.inputInsertSottospecie)),
+                    "annoClassificazione": vm.inputInsertSottospecieAnnoClassificazione,
+                    "classificazioneOriginale": vm.sottospecieClassificazioneOriginale,
+                    "nomeItaliano": vm.inputInsertSottospecieNomeItaliano,
+                    "nomeInglese": vm.inputInsertSottospecieNomeInglese,
+                    "elencoAutori": vm.stringaElencoSottospecieClassificatori,
+                    "statoConservazioneId": vm.statoDiConservazioneSottospecieSelezionato.id,
+                    "classificatori": listaClassificatori
+                })
+                .then(function (response) {
+                    var idInserito = response.data.id;
+                    $http.get("/api/albero")
+                        .then(function (response) {
+                            vm.datiAlbero = response.data;
+
+                            $http.get("/api/classificazioni/" + idInserito)
+                                .then(function (response) {
+                                    vm.datiTabellaClassificatori = response.data;
+
+                                    aggiornaDropdownClassificatori();
+                                    vm.panelEditFamigliaVisibile = false;          //  Rendiamo visibile solo il giusto pannello di edit
+                                    vm.panelEditSottofamigliaVisibile = false;
+                                    vm.panelEditTribuVisibile = false;
+                                    vm.panelEditGenereVisibile = false;
+                                    vm.panelEditSpecieVisibile = false;
+                                    vm.panelEditSottospecieVisibile = true;
+                                    vm.panelInsertSpecieVisibile = false;
+                                    vm.panelInsertSottospecieVisibile = false;
+                                    vm.pulsanteInserimentoSottospecieVisibile = true;
+
+                                    vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
+                                    vm.percorsoSottofamiglia = _.find(vm.percorsoFamiglia.figli, ["id", vm.percorsoSottofamiglia.id]);
+                                    vm.percorsoTribu = _.find(vm.percorsoSottofamiglia.figli, ["id", vm.percorsoTribu.id]);
+                                    vm.percorsoGenere = _.find(vm.percorsoTribu.figli, ["id", vm.percorsoGenere.id]);
+                                    vm.percorsoSpecie = _.find(vm.percorsoGenere.figli, ["id", vm.percorsoSpecie.id]);
+                                    vm.percorsoSottospecie = _.find(vm.percorsoSpecie.figli, ["id", idInserito]);
+                                    vm.selectedNode = vm.percorsoSottospecie;
+                                    vm.testo = vm.selectedNode.nome;
+
+                                    vm.inputEditSottospecie = vm.selectedNode.nome;
+                                    vm.inputEditNomeItaliano = vm.selectedNode.nomeItaliano;
+                                    vm.inputEditNomeInglese = vm.selectedNode.nomeInglese;
+                                    vm.statoDiConservazioneSelezionato = _.find(vm.elencoStatiConservazione, ["id", vm.selectedNode.statoConservazioneId]);
+                                    vm.inputEditAnnoClassificazione = parseInt(vm.selectedNode.annoClassificazione);
+                                    vm.classificazioneOriginale = vm.selectedNode.classificazioneOriginale;
+                                    vm.aggiornaElencoClassificatori();
+
+                                    vm.pulsanteEditSottospecieDisabilitato = true;
+                                });
+                        });
+
+                }, function () {
+                    alert("Errore non gestito durante l'inserimento");
+                })
+                .finally(function () {
+
+                })
         };
 
         vm.spostaSuSottospecie = function spostaSuSottospecie(indice) {
@@ -1081,27 +1146,16 @@
                     $http.get("/api/albero")
                         .then(function (response) {
                             vm.datiAlbero = response.data;
-                            vm.selectedNode = {
-                                "id": vm.percorsoSottospecie.id,
-                                "specieId": vm.percorsoSottospecie.specieId,
-                                "nome": _.toLower(_.trim(vm.inputEditSottospecie)),
-                                "annoClassificazione": vm.inputEditAnnoClassificazione,
-                                "classificazioneOriginale": vm.classificazioneOriginale,
-                                "nomeItaliano": vm.inputEditNomeItaliano,
-                                "nomeInglese": vm.inputEditNomeInglese,
-                                "elencoAutori": vm.stringaElencoClassificatori,
-                                "statoConservazioneId": vm.statoDiConservazioneSelezionato.id,
-                                "specie": null,
-                                "statoConservazione": null
-                            };
+
                             vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
                             vm.percorsoSottofamiglia = _.find(vm.percorsoFamiglia.figli, ["id", vm.percorsoSottofamiglia.id]);
                             vm.percorsoTribu = _.find(vm.percorsoSottofamiglia.figli, ["id", vm.percorsoTribu.id]);
                             vm.percorsoGenere = _.find(vm.percorsoTribu.figli, ["id", vm.percorsoGenere.id]);
                             vm.percorsoSpecie = _.find(vm.percorsoGenere.figli, ["id", vm.percorsoSpecie.id]);
-                            vm.percorsoSottospecie = _.find(vm.percorsoSpecie.figli, ["id", vm.percorsoSottospecie.id]);;
+                            vm.percorsoSottospecie = _.find(vm.percorsoSpecie.figli, ["id", vm.percorsoSottospecie.id]);
+                            vm.selectedNode = vm.percorsoSottospecie;
 
-                            vm.testo = _.toLower(_.trim(vm.inputEditSottospecie));
+                            vm.testo = vm.selectedNode.nome;
                             vm.inputEditSottospecie = vm.testo;
 
                             vm.pulsanteEditSottospecieDisabilitato = true;

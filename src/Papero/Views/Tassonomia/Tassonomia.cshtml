@@ -48,34 +48,39 @@
                     <span ng-show="vm.livello == 3" ng-cloak>@localizzatore["Tribù"]: {{vm.testo}}</span>
                     <span ng-show="vm.livello == 4" ng-cloak>@localizzatore["Genere"]: {{vm.testo}}</span>
                     <span ng-show="vm.livello == 5 && vm.panelInsertSpecieVisibile == true" ng-cloak>@localizzatore["Inserisci nuova Specie"]</span>
-                        <span ng-show="vm.livello == 5 && vm.panelInsertSpecieVisibile == false" ng-cloak>
-                            @localizzatore["Specie"]: {{vm.testo}}
-                            @if (await autorizzatore.AuthorizeAsync(User, "EditTassonomia"))
-                            {
-                                <text>&nbsp;&nbsp;&nbsp;</text>
-                                <a href="#"
-                                   class="btn btn-success"
-                                   ng-show="vm.pulsanteInserimentoSpecieVisibile"
-                                   ng-click="vm.apriPannelloInserimentoSpecie()">
-                                    <i class="fa fa-plus"></i> @localizzatore["Nuova Specie"]
-                                </a>
-                            }
-                        </span>
-                    <span ng-show="vm.livello == 6 && vm.panelInsertSottospecieVisibile == true" ng-cloak>@localizzatore["Inserisci nuova Sottospecie"]</span>
-                        <span ng-show="vm.livello == 6 && vm.panelInsertSottospecieVisibile == false" ng-cloak>
-                            @localizzatore["Sottospecie"]: {{vm.testo}}
-                            @if (await autorizzatore.AuthorizeAsync(User, "EditTassonomia"))
-                            {
-                                <text>&nbsp;&nbsp;&nbsp;</text>
-                                <a href="#"
-                                   class="btn btn-success"
-                                   ng-show="vm.pulsanteInserimentoSottospecieVisibile"
-                                   ng-click="vm.apriPannelloInserimentoSottospecie()">
-                                    <i class="fa fa-plus"></i> @localizzatore["Nuova Sottospecie"]
-                                </a>
-                            }
-                        </span>
-</h3>
+                    <span ng-show="vm.livello == 5 && vm.panelInsertSpecieVisibile == false" ng-cloak>
+                        @localizzatore["Specie"]: {{vm.testo}}
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditTassonomia"))
+                        {
+                            <text>&nbsp;&nbsp;&nbsp;</text>
+                            <a href="#"
+                               class="btn btn-success"
+                               ng-show="vm.pulsanteInserimentoSpecieVisibile"
+                               ng-click="vm.apriPannelloInserimentoSpecie()">
+                                <i class="fa fa-plus"></i> @localizzatore["Nuova Specie"]
+                            </a>
+                        }
+                    </span>
+                    <span ng-show="vm.livello == 6 && vm.panelInsertSottospecieVisibile == true && vm.inputInsertSottospecieReadonly == false" ng-cloak>@localizzatore["Inserisci nuova Sottospecie"]</span>
+                    <span ng-show="vm.livello == 6 && vm.panelInsertSottospecieVisibile == true && vm.inputInsertSottospecieReadonly == true" ng-cloak>@localizzatore["Inserisci Sottospecie nominale"]</span>
+                    <span ng-show="vm.livello == 6 && vm.panelInsertSottospecieVisibile == false" ng-cloak>
+                        @localizzatore["Sottospecie"]: {{vm.testo}}
+                        @if (await autorizzatore.AuthorizeAsync(User, "EditTassonomia"))
+                        {
+                            <text>&nbsp;&nbsp;&nbsp;</text>
+                            <a href="#"
+                               class="btn btn-success"
+                               ng-show="vm.pulsanteInserimentoSottospecieVisibile"
+                               ng-click="vm.apriPannelloInserimentoSottospecie()">
+                                <i class="fa fa-plus"></i>
+                                <text>&nbsp;</text>
+                                <span ng-show="!vm.inputInsertSottospecieReadonly">@localizzatore["Nuova Sottospecie"]</span>
+                                <span ng-show="vm.inputInsertSottospecieReadonly">@localizzatore["Sottospecie nominale"]</span>
+                            </a>
+                        }
+                    </span>
+                </h3>
+
             </div>
             <div class="panel-body">
 
@@ -1047,3 +1052,5 @@
             </div>
         </div>
     </div>
+
+</div>
