@@ -203,51 +203,62 @@ namespace Papero.Controllers
             return BadRequest("Errore");
         }
 
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpPost("/api/specie")]
+        public async Task<IActionResult> PostSpecie([FromBody]Specie specie)
+        {
+            _repository.PostSpecie(specie);
+
+            if (await _repositoryComune.SalvaModifiche())
+                return Created($"api/specie/{specie.Id}", specie);
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpPost("/api/generi")]
+        public async Task<IActionResult> PostGenere([FromBody]Generi genere)
+        {
+            _repository.PostGenere(genere);
+
+            if (await _repositoryComune.SalvaModifiche())
+                return Created($"api/generi/{genere.Id}", genere);
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpPost("/api/tribu")]
+        public async Task<IActionResult> PostTribu([FromBody]Tribu tribu)
+        {
+            _repository.PostTribu(tribu);
+
+            if (await _repositoryComune.SalvaModifiche())
+                return Created($"api/tribu/{tribu.Id}", tribu);
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpPost("/api/sottofamiglie")]
+        public async Task<IActionResult> PostSottofamiglia([FromBody]Sottofamiglie sottofamiglia)
+        {
+            _repository.PostSottofamiglia(sottofamiglia);
+
+            if (await _repositoryComune.SalvaModifiche())
+                return Created($"api/sottofamiglie/{sottofamiglia.Id}", sottofamiglia);
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpPost("/api/famiglie")]
+        public async Task<IActionResult> PostFamiglia([FromBody]Famiglie famiglia)
+        {
+            _repository.PostFamiglia(famiglia);
+
+            if (await _repositoryComune.SalvaModifiche())
+                return Created($"api/famiglie/{famiglia.Id}", famiglia);
+            return BadRequest("Errore");
+        }
+
         #endregion
 
-
-        //[Authorize(Policy = "VisualizzaDettaglioEsemplare")]
-        //[HttpGet("api/classificatori")]
-        //public IActionResult GetClassificatori()
-        //{
-        //    return Ok(_repository.LeggiClassificatori());
-        //}
-
-        //[Authorize(Policy = "VisualizzaDettaglioEsemplare")]
-        //[HttpGet("api/classificatori/{idClassificatore}")]
-        //public IActionResult GetClassificatori(int classificatoreID)
-        //{
-        //    return Ok(_repository.LeggiClassificatori(classificatoreID));
-        //}
-
-        //[HttpPost("api/classificatori")]
-        //public async Task<IActionResult> PostClassificatore([FromBody]Classificatori classificatore)
-        //{
-        //    _repository.PostClassificatore(classificatore);
-
-        //    if (await _repositoryComune.SalvaModifiche())
-        //        return Created($"api/classificatori/{classificatore.Id}", classificatore);
-        //    return BadRequest("Errore");
-        //}
-
-        //[HttpPut("api/classificatori")]
-        //public async Task<IActionResult> PutClassificatore([FromBody]Classificatori classificatore)
-        //{
-        //    _repository.PutClassificatore(classificatore);
-
-        //    if (await _repositoryComune.SalvaModifiche())
-        //        return Ok($"api/classificatori/{classificatore.Id}");
-        //    return BadRequest("Errore");
-        //}
-
-        //[HttpDelete("api/classificatori/{idClassificatore}")]
-        //public async Task<IActionResult> CancellaClassificatore(int idClassificatore)
-        //{
-        //    _repository.CancellaClassificatore(idClassificatore);
-
-        //    if (await _repositoryComune.SalvaModifiche())
-        //        return Ok();
-        //    return BadRequest("Errore");
-        //}
     }
 }
