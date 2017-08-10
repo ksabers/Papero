@@ -259,6 +259,147 @@ namespace Papero.Controllers
 
         #endregion
 
+        #region Delete
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpDelete("/api/sottospecieconautori/{idSottospecie}")]
+        [HttpDelete("/api/sottospecie/{idSottospecie}")]
+        public async Task<IActionResult> DeleteSottospecie(int idSottospecie)
+        {
+            _repository.CancellaSottospecie(idSottospecie);
+
+            if (await _repositoryComune.SalvaModifiche())
+                return Ok();
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpDelete("/api/specie/{idSpecie}")]
+        public async Task<IActionResult> DeleteSpecie(int idSpecie)
+        {
+            _repository.CancellaSottospecie(_repository.IdSottospecieIndeterminataDaSpecie(idSpecie));
+
+            if (await _repositoryComune.SalvaModifiche())
+            {
+                _repository.CancellaSpecie(idSpecie);
+                if (await _repositoryComune.SalvaModifiche())
+                {
+                    return Ok();
+                }   
+            }
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpDelete("/api/generi/{idGenere}")]
+        public async Task<IActionResult> DeleteGenere(int idGenere)
+        {
+            _repository.CancellaSottospecie(_repository.IdSottospecieIndeterminataDaGenere(idGenere));
+
+            if (await _repositoryComune.SalvaModifiche())
+            {
+                _repository.CancellaSpecie(_repository.IdUnicaSpecieDaGenere(idGenere));
+                if (await _repositoryComune.SalvaModifiche())
+                {
+                    _repository.CancellaGenere(idGenere);
+                    if (await _repositoryComune.SalvaModifiche())
+                    {
+                        return Ok();
+                    }                     
+                }
+            }
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpDelete("/api/tribu/{idTribu}")]
+        public async Task<IActionResult> DeleteTribu(int idTribu)
+        {
+            _repository.CancellaSottospecie(_repository.IdSottospecieIndeterminataDaTribu(idTribu));
+
+            if (await _repositoryComune.SalvaModifiche())
+            {
+                _repository.CancellaSpecie(_repository.IdUnicaSpecieDaTribu(idTribu));
+                if (await _repositoryComune.SalvaModifiche())
+                {
+                    _repository.CancellaGenere(_repository.IdUnicoGenereDaTribu(idTribu));
+                    if (await _repositoryComune.SalvaModifiche())
+                    {
+                        _repository.CancellaTribu(idTribu);
+                        if (await _repositoryComune.SalvaModifiche())
+                        {
+                            return Ok();
+                        }    
+                    }
+                }
+            }
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpDelete("/api/sottofamiglie/{idSottofamiglia}")]
+        public async Task<IActionResult> DeleteSottofamiglia(int idSottofamiglia)
+        {
+            _repository.CancellaSottospecie(_repository.IdSottospecieIndeterminataDaSottofamiglia(idSottofamiglia));
+
+            if (await _repositoryComune.SalvaModifiche())
+            {
+                _repository.CancellaSpecie(_repository.IdUnicaSpecieDaSottofamiglia(idSottofamiglia));
+                if (await _repositoryComune.SalvaModifiche())
+                {
+                    _repository.CancellaGenere(_repository.IdUnicoGenereDaSottofamiglia(idSottofamiglia));
+                    if (await _repositoryComune.SalvaModifiche())
+                    {
+                        _repository.CancellaTribu(_repository.IdUnicaTribuDaSottofamiglia(idSottofamiglia));
+                        if (await _repositoryComune.SalvaModifiche())
+                        {
+                            _repository.CancellaSottofamiglia(idSottofamiglia);
+                            if (await _repositoryComune.SalvaModifiche())
+                            {
+                                return Ok();
+                            }
+                        }
+                    }
+                }
+            }
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditTassonomia")]
+        [HttpDelete("/api/famiglie/{idFamiglia}")]
+        public async Task<IActionResult> DeleteFamiglia(int idFamiglia)
+        {
+            _repository.CancellaSottospecie(_repository.IdSottospecieIndeterminataDaFamiglia(idFamiglia));
+
+            if (await _repositoryComune.SalvaModifiche())
+            {
+                _repository.CancellaSpecie(_repository.IdUnicaSpecieDaFamiglia(idFamiglia));
+                if (await _repositoryComune.SalvaModifiche())
+                {
+                    _repository.CancellaGenere(_repository.IdUnicoGenereDaFamiglia(idFamiglia));
+                    if (await _repositoryComune.SalvaModifiche())
+                    {
+                        _repository.CancellaTribu(_repository.IdUnicaTribuDaFamiglia(idFamiglia));
+                        if (await _repositoryComune.SalvaModifiche())
+                        {
+                            _repository.CancellaSottofamiglia(_repository.IdUnicaSottofamigliaDaFamiglia(idFamiglia));
+                            if (await _repositoryComune.SalvaModifiche())
+                            {
+                                _repository.CancellaFamiglia(idFamiglia);
+                                if (await _repositoryComune.SalvaModifiche())
+                                {
+                                    return Ok();
+                                }   
+                            }
+                        }
+                    }
+                }
+            }
+            return BadRequest("Errore");
+        }
+
+        #endregion
+
         #region Conteggio Esemplari
 
         [Authorize(Policy = "VisualizzaElencoEsemplari")]

@@ -64,6 +64,17 @@ namespace Papero.Models
 
         #endregion
 
+        #region Delete
+
+        void CancellaSottospecie(int idSottospecie);
+        void CancellaSpecie(int idSpecie);
+        void CancellaGenere(int idGenere);
+        void CancellaTribu(int idTribu);
+        void CancellaSottofamiglia(int idSottofamiglia);
+        void CancellaFamiglia(int idFamiglia);
+
+        #endregion
+
         #region Conteggio Esemplari
 
         IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSottospecie(int idSottospecie);
@@ -72,6 +83,26 @@ namespace Papero.Models
         IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaTribu(int idTribu);
         IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSottofamiglia(int idSottofamiglia);
         IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaFamiglia(int idFamiglia);
+
+        #endregion
+
+        #region NavigazioneInversa
+
+        int IdSottospecieIndeterminataDaSpecie(int idSpecie);
+        int IdSottospecieIndeterminataDaGenere(int idGenere);
+        int IdSottospecieIndeterminataDaTribu(int idTribu);
+        int IdSottospecieIndeterminataDaSottofamiglia(int idSottofamiglia);
+        int IdSottospecieIndeterminataDaFamiglia(int idFamiglia);
+        int IdUnicaSpecieDaGenere(int idGenere);
+        int IdUnicaSpecieDaTribu(int idTribu);
+        int IdUnicaSpecieDaSottofamiglia(int idSottofamiglia);
+        int IdUnicaSpecieDaFamiglia(int idFamiglia);
+        int IdUnicoGenereDaTribu(int idTribu);
+        int IdUnicoGenereDaSottofamiglia(int idSottofamiglia);
+        int IdUnicoGenereDaFamiglia(int idFamiglia);
+        int IdUnicaTribuDaSottofamiglia(int idSottofamiglia);
+        int IdUnicaTribuDaFamiglia(int idFamiglia);
+        int IdUnicaSottofamigliaDaFamiglia(int idFamiglia);
 
         #endregion
     }

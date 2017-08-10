@@ -426,7 +426,50 @@ namespace Papero.Models
 
         #endregion
 
-#region Conteggio Esemplari
+#region Delete
+
+        public void CancellaSottospecie(int idSottospecie)
+        {
+            _contesto.Classificazioni
+                .RemoveRange(_contesto.Classificazioni.Where(classificazione => classificazione.SottospecieId == idSottospecie));
+
+            _contesto.Sottospecie
+                .RemoveRange(_contesto.Sottospecie.Where(sottospecie => sottospecie.Id == idSottospecie));
+        }
+
+        public void CancellaSpecie(int idSpecie)
+        {
+            _contesto.Specie
+                .RemoveRange(_contesto.Specie.Where(specie => specie.Id == idSpecie));
+        }
+
+        public void CancellaGenere(int idGenere)
+        {
+            _contesto.Generi
+                .RemoveRange(_contesto.Generi.Where(genere => genere.Id == idGenere));
+        }
+
+        public void CancellaTribu(int idTribu)
+        {
+            _contesto.Tribu
+                .RemoveRange(_contesto.Tribu.Where(tribu => tribu.Id == idTribu));
+        }
+
+        public void CancellaSottofamiglia(int idSottofamiglia)
+        {
+            _contesto.Sottofamiglie
+                .RemoveRange(_contesto.Sottofamiglie.Where(sottofamiglia => sottofamiglia.Id == idSottofamiglia));
+        }
+
+        public void CancellaFamiglia(int idFamiglia)
+        {
+            _contesto.Famiglie
+                .RemoveRange(_contesto.Famiglie.Where(famiglia => famiglia.Id == idFamiglia));
+        }
+
+        #endregion
+
+        #region Conteggio Esemplari
 
         public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSottospecie(int idSottospecie)
         {
@@ -528,6 +571,114 @@ namespace Papero.Models
                     Sottospecie = esemplare.Sottospecie.Nome
                 }
                 ).ToList();
+        }
+
+        #endregion
+
+        #region Navigazione Inversa
+
+        public int IdSottospecieIndeterminataDaSpecie(int idSpecie)
+        {
+            return _contesto.Sottospecie
+                .Single(sottospecie => sottospecie.Nome == "-" && sottospecie.SpecieId == idSpecie)
+                .Id;
+        }
+
+        public int IdSottospecieIndeterminataDaGenere (int idGenere)
+        {
+            return _contesto.Sottospecie                                                                    // Questa funziona SOLO se:
+                .Single(sottospecie => sottospecie.Nome == "-" && sottospecie.Specie.GenereId == idGenere)  // 1) il genere ha una specie sola
+                .Id;                                                                                        // 2) la specie ha solo la sottospecie indeterminata                  
+        }                                                                                                   // (si usa per la cancellazione di un ramo)                  
+
+        public int IdSottospecieIndeterminataDaTribu(int idTribu)
+        {
+            return _contesto.Sottospecie                                                                         // Questa funziona SOLO se:
+                .Single(sottospecie => sottospecie.Nome == "-" && sottospecie.Specie.Genere.TribuId == idTribu)  // 1) il genere ha una specie sola
+                .Id;                                                                                             // 2) la specie ha solo la sottospecie indeterminata                  
+        }                                                                                                        // 3) la tribù ha una specie sola        
+
+        public int IdSottospecieIndeterminataDaSottofamiglia(int idSottofamiglia)
+        {
+            return _contesto.Sottospecie                                                                                               // Questa funziona SOLO se:
+                .Single(sottospecie => sottospecie.Nome == "-" && sottospecie.Specie.Genere.Tribu.SottofamigliaId == idSottofamiglia)  // 1) il genere ha una specie sola
+                .Id;                                                                                                                   // 2) la specie ha solo la sottospecie indeterminata                  
+        }                                                                                                                              // 3) sottofamiglia e tribù hanno un figlio solo
+
+        public int IdSottospecieIndeterminataDaFamiglia(int idFamiglia)
+        {
+            return _contesto.Sottospecie                                                                                                   // Questa funziona SOLO se:
+                .Single(sottospecie => sottospecie.Nome == "-" && sottospecie.Specie.Genere.Tribu.Sottofamiglia.FamigliaId == idFamiglia)  // 1) il genere ha una specie sola
+                .Id;                                                                                                                       // 2) la specie ha solo la sottospecie indeterminata                  
+        }
+        public int IdUnicaSpecieDaGenere(int idGenere)
+        {
+            return _contesto.Specie
+                .Single(specie => specie.GenereId == idGenere)  // Questa funziona SOLO se il genere ha una specie sola (si usa per la cancellazione di un ramo)
+                .Id;
+        }
+
+        public int IdUnicaSpecieDaTribu(int idTribu)
+        {
+            return _contesto.Specie
+                .Single(specie => specie.Genere.TribuId == idTribu)  // Questa funziona SOLO se la tribu ha un genere solo e il genere ha una specie sola (si usa per la cancellazione di un ramo)
+                .Id;
+        }
+
+        public int IdUnicaSpecieDaSottofamiglia(int idSottofamiglia)
+        {
+            return _contesto.Specie
+                .Single(specie => specie.Genere.Tribu.SottofamigliaId == idSottofamiglia)
+                .Id;
+        }
+
+        public int IdUnicaSpecieDaFamiglia(int idFamiglia)
+        {
+            return _contesto.Specie
+                .Single(specie => specie.Genere.Tribu.Sottofamiglia.FamigliaId == idFamiglia)
+                .Id;
+        }
+
+        public int IdUnicoGenereDaTribu(int idTribu)
+        {
+            return _contesto.Generi
+                .Single(genere => genere.TribuId == idTribu)  // Questa funziona SOLO se la tribu ha un genere solo (si usa per la cancellazione di un ramo)
+                .Id;
+        }
+
+        public int IdUnicoGenereDaSottofamiglia(int idSottofamiglia)
+        {
+            return _contesto.Generi
+                .Single(genere => genere.Tribu.SottofamigliaId == idSottofamiglia)  // Questa funziona SOLO se la sottofamiglia ha una tribù sola con un solo genere
+                .Id;
+        }
+
+        public int IdUnicoGenereDaFamiglia(int idFamiglia)
+        {
+            return _contesto.Generi
+                .Single(genere => genere.Tribu.Sottofamiglia.FamigliaId == idFamiglia)  // Questa funziona SOLO se la sottofamiglia ha una tribù sola con un solo genere
+                .Id;
+        }
+
+        public int IdUnicaTribuDaSottofamiglia(int idSottofamiglia)
+        {
+            return _contesto.Tribu
+                .Single(tribu => tribu.SottofamigliaId == idSottofamiglia)  // Questa funziona SOLO se la sottofamiglia ha una tribù sola (si usa per la cancellazione di un ramo)
+                .Id;
+        }
+
+        public int IdUnicaTribuDaFamiglia(int idFamiglia)
+        {
+            return _contesto.Tribu
+                .Single(tribu => tribu.Sottofamiglia.FamigliaId == idFamiglia)  // Questa funziona SOLO se la sottofamiglia ha una tribù sola (si usa per la cancellazione di un ramo)
+                .Id;
+        }
+
+        public int IdUnicaSottofamigliaDaFamiglia(int idFamiglia)
+        {
+            return _contesto.Sottofamiglie
+                .Single(sottofamiglia => sottofamiglia.FamigliaId == idFamiglia)  // Questa funziona SOLO se la sottofamiglia ha una tribù sola (si usa per la cancellazione di un ramo)
+                .Id;
         }
 
         #endregion
