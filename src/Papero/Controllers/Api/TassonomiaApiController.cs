@@ -117,7 +117,6 @@ namespace Papero.Controllers
             return Ok(_repository.LeggiSottospecieConAutori(idSottospecie));
         }
 
-
         #endregion
 
         #region Put
@@ -256,6 +255,52 @@ namespace Papero.Controllers
             if (await _repositoryComune.SalvaModifiche())
                 return Created($"api/famiglie/{famiglia.Id}", famiglia);
             return BadRequest("Errore");
+        }
+
+        #endregion
+
+        #region Conteggio Esemplari
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridasottospecie/{idSottospecie}")]
+        public IActionResult GetElencoEsemplariDaSottospecie(int idSottospecie)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaSottospecie(idSottospecie));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridaspecie/{idSpecie}")]
+        public IActionResult GetElencoEsemplariDaSpecie(int idSpecie)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaSpecie(idSpecie));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridagenere/{idGenere}")]
+        public IActionResult GetElencoEsemplariDaGenere(int idGenere)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaGenere(idGenere));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridatribu/{idTribu}")]
+        public IActionResult GetElencoEsemplariDaTribu(int idTribu)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaTribu(idTribu));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridasottofamiglia/{idSottofamiglia}")]
+        public IActionResult GetElencoEsemplariDaSottofamiglia(int idSottofamiglia)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaSottofamiglia(idSottofamiglia));
+        }
+
+        [Authorize(Policy = "VisualizzaElencoEsemplari")]
+        [HttpGet("api/elencoesemplaridafamiglia/{idFamiglia}")]
+        public IActionResult GetElencoEsemplariDaFamiglia(int idFamiglia)
+        {
+            return Ok(_repository.LeggiElencoEsemplariDaFamiglia(idFamiglia));
         }
 
         #endregion

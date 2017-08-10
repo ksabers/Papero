@@ -63,5 +63,16 @@ namespace Papero.Models
         void PostSottospecieConAutori(SottospecieViewModel sottospecieconautori);
 
         #endregion
+
+        #region Conteggio Esemplari
+
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSottospecie(int idSottospecie);
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSpecie(int idSpecie);
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaGenere(int idGenere);
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaTribu(int idTribu);
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSottofamiglia(int idSottofamiglia);
+        IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaFamiglia(int idFamiglia);
+
+        #endregion
     }
 }

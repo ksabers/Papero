@@ -228,4 +228,40 @@
   <data name="Tribù" xml:space="preserve">
     <value>Tribu</value>
   </data>
+  <data name="Cancella Sottospecie" xml:space="preserve">
+    <value>Supprimer la Sous-espèce</value>
+  </data>
+  <data name="Cancella Specie" xml:space="preserve">
+    <value>Supprimer la Espèce</value>
+  </data>
+  <data name="Cancella Famiglia" xml:space="preserve">
+    <value>Supprimer la Famille</value>
+  </data>
+  <data name="Cancella Genere" xml:space="preserve">
+    <value>Supprimer le Genre</value>
+  </data>
+  <data name="Cancella Sottofamiglia" xml:space="preserve">
+    <value>Supprimer la Sous-famille</value>
+  </data>
+  <data name="Cancella Tribù" xml:space="preserve">
+    <value>Supprimer la Tribu</value>
+  </data>
+  <data name="Conferma Cancellazione Sottospecie" xml:space="preserve">
+    <value>Confirmer la suppression de la Sous-espèce</value>
+  </data>
+  <data name="Conferma Cancellazione Specie" xml:space="preserve">
+    <value>Confirmer la suppression de la Espèce</value>
+  </data>
+  <data name="Conferma Cancellazione Famiglia" xml:space="preserve">
+    <value>Confirmer la suppression de la Famille</value>
+  </data>
+  <data name="Conferma Cancellazione Genere" xml:space="preserve">
+    <value>Confirmer la suppression du Genre</value>
+  </data>
+  <data name="Conferma Cancellazione Sottofamiglia" xml:space="preserve">
+    <value>Confirmer la suppression de la Sous-famille</value>
+  </data>
+  <data name="Conferma Cancellazione Tribù" xml:space="preserve">
+    <value>Confirmer la suppression de la Tribu</value>
+  </data>
 </root>

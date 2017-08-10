@@ -14,6 +14,8 @@
         var alberoTassonomia = [];                // Array delle entità contenute nell'albero
         var re = new RegExp("([1-9][0-9]*)");
 
+        var numeroEsemplari = 0;  // Numero degli esemplari figli del nodo selezionato
+
         var vm = this;
 
         vm.opzioniTabellaElencoClassificatori = DTOptionsBuilder.newOptions()   // Opzioni di visualizzazione delle angular datatable
@@ -38,6 +40,8 @@
             .withOption('info', false)
             .withOption('ordering', false)
             .withLanguageSource(stringaLinguaggioDatatables);
+
+        vm.entitaDaCancellare = "";
 
 // #region Funzioni Albero
 
@@ -83,6 +87,8 @@
                         vm.panelEditSpecieVisibile = false;
                         vm.panelEditSottospecieVisibile = false;
                         vm.panelInsertSpecieVisibile = false;
+                        vm.panelCancellaSottospecieVisibile = false;
+                        vm.panelCancellaSpecieVisibile = false;
 
                         vm.percorsoFamiglia = nodo;                    // Memorizziamo i percorsi del nodo selezionato
                         vm.percorsoSottofamiglia = null;
@@ -94,6 +100,27 @@
 
                         vm.inputEditFamiglia = nodo.nome;
                         vm.passeriforme = nodo.passeriforme;
+
+                        //Decidiamo se la famiglia è cancellabile (e quindi se mostriamo o no il pulsante di cancellazione)
+                        if (vm.percorsoFamiglia.figli.length > 1) {  // Se esistono sottofamiglie, la famiglia non è cancellabile
+                            vm.pulsanteCancellazioneFamigliaVisibile = false;
+                        }
+                        else {  // Se non esistono sottofamiglie verifichiamo che esista almeno un'altra famiglia (altrimenti l'albero resterebbe monco)
+                            if (vm.datiAlbero.length == 1) {  // Se è l'unica famiglia non è cancellabile
+                                vm.pulsanteCancellazioneFamigliaVisibile = false;
+                            }
+                            else {  // Se ci sono più famiglie, verifichiamo che questa non abbia figli
+                                $http.get("/api/elencoesemplaridafamiglia/" + nodo.id)  // Lo facciamo come ultima spiaggia per evitare una chiamata inutile al DB
+                                    .then(function (response) {
+                                        if (response.data.length > 0) {
+                                            vm.pulsanteCancellazioneFamigliaVisibile = false;
+                                        }
+                                        else {
+                                            vm.pulsanteCancellazioneFamigliaVisibile = true;
+                                        }
+                                    })
+                            }
+                        }
                         break;
 
                     case 2: // Clic su una Sottofamiglia
@@ -105,6 +132,8 @@
                         vm.panelEditSpecieVisibile = false;
                         vm.panelEditSottospecieVisibile = false;
                         vm.panelInsertSpecieVisibile = false;
+                        vm.panelCancellaSottospecieVisibile = false;
+                        vm.panelCancellaSpecieVisibile = false;
 
                         vm.percorsoFamiglia = percorso[1];             // Memorizziamo i percorsi del nodo selezionato
                         vm.percorsoSottofamiglia = percorso[0];
@@ -114,6 +143,27 @@
                         vm.percorsoSottospecie = null;
 
                         vm.inputEditSottofamiglia = nodo.nome;
+
+                        //Decidiamo se la sottofamiglia è cancellabile (e quindi se mostriamo o no il pulsante di cancellazione)
+                        if (vm.percorsoSottofamiglia.figli.length > 1) {  // Se esistono tribù, la sottofamiglia non è cancellabile
+                            vm.pulsanteCancellazioneSottofamigliaVisibile = false;
+                        }
+                        else {  // Se non esistono tribù verifichiamo che esista almeno un'altra sottofamiglia (altrimenti l'albero resterebbe monco)
+                            if (vm.percorsoFamiglia.figli.length == 1) {  // Se è l'unica sottofamiglia non è cancellabile
+                                vm.pulsanteCancellazioneSottofamigliaVisibile = false;
+                            }
+                            else {  // Se ci sono più sottofamiglie, verifichiamo che questa non abbia figli
+                                $http.get("/api/elencoesemplaridasottofamiglia/" + nodo.id)  // Lo facciamo come ultima spiaggia per evitare una chiamata inutile al DB
+                                    .then(function (response) {
+                                        if (response.data.length > 0) {
+                                            vm.pulsanteCancellazioneSottofamigliaVisibile = false;
+                                        }
+                                        else {
+                                            vm.pulsanteCancellazioneSottofamigliaVisibile = true;
+                                        }
+                                    })
+                            }
+                        }
                         break;
 
                     case 3:  // Clic su una Tribù
@@ -125,6 +175,8 @@
                         vm.panelEditSpecieVisibile = false;
                         vm.panelEditSottospecieVisibile = false;
                         vm.panelInsertSpecieVisibile = false;
+                        vm.panelCancellaSottospecieVisibile = false;
+                        vm.panelCancellaSpecieVisibile = false;
 
                         vm.percorsoFamiglia = percorso[2];             // Memorizziamo i percorsi del nodo selezionato
                         vm.percorsoSottofamiglia = percorso[1];
@@ -134,6 +186,27 @@
                         vm.percorsoSottospecie = null;
 
                         vm.inputEditTribu = nodo.nome;
+
+                        //Decidiamo se la tribù è cancellabile (e quindi se mostriamo o no il pulsante di cancellazione)
+                        if (vm.percorsoTribu.figli.length > 1) {  // Se esistono generi, la tribù non è cancellabile
+                            vm.pulsanteCancellazioneTribuVisibile = false;
+                        }
+                        else {  // Se non esistono generi verifichiamo che esista almeno un'altra tribù (altrimenti l'albero resterebbe monco)
+                            if (vm.percorsoSottofamiglia.figli.length == 1) {  // Se è l'unica tribù non è cancellabile
+                                vm.pulsanteCancellazioneTribuVisibile = false;
+                            }
+                            else {  // Se ci sono più tribù, verifichiamo che questa non abbia figli
+                                $http.get("/api/elencoesemplaridatribu/" + nodo.id)  // Lo facciamo come ultima spiaggia per evitare una chiamata inutile al DB
+                                    .then(function (response) {
+                                        if (response.data.length > 0) {
+                                            vm.pulsanteCancellazioneTribuVisibile = false;
+                                        }
+                                        else {
+                                            vm.pulsanteCancellazioneTribuVisibile = true;
+                                        }
+                                    })
+                            }
+                        }
                         break;
 
                     case 4:  // Clic su un Genere
@@ -145,6 +218,8 @@
                         vm.panelEditSpecieVisibile = false;
                         vm.panelEditSottospecieVisibile = false;
                         vm.panelInsertSpecieVisibile = false;
+                        vm.panelCancellaSottospecieVisibile = false;
+                        vm.panelCancellaSpecieVisibile = false;
 
                         vm.percorsoFamiglia = percorso[3];             // Memorizziamo i percorsi del nodo selezionato
                         vm.percorsoSottofamiglia = percorso[2];
@@ -154,6 +229,27 @@
                         vm.percorsoSottospecie = null;
 
                         vm.inputEditGenere = nodo.nome;
+
+                        //Decidiamo se il genere è cancellabile (e quindi se mostriamo o no il pulsante di cancellazione)
+                        if (vm.percorsoGenere.figli.length > 1) {  // Se esistono specie, il genere non è cancellabile
+                            vm.pulsanteCancellazioneGenereVisibile = false;
+                        }
+                        else {  // Se non esistono specie verifichiamo che esista almeno un altro genere (altrimenti l'albero resterebbe monco)
+                            if (vm.percorsoTribu.figli.length == 1) {  // Se è l'unico genere non è cancellabile
+                                vm.pulsanteCancellazioneGenereVisibile = false;
+                            }
+                            else {  // Se ci sono più generi, verifichiamo che questo non abbia figli
+                                $http.get("/api/elencoesemplaridagenere/" + nodo.id)  // Lo facciamo come ultima spiaggia per evitare una chiamata inutile al DB
+                                    .then(function (response) {
+                                        if (response.data.length > 0) {
+                                            vm.pulsanteCancellazioneGenereVisibile = false;
+                                        }
+                                        else {
+                                            vm.pulsanteCancellazioneGenereVisibile = true;
+                                        }
+                                    })
+                            }
+                        }
                         break;
 
                     case 5:  // Clic su una Specie
@@ -165,6 +261,8 @@
                         vm.panelEditSpecieVisibile = true;
                         vm.panelEditSottospecieVisibile = false;
                         vm.panelInsertSpecieVisibile = false;
+                        vm.panelCancellaSottospecieVisibile = false;
+                        vm.panelCancellaSpecieVisibile = false;
 
                         vm.pulsanteInserimentoSpecieVisibile = true;
 
@@ -176,6 +274,28 @@
                         vm.percorsoSottospecie = null;
 
                         vm.inputEditSpecie = nodo.nome;
+
+                        //Decidiamo se la specie è cancellabile (e quindi se mostriamo o no il pulsante di cancellazione)
+                        if (vm.percorsoSpecie.figli.length > 1) {  // Se esistono sottospecie la specie non è cancellabile
+                            vm.pulsanteCancellazioneSpecieVisibile = false;
+                        }
+                        else {  // Se non esistono sottospecie verifichiamo che esista almeno un'altra specie (altrimenti l'albero resterebbe monco)
+                            if (vm.percorsoGenere.figli.length == 1) {  // Se è l'unica specie non è cancellabile
+                                vm.pulsanteCancellazioneSpecieVisibile = false;
+                            }
+                            else {  // Se ci sono più specie, verifichiamo che questa non abbia figli
+                                $http.get("/api/elencoesemplaridaspecie/" + nodo.id)  // Lo facciamo come ultima spiaggia per evitare una chiamata inutile al DB
+                                    .then(function (response) {
+                                        if (response.data.length > 0) {
+                                            vm.pulsanteCancellazioneSpecieVisibile = false;
+                                        }
+                                        else {
+                                            vm.pulsanteCancellazioneSpecieVisibile = true;
+                                        }
+                                    })
+                            }
+                        }
+
                         break;
 
                     case 6:  // Clic su una Sottospecie
@@ -184,43 +304,69 @@
                             .then(function (response) {
                                 vm.datiTabellaClassificatori = response.data;
 
-                                aggiornaDropdownClassificatori();
-                                vm.panelEditFamigliaVisibile = false;          //  Rendiamo visibile solo il giusto pannello di edit
-                                vm.panelEditSottofamigliaVisibile = false;
-                                vm.panelEditTribuVisibile = false;
-                                vm.panelEditGenereVisibile = false;
-                                vm.panelEditSpecieVisibile = false;
-                                vm.panelEditSottospecieVisibile = true;
-                                vm.panelInsertSpecieVisibile = false;
-                                vm.panelInsertSottospecieVisibile = false;
-                                vm.pulsanteInserimentoSottospecieVisibile = true;
+                                $http.get("/api/elencoesemplaridasottospecie/" + nodo.id)
+                                    .then(function (response) {
 
-                                vm.percorsoFamiglia = percorso[5];             // Memorizziamo i percorsi del nodo selezionato
-                                vm.percorsoSottofamiglia = percorso[4];
-                                vm.percorsoTribu = percorso[3];
-                                vm.percorsoGenere = percorso[2];
-                                vm.percorsoSpecie = percorso[1];
-                                vm.percorsoSottospecie = percorso[0];
+                                        numeroEsemplari = response.data.length;
 
-                                // Questa if serve a forzare l'utente a inserire per prima la sottospecie nominale (una sottospecie che abbia il nome della specie):
-                                // se nell'elenco dei figli della specie non viene trovata, allora viene obbligatoriamente inserita nella
-                                // casella di testo e non può essere cambiata. Se invece esiste già, si può inserire un'altra sottospecie
-                                if (_.find(vm.percorsoSpecie.figli, ["nome", vm.percorsoSpecie.nome])) {
-                                    vm.inputInsertSottospecie = "";
-                                    vm.inputInsertSottospecieReadonly = false;
-                                }
-                                else {
-                                    vm.inputInsertSottospecie = vm.percorsoSpecie.nome;
-                                    vm.inputInsertSottospecieReadonly = true;
-                                };
+                                        aggiornaDropdownClassificatori();
+                                        vm.panelEditFamigliaVisibile = false;          //  Rendiamo visibile solo il giusto pannello di edit
+                                        vm.panelEditSottofamigliaVisibile = false;
+                                        vm.panelEditTribuVisibile = false;
+                                        vm.panelEditGenereVisibile = false;
+                                        vm.panelEditSpecieVisibile = false;
+                                        vm.panelEditSottospecieVisibile = true;
+                                        vm.panelInsertSpecieVisibile = false;
+                                        vm.panelInsertSottospecieVisibile = false;
+                                        vm.pulsanteInserimentoSottospecieVisibile = true;
+                                        vm.panelCancellaSottospecieVisibile = false;
+                                        vm.panelCancellaSpecieVisibile = false;
 
-                                vm.inputEditSottospecie = nodo.nome;
-                                vm.inputEditNomeItaliano = nodo.nomeItaliano;
-                                vm.inputEditNomeInglese = nodo.nomeInglese;
-                                vm.statoDiConservazioneSelezionato = _.find(vm.elencoStatiConservazione, ["id", nodo.statoConservazioneId]);
-                                vm.inputEditAnnoClassificazione = parseInt(nodo.annoClassificazione);
-                                vm.classificazioneOriginale = nodo.classificazioneOriginale;
-                                vm.aggiornaElencoClassificatori();
+                                        vm.percorsoFamiglia = percorso[5];             // Memorizziamo i percorsi del nodo selezionato
+                                        vm.percorsoSottofamiglia = percorso[4];
+                                        vm.percorsoTribu = percorso[3];
+                                        vm.percorsoGenere = percorso[2];
+                                        vm.percorsoSpecie = percorso[1];
+                                        vm.percorsoSottospecie = percorso[0];
+
+                                        // Questa if serve a forzare l'utente a inserire per prima la sottospecie nominale (una sottospecie che abbia il nome della specie):
+                                        // se nell'elenco dei figli della specie non viene trovata, allora viene obbligatoriamente inserita nella
+                                        // casella di testo e non può essere cambiata. Se invece esiste già, si può inserire un'altra sottospecie
+                                        if (_.find(vm.percorsoSpecie.figli, ["nome", vm.percorsoSpecie.nome])) {
+                                            vm.inputInsertSottospecie = "";
+                                            vm.inputInsertSottospecieReadonly = false;
+                                        }
+                                        else {
+                                            vm.inputInsertSottospecie = vm.percorsoSpecie.nome;
+                                            vm.inputInsertSottospecieReadonly = true;
+                                        };
+
+                                        vm.inputEditSottospecie = nodo.nome;
+                                        vm.inputEditNomeItaliano = nodo.nomeItaliano;
+                                        vm.inputEditNomeInglese = nodo.nomeInglese;
+                                        vm.statoDiConservazioneSelezionato = _.find(vm.elencoStatiConservazione, ["id", nodo.statoConservazioneId]);
+                                        vm.inputEditAnnoClassificazione = parseInt(nodo.annoClassificazione);
+                                        vm.classificazioneOriginale = nodo.classificazioneOriginale;
+                                        vm.aggiornaElencoClassificatori();
+
+                                        // Decidiamo se la sottospecie è cancellabile (e quindi se mostriamo o no il pulsante di cancellazione)
+                                        if ((numeroEsemplari > 0) || (nodo.nome == "-")) { // Se ci sono esemplari associati o la sottospecie è indeterminata, non è mai cancellabile
+                                            vm.pulsanteCancellazioneSottospecieVisibile = false;
+                                        }
+                                        else {
+                                            if (nodo.nome == vm.percorsoSpecie.nome) {                      // Se siamo sulla sottospecie nominale...
+                                                if (vm.percorsoSpecie.figli.length == 2) {                  // ...ed è l'unica che c'è (a parte ovviamente l'indeterminata)...
+                                                    vm.pulsanteCancellazioneSottospecieVisibile = true;    // ...allora la possiamo cancellare
+                                                }
+                                                else {
+                                                    vm.pulsanteCancellazioneSottospecieVisibile = false;     // altrimenti, se ce ne sono altre, non è cancellabile
+                                                }                                                           // (non possono esistere sottospecie se non c'è la nominale)
+                                            }
+                                            else {  // Se non siamo sulla sottospecie nominale e non ha esemplari associati è cancellabile
+                                                vm.pulsanteCancellazioneSottospecieVisibile = true;
+                                            }
+                                        }; 
+                                });
                             }); 
                         break;
 
@@ -243,24 +389,32 @@
 // #region Variabili Famiglie
 
         vm.panelEditFamigliaVisibile = false;
+        vm.pulsanteCancellazioneFamigliaVisibile = false;
+        vm.panelCancellaFamigliaVisibile = false;
 
 // #endregion
 
 // #region Variabili Sottofamiglie
 
         vm.panelEditSottofamigliaVisibile = false;
+        vm.pulsanteCancellazioneSottofamigliaVisibile = false;
+        vm.panelCancellaSottofamigliaVisibile = false;
 
 // #endregion
 
 // #region Variabili Tribù
 
         vm.panelEditTribuVisibile = false;
+        vm.pulsanteCancellazioneTribuVisibile = false;
+        vm.panelCancellaTribuVisibile = false;
 
 // #endregion
 
 // #region Variabili Generi
 
         vm.panelEditGenereVisibile = false;
+        vm.pulsanteCancellazioneGenereVisibile = false;
+        vm.panelCancellaGenereVisibile = false;
 
 // #endregion
 
@@ -270,6 +424,8 @@
         vm.panelInsertSpecieVisibile = false;
         vm.pulsanteInsertSpecieDisabilitato = true;
         vm.pulsanteInserimentoSpecieVisibile = true;
+        vm.pulsanteCancellazioneSpecieVisibile = false;
+        vm.panelCancellaSpecieVisibile = false;
 
         vm.labelPulsanteFamigliaCorrente = true;
         vm.labelPulsanteSottofamigliaCorrente = true;
@@ -284,6 +440,8 @@
         vm.panelInsertSpecieVisibile = false;
         vm.pulsanteInserimentoSottospecieVisibile = true;
         vm.inputInsertSottospecieReadonly = false;
+        vm.pulsanteCancellazioneSottospecieVisibile = false;
+        vm.panelCancellaSottospecieVisibile = false;
 
 // #endregion
 
@@ -356,6 +514,20 @@
                 })
         };
 
+        vm.apriPannelloCancellazioneFamiglia = function apriPannelloCancellazioneFamiglia() {
+            vm.panelEditFamigliaVisibile = false;
+            vm.panelCancellaFamigliaVisibile = true;
+            vm.panelInsertSottospecieVisibile = false;
+            vm.pulsanteInserimentoSpecieVisibile = false;
+            vm.entitaDaCancellare = vm.percorsoFamiglia.nome;
+        }
+
+        vm.annullaCancellaFamiglia = function annullaCancellaFamiglia() {
+            vm.panelEditFamigliaVisibile = true;
+            vm.panelInsertFamigliaVisibile = false;
+            vm.panelCancellaFamigliaVisibile = false;
+        };
+
 //#endregion
 
 //#region Funzioni Sottofamiglie
@@ -406,6 +578,20 @@
                 .finally(function () {
 
                 })
+        };
+
+        vm.apriPannelloCancellazioneSottofamiglia = function apriPannelloCancellazioneSottofamiglia() {
+            vm.panelEditSottofamigliaVisibile = false;
+            vm.panelCancellaSottofamigliaVisibile = true;
+            vm.panelInsertSottospecieVisibile = false;
+            vm.pulsanteInserimentoSpecieVisibile = false;
+            vm.entitaDaCancellare = vm.percorsoSottofamiglia.nome;
+        }
+
+        vm.annullaCancellaSottofamiglia = function annullaCancellaSottofamiglia() {
+            vm.panelEditSottofamigliaVisibile = true;
+            vm.panelInsertSottofamigliaVisibile = false;
+            vm.panelCancellaSottofamigliaVisibile = false;
         };
 
 //#endregion
@@ -465,6 +651,20 @@
                 })
         };
 
+        vm.apriPannelloCancellazioneTribu = function apriPannelloCancellazioneTribu() {
+            vm.panelEditTribuVisibile = false;
+            vm.panelCancellaTribuVisibile = true;
+            vm.panelInsertSottospecieVisibile = false;
+            vm.pulsanteInserimentoSpecieVisibile = false;
+            vm.entitaDaCancellare = vm.percorsoTribu.nome;
+        }
+
+        vm.annullaCancellaTribu = function annullaCancellaTribu() {
+            vm.panelEditTribuVisibile = true;
+            vm.panelInsertTribuVisibile = false;
+            vm.panelCancellaTribuVisibile = false;
+        };
+
 //#endregion
 
 //#region Funzioni Generi
@@ -515,6 +715,20 @@
                 .finally(function () {
 
                 })
+        };
+
+        vm.apriPannelloCancellazioneGenere = function apriPannelloCancellazioneGenere() {
+            vm.panelEditGenereVisibile = false;
+            vm.panelCancellaGenereVisibile = true;
+            vm.panelInsertSottospecieVisibile = false;
+            vm.pulsanteInserimentoSpecieVisibile = false;
+            vm.entitaDaCancellare = vm.percorsoGenere.nome;
+        }
+
+        vm.annullaCancellaGenere = function annullaCancellaGenere() {
+            vm.panelEditGenereVisibile = true;
+            vm.panelInsertGenereVisibile = false;
+            vm.panelCancellaGenereVisibile = false;
         };
 
 //#endregion
@@ -592,6 +806,7 @@
             vm.panelInsertSpecieVisibile = true;
             vm.pulsanteInserimentoSpecieVisibile = false;
 
+
             vm.selezionaFamigliaCorrente();
             vm.selezionaSottofamigliaCorrente();
             vm.selezionaTribuCorrente();
@@ -612,6 +827,14 @@
 
         };
 
+        vm.apriPannelloCancellazioneSpecie = function apriPannelloCancellazioneSpecie() {
+            vm.panelEditSpecieVisibile = false;
+            vm.panelCancellaSpecieVisibile = true;
+            vm.panelInsertSottospecieVisibile = false;
+            vm.pulsanteInserimentoSpecieVisibile = false;
+            vm.entitaDaCancellare = vm.percorsoSpecie.nome;
+        }
+
         vm.annullaInserimentoSpecie = function annullaInserimentoSpecie() {
 
             vm.panelEditSpecieVisibile = true;
@@ -619,6 +842,14 @@
             vm.pulsanteInserimentoSpecieVisibile = true;
 
         };
+
+        vm.annullaCancellaSpecie = function annullaCancellaSpecie() {
+            vm.panelEditSpecieVisibile = true;
+            vm.panelCancellaSottospecieVisibile = false;
+            vm.panelCancellaSpecieVisibile = false;
+            vm.panelInsertSottospecieVisibile = false;
+            vm.pulsanteInserimentoSpecieVisibile = true;
+        }
 
         vm.inserisciSpecie = function inserisciSpecie() {
 
@@ -669,6 +900,8 @@
                                                 vm.panelEditSottospecieVisibile = false;
                                                 vm.panelInsertSpecieVisibile = false;
                                                 vm.panelInsertSottospecieVisibile = false;
+                                                vm.panelCancellaSottospecieVisibile = false;
+                                                vm.panelCancellaSpecieVisibile = false;
                                                 vm.pulsanteInserimentoSottospecieVisibile = true;
                                                 vm.percorsoFamiglia = _.find(vm.datiAlbero, ["id", vm.percorsoFamiglia.id]);
                                                 vm.percorsoSottofamiglia = _.find(vm.percorsoFamiglia.figli, ["id", vm.percorsoSottofamiglia.id]);
@@ -943,14 +1176,14 @@
         vm.apriPannelloInserimentoSottospecie = function apriPannelloInserimentoSottospecie() {
 
             vm.panelEditSottospecieVisibile = false;
+            vm.panelCancellaSottospecieVisibile = false;
+            vm.panelCancellaSpecieVisibile = false;
             vm.panelInsertSottospecieVisibile = true;
             vm.pulsanteInserimentoSottospecieVisibile = false;
         
             vm.inputInsertSottospecieNomeItaliano = "";
             vm.inputInsertSottospecieNomeInglese = "";
             vm.statoDiConservazioneSottospecieSelezionato = _.find(vm.elencoStatiConservazione, ["statoConservazione", "-"]);
-
-
 
             vm.dropdownSottospecieClassificatori = vm.elencoClassificatori;
             vm.classificatoreSottospecieSelezionato = vm.elencoClassificatori[0];
@@ -969,8 +1202,27 @@
             };
         };
 
+        vm.apriPannelloCancellazioneSottospecie = function apriPannelloCancellazioneSottospecie() {
+            vm.panelEditSottospecieVisibile = false;
+            vm.panelCancellaSottospecieVisibile = true;
+            vm.panelCancellaSpecieVisibile = false;
+            vm.panelInsertSottospecieVisibile = false;
+            vm.pulsanteInserimentoSottospecieVisibile = false;
+            vm.entitaDaCancellare = vm.percorsoSottospecie.nome;
+        }
+
+        vm.annullaCancellaSottospecie = function annullaCancellaSottospecie() {
+            vm.panelEditSottospecieVisibile = true;
+            vm.panelCancellaSottospecieVisibile = false;
+            vm.panelCancellaSpecieVisibile = false;
+            vm.panelInsertSottospecieVisibile = false;
+            vm.pulsanteInserimentoSottospecieVisibile = true;
+        }
+
         vm.annullaInserimentoSottospecie = function annullaInserimentoSottospecie() {
             vm.panelEditSottospecieVisibile = true;
+            vm.panelCancellaSottospecieVisibile = false;
+            vm.panelCancellaSpecieVisibile = false;
             vm.panelInsertSottospecieVisibile = false;
             vm.pulsanteInserimentoSottospecieVisibile = true;
         };
@@ -1057,6 +1309,8 @@
                                     vm.panelEditGenereVisibile = false;
                                     vm.panelEditSpecieVisibile = false;
                                     vm.panelEditSottospecieVisibile = true;
+                                    vm.panelCancellaSottospecieVisibile = false;
+                                    vm.panelCancellaSpecieVisibile = false;
                                     vm.panelInsertSpecieVisibile = false;
                                     vm.panelInsertSottospecieVisibile = false;
                                     vm.pulsanteInserimentoSottospecieVisibile = true;

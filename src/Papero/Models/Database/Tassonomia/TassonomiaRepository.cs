@@ -426,5 +426,111 @@ namespace Papero.Models
 
         #endregion
 
+#region Conteggio Esemplari
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSottospecie(int idSottospecie)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.SottospecieId == idSottospecie)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome
+                }
+                ).ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSpecie(int idSpecie)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.Sottospecie.SpecieId == idSpecie)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome
+                }
+                ).ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaGenere(int idGenere)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.Sottospecie.Specie.GenereId == idGenere)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome
+                }
+                ).ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaTribu(int idTribu)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.Sottospecie.Specie.Genere.TribuId == idTribu)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome
+                }
+                ).ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaSottofamiglia(int idSottofamiglia)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.Sottospecie.Specie.Genere.Tribu.SottofamigliaId == idSottofamiglia)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome
+                }
+                ).ToList();
+        }
+
+        public IEnumerable<ElencoEsemplariViewModel> LeggiElencoEsemplariDaFamiglia(int idFamiglia)
+        {
+            return _contesto.Esemplari
+                .Where(esemplare => esemplare.Sottospecie.Specie.Genere.Tribu.Sottofamiglia.FamigliaId == idFamiglia)
+                .Select(esemplare => new ElencoEsemplariViewModel
+                {
+                    Id = esemplare.Id,
+                    Msng = esemplare.Msng,
+                    SottospecieId = esemplare.SottospecieId,
+                    ElencoAutori = esemplare.Sottospecie.ElencoAutori,
+                    Genere = esemplare.Sottospecie.Specie.Genere.Nome,
+                    Specie = esemplare.Sottospecie.Specie.Nome,
+                    Sottospecie = esemplare.Sottospecie.Nome
+                }
+                ).ToList();
+        }
+
+        #endregion
+
     }
 }
