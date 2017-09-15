@@ -229,7 +229,7 @@
                                             {
                                             <button type="submit"
                                                     class="btn btn-danger"
-                                                    ng-click="vm.cancellaSottofamiglia()">
+                                                    ng-click="vm.cancellaFamiglia()">
                                                 @localizzatore["Conferma Cancellazione Famiglia"]
                                             </button>
                                             }
@@ -1176,6 +1176,7 @@
                                            ng-model="vm.inputEditSottospecie"
                                            ng-change="vm.verificaEditSottospecie()"
                                            ng-disabled="vm.inputEditSottospecie == '-'"
+                                           ng-readonly="vm.inputEditSottospecieReadonly"
                                            id="inputEditSottospecie"
                                            name="inputEditSottospecie" />
                                 </div>
