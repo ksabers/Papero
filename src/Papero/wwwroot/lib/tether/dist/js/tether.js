@@ -1,4 +1,4 @@
-/*! tether 1.3.7 */
+/*! tether 1.3.0 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -22,32 +22,6 @@ if (typeof TetherBase === 'undefined') {
 }
 
 var zeroElement = null;
-
-// Same as native getBoundingClientRect, except it takes into account parent <frame> offsets
-// if the element lies within a nested document (<frame> or <iframe>-like).
-function getActualBoundingClientRect(node) {
-  var boundingRect = node.getBoundingClientRect();
-
-  // The original object returned by getBoundingClientRect is immutable, so we clone it
-  // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
-  var rect = {};
-  for (var k in boundingRect) {
-    rect[k] = boundingRect[k];
-  }
-
-  if (node.ownerDocument !== document) {
-    var _frameElement = node.ownerDocument.defaultView.frameElement;
-    if (_frameElement) {
-      var frameRect = getActualBoundingClientRect(_frameElement);
-      rect.top += frameRect.top;
-      rect.bottom += frameRect.top;
-      rect.left += frameRect.left;
-      rect.right += frameRect.left;
-    }
-  }
-
-  return rect;
-}
 
 function getScrollParents(el) {
   // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
@@ -84,13 +58,7 @@ function getScrollParents(el) {
     }
   }
 
-  parents.push(el.ownerDocument.body);
-
-  // If the node is within a frame, account for the parent window scroll
-  if (el.ownerDocument !== document) {
-    parents.push(el.ownerDocument.defaultView);
-  }
-
+  parents.push(document.body);
   return parents;
 }
 
@@ -124,7 +92,13 @@ var getOrigin = function getOrigin() {
 
   var id = node.getAttribute('data-tether-id');
   if (typeof zeroPosCache[id] === 'undefined') {
-    zeroPosCache[id] = getActualBoundingClientRect(node);
+    zeroPosCache[id] = {};
+
+    var rect = node.getBoundingClientRect();
+    for (var k in rect) {
+      // Can't use extend, as on IE9, elements don't resolve to be hasOwnProperty
+      zeroPosCache[id][k] = rect[k];
+    }
 
     // Clear the cache when this position call is done
     defer(function () {
@@ -136,10 +110,8 @@ var getOrigin = function getOrigin() {
 };
 
 function removeUtilElements() {
-  if (zeroElement) {
-    document.body.removeChild(zeroElement);
-  }
-  zeroElement = null;
+  document.body.removeChild(zeroElement);
+  zeroElement = undefined;
 };
 
 function getBounds(el) {
@@ -153,7 +125,13 @@ function getBounds(el) {
 
   var docEl = doc.documentElement;
 
-  var box = getActualBoundingClientRect(el);
+  var box = {};
+  // The original object returned by getBoundingClientRect is immutable, so we clone it
+  // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
+  var rect = el.getBoundingClientRect();
+  for (var k in rect) {
+    box[k] = rect[k];
+  }
 
   var origin = getOrigin();
 
@@ -179,11 +157,7 @@ function getOffsetParent(el) {
   return el.offsetParent || document.documentElement;
 }
 
-var _scrollBarSize = null;
 function getScrollBarSize() {
-  if (_scrollBarSize) {
-    return _scrollBarSize;
-  }
   var inner = document.createElement('div');
   inner.style.width = '100%';
   inner.style.height = '200px';
@@ -216,8 +190,7 @@ function getScrollBarSize() {
 
   var width = widthContained - widthScroll;
 
-  _scrollBarSize = { width: width, height: width };
-  return _scrollBarSize;
+  return { width: width, height: width };
 }
 
 function extend() {
@@ -277,9 +250,7 @@ function hasClass(el, name) {
 }
 
 function getClassName(el) {
-  // Can't use just SVGAnimatedString here since nodes within a Frame in IE have
-  // completely separately SVGAnimatedString base classes
-  if (el.className instanceof el.ownerDocument.defaultView.SVGAnimatedString) {
+  if (el.className instanceof SVGAnimatedString) {
     return el.className.baseVal;
   }
   return el.className;
@@ -344,7 +315,7 @@ var Evented = (function () {
   }, {
     key: 'off',
     value: function off(event, handler) {
-      if (typeof this.bindings === 'undefined' || typeof this.bindings[event] === 'undefined') {
+      if (typeof this.bindings !== 'undefined' && typeof this.bindings[event] !== 'undefined') {
         return;
       }
 
@@ -398,7 +369,6 @@ var Evented = (function () {
 })();
 
 TetherBase.Utils = {
-  getActualBoundingClientRect: getActualBoundingClientRect,
   getScrollParents: getScrollParents,
   getBounds: getBounds,
   getOffsetParent: getOffsetParent,
@@ -457,7 +427,7 @@ var transformKey = (function () {
   }
   var el = document.createElement('div');
 
-  var transforms = ['transform', 'WebkitTransform', 'OTransform', 'MozTransform', 'msTransform'];
+  var transforms = ['transform', 'webkitTransform', 'OTransform', 'MozTransform', 'msTransform'];
   for (var i = 0; i < transforms.length; ++i) {
     var key = transforms[i];
     if (el.style[key] !== undefined) {
@@ -502,7 +472,7 @@ function now() {
       return;
     }
 
-    if (pendingTimeout != null) {
+    if (typeof pendingTimeout !== 'undefined') {
       clearTimeout(pendingTimeout);
       pendingTimeout = null;
     }
@@ -856,7 +826,7 @@ var TetherClass = (function (_Evented) {
       this.enabled = true;
 
       this.scrollParents.forEach(function (parent) {
-        if (parent !== _this3.target.ownerDocument) {
+        if (parent !== document) {
           parent.addEventListener('scroll', _this3.position);
         }
       });
@@ -1056,24 +1026,21 @@ var TetherClass = (function (_Evented) {
         }
       };
 
-      var doc = this.target.ownerDocument;
-      var win = doc.defaultView;
-
       var scrollbarSize = undefined;
-      if (win.innerHeight > doc.documentElement.clientHeight) {
+      if (document.body.scrollWidth > window.innerWidth) {
         scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
         next.viewport.bottom -= scrollbarSize.height;
       }
 
-      if (win.innerWidth > doc.documentElement.clientWidth) {
+      if (document.body.scrollHeight > window.innerHeight) {
         scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
         next.viewport.right -= scrollbarSize.width;
       }
 
-      if (['', 'static'].indexOf(doc.body.style.position) === -1 || ['', 'static'].indexOf(doc.body.parentElement.style.position) === -1) {
+      if (['', 'static'].indexOf(document.body.style.position) === -1 || ['', 'static'].indexOf(document.body.parentElement.style.position) === -1) {
         // Absolute positioning in the body will be relative to the page, not the 'initial containing block'
-        next.page.bottom = doc.body.scrollHeight - top - height;
-        next.page.right = doc.body.scrollWidth - left - width;
+        next.page.bottom = document.body.scrollHeight - top - height;
+        next.page.right = document.body.scrollWidth - left - width;
       }
 
       if (typeof this.options.optimizations !== 'undefined' && this.options.optimizations.moveElement !== false && !(typeof this.targetModifier !== 'undefined')) {
@@ -1092,8 +1059,8 @@ var TetherClass = (function (_Evented) {
             offsetBorder[side.toLowerCase()] = parseFloat(offsetParentStyle['border' + side + 'Width']);
           });
 
-          offsetPosition.right = doc.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
-          offsetPosition.bottom = doc.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom;
+          offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
+          offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom;
 
           if (next.page.top >= offsetPosition.top + offsetBorder.top && next.page.bottom >= offsetPosition.bottom) {
             if (next.page.left >= offsetPosition.left + offsetBorder.left && next.page.right >= offsetPosition.right) {
@@ -1186,16 +1153,7 @@ var TetherClass = (function (_Evented) {
             xPos = -_pos.right;
           }
 
-          if (window.matchMedia) {
-            // HubSpot/tether#207
-            var retina = window.matchMedia('only screen and (min-resolution: 1.3dppx)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 1.3)').matches;
-            if (!retina) {
-              xPos = Math.round(xPos);
-              yPos = Math.round(yPos);
-            }
-          }
-
-          css[transformKey] = 'translateX(' + xPos + 'px) translateY(' + yPos + 'px)';
+          css[transformKey] = 'translateX(' + Math.round(xPos) + 'px) translateY(' + Math.round(yPos) + 'px)';
 
           if (transformKey !== 'msTransform') {
             // The Z transform will keep this in the GPU (faster, and prevents artifacts),
@@ -1260,7 +1218,7 @@ var TetherClass = (function (_Evented) {
 
         if (!offsetParentIsBody) {
           this.element.parentNode.removeChild(this.element);
-          this.element.ownerDocument.body.appendChild(this.element);
+          document.body.appendChild(this.element);
         }
       }
 
@@ -1280,7 +1238,6 @@ var TetherClass = (function (_Evented) {
       if (write) {
         defer(function () {
           extend(_this8.element.style, writeCSS);
-          _this8.trigger('repositioned');
         });
       }
     }
@@ -1321,21 +1278,11 @@ function getBoundingRect(tether, to) {
 
   if (typeof to.nodeType !== 'undefined') {
     (function () {
-      var node = to;
       var size = getBounds(to);
       var pos = size;
       var style = getComputedStyle(to);
 
       to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
-
-      // Account any parent Frames scroll offset
-      if (node.ownerDocument !== document) {
-        var win = node.ownerDocument.defaultView;
-        to[0] += win.pageXOffset;
-        to[1] += win.pageYOffset;
-        to[2] += win.pageXOffset;
-        to[3] += win.pageYOffset;
-      }
 
       BOUNDS_FORMAT.forEach(function (side, i) {
         side = side[0].toUpperCase() + side.substr(1);
