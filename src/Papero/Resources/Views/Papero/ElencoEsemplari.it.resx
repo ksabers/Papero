@@ -252,4 +252,7 @@
   <data name="QRCode Scheda" xml:space="preserve">
     <value>QRCode Scheda</value>
   </data>
+  <data name="Caricare le immagini" xml:space="preserve">
+    <value>Caricare le immagini</value>
+  </data>
 </root>

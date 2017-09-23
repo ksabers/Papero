@@ -98,7 +98,6 @@
             };
         };
 
-
         function salvaFiltri() {
             inizialeAlbero = vm.filtroSuAlberoAttivo;
             inizialeNazione = vm.nazioneSelezionata;
@@ -119,8 +118,11 @@
             inizialeTipoDataA = vm.tipoDataCatturaA;
         };
 
-
         var vm = this;
+
+        vm.istanza = {};
+
+
 
         vm.filtroSuAlberoAttivo = true;             //  booleani che indicano se un certo filtro è attivo o no. Per default è attivo solo quello sull'albero
         vm.filtroSuGeografiaAttivo = false;
@@ -163,6 +165,8 @@
             .withLanguageSource(stringaLinguaggioDatatables);   // La lingua della tabella viene impostata "al volo" appena prima della generazione della tabella stessa
                                                                 // (come da specifiche delle angular datatables)
                                                                 // utilizzando la variabile globale javascript "stringaLinguaggioDatatables" (che si trova in _Layout.cshtml)
+
+
 
         vm.colonneTabella = [
             DTColumnDefBuilder.newColumnDef(2).notSortable()  // Impedisce l'ordinamento della tabella sulla colonna dei pulsanti

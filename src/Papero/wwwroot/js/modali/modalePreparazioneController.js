@@ -33,7 +33,7 @@
             vm.preparatoreSelezionato = vm.preparatori[0];
         }
 
-        vm.aggiornaElencoPreparatori = function aggiornaElencoPreparatori() {
+        function aggiornaElencoPreparatori() {
             var serializzazione = "";
 
             for (var i = 0; i < vm.datiTabellaElencoPreparatori.length; i++) {
@@ -55,7 +55,7 @@
             arrayRiordinato = arrayRiordinato.concat(arrayPrimaParte, elementoDaSpostare, elementoPrecedente, arraySecondaParte);
 
             vm.datiTabellaElencoPreparatori = arrayRiordinato;
-            vm.aggiornaElencoPreparatori();
+            aggiornaElencoPreparatori();
         };
 
         vm.spostaGiu = function spostaGiuArray(indice) {
@@ -71,7 +71,7 @@
             arrayRiordinato = arrayRiordinato.concat(arrayPrimaParte, elementoSuccessivo, elementoDaSpostare, arraySecondaParte);
 
             vm.datiTabellaElencoPreparatori = arrayRiordinato;
-            vm.aggiornaElencoPreparatori();
+            aggiornaElencoPreparatori();
         };
 
         vm.aggiungiPreparatore = function aggiungiPreparatore() {
@@ -82,13 +82,13 @@
                     "cognome": vm.preparatoreSelezionato.cognome
                 };
             vm.datiTabellaElencoPreparatori.push(preparatoreDaInserire);  // Inserimento della nuova riga in fondo alla tabella
-            vm.aggiornaElencoPreparatori();
+            aggiornaElencoPreparatori();
             aggiornaDropdownPreparatori();
         };
 
         vm.rimuoviPreparatore = function rimuoviPreparatore(preparatoreSelezionato) {
             vm.datiTabellaElencoPreparatori = _.remove(vm.datiTabellaElencoPreparatori, function (preparatore) { return preparatore != preparatoreSelezionato });
-            vm.aggiornaElencoPreparatori();
+            aggiornaElencoPreparatori();
             aggiornaDropdownPreparatori();
         };
 
@@ -98,6 +98,7 @@
             var dataPreparazione = funzioni.trasformaData($("#hiddenDataPreparazione").val());
             vm.dataPreparazione = dataPreparazione.data;
             vm.tipoDataPreparazione = dataPreparazione.tipo;
+            aggiornaElencoPreparatori();
         };
 
         $http.get("/api/preparatori")

@@ -21,5 +21,7 @@ namespace Papero.ViewModels
         public string Sottospecie { get; set; }
         public string ElencoAutori { get; set; }
 
+        public int NumeroImmagini { get; set; }
+
     }
 }
