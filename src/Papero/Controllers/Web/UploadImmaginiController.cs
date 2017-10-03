@@ -24,32 +24,61 @@ namespace Papero.Controllers
     public class UploadImmaginiController : Controller
     {
         private IStringLocalizer<UploadImmaginiController> _localizzatore;  // dichiarazione dei campi privati che incapsulano gli oggetti passati per dependency injection
-        private IPaperoRepository _repository;
+        private IPaperoRepository _repositoryComune;
         private ILogger<UploadImmaginiController> _logger;
         private IHostingEnvironment _ambiente;
+        private IImmaginiRepository _repositoryImmagini;
 
         public UploadImmaginiController(IStringLocalizer<UploadImmaginiController> localizzatore,   // Costruttore della classe, con le dependency injection di: 1)supporto per la localizzazione
-                                IPaperoRepository repository,                       // 2) Repository delle query nel database
-                                ILogger<UploadImmaginiController> logger,
-                                IHostingEnvironment ambiente)                   // 3) Supporto per i log
+                                IPaperoRepository repositoryComune,                       // 2) Repository delle query generiche
+                                IImmaginiRepository repositoryImmagini,  // 3) Repository delle query relative alle immagini
+                                ILogger<UploadImmaginiController> logger, // 4) Supporto per i log
+                                IHostingEnvironment ambiente)                   
         {
             _localizzatore = localizzatore;
-            _repository = repository;
+            _repositoryComune = repositoryComune;
+            _repositoryImmagini = repositoryImmagini;
             _logger = logger;
             _ambiente = ambiente;
         }
 
 
-        public async Task<IActionResult> Upload(IFormFile file)
+        public async Task<IActionResult> Upload()
         {
+            var elencoFiles = Request.Form.Files;  // Elenco dei file che sono stati caricati contemporaneamente
 
-            var uploads = Path.Combine(_ambiente.WebRootPath, "img/esemplari");
-            if (file.Length > 0)
+            var uploads = Path.Combine(_ambiente.WebRootPath, "img/esemplari"); // Percorso fisico dove verranno caricati i file
+
+            var idEsemplare = 0;
+            Int32.TryParse(Request.Form["idEsemplare"], out idEsemplare);  // ID dell'esemplare a cui associare i file
+
+            if (elencoFiles.Count > 0)  // Procedi solo se sono stati caricati files
             {
-                using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
+                for (int i = 0; i < elencoFiles.Count; i++)          // Per ciascun file caricato...
                 {
-                    await file.CopyToAsync(fileStream);
+                    var nomeFile = elencoFiles[i].FileName;          // 1) estrae il nome
+
+                    var didascalia = Request.Form["didascalia"];     // 2) estrai la didascalia
+
+                    var immagine = new Immagini();                   // 3) crea un oggetto Immagini
+                    immagine.EsemplareId = idEsemplare;              //    e lo riempie con i dati dell'immagine
+                    immagine.Didascalia = didascalia;
+                    immagine.URL = nomeFile;
+
+                    _repositoryImmagini.PostImmagine(immagine);      //  4) Inserisce l'oggetto immagine nel database
+
+                    if (await _repositoryComune.SalvaModifiche())
+                    {
+                        var stringaIdImmagine = immagine.Id.ToString();  // 5) Recupera l'ID dell'oggetto immagine appena inserito nel database
+
+                        var nomeFileFisico = stringaIdImmagine + "_" + nomeFile;  // 6) Usa l'ID recuperato per creare il nome con cui verrà salvato il file 
+                        using (var fileStream = new FileStream(Path.Combine(uploads, nomeFileFisico), FileMode.Create))
+                            {
+                                await elencoFiles[i].CopyToAsync(fileStream);  // 7) Finalmente salva il file immagine nella directory del filesystem
+                            }
+                    }
                 }
+
             }
             return RedirectToAction("ElencoEsemplari", "Papero");
         }

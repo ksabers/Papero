@@ -122,6 +122,42 @@
 
         vm.istanza = {};
 
+        var listalink = [];
+
+        var gallery = {};
+
+        vm.immagini = [];
+
+        vm.apriModaleUploadImmagini = function apriModaleUploadImmagini(idEsemplare) {
+            $("#idEsemplare").val(idEsemplare);
+            $("table#img tbody.files").empty();  // Ripulisce la lista dei file usata dal JQuery File Upload
+            
+        };
+
+        $('#modaleVisualizzaImmagini').on('shown.bs.modal', function (e) {
+
+            listalink = [];
+
+            for (var i = 0; i < vm.immagini.length; i++) {
+                listalink.push({
+                    href: "/img/esemplari/" + vm.immagini[i].id.toString() + "_" + vm.immagini[i].url,
+                    didascalia: vm.immagini[i].didascalia
+                });
+            };
+
+            gallery = blueimp.Gallery(
+                listalink,
+                {
+                    container: '#blueimp-gallery',
+                    carousel: true,
+                    toggleControlsOnReturn: false,
+                    toggleControlsOnSlideClick: false,
+                    onslide: function (index, slide) {
+                        $("#didascaliaImmagine").text(listalink[index].didascalia);
+                    }
+                });
+
+        });
 
 
         vm.filtroSuAlberoAttivo = true;             //  booleani che indicano se un certo filtro è attivo o no. Per default è attivo solo quello sull'albero
@@ -637,6 +673,19 @@
                 vm.filtroDataA = false;
             }
         };
+
+
+        //var gallery = blueimp.Gallery(listalink);
+
+        //document.getElementById('links').onclick = function (event) {
+        //    event = event || window.event;
+        //    var target = event.target || event.srcElement,
+        //        link = target.src ? target.parentNode : target,
+        //        options = { index: link, event: event },
+        //        links = this.getElementsByTagName('a');
+        //    blueimp.Gallery(links, options);
+        //};
+
 
 
         $http.get("/api/esemplari")

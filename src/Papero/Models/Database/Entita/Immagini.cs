@@ -8,7 +8,7 @@ namespace Papero.Models
         public int Id { get; set; }
         public int EsemplareId { get; set; }
         public string URL { get; set; }
-        public string Note { get; set; }
+        public string Didascalia { get; set; }
 
         public virtual Esemplari Esemplare { get; set; }
     }

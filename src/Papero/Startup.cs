@@ -75,6 +75,7 @@ namespace Papero
             servizi.AddScoped<IGeografiaRepository, GeografiaRepository>();
             servizi.AddScoped<IAuthRepository, AuthRepository>();
             servizi.AddScoped<ITassonomiaRepository, TassonomiaRepository>();
+            servizi.AddScoped<IImmaginiRepository, ImmaginiRepository>();
 
             servizi.AddIdentity<UtentePapero, IdentityRole>(configurazione =>  // Registrazione del servizio di autenticazione e configurazione dei suoi parametri.
             {  
@@ -140,6 +141,10 @@ namespace Papero
                 // Policies per la gestione della tassonomia
                 opzioni.AddPolicy("VisualizzaTassonomia", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaTassonomia"));
                 opzioni.AddPolicy("EditTassonomia", costruttorePolicy => costruttorePolicy.RequireClaim("EditTassonomia"));
+
+                // Policies per la gestione delle immagini
+                opzioni.AddPolicy("VisualizzaImmagini", costruttorePolicy => costruttorePolicy.RequireClaim("VisualizzaImmagini"));
+                opzioni.AddPolicy("EditImmagini", costruttorePolicy => costruttorePolicy.RequireClaim("EditImmagini"));
             });
 
             servizi.AddLocalization(opzioni =>         // Aggiunta del supporto globale per la localizzazione e sua configurazione

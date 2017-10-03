@@ -12,12 +12,32 @@
         .dt-loading h3 {
             display: none;
         }
+
+        .btn.btn-secondary.ng-hide {
+            display: inline-block !important;
+            visibility: hidden;
+        }
+
     </style>
 }
 
 @section scripts {
     <script src="~/js/alberoController.js"></script>
 
+    <script>
+        $('#fileupload').bind('fileuploadsubmit', function (e, data) {
+            data.formData = {
+                didascalia: data.files[0].didascalia,
+                idEsemplare : $("#idEsemplare").val()
+            };
+        });
+
+        //$('#fileupload').fileupload({
+        //    submit: function (e, data) {
+        //        data.files[0].uploadName = 'mynewfilename.jpg';
+        //    }
+        //});
+    </script>
 }
 
 <div class="row" ng-app="papero-app" ng-controller="alberoController as vm">
@@ -470,7 +490,7 @@
                     </div>
                     <!--#endregion -->
 
-                    <!--#regionmodaleUploadImmagini -->
+                    <!--#region modaleUploadImmagini -->
                     <div class="modal fade" id="modaleUploadImmagini" role="dialog">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -488,9 +508,11 @@
                                         </div>
                                         <div class="panel-body text-primary">
 
-                                            <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data" data-file-upload="options" data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
+                                            <form id="fileupload" asp-controller="UploadImmagini" asp-action="Upload" method="POST" enctype="multipart/form-data" data-file-upload="options" data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
 
                                                 <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
+
+                                                <input type="hidden" id="idEsemplare" name="idEsemplare"/>
 
                                                 <div class="row fileupload-buttonbar">
                                                     <div class="col-lg-7">
@@ -543,7 +565,7 @@
                                                             <div class="progress progress-striped active fade" data-ng-class="{pending: 'in'}[file.$state()]" data-file-upload-progress="file.$progress()"><div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div></div>
                                                         </td>
                                                         <td>
-                                                            <textarea name="didascalia[]" class="form-control" style="width: 100%; height: 100%; border: thin; box-sizing:border-box"></textarea>
+                                                            <textarea name="didascalia" ng-model="file.didascalia" class="form-control" style="width: 100%; height: 100%; border: thin; box-sizing:border-box"></textarea>
                                                         </td>
 
                                                         <td>
@@ -581,6 +603,45 @@
                             </div>
                         </div>
                     </div>
+                    <!--#endregion -->
+
+                    <!--#region modaleVisualizzaImmagini -->
+                    <div class="modal fade" id="modaleVisualizzaImmagini" role="dialog">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body">
+
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square-o fa-stack-2x"></i>
+                                                    <i class="fa fa-image fa-stack-1x"></i>
+                                                </span>
+                                                @localizzatore["Visualizza le immagini"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i>
+                                            </h3>
+                                        </div>
+                                        <div class="panel-body text-primary">
+
+                                            <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-carousel blueimp-gallery-controls">
+                                                <div class="slides"></div>
+                                                <h3 class="title"></h3>
+                                                <p class="didascalia"></p>
+                                                <a class="prev">‹</a>
+                                                <a class="next">›</a>
+                                                <a class="play-pause"></a>
+                                                <ol class="indicator"></ol>
+                                            </div>
+                                           
+                                            <p class="text-primary" id="didascaliaImmagine"></p>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!--#endregion -->
 
                     <span class="fa-stack fa-lg" role="button" data-toggle="modal" data-target="#modaleFiltriElencoEsemplari" ng-click="vm.aprimodaleFiltriElencoEsemplari()">
@@ -680,7 +741,23 @@
                                         </div>
                                     </div>
                                 }
-                                <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#modaleUploadImmagini" ng-click="vm.apriModaleUploadImmagini()"><i class="fa fa-image"></i></button>
+                                @if (await autorizzatore.AuthorizeAsync(User, "EditImmagini"))
+                                {
+                                <button type="button" 
+                                        class="btn btn-sm btn-secondary" 
+                                        data-toggle="modal" 
+                                        data-target="#modaleUploadImmagini" 
+                                        ng-click="vm.apriModaleUploadImmagini(esemplare.id)"><i class="fa fa-upload"></i></button>
+                                }
+                                @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaImmagini"))
+                                {
+                                    <button type="button" 
+                                            class="btn btn-sm btn-secondary" 
+                                            data-toggle="modal" 
+                                            data-target="#modaleVisualizzaImmagini" 
+                                            ng-show="esemplare.immagini.length > 0"
+                                            ng-click="vm.immagini = esemplare.immagini"><i class="fa fa-image"></i> <span class="badge">{{esemplare.immagini.length}}</span></button>
+                                }
                             </td>
                         </tr>
                     </tbody>

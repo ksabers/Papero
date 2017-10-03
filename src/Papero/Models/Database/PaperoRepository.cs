@@ -41,6 +41,7 @@ namespace Papero.Models
                 .Include(esemplare => esemplare.Sottospecie)
                         .ThenInclude(sottospecie => sottospecie.Specie)
                             .ThenInclude(specie => specie.Genere)
+                .Include(esemplare => esemplare.Immagini)
                 .Select(es => new ElencoEsemplariViewModel
                 {
                     Id = es.Id,
@@ -49,7 +50,8 @@ namespace Papero.Models
                     Genere = es.Sottospecie.Specie.Genere.Nome,
                     Specie = es.Sottospecie.Specie.Nome,
                     Sottospecie = es.Sottospecie.Nome,
-                    ElencoAutori = es.Sottospecie.ElencoAutori
+                    ElencoAutori = es.Sottospecie.ElencoAutori,
+                    Immagini = es.Immagini
                 });
         }
 
@@ -98,6 +100,7 @@ namespace Papero.Models
                             .ThenInclude(vassoio => vassoio.Cassetto)
                                 .ThenInclude(cassetto => cassetto.Armadio)
                                     .ThenInclude(armadio => armadio.Sala)
+                    .Include(esemplare => esemplare.Immagini)
                     .FirstOrDefault();
             }
             catch (Exception)

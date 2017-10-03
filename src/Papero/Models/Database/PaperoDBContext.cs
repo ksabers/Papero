@@ -21,6 +21,16 @@ namespace Papero.Models
             //    entity.HasKey(e => e.Id);
             //});
 
+            modelBuilder.Entity<Immagini>(entity => {
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.HasOne(d => d.Esemplare)
+                      .WithMany(p => p.Immagini)
+                      .HasForeignKey(d => d.EsemplareId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
             modelBuilder.Entity<Aberrazioni>(entity =>
             {
                 entity.HasIndex(e => e.Aberrazione)
@@ -1078,5 +1088,7 @@ namespace Papero.Models
         public virtual DbSet<Vassoi> Vassoi { get; set; }
         public virtual DbSet<VecchiDeterminatori> VecchiDeterminatori { get; set; }
         public virtual DbSet<VecchieDeterminazioni> VecchieDeterminazioni { get; set; }
+
+        public virtual DbSet<Immagini> Immagini { get; set; }
     }
 }

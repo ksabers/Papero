@@ -46,7 +46,7 @@ namespace Papero.Controllers
         /// <param name="idEsemplare"></param>
         /// <returns></returns>
         [Authorize(Policy = "VisualizzaDettaglioEsemplare")]
-        [HttpGet("api/esemplare/{idEsemplare}")]
+        [HttpGet("api/esemplari/{idEsemplare}")]
         public IActionResult GetEsemplare(int idEsemplare)
         {
             return Ok(_repository.LeggiEsemplare(idEsemplare));
