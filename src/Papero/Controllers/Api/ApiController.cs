@@ -19,18 +19,7 @@ namespace Papero.Controllers
         }
 
         /// <summary>
-        /// API che restituisce l'albero tassonomico
-        /// </summary>
-        /// <returns></returns>
-        //[Authorize]
-        //[HttpGet("api/albero")]
-        //public IActionResult GetAlbero()
-        //{
-        //    return Ok(_repository.LeggiAlbero());
-        //}
-
-        /// <summary>
-        /// API che restituisce l'elenco degli esemplari in formato sinteticoVisualizzaElencoEsemplari
+        /// API che restituisce l'elenco degli esemplari in formato sintetico
         /// </summary>
         /// <returns></returns>
         [Authorize(Policy = "")]

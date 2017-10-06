@@ -65,6 +65,7 @@ namespace Papero.ViewModels
         public virtual ICollection<Preparati> Preparati { get; set; }
         public virtual ICollection<Preparazioni> Preparazioni { get; set; }
         public virtual ICollection<VecchieDeterminazioni> VecchieDeterminazioni { get; set; }
+        public virtual ICollection<Immagini> Immagini { get; set; }
         public virtual Aberrazioni Aberrazione { get; set; }
         public virtual Raccoglitori AvutoDa { get; set; }
         public virtual Raccoglitori Cedente { get; set; }

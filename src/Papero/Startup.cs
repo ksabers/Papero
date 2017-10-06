@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Papero.ViewModels;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Papero
 {
@@ -182,6 +183,12 @@ namespace Papero
                                                                                                                                   // generati correttamente perché esistono dei riferimenti
                                                                                                                                   // circolari (che in realtà sono innocui ma causerebbero
                                                                                                                                   // "Self referencing loop detected")
+
+            servizi.Configure<FormOptions>(opzioni =>              // IMPORTANTE!!! Questa riga imposta la lunghezza massima
+            {                                                      // dei file caricati in upload (le immagini).
+                opzioni.ValueLengthLimit = int.MaxValue;           // Senza questa riga gli upload possono fallire con un errore 
+                opzioni.MultipartBodyLengthLimit = int.MaxValue;   // "Multipart body length limit exceeded"
+            });
 
             servizi.AddLogging(); // Aggiunta del supporto per i log
         }

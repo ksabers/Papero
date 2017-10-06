@@ -33,8 +33,7 @@
             white-space: normal;
         }
 
-        @* Questi due stili servono per trasformare "ng-show" da "display:none" a "visibility:hidden" e quindi incolonnare giuste le frecce per muovere su e giù le righe nelle tabelle *@ 
-        .fa.fa-arrow-up.ng-hide {
+        @* Questi due stili servono per trasformare "ng-show" da "display:none" a "visibility:hidden" e quindi incolonnare giuste le frecce per muovere su e giù le righe nelle tabelle *@ .fa.fa-arrow-up.ng-hide {
             display: inline-block !important;
             visibility: hidden;
         }
@@ -57,6 +56,7 @@
     <script src="~/js/modali/modaleDatiGeneraliController.js"></script>
     <script src="~/js/modali/modaleDeterminazioniController.js"></script>
     <script src="~/js/modali/modalePreparazioneController.js"></script>
+    <script src="~/js/modali/modaleImmaginiController.js"></script>
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
@@ -98,7 +98,7 @@
 
                         @if (ViewBag.trovato)
                         {
- <!--#region modaleConfermaCancellazione -->
+<!--#region modaleConfermaCancellazione -->
                             <div class="modal fade" id="modaleConfermaCancellazione" role="dialog">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
@@ -147,7 +147,7 @@
                                     </div>
                                 </div>
                             </div>
-<!-- #endregion -->
+                            <!-- #endregion -->
 
 <!--#region modaleCambioMSNG -->
                             <div class="modal fade" id="modaleCambioMSNG" role="dialog">
@@ -200,21 +200,21 @@
                                     </div>
                                 </div>
                             </div>
-<!-- #endregion -->
+                            <!-- #endregion -->
                         }
                         <form asp-controller="Papero"
                               asp-action="DettaglioEsemplareByMSNG"
                               id="formMSNG"
                               name="formMSNG">
-                        @if (await autorizzatore.AuthorizeAsync(User, "CambioMSNGEsemplare"))
-                        {
-                            <i role="button" 
-                               class="fa fa-pencil text-muted" 
-                               data-toggle="modal" 
-                               data-target="#modaleCambioMSNG" 
-                               ng-click="vm.apriModaleCambioMSNG(@Model.Id, @Model.Msng)">
-                            </i>
-                        }
+                            @if ((await autorizzatore.AuthorizeAsync(User, "CambioMSNGEsemplare")) && (ViewBag.trovato))
+                            {
+                                <i role="button"
+                                   class="fa fa-pencil text-muted"
+                                   data-toggle="modal"
+                                   data-target="#modaleCambioMSNG"
+                                   ng-click="vm.apriModaleCambioMSNG(@Model.Id, @Model.Msng)">
+                                </i>
+                            }
                             <div class="form-group">
                                 <div class="input-group input-group-lg">
                                     <input type="text" pattern="([1-9][0-9]*)" id="inputMSNG" ng-model="vm.MSNG" ng-change="vm.controllaMSNG()" class="form-control form-control-lg" asp-for="Msng" required>
@@ -223,37 +223,10 @@
                                     </span>
                                 </div>
                             </div>
-                            @if (ViewBag.trovato)
-                            {
-                                @if (await autorizzatore.AuthorizeAsync(User, "CancellazioneEsemplare"))
-                                {
-                                    <i role="button" data-toggle="modal" data-target="#modaleConfermaCancellazione" ng-click="vm.apriModaleConfermaCancellazione()" class="fa fa-trash fa-2x"></i>
-                                }
-                                @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaQRCodeScheda"))
-                                {
-                                    <div class="btn-group" role="group">
-                                        <button type="button"
-                                                class="btn btn-success dropdown-toggle"
-                                                data-toggle="dropdown"
-                                                aria-haspopup="true"
-                                                aria-expanded="false">
-                                            <i class="fa fa-qrcode fa-2x text-white"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            @for (int i = 0; i < _opzioni.Formati.Count; i++)
-                                            {
-                                                <a class="dropdown-item"
-                                                   asp-controller="QRCode"
-                                                   asp-action="QRCodeScheda"
-                                                   asp-route-id="@Model.Id"
-                                                   asp-route-formato="@i">@localizzatore[_opzioni.Formati[i].Misura]</a>
-                                            }
-                                        </div>
-                                    </div>
-                                }
-                            }
+
                         </form>
                     </div>
+
 
                     @*
                         Il render della pagina viene effettuato solo se l'ID passato è valido. In caso contrario viene visualizzato un messaggio di errore.
@@ -386,8 +359,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- #endregion -->
-                            <!--#region modaleCambioTaxa -->
+<!-- #endregion -->
+<!--#region modaleCambioTaxa -->
                             <div class="modal fade" id="modaleCambioTaxa" role="dialog">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
@@ -491,7 +464,7 @@
                         </div>
 
                         <div class="col-lg-4" ng-controller="modaleNomiController as vm">
-                            <!-- #region modaleNomi -->
+<!-- #region modaleNomi -->
                             <div class="modal fade" id="modaleNomi" role="dialog">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
@@ -574,6 +547,229 @@
                                     : Model.Sottospecie.StatoConservazione.StatoConservazione + " (" + Model.Sottospecie.StatoConservazione.Sigla + ")")
                                     </dd>
                                 </dl>
+                            </div>
+                        </div>
+                        <div class="row" ng-controller="modaleImmaginiController as vm">
+
+<!--#region modaleUploadImmagini -->
+                            <div class="modal fade" id="modaleUploadImmagini" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square-o fa-stack-2x"></i>
+                                                            <i class="fa fa-image fa-stack-1x"></i>
+                                                        </span>
+                                                        @localizzatore["Carica Immagini"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i>
+                                                    </h3>
+                                                </div>
+                                                <div class="panel-body text-primary">
+
+                                                    <form id="fileupload" asp-controller="UploadImmagini" asp-action="Upload" method="POST" enctype="multipart/form-data" data-file-upload="options" data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
+
+                                                        <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
+
+                                                        <input type="hidden" id="idEsemplare" name="idEsemplare" value="@Model.Id"/>
+
+                                                        <div class="row fileupload-buttonbar">
+                                                            <div class="col-lg-7">
+                                                                <!-- The fileinput-button span is used to style the file input field as button -->
+                                                                <span class="btn btn-primary fileinput-button" ng-class="{disabled: disabled}">
+                                                                    <i class="fa fa-plus"></i>
+                                                                    <span>@localizzatore["Aggiungi Immagini"]</span>
+                                                                    <input type="file" name="files[]" multiple ng-disabled="disabled">
+                                                                </span>
+                                                                <!-- The global file processing state -->
+                                                                <span class="fileupload-process"></span>
+                                                            </div>
+
+                                                            <div class="col-lg-5 fade" data-ng-class="{in: active()}">
+                                                                <!-- The global progress bar -->
+                                                                <div class="progress progress-striped active" data-file-upload-progress="progress()"><div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div></div>
+                                                                <!-- The extended global progress state -->
+                                                                <div class="progress-extended">&nbsp;</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <table class="table table-striped files ng-cloak">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>@localizzatore["Immagine"]</th>
+                                                                    <th>@localizzatore["Nome file"]</th>
+                                                                    <th>@localizzatore["Didascalia"]</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tr data-ng-repeat="file in queue" data-ng-class="{'processing': file.$processing()}">
+                                                                <td data-ng-switch data-on="!!file.thumbnailUrl">
+                                                                    <div class="preview" data-ng-switch-when="true">
+                                                                        <a data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}" data-gallery><img data-ng-src="{{file.thumbnailUrl}}" alt=""></a>
+                                                                    </div>
+                                                                    <div class="preview" data-ng-switch-default data-file-upload-preview="file"></div>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="name" data-ng-switch data-on="!!file.url">
+                                                                        <span data-ng-switch-when="true" data-ng-switch data-on="!!file.thumbnailUrl">
+                                                                            <a data-ng-switch-when="true" data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}" data-gallery>{{file.name}}</a>
+                                                                            <a data-ng-switch-default data-ng-href="{{file.url}}" title="{{file.name}}" download="{{file.name}}">{{file.name}}</a>
+                                                                        </span>
+                                                                        <span data-ng-switch-default>{{file.name}}</span>
+                                                                    </p>
+                                                                    <strong data-ng-show="file.error" class="error text-danger">{{file.error}}</strong>
+                                                                </td>
+                                                                <td ng-hide="true">
+                                                                    <p class="size">{{file.size | formatFileSize}}</p>
+                                                                    <div class="progress progress-striped active fade" data-ng-class="{pending: 'in'}[file.$state()]" data-file-upload-progress="file.$progress()"><div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div></div>
+                                                                </td>
+                                                                <td>
+                                                                    <textarea name="didascalia" ng-model="file.didascalia" class="form-control" style="width: 100%; height: 100%; border: thin; box-sizing:border-box"></textarea>
+                                                                </td>
+
+                                                                <td>
+                                                                    @*<button type="button" class="btn btn-sm btn-primary start" data-ng-click="file.$submit()" data-ng-hide="!file.$submit || options.autoUpload" data-ng-disabled="file.$state() == 'pending' || file.$state() == 'rejected'">
+                                                                        <i class="fa fa-upload"></i>
+                                                                        <span>@localizzatore["Carica"]</span>
+                                                                    </button>*@
+                                                                    <button type="button" class="btn btn-sm btn-warning cancel" data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel">
+                                                                        <i class="fa fa-ban"></i>
+                                                                        <span>@localizzatore["Rimuovi"]</span>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-sm btn-danger destroy" data-ng-click="file.$destroy()" data-ng-hide="!file.$destroy">
+                                                                        <i class="fa fa-trash"></i>
+                                                                        <span>@localizzatore["Cancella"]</span>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                        <div class="row fileupload-buttonbar">
+                                                            <div class="col-lg-5 pull-right">
+                                                                <button type="button" class="btn btn-outline-primary cancel" data-ng-click="cancel()" data-dismiss="modal">
+                                                                    <span>@localizzatore["Annulla"]</span>
+                                                                </button>
+                                                                <button type="button" 
+                                                                        class="btn btn-success start" 
+                                                                        data-ng-click="submit()">
+                                                                    <span>@localizzatore["Carica Immagini"]</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+<!--#endregion -->
+
+
+
+<!--#region modaleVisualizzaImmagini -->
+                            <div class="modal fade" id="modaleVisualizzaImmagini" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square-o fa-stack-2x"></i>
+                                                            <i class="fa fa-image fa-stack-1x"></i>
+                                                        </span>
+                                                        @localizzatore["Immagini"]:<i role="button" class="fa fa-close fa-pull-right text-white" data-dismiss="modal"></i>
+                                                    </h3>
+                                                </div>
+                                                <div class="panel-body text-primary">
+
+                                                    <div id="links">
+                                                        @foreach (var immagine in Model.Immagini)
+                                                        {
+                                                            <a href="~/img/esemplari/@(immagine.Id + "_" + immagine.URL)"
+                                                               data-didascalia="@immagine.Didascalia"></a>
+                                                        }
+                                                    </div>
+
+                                                    <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel blueimp-gallery-controls">
+                                                        <div class="slides"></div>
+                                                        <h3 class="title"></h3>
+                                                        <p class="didascalia"></p>
+                                                        <a class="prev">‹</a>
+                                                        <a class="next">›</a>
+                                                        <a class="play-pause"></a>
+                                                        <ol class="indicator"></ol>
+                                                    </div>
+
+                                                    <p class="text-primary" id="didascaliaImmagine"></p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--#endregion -->
+
+
+                            <div class="col-lg-12">
+                                @if (ViewBag.trovato)
+                                { <text>&nbsp;&nbsp;</text>
+                                    @if (await autorizzatore.AuthorizeAsync(User, "CancellazioneEsemplare"))
+                                    {
+                                        <button class="btn btn-danger" data-toggle="modal" data-target="#modaleConfermaCancellazione">
+                                            <i class="fa fa-trash"></i>&nbsp;@localizzatore["Cancella Esemplare"]
+                                        </button>
+
+                                    }
+                                    @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaQRCodeScheda"))
+                                    {
+                                        <div class="btn-group" role="group">
+                                            <button type="button"
+                                                    class="btn btn-success dropdown-toggle"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                <i class="fa fa-qrcode text-white"></i>&nbsp;@localizzatore["QRCode"]
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                @for (int i = 0; i < _opzioni.Formati.Count; i++)
+                                                {
+                                                    <a class="dropdown-item"
+                                                       target="_blank"
+                                                       asp-controller="QRCode"
+                                                       asp-action="QRCodeScheda"
+                                                       asp-route-id="@Model.Id"
+                                                       asp-route-formato="@i">@localizzatore[_opzioni.Formati[i].Misura]</a>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (await autorizzatore.AuthorizeAsync(User, "EditImmagini"))
+                                    {
+                                        <button type="button"
+                                                class="btn btn-secondary"
+                                                data-toggle="modal"
+                                                data-target="#modaleUploadImmagini"
+                                                ng-click="vm.apriModaleUploadImmagini()">
+                                            <i class="fa fa-upload"></i>&nbsp;@localizzatore["Carica Immagini"]
+                                        </button>
+                                    }
+                                    @if ((await autorizzatore.AuthorizeAsync(User, "VisualizzaImmagini")) && (Model.Immagini.Count > 0))
+                                    {
+                                        <button type="button"
+                                                class="btn btn-info"
+                                                data-toggle="modal"
+                                                data-target="#modaleVisualizzaImmagini">
+                                            <i class="fa fa-image"></i>&nbsp;@localizzatore["Immagini"] (@Model.Immagini.Count)
+                                        </button>
+                                    }
+                                }
                             </div>
                         </div>
                     }

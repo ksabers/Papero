@@ -41,7 +41,6 @@ namespace Papero.Models
                 .Include(esemplare => esemplare.Sottospecie)
                         .ThenInclude(sottospecie => sottospecie.Specie)
                             .ThenInclude(specie => specie.Genere)
-                .Include(esemplare => esemplare.Immagini)
                 .Select(es => new ElencoEsemplariViewModel
                 {
                     Id = es.Id,
@@ -50,12 +49,9 @@ namespace Papero.Models
                     Genere = es.Sottospecie.Specie.Genere.Nome,
                     Specie = es.Sottospecie.Specie.Nome,
                     Sottospecie = es.Sottospecie.Nome,
-                    ElencoAutori = es.Sottospecie.ElencoAutori,
-                    Immagini = es.Immagini
+                    ElencoAutori = es.Sottospecie.ElencoAutori
                 });
         }
-
-
         public Esemplari LeggiEsemplare(int idEsemplare)
         {
             try

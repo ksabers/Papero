@@ -474,4 +474,34 @@
   <data name="Ordinamento" xml:space="preserve">
     <value>Order</value>
   </data>
+  <data name="Carica Immagini" xml:space="preserve">
+    <value>Load Images</value>
+  </data>
+  <data name="Immagini" xml:space="preserve">
+    <value>Images</value>
+  </data>
+  <data name="QRCode" xml:space="preserve">
+    <value>QRCode</value>
+  </data>
+  <data name="Aggiungi Immagini" xml:space="preserve">
+    <value>Add Images</value>
+  </data>
+  <data name="Cancella" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Carica" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="Didascalia" xml:space="preserve">
+    <value>Caption</value>
+  </data>
+  <data name="Immagine" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="Nome file" xml:space="preserve">
+    <value>Filename</value>
+  </data>
+  <data name="Rimuovi" xml:space="preserve">
+    <value>Remove</value>
+  </data>
 </root>
