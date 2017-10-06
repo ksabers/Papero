@@ -10,10 +10,12 @@
 @using Papero.Models;
 @using Microsoft.Extensions.Options;
 @inject IOptions<OpzioniQRCode> opzioni
+@inject IOptions<OpzioniImmagini> opzioni_immagini
 
 @{
     ViewBag.Title = localizzatore["Dettaglio Esemplare"];
     var _opzioni = opzioni.Value;
+    var _opzioni_immagini = opzioni_immagini.Value;
 }
 
 @section css {
@@ -569,9 +571,15 @@
                                                 </div>
                                                 <div class="panel-body text-primary">
 
-                                                    <form id="fileupload" asp-controller="UploadImmagini" asp-action="Upload" method="POST" enctype="multipart/form-data" data-file-upload="options" data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
+                                                    <form id="fileupload" 
+                                                          asp-controller="UploadImmagini" 
+                                                          asp-action="Upload" 
+                                                          method="POST" 
+                                                          enctype="multipart/form-data" 
+                                                          data-file-upload="options" 
+                                                          data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
 
-                                                        <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
+                                                        @*<noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>*@
 
                                                         <input type="hidden" id="idEsemplare" name="idEsemplare" value="@Model.Id"/>
 
@@ -691,7 +699,7 @@
                                                     <div id="links">
                                                         @foreach (var immagine in Model.Immagini)
                                                         {
-                                                            <a href="~/img/esemplari/@(immagine.Id + "_" + immagine.URL)"
+                                                            <a href="~/@(_opzioni_immagini.PercorsoUpload + "/" + immagine.Id + "_" + immagine.URL)"
                                                                data-didascalia="@immagine.Didascalia"></a>
                                                         }
                                                     </div>

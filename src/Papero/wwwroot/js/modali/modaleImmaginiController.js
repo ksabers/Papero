@@ -12,7 +12,7 @@
 
         var vm = this;
 
-        vm.apriModaleUploadImmagini = function apriModaleUploadImmagini(idEsemplare) {
+        vm.apriModaleUploadImmagini = function apriModaleUploadImmagini() {
             $("table#img tbody.files").empty();  // Ripulisce la lista dei file usata dal JQuery File Upload
         };
 

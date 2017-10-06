@@ -25,29 +25,31 @@ namespace Papero.Controllers
     {
         private IStringLocalizer<UploadImmaginiController> _localizzatore;  // dichiarazione dei campi privati che incapsulano gli oggetti passati per dependency injection
         private IPaperoRepository _repositoryComune;
-        private ILogger<UploadImmaginiController> _logger;
-        private IHostingEnvironment _ambiente;
         private IImmaginiRepository _repositoryImmagini;
-
-        public UploadImmaginiController(IStringLocalizer<UploadImmaginiController> localizzatore,   // Costruttore della classe, con le dependency injection di: 1)supporto per la localizzazione
-                                IPaperoRepository repositoryComune,                       // 2) Repository delle query generiche
-                                IImmaginiRepository repositoryImmagini,  // 3) Repository delle query relative alle immagini
-                                ILogger<UploadImmaginiController> logger, // 4) Supporto per i log
-                                IHostingEnvironment ambiente)                   
+        private ILogger<UploadImmaginiController> _logger;
+        private OpzioniImmagini _opzioni;
+        private IHostingEnvironment _ambiente;
+        
+        public UploadImmaginiController(IStringLocalizer<UploadImmaginiController> localizzatore,   // 1)supporto per la localizzazione
+                                IPaperoRepository repositoryComune,                                 // 2) Repository delle query generiche
+                                IImmaginiRepository repositoryImmagini,                             // 3) Repository delle query relative alle immagini
+                                ILogger<UploadImmaginiController> logger,                           // 4) Supporto per i log
+                                IOptions<OpzioniImmagini> opzioni,                                  // 5) Oggetto opzioni
+                                IHostingEnvironment ambiente)                                       // 6) Oggetto astratto che rappresenta il server web
         {
             _localizzatore = localizzatore;
             _repositoryComune = repositoryComune;
             _repositoryImmagini = repositoryImmagini;
             _logger = logger;
+            _opzioni = opzioni.Value;
             _ambiente = ambiente;
         }
-
 
         public async Task<IActionResult> Upload()
         {
             var elencoFiles = Request.Form.Files;  // Elenco dei file che sono stati caricati contemporaneamente
 
-            var uploads = Path.Combine(_ambiente.WebRootPath, "img/esemplari"); // Percorso fisico dove verranno caricati i file
+            var uploads = Path.Combine(_ambiente.WebRootPath, _opzioni.PercorsoUpload); // Percorso fisico dove verranno caricati i file (di default "img/esemplari")
 
             var idEsemplare = 0;
             Int32.TryParse(Request.Form["idEsemplare"], out idEsemplare);  // ID dell'esemplare a cui associare i file
