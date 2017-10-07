@@ -261,4 +261,7 @@
   <data name="Sigla Provincia" xml:space="preserve">
     <value>Sigla Provincia</value>
   </data>
+  <data name="Modifica" xml:space="preserve">
+    <value>Modifica</value>
+  </data>
 </root>
