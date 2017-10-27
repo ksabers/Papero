@@ -1,10 +1,12 @@
 ﻿@using Papero.Models;
 @using Microsoft.Extensions.Options;
 @inject IOptions<OpzioniQRCode> opzioni
+@inject IOptions<OpzioniListe> opzioni_liste
 
 @{
     ViewBag.Title = localizzatore["Elenco Esemplari"];
     var _opzioni = opzioni.Value;
+    var _opzioni_liste = opzioni_liste.Value;
 }
 
 @section css {
@@ -515,8 +517,10 @@
                             <i class="fa fa-list text-white"></i> @localizzatore["Liste"]
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#" ng-click="vm.serializzaEsemplariPerLista(0)">@localizzatore["Lista Sintetica"]</a>
-                            <a class="dropdown-item" href="#" ng-click="vm.serializzaEsemplariPerLista(1)">@localizzatore["Lista Dettagliata"]</a>
+                            @for (int i = 0; i < _opzioni_liste.ElencoListe.Count; i++)
+                            {
+                                <a class="dropdown-item" href="#" ng-click="vm.serializzaEsemplariPerLista(@i)">@localizzatore[_opzioni_liste.ElencoListe[i].Nome]</a>
+                            }
                         </div>
                     </div>
                 }

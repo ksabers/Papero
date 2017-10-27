@@ -4,13 +4,15 @@
 //
 // La documentazione di ciascun metodo è nell'interfaccia corrispondente
 
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace Papero.Models
 {
@@ -19,14 +21,20 @@ namespace Papero.Models
         private PaperoDBContext _contesto;
         private ILogger<ImmaginiRepository> _log;
         private IStringLocalizer<ImmaginiRepository> _localizzatore;
+        private OpzioniImmagini _opzioni;
+        private IHostingEnvironment _ambiente;
 
         public ImmaginiRepository(PaperoDBContext contesto,
                                 ILogger<ImmaginiRepository> log,
-                                IStringLocalizer<ImmaginiRepository> localizzatore)
+                                IStringLocalizer<ImmaginiRepository> localizzatore,
+                                IOptions<OpzioniImmagini> opzioni,
+                                IHostingEnvironment ambiente)
         {
             _contesto = contesto;
             _log = log;
             _localizzatore = localizzatore;
+            _opzioni = opzioni.Value;
+            _ambiente = ambiente;
         }
 
         public IEnumerable<Immagini> LeggiImmagini()
@@ -55,32 +63,20 @@ namespace Papero.Models
             }
         }
 
-        //public void PostCollezione(Collezioni collezione)
-        //{
-        //    try
-        //    {
-        //        _contesto.Add(collezione);
-        //    }
-        //    catch (Exception)  // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
-        //    {
-        //    }
-        //}
+        public void CancellaImmagine(int idImmagine)
+        {
+            var URL = _contesto.Immagini.Single(immagine => immagine.Id == idImmagine).URL;
+            var nomeFileFisico = idImmagine.ToString() + "_" + URL;
+            var uploads = Path.Combine(_ambiente.WebRootPath, _opzioni.PercorsoUpload); // Percorso fisico dove vengono caricati i file (di default "img/esemplari")
 
-        //public void PutCollezione(Collezioni collezione)
-        //{
-        //    try
-        //    {
-        //        _contesto.Update(collezione);
-        //    }
-        //    catch (Exception) // TODO: verificare se serve o se è sufficiente il try/catch sulla SalvaModifiche
-        //    {
-        //    }
-        //}
+            var file = new FileInfo(Path.Combine(uploads, nomeFileFisico));
 
-        //public void CancellaCollezione(int idCollezione)
-        //{
-        //    _contesto.Collezioni
-        //        .RemoveRange(_contesto.Collezioni.Where(collezione => collezione.Id == idCollezione));
-        //}
+            if (file.Exists)
+            {
+                file.Delete();
+                _contesto.Immagini
+                    .RemoveRange(_contesto.Immagini.Where(immagine => immagine.Id == idImmagine));
+            }
+        }
     }
 }

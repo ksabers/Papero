@@ -15,5 +15,6 @@ namespace Papero.Models
         IEnumerable<Immagini> LeggiImmagini();
         IEnumerable<Immagini> LeggiImmagini(int idImmagine);
         void PostImmagine(Immagini immagine);
+        void CancellaImmagine(int idImmagine);
     }
 }

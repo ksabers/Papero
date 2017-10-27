@@ -16,20 +16,21 @@ namespace Papero.Controllers
             _repositoryComune = repositoryComune;
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaImmagini")]
         [HttpGet("api/immagini")]
         public IActionResult GetImmagini()
         {
             return Ok(_repository.LeggiImmagini());
         }
 
-        [Authorize]
+        [Authorize(Policy = "VisualizzaImmagini")]
         [HttpGet("api/immagini/{idImmagine}")]
         public IActionResult GetImmagini(int idImmagine)
         {
             return Ok(_repository.LeggiImmagini(idImmagine));
         }
 
+        [Authorize(Policy = "EditImmagini")]
         [HttpPost("api/immagini")]
         public async Task<IActionResult> PostImmagine([FromBody]Immagini immagine)
         {
@@ -37,6 +38,16 @@ namespace Papero.Controllers
 
             if (await _repositoryComune.SalvaModifiche())
                 return Created($"api/immagini/{immagine.Id}", immagine);
+            return BadRequest("Errore");
+        }
+
+        [Authorize(Policy = "EditImmagini")]
+        [HttpDelete("api/immagini/{idImmagine}")]
+        public async Task<IActionResult> DeleteImmagine(int idImmagine)
+        {
+            _repository.CancellaImmagine(idImmagine);
+            if (await _repositoryComune.SalvaModifiche())
+                return Ok();
             return BadRequest("Errore");
         }
 

@@ -504,4 +504,10 @@
   <data name="Rimuovi" xml:space="preserve">
     <value>Rimuovi</value>
   </data>
+  <data name="Cancella Immagine" xml:space="preserve">
+    <value>Cancella Immagine</value>
+  </data>
+  <data name="Conferma la cancellazione" xml:space="preserve">
+    <value>Conferma la cancellazione</value>
+  </data>
 </root>

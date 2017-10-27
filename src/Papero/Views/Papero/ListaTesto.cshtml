@@ -1,27 +1,69 @@
-﻿@{
-    Layout = "";
-}
-@using Papero.Models
+﻿@*
+
+Istruzioni di uso della view
+
+    La view riceve i seguenti parametri:
+
+    1) @Model: l'elenco degli esemplari da stampare
+    2) @_opzioni_liste: l'oggetto di configurazione con l'elenco di tutti i tipi di liste. Di default le liste sono due (sintetica e dettagliata). Per ogni tipo di lista è disponibile
+        il suo nome, l'intestazione e l'elenco dei campi da stampare (array di stringhe)
+    3) Viewbag.formato: l'indice che dice quale lista, nell'elenco precedente, va utilizzata per la stampa (es: 0 per la sintetica, 1 per la dettagliata). E' una stringa
+        quindi bisogna ritrasformarlo in numero con Int32.Parse(ViewBag.formato)
+
+    La view è libera di utilizzare questi parametri come meglio crede: ad esempio può :
+
+    1) identificare il tipo di lista da stampare in base all'indice che è stato passato
+    2) Creare una table mettendo in <thead> nome e intestazione e magari anche l'elenco dei campi (in modo che vengano ripetuti su ogni pagina)
+    3) In base all'elenco dei campi, identificare quali proprietà del @Model sono da stampare:
+        si può fare manualmente ("IF un certo campo IN elenco campi, stampa questa riga")
+        oppure automaticamente se le stringhe dei campi corrispondono ai nomi di proprietà E NON CI SONO CAMPI DERIVATI
+        (ad esempio:
+        @foreach (dynamic esemplare in Model)
+            @esemplare.GetType().GetProperty("DataDeterminazione").GetValue(esemplare);
+            in cui al posto di "DataDeterminazione" ci metto le stringhe che sono in _opzioni_liste.ElencoListe[Int32.Parse(ViewBag.formato)].Campi
+
+            NON FUNZIONA CON I CAMPI DERIVATI: ad esempio @esemplare.GetType().GetProperty("Sesso.Sesso").GetValue(esemplare)   dà errore perché Sesso.Sesso non è una proprietà
+
+        Una volta identificati i campi, si possono prelevare da @Model e stamparli come meglio si vuole. Si può anche ignorare la lista dei campi e fare una stampa customizzata
+
+*@
+
+@using Papero.Models;
+@using Microsoft.Extensions.Options;
 @model List<Esemplari>
-
-@if (ViewBag.formato == "0")
-{
-    <p>Lista Sintetica</p>
+@inject IOptions<OpzioniListe> opzioni_liste
+@{
+    Layout = "";
+    var _opzioni_liste = opzioni_liste.Value;
 }
 
-@if (ViewBag.formato == "1")
-{
-    <p>Lista Dettagliata</p>
-}
 
-@for (int i = 0; i < Model.Count; i++)
-{
-    <p>@Model[i].Msng - @funzioni.FormattaNomeScientifico(Model[i].Sottospecie.Specie.Genere.Nome,
-                                         Model[i].Sottospecie.Specie.Nome,
-                                         Model[i].Sottospecie.Nome,
-                                         Model[i].Sottospecie.ElencoAutori)</p>
-    if (ViewBag.formato == "1")
-    {
-        <p>Informazioni supplementari</p>
-    }
-}
+
+
+<table>
+    <thead>
+        <tr>
+            <th>@_opzioni_liste.ElencoListe[Int32.Parse(ViewBag.formato)].Intestazione</th>
+        </tr>
+        <tr>
+            <th>@_opzioni_liste.ElencoListe[Int32.Parse(ViewBag.formato)].Nome</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (dynamic m in Model)
+        {
+            <tr>
+                <td>@m.Msng</td>
+                <td>
+                    @funzioni.FormattaNomeScientifico(m.Sottospecie.Specie.Genere.Nome,
+                                         m.Sottospecie.Specie.Nome,
+                                         m.Sottospecie.Nome,
+                                         m.Sottospecie.ElencoAutori)
+                </td>
+                <td>
+                    @m.GetType().GetProperty("Sesso").GetValue(m);
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

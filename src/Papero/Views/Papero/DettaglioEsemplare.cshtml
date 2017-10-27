@@ -361,7 +361,7 @@
                                     </div>
                                 </div>
                             </div>
-<!-- #endregion -->
+
 <!--#region modaleCambioTaxa -->
                             <div class="modal fade" id="modaleCambioTaxa" role="dialog">
                                 <div class="modal-dialog modal-lg">
@@ -700,7 +700,8 @@
                                                         @foreach (var immagine in Model.Immagini)
                                                         {
                                                             <a href="~/@(_opzioni_immagini.PercorsoUpload + "/" + immagine.Id + "_" + immagine.URL)"
-                                                               data-didascalia="@immagine.Didascalia"></a>
+                                                               data-didascalia="@immagine.Didascalia"
+                                                               data-idImmagine="@immagine.Id"></a>
                                                         }
                                                     </div>
 
@@ -715,6 +716,28 @@
                                                     </div>
 
                                                     <p class="text-primary" id="didascaliaImmagine"></p>
+
+                                                    @if (await autorizzatore.AuthorizeAsync(User, "EditImmagini"))
+                                                    {
+                                                        <div>
+                                                            <span class="pull-right" ng-show="vm.visualizzaConfermaCancellazioneImmagine">
+                                                                <button class="btn btn-danger"
+                                                                        ng-click="vm.cancellaImmagine()">
+                                                                    <i class="fa fa-trash"></i>&nbsp;@localizzatore["Conferma la cancellazione"]
+                                                                </button>
+                                                                <button class="btn btn-outline-secondary"
+                                                                        ng-click="vm.annullaCancellazioneImmagine()">
+                                                                    @localizzatore["Annulla"]
+                                                                    </button>
+                                                                </span>
+                                                                <button class="btn btn-danger pull-right"
+                                                                        ng-hide="vm.visualizzaConfermaCancellazioneImmagine"
+                                                                        ng-click="vm.clickCancellaImmagine()">
+                                                                    <i class="fa fa-trash"></i>&nbsp;@localizzatore["Cancella Immagine"]
+                                                                </button>
+                                                            </div>
+                                                    }
+
 
                                                 </div>
                                             </div>
