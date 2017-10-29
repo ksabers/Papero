@@ -510,4 +510,7 @@
   <data name="Conferma la cancellazione" xml:space="preserve">
     <value>Confirm Deletion</value>
   </data>
+  <data name="Note dell'Aberrazione" xml:space="preserve">
+    <value>Aberration Notes</value>
+  </data>
 </root>

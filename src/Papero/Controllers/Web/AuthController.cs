@@ -122,35 +122,5 @@ namespace Papero.Controllers
 
             return RedirectToAction("Profilo");
         }
-
-        [Authorize]
-        public async Task<IActionResult> Test()
-        {
-            await _gestoreUtenti.AddClaimAsync(await _gestoreUtenti.FindByNameAsync(User.Identity.Name), new Claim("CancellazioneEsemplare", "true"));
-            await _gestoreLogin.RefreshSignInAsync(await _gestoreUtenti.FindByNameAsync(User.Identity.Name));
-            return RedirectToAction("ElencoEsemplari", "Papero");
-        }
-
-        [Authorize]
-        public async Task<IActionResult> Test2()
-        {
-            await _gestoreRuoli.AddClaimAsync(await _gestoreRuoli.FindByNameAsync("Amministratore"), new Claim("InserimentoEsemplare", "true"));
-
-            await _gestoreRuoli.AddClaimAsync(await _gestoreRuoli.FindByNameAsync("Amministratore"), new Claim("CancellazioneEsemplare", "true"));
-            await _gestoreRuoli.AddClaimAsync(await _gestoreRuoli.FindByNameAsync("Amministratore"), new Claim("ModificaElencoAutori", "true"));
-            await _gestoreRuoli.AddClaimAsync(await _gestoreRuoli.FindByNameAsync("Amministratore"), new Claim("ModificaNomiSottospecie", "true"));
-            await _gestoreRuoli.AddClaimAsync(await _gestoreRuoli.FindByNameAsync("Amministratore"), new Claim("ModificaPresenzaEsemplare", "true"));
-            await _gestoreRuoli.AddClaimAsync(await _gestoreRuoli.FindByNameAsync("Amministratore"), new Claim("ModificaDatiGeneraliEsemplare", "true"));
-            await _gestoreRuoli.AddClaimAsync(await _gestoreRuoli.FindByNameAsync("Amministratore"), new Claim("ModificaDatiGeografiaEsemplare", "true"));
-            await _gestoreRuoli.AddClaimAsync(await _gestoreRuoli.FindByNameAsync("Amministratore"), new Claim("ModificaDatiDeterminazioniEsemplare", "true"));
-            await _gestoreRuoli.AddClaimAsync(await _gestoreRuoli.FindByNameAsync("Amministratore"), new Claim("ModificaDatiVecchieDeterminazioniEsemplare", "true"));
-            await _gestoreRuoli.AddClaimAsync(await _gestoreRuoli.FindByNameAsync("Amministratore"), new Claim("ModificaModiPreparazioneEsemplare", "true"));
-            await _gestoreRuoli.AddClaimAsync(await _gestoreRuoli.FindByNameAsync("Amministratore"), new Claim("ModificaPreparazioneEsemplare", "true"));
-            await _gestoreRuoli.AddClaimAsync(await _gestoreRuoli.FindByNameAsync("Amministratore"), new Claim("ModificaMorfologiaEsemplare", "true"));
-            await _gestoreRuoli.AddClaimAsync(await _gestoreRuoli.FindByNameAsync("Amministratore"), new Claim("ModificaBibliografiaNoteEsemplare", "true"));
-            await _gestoreLogin.RefreshSignInAsync(await _gestoreUtenti.FindByNameAsync(User.Identity.Name));
-            return RedirectToAction("ElencoEsemplari", "Papero");
-        }
-
     }
 }

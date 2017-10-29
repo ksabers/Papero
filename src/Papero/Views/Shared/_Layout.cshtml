@@ -155,7 +155,7 @@
                                asp-action="Profilo">
                                 <i class="fa fa-user fa-fw"></i> @localizzatore["Profilo Utente"]
                             </a>
-                            <a class="dropdown-item"
+                            @*<a class="dropdown-item"
                                asp-controller="Papero"
                                asp-action="Contatti">
                                 <i class="fa fa-envelope fa-fw"></i> @localizzatore["Contatti"]
@@ -164,7 +164,7 @@
                                asp-controller="Papero"
                                asp-action="Info">
                                 <i class="fa fa-info-circle fa-fw"></i> @localizzatore["Info su Papero"]
-                            </a>
+                            </a>*@
                             <a class="dropdown-item"
                                asp-controller="Auth"
                                asp-action="Logout">
@@ -180,6 +180,11 @@
     <div class="sidebar">
         <nav class="sidebar-nav">
             <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Papero" asp-action="Index">
+                        <i class="fa fa-home fa-fw"></i> @localizzatore["Home"]
+                    </a>
+                </li>
                 @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaElencoEsemplari"))
                 {
                     <li class="nav-item">
@@ -199,21 +204,21 @@
                 }
 
                 @if ((await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori"))
-         ||
-         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollezioni"))
-         ||
-         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaSpedizioni"))
-         ||
-         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaRaccoglitori"))
-         ||
-         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaDeterminatori"))
-         ||
-         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaPreparatori"))
-         ||
-         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollocazione"))
-         ||
-         (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaGeografia"))
-        )
+     ||
+     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollezioni"))
+     ||
+     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaSpedizioni"))
+     ||
+     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaRaccoglitori"))
+     ||
+     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaDeterminatori"))
+     ||
+     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaPreparatori"))
+     ||
+     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollocazione"))
+     ||
+     (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaGeografia"))
+    )
                 {
                     <li class="nav-item nav-dropdown active">
                         <a class="nav-link nav-dropdown-toggle" href="#">
@@ -222,58 +227,58 @@
                         <ul class="nav-dropdown-items">
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaClassificatori"))
                             {
-                                <li>
-                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Classificatori"><i class="fa fa-binoculars fa-fw"></i>@localizzatore["Classificatori"]</a>
-                                </li>
+                            <li>
+                                <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Classificatori"><i class="fa fa-binoculars fa-fw"></i>@localizzatore["Classificatori"]</a>
+                            </li>
                             }
 
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollezioni"))
                             {
-                                <li>
-                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Collezioni"><i class="fa fa-trophy fa-fw"></i>@localizzatore["Collezioni"]</a>
-                                </li>
+                            <li>
+                                <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Collezioni"><i class="fa fa-trophy fa-fw"></i>@localizzatore["Collezioni"]</a>
+                            </li>
                             }
 
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaCollocazione"))
                             {
-                                <li>
+                            <li>
 
-                                    <a class="nav-link text-right" asp-controller="Collocazione" asp-action="Collocazione"><i class="fa fa-university fa-fw"></i>@localizzatore["Collocazioni"]</a>
-                                </li>
+                                <a class="nav-link text-right" asp-controller="Collocazione" asp-action="Collocazione"><i class="fa fa-university fa-fw"></i>@localizzatore["Collocazioni"]</a>
+                            </li>
                             }
 
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaDeterminatori"))
                             {
-                                <li>
-                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Determinatori"><i class="fa fa-search fa-fw"></i>@localizzatore["Determinatori"]</a>
-                                </li>
+                            <li>
+                                <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Determinatori"><i class="fa fa-search fa-fw"></i>@localizzatore["Determinatori"]</a>
+                            </li>
                             }
 
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaGeografia"))
                             {
-                                <li>
-                                    <a class="nav-link text-right" asp-controller="Geografia" asp-action="Geografia"><i class="fa fa-globe fa-fw"></i>@localizzatore["Geografia"]</a>
-                                </li>
+                            <li>
+                                <a class="nav-link text-right" asp-controller="Geografia" asp-action="Geografia"><i class="fa fa-globe fa-fw"></i>@localizzatore["Geografia"]</a>
+                            </li>
 
                             }
 
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaPreparatori"))
                             {
-                                <li>
-                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Preparatori"><i class="fa fa-wrench fa-fw"></i>@localizzatore["Preparatori"]</a>
-                                </li>
+                            <li>
+                                <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Preparatori"><i class="fa fa-wrench fa-fw"></i>@localizzatore["Preparatori"]</a>
+                            </li>
                             }
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaRaccoglitori"))
                             {
-                                <li>
-                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Raccoglitori"><i class="fa fa-shopping-basket fa-fw"></i>@localizzatore["Raccoglitori"]</a>
-                                </li>
+                            <li>
+                                <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Raccoglitori"><i class="fa fa-shopping-basket fa-fw"></i>@localizzatore["Raccoglitori"]</a>
+                            </li>
                             }
                             @if (await autorizzatore.AuthorizeAsync(User, "VisualizzaAnagraficaSpedizioni"))
                             {
-                                <li>
-                                    <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Spedizioni"><i class="fa fa-plane fa-fw"></i>@localizzatore["Spedizioni"]</a>
-                                </li>
+                            <li>
+                                <a class="nav-link text-right" asp-controller="Anagrafiche" asp-action="Spedizioni"><i class="fa fa-plane fa-fw"></i>@localizzatore["Spedizioni"]</a>
+                            </li>
                             }
                         </ul>
                     </li>
@@ -294,7 +299,18 @@
                         </ul>
                     </li>
                 }
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Papero" asp-action="Contatti">
+                        <i class="fa fa-envelope fa-fw"></i> @localizzatore["Contatti"]
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Papero" asp-action="Info">
+                        <i class="fa fa-info-circle fa-fw"></i> @localizzatore["Info su Papero"]
+                    </a>
+                </li>
             </ul>
+
         </nav>
     </div>
     <footer class="footer">

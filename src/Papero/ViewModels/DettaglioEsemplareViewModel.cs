@@ -37,6 +37,7 @@ namespace Papero.ViewModels
         public bool? Presenza { get; set; }
         public int TipoId { get; set; }
         public int AberrazioneId { get; set; }
+        public string NoteAberrazione { get; set; }
         public string ContenutoStomaco { get; set; }
         public string ContenutoIngluvie { get; set; }
         public bool? Inanellato { get; set; }

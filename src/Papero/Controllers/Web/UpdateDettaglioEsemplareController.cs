@@ -280,7 +280,8 @@ namespace Papero.Controllers
                                                               string inputLettera, 
                                                               string inputNumero, 
                                                               string hiddenOutputIdTipoSelezionato, 
-                                                              string hiddenOutputIdAberrazioneSelezionata)
+                                                              string hiddenOutputIdAberrazioneSelezionata,
+                                                              string inputNoteAberrazione)
         {
             var esemplareDaModificare = _repository.LeggiEsemplare(Id);
 
@@ -289,6 +290,7 @@ namespace Papero.Controllers
             esemplareDaModificare.NumeroEsemplare = inputNumero;
             esemplareDaModificare.TipoId = Int32.Parse(hiddenOutputIdTipoSelezionato);
             esemplareDaModificare.AberrazioneId = Int32.Parse(hiddenOutputIdAberrazioneSelezionata);
+            esemplareDaModificare.NoteAberrazione = inputNoteAberrazione;
 
             if (await _repository.SalvaModifiche())
             {
