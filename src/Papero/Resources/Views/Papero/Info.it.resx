@@ -117,10 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="(click su ciascuna riga per visualizzare la relativa licenza)" xml:space="preserve">
+    <value>(click su ciascuna riga per visualizzare la relativa licenza)</value>
+  </data>
   <data name="Acronimo" xml:space="preserve">
     <value />
   </data>
+  <data name="Concesso in licenza a" xml:space="preserve">
+    <value>Concesso in licenza a</value>
+  </data>
   <data name="Info" xml:space="preserve">
     <value>Informazioni</value>
+  </data>
+  <data name="Museo di Storia Naturale 'Giacomo Doria' - Genova" xml:space="preserve">
+    <value>Museo di Storia Naturale 'Giacomo Doria' - Genova</value>
+  </data>
+  <data name="Papero usa e incorpora i seguenti software e tecnologie" xml:space="preserve">
+    <value>Papero usa e incorpora i seguenti software e tecnologie</value>
+  </data>
+  <data name="Realizzato da" xml:space="preserve">
+    <value>Realizzato da</value>
   </data>
 </root>
