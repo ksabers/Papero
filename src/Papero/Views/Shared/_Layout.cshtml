@@ -173,6 +173,17 @@
                         </div>
                     </li>
                 }
+                @if (!(User.Identity.IsAuthenticated))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           role="button"
+                           asp-controller="Auth"
+                           asp-action="Login">
+                            <i class="fa fa-sign-in fa-fw text-muted"></i> <span class="text-muted">@localizzatore["Login"]</span>
+                        </a>
+                    </li>
+                }
             </ul>
         </div>
     </header>
